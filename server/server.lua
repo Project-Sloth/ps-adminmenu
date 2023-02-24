@@ -47,7 +47,7 @@ end
 -- Ban Player
 -- Load the oxmysql library
 
-RegisterNetEvent('ok1ez-adminmenu:server:ban', function(player, reason, time)
+RegisterNetEvent('ps-adminmenu:server:ban', function(player, reason, time)
     print(player, reason, time)
     local src = source
     if QBCore.Functions.HasPermission(src, permissions['ban']) or IsPlayerAceAllowed(src, 'command') then
@@ -105,11 +105,11 @@ function GetAllResources(src)
 
 end
 
-RegisterNetEvent('ok1ez-adminmenu:server:updateResourceList', function(optionalSrc)
+RegisterNetEvent('ps-adminmenu:server:updateResourceList', function(optionalSrc)
     print('updating Resources')
     local src = optionalSrc or source
     
     local resources = GetAllResources(src)
-    TriggerClientEvent('ok1ez-adminmenu:client:updateResourceList', src, resources)
+    TriggerClientEvent('ps-adminmenu:client:updateResourceList', src, resources)
 end)
  

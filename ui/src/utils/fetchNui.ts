@@ -5,7 +5,7 @@
 * @return returnData - A promise for the data sent back by the NuiCallbacks CB argument
 */
 
-export async function SendNUI<T = any>(
+export async function fetchNui<T = any>(
     eventName: string,
     data: unknown = {}
   ): Promise<T> {
@@ -25,4 +25,3 @@ export async function SendNUI<T = any>(
   
     return await resp.json();
   }
-  

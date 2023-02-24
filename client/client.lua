@@ -1,26 +1,35 @@
 QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterCommand('report', function()
-    SendNUIMessage({
-        action = 'setReportVisible',
-        data = true
-    })
-    SetNuiFocus(true, true)
+-- Toggle UI stuff
+local function toggleUI(bool)
+	SetNuiFocus(bool, bool)
+	SendNUIMessage({
+		action = "setVisible",
+		data = bool
+	})
+end
+
+RegisterCommand("menu", function()
+	toggleUI(true)
+end, false)
+
+RegisterNUICallback("hideUI", function()
+    toggleUI(false)
 end)
 
-RegisterCommand('menu', function()
-    SendNUIMessage({
-        action = 'setVisible',
-        data = true
-    })
-    SetNuiFocus(true, true)
-end)
+-- Invisible
+local invisible = false
 
-RegisterNUICallback('hideUI', function(_, cb)
+RegisterNUICallback('ToggleInvis', function(_, cb)
     cb({})
-    SetNuiFocus(false, false)
+    if not invisible then
+        invisible = true
+        SetEntityVisible(PlayerPedId(), false, 0)
+    else
+        invisible = false
+        SetEntityVisible(PlayerPedId(), true, 0)
+    end
 end)
-
 
 -- Developer Mode
 RegisterNUICallback('ToggleDevMode', function(_, cb)
@@ -39,7 +48,7 @@ RegisterNUICallback('banPlayer', function(data, cb)
     local player = tonumber(data.player)
     local reason = tostring(data.reason)
     local time = tonumber(data.time)
-    TriggerServerEvent("ok1ez-adminmenu:server:ban", player, reason, time)
+    TriggerServerEvent("ps-adminmenu:server:ban", player, reason, time)
     -- Call the ban function and pass the ban details
 
     print(player, reason, time)
@@ -56,11 +65,11 @@ end)
 -- Resources
 RegisterNUICallback('UpdateResourceList', function(data, cb)
     print('Updating Resource List')
-    TriggerServerEvent('ok1ez-adminmenu:server:updateResourceList')
+    TriggerServerEvent('ps-adminmenu:server:updateResourceList')
     cb(1)
 end)
 
-RegisterNetEvent('ok1ez-adminmenu:client:updateResourceList', function(resources)
+RegisterNetEvent('ps-adminmenu:client:updateResourceList', function(resources)
     print('Updating Resource List Event')
     SendNUIMessage({
         action = "updateResourceList",
@@ -73,6 +82,6 @@ end)
 AddEventHandler('onResourceStart', function(resource)
    if resource == GetCurrentResourceName() then
     print('Updating Resource List')
-    TriggerServerEvent('ok1ez-adminmenu:server:updateResourceList')
+    TriggerServerEvent('ps-adminmenu:server:updateResourceList')
    end
 end)
