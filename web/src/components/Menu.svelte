@@ -389,7 +389,8 @@ function renderMessages() {
  
 </script>
 
-
+<!-- Report System User UI -->
+<!-- 
 <div class="report-container">
   <div class="report-titlebox">
     <div class="report-title" style="display: flex; justify-content: space-between; margin-right: 15px">
@@ -410,7 +411,7 @@ function renderMessages() {
     <input type="text" id="message-input" bind:value={messageText} placeholder="Type your message here..." on:keyup={handleKeyUp}>
     <button type="submit" id="send-button" on:click={sendMessage}><i class="fas fa-paper-plane"></i></button>
   </div>
-</div>
+</div> -->
 
     
 
