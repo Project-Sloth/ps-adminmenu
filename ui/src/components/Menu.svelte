@@ -222,164 +222,112 @@ function handleClick() {
 // Resource List End
 
 let messageText = '';
-let replyMessageText = '';
-let messages = [];
-let selectedUser = null;
-let usersWithMessages = [];
-let userMessages = [];
-
-
-function sendMessage() {
-  if (messageText.trim() !== '') {
-    const date = new Date();
-    const stringData = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const header = 'You';
-    const newMessage = {
-      header: header,
-      text: messageText,
-      sent: true,
-      timestamp: { time: stringData },
-    };
-    
-    if (selectedUser && selectedUser !== 'Admin') {
+  let messages = [];
+  function sendMessage() {
+    if (messageText.trim() !== '') {
+      const date = new Date();
+      const stringData = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const header = 'You';
+      const newMessage = {
+        header: header,
+        text: messageText,
+        sent: true,
+        timestamp: { time: stringData },
+        messages: [] // add a messages property to the new message object
+      };
+      messages = [
+        ...messages,
+        newMessage
+      ];
+      messageText = '';
+    }
+  }
+  function handleKeyUp(event) {
+    if (event.keyCode === 13) {
+      sendMessage();
+      replyToMessage();
+    }
+  }
+  // Report System End
+  // Default state for the admin UI
+  let selectedUser = "you";
+  let userMessages = [];
+  let replyMessageText = '';
+  // Handler function for the user dropdown menu
+  function handleUserSelect(event) {
+    if (!isMenuLarge) {
+      toggleMenu();
+    }
+  selectedUser = event.target.value;
+  if (selectedUser === 'you') {
+    userMessages = messages;
+  } else {
+    const userIndex = messages.findIndex(message => message.header === selectedUser);
+    if (messages[userIndex]) {
+      userMessages = [messages[userIndex], ...messages[userIndex].messages];
+    }
+  }
+}
+function replyToMessage() {
+    if (replyMessageText.trim() !== '') {
+      const replyHeader = selectedUser;
+      const date = new Date();
+      const stringData = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const header = 'Admin';
+      const replyMessage = {
+        header: header,
+        text: replyMessageText,
+        sent: true,
+        timestamp: { time: stringData }
+      };
+      // Create a new variable with function scope
+      let updatedMessages = [...messages];
+      const userIndex = messages.findIndex(message => message.header === replyHeader);
+      if (updatedMessages[userIndex]) {
+        updatedMessages[userIndex].messages = [
+          ...(updatedMessages[userIndex].messages || []),
+          replyMessage
+        ];
+      }
+      // Update the messages array with the new variable
+      messages = updatedMessages;
+      replyMessageText = '';
+    }
+  }
+  // Watch for changes in selectedUser and messages, and update userMessages accordingly
+  $: {
+    if (selectedUser !== null) {
       const userIndex = messages.findIndex(message => message.header === selectedUser);
       if (messages[userIndex]) {
-        if (!messages[userIndex].messages) {
-          messages[userIndex].messages = [];
-        }
-        messages[userIndex].messages.push(newMessage);
+        userMessages = [messages[userIndex], ...messages[userIndex].messages];
       }
-    } else {
-      messages.push(newMessage);
     }
-    
-    messageText = '';
-    
-    // populate usersWithMessages array with updated messages
-    usersWithMessages = messages.filter(message => message.header !== 'Admin' && messages.some(m => m.header === message.header));
   }
-  renderMessages();
-}
-
-
-
-function replyToMessage() {
-  console.log(replyMessageText)
-  if (replyMessageText.trim() !== '' && selectedUser !== null) {
-    const replyHeader = selectedUser;
-    const date = new Date();
-    const stringData = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const header = 'Admin';
-
-    const replyMessage = {
-      header: header,
-      text: replyMessageText,
-      sent: true,
-      timestamp: { time: stringData },
-    };
-
-    // find the user's message array and add the reply message to it
-    const userIndex = messages.findIndex(message => message.header === replyHeader);
-    if (messages[userIndex]) {
-      if (!messages[userIndex].messages) {
-        messages[userIndex].messages = [];
-      }
-      messages[userIndex].messages.push(replyMessage);
-    }
-
-    replyMessageText = '';
-
-    // populate usersWithMessages array with updated messages
-    usersWithMessages = messages.filter(message => message.header !== 'Admin' && messages.some(m => m.header === message.header));
-  }
-  renderMessages();
-}
-
-function handleUserSelect(event) {
-  selectedUser = event.target.value;
-  if (selectedUser === 'Admin') {
-    userMessages = messages;
-    console.log(userMessages)
-  } else {
-    const userMessagesList = [];
-    usersWithMessages.forEach(message => {
-      if (message.header === selectedUser || message.header === 'Admin') {
-        userMessagesList.push(message);
-        if (message.messages) {
-          message.messages.forEach(reply => userMessagesList.push(reply));
-        }
-      }
-      console.log(selectedUser)
-    });
-    userMessages = userMessagesList;
-  }
-  renderMessages();
-}
-
-function handleKeyUp(event) {
-  if (event.keyCode === 13 && event.target.id === 'message-input') {
-    sendMessage();
-  } else if (event.keyCode === 13 && event.target.id === 'admin-message-input') {
-    replyToMessage();
-  }
-}
-
-function renderMessages() {
-  const messageContainer = document.getElementById('message-container');
-  messageContainer.innerHTML = '';
-
-  userMessages.forEach(message => {
-    const messageElement = document.createElement('div');
-    messageElement.classList.add('message');
-    messageElement.classList.add(message.sent ? 'sent' : 'received');
-
-    const headerElement = document.createElement('div');
-    headerElement.classList.add('header');
-    headerElement.innerText = message.header;
-
-    const textElement = document.createElement('div');
-    textElement.classList.add('text');
-    textElement.innerText = message.text;
-
-    const timestampElement = document.createElement('div');
-    timestampElement.classList.add('timestamp');
-    timestampElement.innerText = message.timestamp.time;
-
-    messageElement.appendChild(headerElement);
-    messageElement.appendChild(textElement);
-    messageElement.appendChild(timestampElement);
-
-    messageContainer.appendChild(messageElement);
-
-    if (message.messages) {
-      message.messages.forEach(reply => {
-        const replyElement = document.createElement('div');
-        replyElement.classList.add('reply');
-        replyElement.classList.add(reply.sent ? 'sent' : 'received');
-
-        const replyHeaderElement = document.createElement('div');
-        replyHeaderElement.classList.add('header');
-        replyHeaderElement.innerText = reply.header;
-
-        const replyTextElement = document.createElement('div');
-        replyTextElement.classList.add('text');
-        replyTextElement.innerText = reply.text;
-
-        const replyTimestampElement = document.createElement('div');
-        replyTimestampElement.classList.add('timestamp');
-        replyTimestampElement.innerText = reply.timestamp.time;
-
-        replyElement.appendChild(replyHeaderElement);
-        replyElement.appendChild(replyTextElement);
-        replyElement.appendChild(replyTimestampElement);
-
-        messageContainer.appendChild(replyElement);
-      });
-    }
-  });
-}
 
 </script>
+
+<div class="report-container">
+  <div class="report-titlebox">
+    <div class="report-title" style="display: flex; justify-content: space-between; margin-right: 15px">
+      <span class="material-icons">account_circle</span>
+      <span>REPORT: 52</span>
+      <span style="" class="material-icons rotate-45">add</span>
+    </div>    
+  </div>
+  <div class="message-container">
+    {#each messages as message}
+      <div class="message {message.sent ? 'sent' : ''} {message.header === 'You' ? 'user-message' : 'admin-message'}">
+        <div class="message-header">{message.header} - {message.timestamp.time} </div>
+        <div class="message-text">{message.text}</div>
+      </div>
+    {/each}
+  </div>
+  <div class="input-container">
+    <input type="text" id="message-input" bind:value={messageText} placeholder="Type your message here..." on:keyup={handleKeyUp}>
+    <button type="submit" id="send-button" on:click={sendMessage}><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+
 
 <div class="container {isMenuLarge ? 'open' : ''}">
     <div class="sidebar">
@@ -414,8 +362,9 @@ function renderMessages() {
         <button style="border: none; background-color: var(--color-2); width: 40px; height: 35px; text-align: center; vertical-align: middle;" on:click={() => {showFavorites = false}} on:keydown={e => {if(e.key === 'Enter') {}}}>All</button>
         <button style="border: none; background-color: var(--color-2); margin-left: 5px;width: 75px; height: 35px; text-align: center; vertical-align: middle;" on:click={() => {showFavorites = true}} on:keydown={e => {if(e.key === 'Enter') {}}}>Favorites</button>
         </div>      
-        <div class="search">
-          <input type="text" placeholder="Begin typing to filter commands"  style="outline: none;">
+        <div class="search" style="display: flex; align-items: center;  margin-left: 2px;">
+          <i style="color:var(--textcolor); margin-left: 2px;margin-right: 5px;" class="fas fa-search"></i>
+          <input type="text" style="outline:none;"placeholder="Search..">
         </div>
         <ul>
   
@@ -619,8 +568,9 @@ function renderMessages() {
   {:else if currentPage === 'settings'}
     
   <div class="settings">
-    <div class="search">
-      <input type="text" placeholder="Begin typing to filter settings" style="outline: none;">
+    <div class="search" style="display: flex; align-items: center;margin-left: 2px;">
+      <i style="color:var(--textcolor); margin-right: 10px;" class="fas fa-search"></i>
+      <input type="text" style="outline:none;"placeholder="Search..">
     </div>
     
   </div>
@@ -652,25 +602,32 @@ function renderMessages() {
   {:else if currentPage === 'reports'}
   
   <div class="reports">
-    <div class="search">
-      <input type="text" placeholder="Begin typing to filter reports" style="outline: none;">
+    <div class="search" style="display: flex; align-items: center; width: 38%;margin-left: 7px;">
+      <i style="color:var(--textcolor); margin-right: 10px;" class="fas fa-search"></i>
+      <input type="text" style="outline:none;"placeholder="Search..">
     </div>
     
-  
     <div class="admin-container">
       <div class="user-select">
-        <select on:change={handleUserSelect}>
-          <option value="" selected disabled>Select a user...</option>
-          {#each usersWithMessages as message}
-            <option value={message.header}>{message.header}</option>
-          {/each}
-        </select>
-        
+        {#each messages as message}
+        <div class="button-with-icon">
+          <button type="button" value={message.header} on:click={handleUserSelect}>
+            Report
+
+          </button>
+          
+        </div>
+      {/each}
+      
+      </div>
+      {#if isMenuLarge}
+      <div>
+        <span class="admin-input-container2">REPORT: 52</span>
       </div>
       {#if selectedUser !== null}
         <div class="user-messages">
           {#each userMessages as message}
-            <div class="message {message.sent ? 'sent' : ''}">
+            <div class="message {message.sent ? 'sent' : ''} {message.header === 'You' ? 'user-message' : 'admin-message'}">
               <div class="message-header">{message.header} - {message.timestamp.time}</div>
               <div class="message-text">{message.text}</div>
             </div>
@@ -681,15 +638,18 @@ function renderMessages() {
           <button type="submit" id="send-button" on:click={replyToMessage}><i class="fas fa-paper-plane"></i></button>
         </div>
       {/if}
+    {/if}
     </div>
-  
+    
+    
   </div>
   
   {:else if currentPage === 'list'}
   
   <div class="playerlist">
-    <div class="search">
-      <input type="text" placeholder="Begin typing to filter players" style="outline: none;">
+    <div class="search" style="display: flex; align-items: center;margin-left: 2px;">
+      <i style="color:var(--textcolor); margin-right: 10px;" class="fas fa-search"></i>
+      <input type="text" style="outline:none;"placeholder="Search..">
     </div>
   </div>
   
@@ -714,16 +674,14 @@ function renderMessages() {
   transform: translateY(-50%);
   width: 22%;
   height: 650px;
-  transition: all 0.7s ease;
+  transition: all 0.5s ease-in-out;
   background-color: var(--color-1);
-
 }
 
 .container.open {
   right: 0%;
   transform: translate(-50%, -50%);
   width: 50%;
-
 }
 
 .sidebar {
@@ -744,22 +702,25 @@ function renderMessages() {
   cursor: pointer;
 }
 
+.search {
+  border-bottom: 2px solid;
+  color: var(--textcolor);
+}
+
 .search input {
-  width: 100%;
-  padding: 0.7rem;
+  width: 50%;
+  padding: .7rem;
   background-color: var(--color-2);
-  color: aliceblue;
+  color: var(--textcolor);
   border: none;
-  border-bottom: 1px solid var(--textcolor);
 }
 
 .searchRes input {
   width: 90%;
   padding: 0.7rem;
   background-color: var(--color-2);
-  color: aliceblue;
+  color: var(--textcolor);
   border: none;
-  border-bottom: 1px solid var(--textcolor);
 }
 
 .refresh-btn {
@@ -767,7 +728,7 @@ function renderMessages() {
   top: 4%;
   right: 10px;
   transform: translateY(-50%);
-  color: white;
+  color: var(--textcolor);
   border: none;
   padding: 10px 15px;
   cursor: pointer;
@@ -877,51 +838,38 @@ function renderMessages() {
   overflow: hidden;
 }
 
-.report-container {
-  background-color: var(--color-2);
-  width: 25rem;
-  height: 30rem;
-  margin: auto;
+.admin-input-container2 {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-}
-
-.report-titlebox {
+  width: 51%;
+  height: 6%;
+  border-radius: 7px;
+  margin-left: 35rem;
+  margin-top: -10.8rem;
   background-color: var(--color-1);
-  width: 25rem;
-  height: 2.3rem;
+  color: var(--textcolor);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Roboto';
+  font-size: 20px;
+}
+
+.admin-input-container {
   position: fixed;
-  border-bottom: solid 0.1px rgb(92, 92, 92);
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  color: var(--textcolor);
-  font-family: 'Roboto', sans-serif;
-}
-
-.report-title {
-  margin: 10px;
-  margin-left: 15px;
-  font-size: large;
-  color: var(--textcolor);
-  font-family: 'Roboto', sans-serif;
-}
-
-.input-container {
+  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 95%;
-  margin: 0 auto;
+  width: 53.2%;
+  height: 0rem;
+  margin-left: 34rem;
   margin-bottom: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.input-container input{
-  flex-grow: 1;
+
+.admin-input-container input {
+  flex-grow: 0.9;
   border: none;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -930,6 +878,102 @@ function renderMessages() {
   background-color: var(--color-1);
   color: var(--textcolor);
   font-family: 'Roboto', sans-serif;
+  margin-bottom: 5rem;
+  transition: none; /* remove the transition effect */
+}
+
+
+.admin-input-container button {
+  background-color: var(--color-1);
+  border: none;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  color: var(--textcolor);
+  padding: 10px;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 5rem;
+}
+
+.user-messages {
+  display: flex;
+  position: fixed;
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%);
+  width: 50%;
+  height: 80%;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+
+.report-container {
+  background-color: var(--color-2);
+  width: 400px;
+  height: 480px;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+}
+
+.report-titlebox {
+  background-color: var(--color-1);
+  width: 400px;
+  height: 43px;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--textcolor);
+  font-family: 'Roboto', sans-serif;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 10px 10px 0px 0px;
+}
+
+.report-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+  color: #C3C3C3;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 377px;
+  height: 0rem;
+  margin: 0 auto;
+  margin-top: 50px; /* Add margin-top property */
+  margin-bottom: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+
+.input-container input{
+  flex-grow: 0.9;
+  border: none;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding: 10px;
+  outline: none;
+  background-color: var(--color-1);
+  color: var(--textcolor);
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 5rem;
 }
 
 .input-container button{
@@ -941,6 +985,7 @@ function renderMessages() {
   padding: 10px;
   cursor: pointer;
   font-family: 'Roboto', sans-serif;
+  margin-bottom: 5rem;
 }
 
 .input-container button i{
@@ -952,12 +997,12 @@ button[type="submit"] :hover {
 }
 
 .message-container {
-  height: 25rem;
+  height: 60rem;
   overflow-x: scroll;
-  margin-top: 3rem;
+  margin-top: 5rem;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* add this line */
+  justify-content: flex-end;
 }
 
 .message {
@@ -965,24 +1010,31 @@ button[type="submit"] :hover {
   flex-direction: column;
 }
 
-.message-text {
-  color: white;
-  background-color: var(--color-1);
-  color: var(--textcolor);
-  font-family: 'Roboto', sans-serif;
-  padding: 10px;
-  border-radius: 8px;
-  width: fit-content;
-  align-items: flex-start;
-  margin-bottom: 10px;
+.admin-message {
+  display: flex;
+  justify-content: flex-start;
+  margin: 10px;
+  align-items: flex-end;
 }
 
-.message.sent {
-  align-self: flex-end;
-  margin-left: auto;
-  margin-right: 10px;
-  align-items: flex-end; /* change this line */
-  font-family: 'Roboto', sans-serif;
+.admin-message .message-text {
+  background-color: #22203380;
+  color: var(--textcolor);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.user-message {
+  display: flex;
+  justify-content: flex-start; /* changed from flex-end */
+  margin: 10px;
+}
+
+.user-message .message-text {
+  background-color: #222033;
+  color: var(--textcolor);
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .message-header {
@@ -997,4 +1049,38 @@ button[type="submit"] :hover {
   justify-content: center;
   margin-top: 10px;
 }
+.user-select {
+  margin-top: 2rem;
+}
+.user-select button {
+  margin-top: 1rem;
+  width: 310px;
+  height: 51px;
+  background-color: var(--color-3);
+  border: 1px solid var(--color-3);
+  color: var(--textcolor);
+  font-family: 'Roboto', sans-serif;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: left;
+  border-radius: 5px;
+  margin-left: 7px;
+  padding-bottom: 25px;
+}
+
+.button-with-icon {
+  position: relative;
+}
+
+.button-with-icon i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 25%;
+  color: white;
+}
+
   </style>
