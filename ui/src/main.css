@@ -8,4 +8,9 @@
   --starcolor: #02F1B5;
 }
 
-  
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-thumb {
+  display: none;
+}

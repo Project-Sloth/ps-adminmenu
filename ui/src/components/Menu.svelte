@@ -221,8 +221,8 @@ function handleClick() {
 // }
 // Resource List End
 
-let messageText = '';
-  let messages = [];
+  export let messageText = '';
+  export let messages = [];
   function sendMessage() {
     if (messageText.trim() !== '') {
       const date = new Date();
@@ -242,7 +242,7 @@ let messageText = '';
       messageText = '';
     }
   }
-  function handleKeyUp(event) {
+  export function handleKeyUp(event) {
     if (event.keyCode === 13) {
       sendMessage();
       replyToMessage();
@@ -250,11 +250,11 @@ let messageText = '';
   }
   // Report System End
   // Default state for the admin UI
-  let selectedUser = "you";
-  let userMessages = [];
-  let replyMessageText = '';
+  export let selectedUser = "you";
+  export let userMessages = [];
+  export let replyMessageText = '';
   // Handler function for the user dropdown menu
-  function handleUserSelect(event) {
+  export function handleUserSelect(event) {
     if (!isMenuLarge) {
       toggleMenu();
     }
@@ -268,7 +268,7 @@ let messageText = '';
     }
   }
 }
-function replyToMessage() {
+export function replyToMessage() {
     if (replyMessageText.trim() !== '') {
       const replyHeader = selectedUser;
       const date = new Date();
