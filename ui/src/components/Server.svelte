@@ -1,14 +1,17 @@
 <script lang="ts">
     import '../main.css';
+    import { resourceStore } from '../store/stores';
+    import { ReceiveNUI } from '@utils/ReceiveNUI'
+    import { SendNUI } from '@utils/SendNUI';
 
     let resources = [];
 
-/*  
+
     ReceiveNUI('updateResourceList', (data) => {
         resources = data.resources;
         $resourceStore = resources;
     });
-*/
+
 
     function refreshList() {
         SendNUI('UpdateResourceList')
@@ -18,14 +21,14 @@
         console.log(resources);
     }
 
-/* 
+
     function handleFilterChange(event) {
         const filterText = event.target.value.toLowerCase();
             $resourceStore = resources.filter(resource => {
             return resource.name.toLowerCase().includes(filterText);
         });
     } 
-*/
+
 
 </script>
 
@@ -41,19 +44,13 @@
         </div>
     </div>
     <ul>
-
-    <!-- 
     {#each $resourceStore as resource}
         <button on:click={handleClick}>
             <span>{resource.name}</span>
             <div class="resource-buttons">
-                <button class="button1">Button 1</button>
-                <button class="button2">Button 2</button>
             </div>
         </button>
     {/each} 
--->
-
     <ul>
 </div>
   
@@ -69,9 +66,10 @@
 }
 
 .server ul {
-  height: 88%;
+  height: 92%;
   overflow-y: scroll;
   padding: 1px;
+  margin-top: 1rem;
 }
 
 .server button{
@@ -95,7 +93,7 @@
 }
 
 .search input {
-  width: 20%;
+  width: 80%;
   padding: .7rem;
   background-color: var(--color-2);
   color: var(--textcolor);

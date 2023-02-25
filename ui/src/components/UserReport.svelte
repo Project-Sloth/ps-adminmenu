@@ -1,8 +1,8 @@
 <script lang="ts">
     import '../main.css';
 
-    let messageText = '';
-    let messages = [];
+  let messageText = '';
+  let messages = [];
 
   function sendMessage() {
     if (messageText.trim() !== '') {

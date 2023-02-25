@@ -1,5 +1,9 @@
 <script lang="ts">
     import '../main.css';
+    import isMenuLarge from './Navbar.svelte';
+
+    function toggleMenu() { isMenuLarge = !isMenuLarge; }
+
 
   let messageText = '';
   let messages = [];
@@ -84,8 +88,12 @@ function replyToMessage() {
       }
     }
   }
+
+
+  let User = true;
 </script>
 
+{#if User}
 <div class="report-container">
     <div class="report-titlebox">
       <div class="report-title" style="display: flex; justify-content: space-between; margin-right: 15px">
@@ -107,14 +115,143 @@ function replyToMessage() {
       <button type="submit" id="send-button" on:click={sendMessage}><i class="fas fa-paper-plane"></i></button>
     </div>
   </div>
+  {/if}
+
+  <div class="reports">
+    <div class="search" style="display: flex; align-items: center; width: 38%;margin-left: 7px;">
+      <i style="color:var(--textcolor); margin-right: 10px;" class="fas fa-search"></i>
+      <input type="text" style="outline:none;"placeholder="Search..">
+    </div>
+    
+    <div class="admin-container">
+      <div class="user-select">
+        {#each messages as message}
+        <div class="button-with-icon">
+          <button type="button" value={message.header} on:click={handleUserSelect}>
+            Report
+
+          </button>
+          
+        </div>
+      {/each}
+      
+      </div>
+      {#if isMenuLarge}
+      <div>
+        <span class="admin-input-container2">REPORT: 52</span>
+      </div>
+      {#if selectedUser !== null}
+      
+      <div class="message-container" id="message-container">
+        {#each userMessages as message}
+          <div class="message {message.sent ? 'sent' : ''} {message.header === 'You' ? 'user-message' : 'admin-message'}">
+            <div class="message-header">{message.header} - {message.timestamp.time}</div>
+            <div class="message-text">{message.text}</div>
+          </div>
+        {/each}
+      </div>
+      
+      
+      
+        <div class="admin-input-container">
+          <input type="text" id="admin-message-input" bind:value={replyMessageText} placeholder="Reply.." on:keyup={handleKeyUp}>
+          <button type="submit" id="send-button" on:click={replyToMessage}><i class="fas fa-paper-plane"></i></button>
+        </div>
+      {/if}
+    {/if}
+    </div>
+  </div>
 
 <style>
 
-::-webkit-scrollbar {
-  width: 4px;
+
+.search {
+  border-bottom: 2px solid;
+  color: var(--textcolor);
 }
-::-webkit-scrollbar-thumb {
-  display: none;
+
+.search input {
+  width: 50%;
+  padding: .7rem;
+  background-color: var(--color-2);
+  color: var(--textcolor);
+  border: none;
+}
+
+
+.reports {
+  flex: 1;
+  background-color: var(--color-2);
+  padding: 0.8rem;
+  height: 100%;
+  overflow: hidden;
+}
+
+.admin-input-container2 {
+  position: fixed;
+  bottom: 60rem;
+  left: 42.5rem;
+  width: 53.2%;
+  height: 6%;
+  border-radius: 7px;
+  background-color: var(--color-1);
+  color: var(--textcolor);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Roboto';
+  font-size: 20px;
+}
+
+
+.admin-input-container {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 57%;
+  height: 0rem;
+  margin-left: 35.6rem;
+  margin-bottom: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+
+.admin-input-container input {
+  flex-grow: 0.9;
+  border: none;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding: 10px;
+  outline: none;
+  background-color: var(--color-1);
+  color: var(--textcolor);
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 5rem;
+  transition: none; /* remove the transition effect */
+}
+
+
+.admin-input-container button {
+  background-color: var(--color-1);
+  border: none;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  color: var(--textcolor);
+  padding: 10px;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 5rem;
+}
+
+.user-messages {
+  height: 60rem;
+  overflow-x: scroll;
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 
@@ -125,7 +262,7 @@ function replyToMessage() {
   margin: auto;
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: -25%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
@@ -164,7 +301,7 @@ function replyToMessage() {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 377px;
+  width: 96%;
   height: 0rem;
   margin: 0 auto;
   margin-top: 50px; /* Add margin-top property */
@@ -207,24 +344,26 @@ button[type="submit"] :hover {
 }
 
 .message-container {
-  height: 60rem;
-  overflow-y: scroll;
-  margin-top: 5rem;
+  overflow-y: auto; /* Add a vertical scrollbar */
+  height: 52rem;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  width: 54%;
+  flex-direction: column; /* Reverse the order of the child elements */
+  margin-left: auto; /* Add margin to the left side */
+  margin-right: 3rem;
+  margin-top: -5.5rem;
 }
 
+
 .message {
-  display: flex;
-  flex-direction: column;
+margin-top: 10px;
+
 }
+
 
 .admin-message {
   display: flex;
-  justify-content: flex-start;
-  margin: 10px;
-  align-items: flex-end;
+  justify-content: flex-end;
 }
 
 .admin-message .message-text {
@@ -236,8 +375,7 @@ button[type="submit"] :hover {
 
 .user-message {
   display: flex;
-  justify-content: flex-start; /* changed from flex-end */
-  margin: 10px;
+  justify-content: flex-start;
 }
 
 .user-message .message-text {
@@ -260,27 +398,19 @@ button[type="submit"] :hover {
   margin-top: 10px;
 }
 
-.user-message {
-  display: flex;
-  flex-direction: column;
-}
-
-
 .user-message-container {
   height: 60rem;
-  overflow-y: scroll;
+  overflow-x: scroll;
   margin-top: 5rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  background-color: blue;
 }
 
 .user-admin-message {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   margin: 10px;
-  align-items: flex-end;
 }
 
 .user-admin-message .user-message-text {
@@ -292,7 +422,7 @@ button[type="submit"] :hover {
 
 .user-user-message {
   display: flex;
-  justify-content: flex-start; /* changed from flex-end */
+  justify-content: flex-start;
   margin: 10px;
 }
 
@@ -325,16 +455,5 @@ button[type="submit"] :hover {
   padding-bottom: 25px;
 }
 
-.button-with-icon {
-  position: relative;
-}
-
-.button-with-icon i {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 25%;
-  color: white;
-}
 
 </style>
