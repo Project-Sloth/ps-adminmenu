@@ -9,24 +9,38 @@
   let messages = [];
 
   function sendMessage() {
-    if (messageText.trim() !== '') {
-      const date = new Date();
-      const stringData = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const header = 'You';
-      const newMessage = {
-        header: header,
-        text: messageText,
-        sent: true,
-        timestamp: { time: stringData },
-        messages: [] // add a messages property to the new message object
-      };
-      messages = [
-        ...messages,
+  if (messageText.trim() !== '') {
+    const date = new Date();
+    const stringData = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const header = 'You';
+    const newMessage = {
+      header: header,
+      text: messageText,
+      sent: true,
+      timestamp: { time: stringData },
+      messages: [] // add a messages property to the new message object
+    };
+
+    // Update the messages array with the new message
+    messages = [
+      ...messages,
+      newMessage
+    ];
+
+    // Add the new message to the messages array of the selected user
+    const selectedUserIndex = messages.findIndex(message => message.header === selectedUser);
+    if (selectedUserIndex >= 0) {
+      messages[selectedUserIndex].messages = [
+        ...messages[selectedUserIndex].messages,
         newMessage
       ];
-      messageText = '';
     }
+
+    // Clear the message input field
+    messageText = '';
   }
+}
+
   function handleKeyUp(event) {
     if (event.keyCode === 13) {
       sendMessage();
@@ -40,9 +54,9 @@
   let replyMessageText = '';
   // Handler function for the user dropdown menu
   function handleUserSelect(event) {
-    if (!isMenuLarge) {
-      toggleMenu();
-    }
+  if (!isMenuLarge) {
+    toggleMenu();
+  }
   selectedUser = event.target.value;
   if (selectedUser === 'you') {
     userMessages = messages;
@@ -50,9 +64,17 @@
     const userIndex = messages.findIndex(message => message.header === selectedUser);
     if (messages[userIndex]) {
       userMessages = [messages[userIndex], ...messages[userIndex].messages];
+      // Check for and include any admin replies to the selected user's messages
+      for (let i = 0; i < userMessages.length; i++) {
+        if (userMessages[i].header !== 'You' && userMessages[i].header !== selectedUser) {
+          userMessages.splice(i, 1);
+          i--;
+        }
+      }
     }
   }
 }
+
 function replyToMessage() {
     if (replyMessageText.trim() !== '') {
       const replyHeader = selectedUser;
@@ -103,13 +125,13 @@ function replyToMessage() {
       </div>    
     </div>
     <div class="user-message-container">
-      {#each messages as message}
+      {#each userMessages as message}
         <div class="user-message {message.sent ? 'sent' : ''} {message.header === 'You' ? 'user-user-message' : 'user-admin-message'}">
           <div class="message-header">{message.header} - {message.timestamp.time} </div>
           <div class="user-message-text">{message.text}</div>
         </div>
       {/each}
-    </div>
+    </div>    
     <div class="input-container">
       <input type="text" id="message-input" bind:value={messageText} placeholder="Type your message here..." on:keyup={handleKeyUp}>
       <button type="submit" id="send-button" on:click={sendMessage}><i class="fas fa-paper-plane"></i></button>
@@ -144,14 +166,13 @@ function replyToMessage() {
       
       <div class="message-container" id="message-container">
         {#each userMessages as message}
-          <div class="message {message.sent ? 'sent' : ''} {message.header === 'You' ? 'user-message' : 'admin-message'}">
-            <div class="message-header">{message.header} - {message.timestamp.time}</div>
-            <div class="message-text">{message.text}</div>
-          </div>
-        {/each}
+        <div class="user-message {message.sent ? 'sent' : ''} {message.header === 'You' ? 'user-user-message' : 'user-admin-message'}">
+          <div class="message-header">{message.header} - {message.timestamp.time}</div>
+          <div class="user-message-text">{message.text}</div>
+        </div>
+      {/each}
+      
       </div>
-      
-      
       
         <div class="admin-input-container">
           <input type="text" id="admin-message-input" bind:value={replyMessageText} placeholder="Reply.." on:keyup={handleKeyUp}>
@@ -171,8 +192,8 @@ function replyToMessage() {
 }
 
 .search input {
-  width: 50%;
-  padding: .7rem;
+  width: 100%;
+  padding: 0.7rem;
   background-color: var(--color-2);
   color: var(--textcolor);
   border: none;
@@ -360,7 +381,6 @@ margin-top: 10px;
 
 }
 
-
 .admin-message {
   display: flex;
   justify-content: flex-end;
@@ -388,7 +408,7 @@ margin-top: 10px;
 .message-header {
   font-size: 9px;
   color: rgb(179, 179, 179);
-  margin-bottom: 5px;
+  margin-bottom: 20px;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -438,7 +458,7 @@ margin-top: 10px;
 }
 .user-select button {
   margin-top: 1rem;
-  width: 310px;
+  width: 350px;
   height: 51px;
   background-color: var(--color-3);
   border: 1px solid var(--color-3);
