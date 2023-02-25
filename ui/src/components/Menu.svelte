@@ -314,11 +314,11 @@ function replyToMessage() {
       <span style="" class="material-icons rotate-45">add</span>
     </div>    
   </div>
-  <div class="message-container">
+  <div class="user-message-container">
     {#each messages as message}
-      <div class="message {message.sent ? 'sent' : ''} {message.header === 'You' ? 'user-message' : 'admin-message'}">
+      <div class="user-message {message.sent ? 'sent' : ''} {message.header === 'You' ? 'user-user-message' : 'user-admin-message'}">
         <div class="message-header">{message.header} - {message.timestamp.time} </div>
-        <div class="message-text">{message.text}</div>
+        <div class="user-message-text">{message.text}</div>
       </div>
     {/each}
   </div>
@@ -364,7 +364,7 @@ function replyToMessage() {
         </div>      
         <div class="search" style="display: flex; align-items: center;  margin-left: 2px;">
           <i style="color:var(--textcolor); margin-left: 2px;margin-right: 5px;" class="fas fa-search"></i>
-          <input type="text" style="outline:none;"placeholder="Search..">
+          <input type="text" style="outline:none;" placeholder="Search.." bind:value={searchTerm}>
         </div>
         <ul>
   
@@ -640,7 +640,6 @@ function replyToMessage() {
       {/if}
     {/if}
     </div>
-    
     
   </div>
   
@@ -1049,6 +1048,50 @@ button[type="submit"] :hover {
   justify-content: center;
   margin-top: 10px;
 }
+
+.user-message {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.user-message-container {
+  height: 60rem;
+  overflow-x: scroll;
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background-color: blue;
+}
+
+.user-admin-message {
+  display: flex;
+  justify-content: flex-start;
+  margin: 10px;
+  align-items: flex-end;
+}
+
+.user-admin-message .user-message-text {
+  background-color: #22203380;
+  color: var(--textcolor);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.user-user-message {
+  display: flex;
+  justify-content: flex-start; /* changed from flex-end */
+  margin: 10px;
+}
+
+.user-user-message .user-message-text {
+  background-color: #222033;
+  color: var(--textcolor);
+  border-radius: 10px;
+  padding: 10px;
+}
+
 .user-select {
   margin-top: 2rem;
 }
