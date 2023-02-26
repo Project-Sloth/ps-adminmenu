@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Menu from '@components/Menu.svelte'
 	import VisibilityProvider from '@providers/VisibilityProvider.svelte'
 	import { browserMode, resName } from '@store/stores'
 	import DebugBrowser from '@providers/DebugBrowser.svelte'

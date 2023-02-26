@@ -69,6 +69,7 @@
           replyMessage
         ];
       }
+      
       // Update the messages array with the new variable
       messages = updatedMessages;
       replyMessageText = '';
@@ -80,28 +81,32 @@
   let userMessages = [];
   let replyMessageText = '';
 
-  // Handler function for the user dropdown menu
+
   function handleUserSelect(event) {
-    if (!isMenuLarge) {
-      toggleMenu();
-    }
-    selectedUser = event.target.value;
-    if (selectedUser === 'you') {
-      userMessages = messages;
-    } else {
-      const userIndex = messages.findIndex(message => message.header === selectedUser);
-      if (messages[userIndex]) {
-        userMessages = [messages[userIndex], ...messages[userIndex].messages];
-        // Check for and include any admin replies to the selected user's messages
-        for (let i = 0; i < userMessages.length; i++) {
-          if (userMessages[i].header !== 'You' && userMessages[i].header !== selectedUser) {
-            userMessages.splice(i, 1);
-            i--;
-          }
+  selectedUser = event.target.value;
+  if (selectedUser === 'you') {
+    userMessages = messages;
+  } else {
+    const userIndex = messages.findIndex(message => message.header === selectedUser);
+    if (messages[userIndex]) {
+      userMessages = [messages[userIndex], ...messages[userIndex].messages];
+      // Check for and include any admin replies to the selected user's messages
+      for (let i = 0; i < userMessages.length; i++) {
+        if (userMessages[i].header !== 'You' && userMessages[i].header !== selectedUser) {
+          userMessages.splice(i, 1);
+          i--;
         }
       }
     }
   }
+  // Check if the menu is already toggled
+  if (isMenuLarge) {
+    console.log("Åpner")
+    // Toggle the menu
+    toggleMenu();
+  }
+}
+
   // Watch for changes in selectedUser and messages, and update userMessages accordingly
   $: {
   if (selectedUser !== null) {

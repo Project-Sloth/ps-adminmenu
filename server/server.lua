@@ -113,3 +113,21 @@ RegisterNetEvent('ps-adminmenu:server:updateResourceList', function(optionalSrc)
     TriggerClientEvent('ps-adminmenu:client:updateResourceList', src, resources)
 end)
  
+function GetAllPlayers()
+    local players = {}
+    for _, id in ipairs(GetPlayers()) do
+        table.insert(players, {
+            id = id,
+            name = GetPlayerName(id),
+            ping = GetPlayerPing(id),
+            source = id
+        })
+    end
+    return players
+    print(players)
+end
+
+RegisterNetEvent('ps-adminmenu:server:updatePlayerList', function()
+    local players = GetAllPlayers()
+    TriggerClientEvent('ps-adminmenu:client:updatePlayerList', -1, players)
+end)

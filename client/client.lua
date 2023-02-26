@@ -85,3 +85,19 @@ AddEventHandler('onResourceStart', function(resource)
     TriggerServerEvent('ps-adminmenu:server:updateResourceList')
    end
 end)
+
+RegisterNUICallback('UpdatePlayerList', function(data, cb)
+    print('Updating Player List')
+    TriggerServerEvent('ps-adminmenu:server:updatePlayerList')
+    cb(1)
+end)
+
+RegisterNetEvent('ps-adminmenu:client:updatePlayerList', function(players)
+    print('Updating Player List Event')
+    SendNUIMessage({
+        action = "updatePlayerList",
+        data = {
+            players = players,
+        }
+    })
+end)

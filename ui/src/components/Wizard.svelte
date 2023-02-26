@@ -1,6 +1,7 @@
 <script lang="ts">
   import '../main.css';
   import { fetchNui } from '@utils/fetchNui'
+	import Button from '@components/Button.svelte'
 
   let searchTerm = "";
   let showDropdownBanplayer = false;
@@ -9,7 +10,8 @@
   let showDropdownTeleportCoords = false;
   let showThemesDropdown = false;
 
-  let selectedAdmincar = localStorage.getItem("selectedAdmincar") === "true" || false;
+  let selectedAdmincar = localStorage.getItem("selectedAdmincar") === "true" || undefined;
+
   let selectedBanplayer = localStorage.getItem("selectedBanplayer") === "true" || false;
   let selectedBringplayer = localStorage.getItem("selectedBringplayer") === "true" || false;
   let selectedClothing = localStorage.getItem("selectedClothing") === "true" || false;
@@ -44,11 +46,6 @@
     showThemesDropdown = !showThemesDropdown;
   }
 
-  function toggleSelectionAdmincar(event) {
-    selectedAdmincar = !selectedAdmincar;
-    event.stopPropagation();
-    localStorage.setItem("selectedAdmincar", selectedAdmincar);
-  }
 
   function toggleSelectionBanplayer(event) {
     selectedBanplayer = !selectedBanplayer;
@@ -132,6 +129,7 @@ function banPlayer() {
 }
 
 </script>
+
     
 <div class="menu">
     <div class="button-container" style="display: flex; justify-content: flex-start; align-items: center; margin-top: -4.5px; margin-left: 5px;">
@@ -144,11 +142,11 @@ function banPlayer() {
       </div>
       <ul>
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'Admin Car'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedAdmincar)}
-        <button style="display: flex; align-items: center;" on:click={toggleAdmincar}>
+        <!-- <button style="display: flex; align-items: center;" on:click={toggleAdmincar}>
           <i class={`far fa-star ${selectedAdmincar ? 'fas' : 'far'}`} on:click={toggleSelectionAdmincar} style="margin-right: 10px; color: {selectedAdmincar ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Admin Car'} 
-        </button>
+        </button> -->
+        <Button />
       {/if}
     
         

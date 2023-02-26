@@ -14,7 +14,7 @@
     let showThemes = false;
     let currentPage = 'wizard';
   
-    function toggleMenu() { isMenuLarge = !isMenuLarge; }
+    export function toggleMenu() { isMenuLarge = !isMenuLarge; }
     function showSettings() { currentPage = 'settings'; }
     function showWizard() { currentPage = 'wizard'; }
     function showList() { currentPage = 'list'; }
