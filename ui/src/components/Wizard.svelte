@@ -1,5 +1,6 @@
 <script lang="ts">
   import '../main.css';
+  import { fetchNui } from '@utils/fetchNui'
 
   let searchTerm = "";
   let showDropdownBanplayer = false;
