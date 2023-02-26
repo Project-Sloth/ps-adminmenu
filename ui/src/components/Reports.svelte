@@ -1,45 +1,45 @@
 <script lang="ts">
-    import '../main.css';
-    import isMenuLarge from './Navbar.svelte';
+  import '../main.css';
+  import isMenuLarge from './Navbar.svelte';
 
-    function toggleMenu() { isMenuLarge = !isMenuLarge; }
+  function toggleMenu() { isMenuLarge = !isMenuLarge; }
 
 
   let messageText = '';
   let messages = [];
 
   function sendMessage() {
-  if (messageText.trim() !== '') {
-    const date = new Date();
-    const stringData = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const header = 'You';
-    const newMessage = {
-      header: header,
-      text: messageText,
-      sent: true,
-      timestamp: { time: stringData },
-      messages: [] // add a messages property to the new message object
-    };
+    if (messageText.trim() !== '') {
+      const date = new Date();
+      const stringData = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const header = 'You';
+      const newMessage = {
+        header: header,
+        text: messageText,
+        sent: true,
+        timestamp: { time: stringData },
+        messages: [] // add a messages property to the new message object
+      };
 
-    // Update the messages array with the new message
-    messages = [
-      ...messages,
-      newMessage
-    ];
-
-    // Add the new message to the messages array of the selected user
-    const selectedUserIndex = messages.findIndex(message => message.header === selectedUser);
-    if (selectedUserIndex >= 0) {
-      messages[selectedUserIndex].messages = [
-        ...messages[selectedUserIndex].messages,
+      // Update the messages array with the new message
+      messages = [
+        ...messages,
         newMessage
       ];
-    }
 
-    // Clear the message input field
-    messageText = '';
+      // Add the new message to the messages array of the selected user
+      const selectedUserIndex = messages.findIndex(message => message.header === selectedUser);
+      if (selectedUserIndex >= 0) {
+        messages[selectedUserIndex].messages = [
+          ...messages[selectedUserIndex].messages,
+          newMessage
+        ];
+      }
+
+      // Clear the message input field
+      messageText = '';
+    }
   }
-}
 
   function handleKeyUp(event) {
     if (event.keyCode === 13) {
@@ -47,35 +47,8 @@
       replyToMessage();
     }
   }
-  // Report System End
-  // Default state for the admin UI
-  let selectedUser = "you";
-  let userMessages = [];
-  let replyMessageText = '';
-  // Handler function for the user dropdown menu
-  function handleUserSelect(event) {
-  if (!isMenuLarge) {
-    toggleMenu();
-  }
-  selectedUser = event.target.value;
-  if (selectedUser === 'you') {
-    userMessages = messages;
-  } else {
-    const userIndex = messages.findIndex(message => message.header === selectedUser);
-    if (messages[userIndex]) {
-      userMessages = [messages[userIndex], ...messages[userIndex].messages];
-      // Check for and include any admin replies to the selected user's messages
-      for (let i = 0; i < userMessages.length; i++) {
-        if (userMessages[i].header !== 'You' && userMessages[i].header !== selectedUser) {
-          userMessages.splice(i, 1);
-          i--;
-        }
-      }
-    }
-  }
-}
 
-function replyToMessage() {
+  function replyToMessage() {
     if (replyMessageText.trim() !== '') {
       const replyHeader = selectedUser;
       const date = new Date();
@@ -101,15 +74,46 @@ function replyToMessage() {
       replyMessageText = '';
     }
   }
-  // Watch for changes in selectedUser and messages, and update userMessages accordingly
-  $: {
-    if (selectedUser !== null) {
+
+  // Default state for the admin UI
+  let selectedUser = null;
+  let userMessages = [];
+  let replyMessageText = '';
+
+  // Handler function for the user dropdown menu
+  function handleUserSelect(event) {
+    if (!isMenuLarge) {
+      toggleMenu();
+    }
+    selectedUser = event.target.value;
+    if (selectedUser === 'you') {
+      userMessages = messages;
+    } else {
       const userIndex = messages.findIndex(message => message.header === selectedUser);
       if (messages[userIndex]) {
         userMessages = [messages[userIndex], ...messages[userIndex].messages];
+        // Check for and include any admin replies to the selected user's messages
+        for (let i = 0; i < userMessages.length; i++) {
+          if (userMessages[i].header !== 'You' && userMessages[i].header !== selectedUser) {
+            userMessages.splice(i, 1);
+            i--;
+          }
+        }
       }
     }
   }
+  // Watch for changes in selectedUser and messages, and update userMessages accordingly
+  $: {
+  if (selectedUser !== null) {
+    const userIndex = messages.findIndex(message => message.header === selectedUser);
+    if (messages[userIndex]) {
+      userMessages = [messages[userIndex], ...messages[userIndex].messages];
+    }
+  } else {
+    userMessages = [];
+  }
+}
+
 
 
   let User = true;
@@ -162,6 +166,12 @@ function replyToMessage() {
       <div>
         <span class="admin-input-container2">REPORT: 52</span>
       </div>
+      {#if selectedUser === null || selectedUser === ''}
+      <div class="admin-nouserselected">
+        <i class="material-icons">sentiment_dissatisfied</i>
+        <p>You have not selected<br>any report!</p>
+      </div>
+      {:else}
       {#if selectedUser !== null}
       
       <div class="message-container" id="message-container">
@@ -179,6 +189,7 @@ function replyToMessage() {
           <button type="submit" id="send-button" on:click={replyToMessage}><i class="fas fa-paper-plane"></i></button>
         </div>
       {/if}
+    {/if}
     {/if}
     </div>
   </div>
@@ -315,7 +326,7 @@ function replyToMessage() {
   font-size: 20px;
   line-height: 23px;
   text-align: center;
-  color: #C3C3C3;
+  color: var(--textcolor);
 }
 
 .input-container {
@@ -368,12 +379,17 @@ button[type="submit"] :hover {
   overflow-y: auto; /* Add a vertical scrollbar */
   height: 52rem;
   display: flex;
-  width: 54%;
+  width: 52%;
   flex-direction: column; /* Reverse the order of the child elements */
   margin-left: auto; /* Add margin to the left side */
   margin-right: 3rem;
   margin-top: -5.5rem;
+  position: fixed; /* Add fixed position */
+  top: 18%; /* Adjust the top position as needed */
+  left: 45%; /* Center the container horizontally */
+
 }
+
 
 
 .message {
@@ -407,7 +423,7 @@ margin-top: 10px;
 
 .message-header {
   font-size: 9px;
-  color: rgb(179, 179, 179);
+  color: var(--textcolor);
   margin-bottom: 20px;
   font-family: 'Roboto', sans-serif;
 }
@@ -473,6 +489,26 @@ margin-top: 10px;
   border-radius: 5px;
   margin-left: 7px;
   padding-bottom: 25px;
+}
+
+.admin-nouserselected {
+  position: fixed;
+  right: 20rem;
+  top: 18rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #242231;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  text-align: center;
+}
+
+
+
+.admin-nouserselected i {
+  font-size: 15rem;
 }
 
 
