@@ -78,7 +78,6 @@ RegisterNetEvent('ps-adminmenu:server:ban', function(player, reason, time)
 end)
 
 function GetAllResources(src)
-    print('getting Resources')
     local src = src
 
     local resources = {}
@@ -102,32 +101,11 @@ function GetAllResources(src)
     end
     Wait(200)
     return resources
-
 end
 
-RegisterNetEvent('ps-adminmenu:server:updateResourceList', function(optionalSrc)
-    print('updating Resources')
+RegisterNetEvent('ps-adminmenu:server:updateResource', function(optionalSrc)
     local src = optionalSrc or source
-    
     local resources = GetAllResources(src)
     TriggerClientEvent('ps-adminmenu:client:updateResourceList', src, resources)
 end)
  
-function GetAllPlayers()
-    local players = {}
-    for _, id in ipairs(GetPlayers()) do
-        table.insert(players, {
-            id = id,
-            name = GetPlayerName(id),
-            ping = GetPlayerPing(id),
-            source = id
-        })
-    end
-    return players
-    print(players)
-end
-
-RegisterNetEvent('ps-adminmenu:server:updatePlayerList', function()
-    local players = GetAllPlayers()
-    TriggerClientEvent('ps-adminmenu:client:updatePlayerList', -1, players)
-end)

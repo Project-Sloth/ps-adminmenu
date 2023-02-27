@@ -37,12 +37,6 @@ RegisterNUICallback('ToggleDevMode', function(_, cb)
     TriggerEvent('qb-admin:client:ToggleDevmode')
 end)
 
--- Debug Mode
-RegisterNUICallback('ToggleDebugMode', function(_, cb)
-    cb({})
-    print("^5Debug^7: ^7Theme Changed")
-end)
-
 -- Ban Player
 RegisterNUICallback('banPlayer', function(data, cb)
     local player = tonumber(data.player)
@@ -65,12 +59,11 @@ end)
 -- Resources
 RegisterNUICallback('UpdateResourceList', function(data, cb)
     print('Updating Resource List')
-    TriggerServerEvent('ps-adminmenu:server:updateResourceList')
+    TriggerServerEvent('ps-adminmenu:server:updateResource')
     cb(1)
 end)
 
-RegisterNetEvent('ps-adminmenu:client:updateResourceList', function(resources)
-    print('Updating Resource List Event')
+RegisterNetEvent('ps-adminmenu:client:updateResources', function(resources)
     SendNUIMessage({
         action = "updateResourceList",
         data = {
@@ -81,23 +74,6 @@ end)
 
 AddEventHandler('onResourceStart', function(resource)
    if resource == GetCurrentResourceName() then
-    print('Updating Resource List')
-    TriggerServerEvent('ps-adminmenu:server:updateResourceList')
+    TriggerServerEvent('ps-adminmenu:server:updateResource')
    end
-end)
-
-RegisterNUICallback('UpdatePlayerList', function(data, cb)
-    print('Updating Player List')
-    TriggerServerEvent('ps-adminmenu:server:updatePlayerList')
-    cb(1)
-end)
-
-RegisterNetEvent('ps-adminmenu:client:updatePlayerList', function(players)
-    print('Updating Player List Event')
-    SendNUIMessage({
-        action = "updatePlayerList",
-        data = {
-            players = players,
-        }
-    })
 end)
