@@ -4,7 +4,9 @@
 	import Buttons from '@components/Buttons.svelte'
 	import { slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
+	import { flip } from 'svelte/animate';
 
+  
   let searchTerm = "";
   let showDropdownBanplayer = false;
   let showDropdownBringplayer = false;
@@ -134,7 +136,7 @@ function banPlayer() {
 
     
 <div class="menu">
-    <div class="button-container" style="display: flex; justify-content: flex-start; align-items: center; margin-top: -4.5px; margin-left: 5px;">
+    <div class="button-container">
       <button class="button-all" on:click={() => {showFavorites = false}}>All</button>
       <button class="button-fav" on:click={() => {showFavorites = true}}>Favorites</button>
       </div>      
@@ -148,21 +150,19 @@ function banPlayer() {
         <Buttons />
       {/if}
     
-        
         {#if (searchTerm === '' || 'Ban Player'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedBanplayer)}
         <button class="menu-button" on:click={toggleDropdownBanplayer}>
           <i class={`far fa-star ${selectedBanplayer ? 'fas' : 'far'}`} on:click={toggleSelectionBanplayer} style="margin-right: 10px; color: {selectedBanplayer ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Ban Player'} 
-          <i class="fas fa-angle-right" id="themes-icon" style="margin-left: auto; margin-right: 7px; transform: rotate({showDropdownBanplayer ? 90 : 0}deg); transition: height 0.5s ease-in-out;"></i>
+          <i class="fas fa-angle-right dropdown-icon" style="transform: rotate({showDropdownBanplayer ? 90 : 0}deg);"></i>
         </button>
               
         {#if showDropdownBanplayer}
-        <div style="background-color: var(--color-3); padding-top: 5rem;padding-left: 5rem;padding-right: 5rem;padding-bottom: 1rem;height: -20px; overflow: hidden; transition: height 1.5s ease-in-out;" transition:slide="{{duration: 500}}">
-          <!-- Your dropdown menu content goes here -->
-          <div style="display: flex; flex-direction: column; justify-content: flex-start; margin-top: -4rem; margin-left: -4rem">
-            <input type="text" placeholder="ID" style="color: var(--textcolor);font-family: 'Roboto', sans-serif;outline: none;background-color: var(--color-2);padding: 0.5rem; margin-bottom: 0.5rem; border-radius: 0.15rem; border: none;">
-            <input type="text" placeholder="Reason" style="color: var(--textcolor);font-family: 'Roboto', sans-serif;outline: none;background-color: var(--color-2);padding: 0.5rem; margin-bottom: 0.5rem; border-radius: 0.15rem; border: none;">
-            <input type="text" placeholder="Length" style="color: var(--textcolor);font-family: 'Roboto', sans-serif;outline: none;background-color: var(--color-2);padding: 0.5rem; margin-bottom: 0.5rem; border-radius: 0.15rem; border: none;">
-            <button on:click={banPlayer} style="padding: 0.5rem; border-radius: 0.15rem; border: none; background-color: var(--color-2); color: var(--textcolor);font-family: 'Roboto', sans-serif;">Ban</button>
+        <div class="dropdown" style="padding-bottom: 12.4rem" transition:slide="{{duration: 300}}">
+          <div class="dropdown-buttons-container">
+            <input placeholder="ID" class="dropdown-inputs">
+            <input placeholder="Reason" class="dropdown-inputs">
+            <input placeholder="Length" class="dropdown-inputs">
+            <button class="dropdown-buttons" on:click={banPlayer} >Ban</button>
           </div>
         </div>
         {/if}
@@ -171,78 +171,67 @@ function banPlayer() {
         {#if (searchTerm === '' || 'Bring Player'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedBringplayer)}
         <button class="menu-button" on:click={toggleDropdownBringplayer}>
           <i class={`far fa-star ${selectedBringplayer ? 'fas' : 'far'}`} on:click={toggleSelectionBringplayer} style="margin-right: 10px; color: {selectedBringplayer ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Bring Player'} 
-          <i class="fas fa-angle-right" id="themes-icon" style="margin-left: auto; margin-right: 7px; transform: rotate({showDropdownBringplayer ? 90 : 0}deg); transition: height 0.5s ease-in-out;"></i>
+          <i class="fas fa-angle-right dropdown-icon" style="transform: rotate({showDropdownBringplayer ? 90 : 0}deg);"></i>
         </button>
       
         {#if showDropdownBringplayer}
-        <div style="background-color: var(--color-3);padding-top: 5rem;padding-left: 5rem;padding-right: 5rem;padding-bottom: 4.7rem; height: 0px; overflow: hidden; transition: height 1.5s ease-in-out;" transition:slide="{{duration: 500}}">
-            <!-- Your dropdown menu content goes here -->
-            <div style="display: flex; flex-direction: column; justify-content: flex-start; margin-top: -4rem; margin-left: -4rem">
-              <input type="text" placeholder="ID" style="color: var(--textcolor);font-family: 'Roboto', sans-serif;outline: none;background-color: var(--color-2);padding: 0.5rem; margin-bottom: 0.5rem; border-radius: 0.15rem; border: none;">
-              <button style="padding: 0.5rem; border-radius: 0.15rem; border: none; background-color: var(--color-2); color: var(--textcolor);font-family: 'Roboto', sans-serif;">Submit</button>
-            </div>
-            
+        <div class="dropdown" transition:slide="{{duration: 300}}">
+          <div class="dropdown-buttons-container">
+            <input class="dropdown-inputs" placeholder="ID">
+            <button class="dropdown-buttons">Submit</button>
           </div>
+        </div>
         {/if}
       {/if}
 
-        <!-- Click Button-->
         {#if (searchTerm === '' || 'Clothing Menu'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedClothing)}
         <button class="menu-button" on:click={toggleClothing}>
           <i class={`far fa-star ${selectedClothing ? 'fas' : 'far'}`} on:click={toggleSelectionClothing} style="margin-right: 10px; color: {selectedClothing ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Clothing Menu'} 
         </button>
       {/if}
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'Customs'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
         <button class="menu-button" on:click={toggleNoclip}>
           <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Customs'} 
         </button>
       {/if}
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'Change Weather'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
         <button class="menu-button" on:click={toggleNoclip}>
           <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Change Weather'} 
         </button>
       {/if}
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'Fix Vehicle'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
         <button class="menu-button" on:click={toggleNoclip}>
           <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Fix Vehicle'} 
         </button>
       {/if}
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'God'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
         <button class="menu-button" on:click={toggleNoclip}>
           <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'God'} 
         </button>
       {/if}
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'Give Cash'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
         <button class="menu-button" on:click={toggleNoclip}>
           <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Give Cash'} 
         </button>
       {/if}
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'Give Item'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
         <button class="menu-button" on:click={toggleNoclip}>
           <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Give Item'} 
         </button>
       {/if}
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'Give License'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
         <button class="menu-button" on:click={toggleNoclip}>
           <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Give License'} 
         </button>
       {/if}
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'Invisible'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedInvisible)}
         <button class="menu-button" on:click={toggleInvis}>
           <i class={`far fa-star ${selectedInvisible ? 'fas' : 'far'}`} on:click={toggleSelectionInvisible} style="margin-right: 10px; color: {selectedInvisible ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Invisible'} 
@@ -252,83 +241,72 @@ function banPlayer() {
       {#if (searchTerm === '' || 'Kick'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedKickplayer)}
       <button class="menu-button" on:click={toggleDropdownKickplayer}>
         <i class={`far fa-star ${selectedKickplayer ? 'fas' : 'far'}`} on:click={toggleSelectionKickplayer} style="margin-right: 10px; color: {selectedKickplayer ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Kick'} 
-        <i class="fas fa-angle-right" id="themes-icon" style="margin-left: auto; margin-right: 7px; transform: rotate({showDropdownKickplayer ? 90 : 0}deg); transition: height 0.5s ease-in-out;"></i>
+        <i class="fas fa-angle-right dropdown-icon" style="transform: rotate({showDropdownKickplayer ? 90 : 0}deg);"></i>
       </button>
             
       {#if showDropdownKickplayer}
-      <div style="background-color: var(--color-3); padding-top: 5rem;padding-left: 5rem;padding-right: 5rem;padding-bottom: 8.5rem;height: 0px; overflow: hidden; transition: height 1.5s ease-in-out;" transition:slide="{{duration: 500}}">
-        <!-- Your dropdown menu content goes here -->
-        <div style="display: flex; flex-direction: column; justify-content: flex-start; margin-top: -4rem; margin-left: -4rem">
-          <input type="text" placeholder="ID" style="font-family: 'Roboto', sans-serif;color: var(--textcolor);outline: none;background-color: var(--color-2);padding: 0.5rem; margin-bottom: 0.5rem; border-radius: 0.15rem; border: none;">
-          <input type="text" placeholder="Reason" style="font-family: 'Roboto', sans-serif;color: var(--textcolor);outline: none;background-color: var(--color-2);padding: 0.5rem; margin-bottom: 0.5rem; border-radius: 0.15rem; border: none;">
-          <button on:click={banPlayer} style="padding: 0.5rem; border-radius: 0.15rem; border: none; background-color: var(--color-2); color: var(--textcolor);font-family: 'Roboto', sans-serif;">Kick</button>
+      <div class="dropdown" style="padding-bottom: 8.7rem" transition:slide="{{duration: 300}}">
+        <div class="dropdown-buttons-container">
+          <input placeholder="ID" class="dropdown-inputs">
+          <input placeholder="Reason" class="dropdown-inputs">
+          <button class="dropdown-buttons" on:click={banPlayer} >Kick</button>
         </div>
       </div>
       {/if}
     {/if}
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'Noclip'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
         <button class="menu-button" on:click={toggleNoclip}>
           <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Noclip'} 
         </button>
       {/if}
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'Revive'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
         <button class="menu-button" on:click={toggleNoclip}>
           <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Revive'} 
         </button>
       {/if}
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'Revive in Radius'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
         <button class="menu-button" on:click={toggleNoclip}>
           <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Revive in Radius'} 
         </button>
       {/if}
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'Spawn Car'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
         <button class="menu-button" on:click={toggleNoclip}>
           <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Spawn Car'} 
         </button>
       {/if}
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'Teleport'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
         <button class="menu-button" on:click={toggleNoclip}>
           <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Teleport'} 
         </button>
       {/if}
 
-      <!-- Click Button-->
-
       {#if (searchTerm === '' || 'Teleport Coords'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedTeleportCoords)}
       <button class="menu-button" on:click={toggleDropdownTeleportCoords}>
         <i class={`far fa-star ${selectedTeleportCoords ? 'fas' : 'far'}`} on:click={toggleSelectionTeleportCoords} style="margin-right: 10px; color: {selectedTeleportCoords ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Teleport Coords'} 
-        <i class="fas fa-angle-right" id="themes-icon" style="margin-left: auto; margin-right: 7px; transform: rotate({showDropdownTeleportCoords ? 90 : 0}deg); transition: height 0.5s ease-in-out;"></i>
+        <i class="fas fa-angle-right dropdown-icon" style="transform: rotate({showDropdownTeleportCoords ? 90 : 0}deg);"></i>
       </button>
             
       {#if showDropdownTeleportCoords}
-      <div style="background-color: var(--color-3); padding-top: 5rem;padding-left: 5rem;padding-right: 5rem;padding-bottom: 4.5rem;height: 27px; overflow: hidden; transition: height 1.5s ease-in-out;" transition:slide="{{duration: 500}}">
-        <!-- Your dropdown menu content goes here -->
-        <div style="display: flex; flex-direction: column; justify-content: flex-start; margin-top: -4rem; margin-left: -4rem">
-          <input type="text" placeholder="Coords" style="font-family: 'Roboto', sans-serif;color: var(--textcolor);outline: none;background-color: var(--color-2);padding: 0.5rem; margin-bottom: 0.5rem; border-radius: 0.15rem; border: none;">
-          <button on:click={banPlayer} style="padding: 0.5rem; border-radius: 0.15rem; border: none; background-color: var(--color-2); color: var(--textcolor);font-family: 'Roboto', sans-serif;">Teleport</button>
+      <div class="dropdown" transition:slide="{{duration: 300}}">
+        <div class="dropdown-buttons-container">
+          <input class="dropdown-inputs" placeholder="Coords">
+          <button class="dropdown-buttons" on:click={banPlayer}>Teleport</button>
         </div>
       </div>
       {/if}
     {/if}
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'Teleport Marker'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
         <button class="menu-button" on:click={toggleNoclip}>
           <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Teleport Marker'} 
         </button>
       {/if}
 
-      <!-- Click Button-->
       {#if (searchTerm === '' || 'Unban'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
         <button class="menu-button" on:click={toggleNoclip}>
           <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Unban'} 
@@ -345,6 +323,7 @@ function banPlayer() {
   color: var(--textcolor);
   margin: 4px;
 }
+
 .search-input {
   outline:none;
   width: 80%;
@@ -403,5 +382,52 @@ function banPlayer() {
   text-align: center;
   vertical-align: middle;
 }
+
+.dropdown {
+  background-color: var(--color-3);
+  padding: 5rem;
+  padding-bottom: 4.7rem;
+  height: 0px;
+  overflow: hidden;
+  transition: height 1.5s ease-in-out;
+}
+
+.dropdown-icon {
+  transition: transform 0.3s ease;
+  margin-left: auto;
+  margin-right: 7px;
+}
+
+.dropdown-buttons-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-top: -4rem;
+  margin-left: -4rem
+}
+
+.dropdown-inputs {
+  color: var(--textcolor);
+  font-family: 'Roboto', sans-serif;
+  outline: none;
+  background-color: var(--color-2);
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.15rem; 
+  border: none;
+  width: 80%;
+}
+
+.dropdown-buttons {
+  color: var(--textcolor);
+  font-family: 'Roboto', sans-serif;
+  outline: none;
+  background-color: var(--color-2);
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: none;
+  width: 30%;
+}
+
 
 </style>
