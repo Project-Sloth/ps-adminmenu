@@ -12,6 +12,7 @@ export function toggleSelectionAdmincar(event) {
 
   }
 
+  
   function toggleAdmincar() { 
     fetchNui("toggleAdmincar");
     icon.classList.toggle("icon-active")
@@ -34,9 +35,19 @@ export function toggleSelectionAdmincar(event) {
 <style>
 
 button {
+    padding: 0.9rem;
+    width: 100%;
+    background-color: var(--color-3);
+    color: var(--textcolor);
+    font-family: 'Roboto', sans-serif;
+    margin-top: 0.5rem;
+    cursor: pointer;
     display: flex;
+    justify-content: flex-start;
     align-items: center;
+    text-align: left;
 }
+
 
 .icon {
     margin-right: 10px;

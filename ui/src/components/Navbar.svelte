@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { fly } from 'svelte/transition';
+    import { quintOut } from 'svelte/easing';
     import '../main.css';
     import { fetchNui } from '@utils/fetchNui'
     import Wizard from './Wizard.svelte';
@@ -23,7 +25,7 @@
     function toggleDevMode() { DevMode = !DevMode; fetchNui("ToggleDevMode"); }
   </script>
   
-  <div class="container {isMenuLarge ? 'open' : ''}">
+  <div class="container {isMenuLarge ? 'open' : ''}" transition:fly="{{delay: 0, duration: 500, x: 200, y: 0, opacity: 0.1, easing: quintOut}}" >
     <div class="sidebar">
       <button on:click={showSettings} aria-label="Settings" style="margin-bottom: 0.7rem;">
         <i class="fas fa-gear"></i>
