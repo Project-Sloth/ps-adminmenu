@@ -6,7 +6,6 @@
 	import { quintOut } from 'svelte/easing';
 	import { flip } from 'svelte/animate';
 
-  
   let searchTerm = "";
   let showDropdownBanplayer = false;
   let showDropdownBringplayer = false;

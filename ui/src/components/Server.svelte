@@ -35,13 +35,13 @@
   
 <div class="server">
     <div class="playerlist">
-    <div class="search" style="display: flex; align-items: center;  margin-left: 2px;">
-        <i class="fas fa-search"></i>
-        <input type="text" style="outline:none;" placeholder="Search.." >
-        <button style="width: 40px;background: none;border: none;" class="refresh-btn" on:click={refreshList}>
+      <div class="search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input class="search-input" placeholder="Search..">
+        <button class="refresh-btn" style="width: 40px;background: none;border: none;" on:click={refreshList}>
             <i class="fa-solid fa-rotate"></i>
         </button>
-        </div>
+    </div>
     </div>
     <ul>
     {#each $resourceStore as resource}
@@ -90,11 +90,13 @@
 .search {
   border-bottom: 2px solid;
   color: var(--textcolor);
+  margin: 4px;
 }
 
-.search input {
+.search-input {
+  outline:none;
   width: 80%;
-  padding: .7rem;
+  padding: 0.7rem;
   background-color: var(--color-2);
   color: var(--textcolor);
   border: none;
@@ -102,13 +104,9 @@
 
 .refresh-btn {
   position: absolute;
-  top: 4%;
-  right: 10px;
-  transform: translateY(-50%);
-  color: var(--textcolor);
+  top: 1.9%;
+  right: 1rem;
   border: none;
-  padding: 10px 15px;
-  cursor: pointer;
 }
 
 </style>
