@@ -106,6 +106,6 @@ end
 RegisterNetEvent('ps-adminmenu:server:updateResource', function(optionalSrc)
     local src = optionalSrc or source
     local resources = GetAllResources(src)
-    TriggerClientEvent('ps-adminmenu:client:updateResourceList', src, resources)
+    TriggerClientEvent('ps-adminmenu:client:updateResources', src, resources)
 end)
  

@@ -22,7 +22,7 @@
 		},
 	]
 </script>
-<!-- 
+
 <div class="absolute top-0 left-0 z-[1000]">
 	<button class="bg-red-500 text-white p-2"
 		on:click={() => {
@@ -64,4 +64,4 @@
 		{/each}
 	</div>
 	{/if}
-</div> -->
+</div>

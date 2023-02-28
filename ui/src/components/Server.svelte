@@ -36,7 +36,7 @@
 <div class="server">
     <div class="playerlist">
     <div class="search" style="display: flex; align-items: center;  margin-left: 2px;">
-        <i style="color:var(--textcolor); margin-left: 2px;margin-right: 5px;" class="fas fa-search"></i>
+        <i class="fas fa-search"></i>
         <input type="text" style="outline:none;" placeholder="Search.." >
         <button style="width: 40px;background: none;border: none;" class="refresh-btn" on:click={refreshList}>
             <i class="fa-solid fa-rotate"></i>
