@@ -22,7 +22,6 @@
   let selectedInvisible = localStorage.getItem("selectedInvisible") === "true" || false;
   let selectedKickplayer = localStorage.getItem("selectedKickplayer") === "true" || false;
   let selectedTeleportCoords = localStorage.getItem("selectedTeleportCoords") === "true" || false;
-  let selectedThemes = localStorage.getItem("selectedThemes") === "true" || false;
 
 
   function setSearchTerm(event) {
