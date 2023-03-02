@@ -20,16 +20,24 @@ end)
 -- Invisible
 local invisible = false
 
+local invisible = false
+
 RegisterNUICallback('ToggleInvis', function(_, cb)
-    cb({})
+    local ped = PlayerPedId()
     if not invisible then
         invisible = true
-        SetEntityVisible(PlayerPedId(), false, 0)
+
+        NetworkSetEntityInvisibleToNetwork(ped, true)
+        SetEntityAlpha(ped, 128, false)
     else
         invisible = false
-        SetEntityVisible(PlayerPedId(), true, 0)
+
+        NetworkSetEntityInvisibleToNetwork(ped, false)
+        SetEntityAlpha(ped, 255, false)
     end
 end)
+
+
 
 -- Developer Mode
 RegisterNUICallback('ToggleDevMode', function(_, cb)

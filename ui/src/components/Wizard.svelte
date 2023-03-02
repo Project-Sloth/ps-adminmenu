@@ -18,40 +18,52 @@
     showFavorites = true;
   }
 
+  const buttons = [
+    { id: "noclip", text: "Noclip", fetchFunction: "ToggleNoClip", favorite: true },
+    { id: "invisible", text: "Invisible", fetchFunction: "ToggleInvis", favorite: false },
+    { id: "banplayer", text: "Ban Player", fetchFunction: "BanPlayer", favorite: false },
+  ];
 
+  function getFilteredButtons() {
+    let filtered = buttons.filter(button => button.text.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    if (showFavorites) {
+      filtered = filtered.filter(button => button.favorite);
+    }
+
+    return filtered;
+  }
 
 </script>
 
-    
 <div class="menu">
   <div class="button-container">
-    <button class="button-all" on:click={() => {showFavorites = false}}>All</button>
-    <button class="button-fav" on:click={() => {showFavorites = true}}>Favorites</button>
+    <button class="button-all" on:click={toggleAll}>All</button>
+    <button class="button-fav" on:click={toggleFavorites}>Favorites</button>
   </div>      
   <div class="search">
     <i class="fa-solid fa-magnifying-glass"></i>
     <input class="search-input" placeholder="Search.." bind:value={searchTerm}>
   </div>
   <div class="buttons-container">
-    
-    <!-- Normal Button -->
-    <Buttons buttonText={'Noclip'} fetchFunction={'ToggleNoClip'} id="noclip"/>
-    
-    <!-- Dropdown Button -->
-    <ButtonsDropdown buttonText={'Ban Player'} fetchFunction={'BanPlayer'} id="banplayer">
-      <div class="dropdown-buttons-container">
-        <input class="dropdown-inputs" placeholder="ID">
-        <input class="dropdown-inputs" placeholder="Reason">
-        <input class="dropdown-inputs" placeholder="Time">
-       <button class="dropdown-buttons">Ban Player</button>
-      </div>
-    </ButtonsDropdown>
- 
+    {#each getFilteredButtons() as button}
+      {#if button.id === 'banplayer'}
+        <ButtonsDropdown buttonText={button.text} fetchFunction={button.fetchFunction} id={button.id}>
+          <div class="dropdown-buttons-container">
+            <input class="dropdown-inputs" placeholder="ID">
+            <input class="dropdown-inputs" placeholder="Reason">
+            <input class="dropdown-inputs" placeholder="Time">
+            <button class="dropdown-buttons">Ban Player</button>
+          </div>
+        </ButtonsDropdown>
+      {:else}
+        <Buttons buttonText={button.text} fetchFunction={button.fetchFunction} id={button.id}/>
+      {/if}
+    {/each}
   </div>
 </div>
 
 <style>
-
 .search {
   border-bottom: 2px solid;
   color: var(--textcolor);

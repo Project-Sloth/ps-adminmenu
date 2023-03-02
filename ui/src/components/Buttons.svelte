@@ -4,6 +4,7 @@
   export let buttonText;
   export let fetchFunction;
   export let id; 
+
   
   let selected = localStorage.getItem(`selected_${id}`) === 'true'; 
   let icon: HTMLElement;
