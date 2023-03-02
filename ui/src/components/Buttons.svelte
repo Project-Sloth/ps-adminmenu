@@ -1,62 +1,47 @@
 <script lang="ts">
-  import { fetchNui } from '@utils/fetchNui'
-
-export let selectedAdmincar;
-let icon: HTMLElement;
-
-
-export function toggleSelectionAdmincar(event) {
-    selectedAdmincar = !selectedAdmincar;
-    event.stopPropagation();
-    localStorage.setItem("selectedAdmincar", selectedAdmincar);
-
-  }
-
+    import { fetchNui } from '@utils/fetchNui';
   
-  function toggleAdmincar() { 
-    fetchNui("toggleAdmincar");
-    icon.classList.toggle("icon-active")
-    if (selectedAdmincar) {
-        icon.classList.add('fas');
-        icon.classList.remove('far');
-    } else {
-        icon.classList.remove('far');
-        icon.classList.add('fas');
+    export let buttonText;
+    export let fetchFunction;
+    export let id; 
+    
+    let selected = localStorage.getItem(`selected_${id}`) === 'true'; 
+    let icon: HTMLElement;
+    let button: HTMLButtonElement;
+  
+    function toggle(event: MouseEvent) {
+      const target = event.target as HTMLElement;
+      fetchNui(fetchFunction);
+      if (target === icon) {
+        selected = !selected;
+        localStorage.setItem(`selected_${id}`, selected.toString()); 
+      }
     }
-    icon.classList.add("far fa-star")
-}
-
-</script>
-
-<button on:click={toggleAdmincar}>
-    <i class="icon" bind:this={icon} on:click={toggleSelectionAdmincar} ></i> {'Admin Car'} 
-</button>
-
+  </script>
+  
+  <button on:click={toggle} bind:this={button}>
+    <i class={`icon ${selected ? 'icon-selected' : ''} far fa-star ${selected ? 'fas' : 'far'}`} bind:this={icon}></i> {buttonText}
+  </button>
+  
 <style>
-
 button {
-    padding: 0.9rem;
+    padding: 1rem;
     width: 100%;
     background-color: var(--color-3);
     color: var(--textcolor);
     font-family: 'Roboto', sans-serif;
     margin-top: 0.5rem;
-    cursor: pointer;
     display: flex;
     justify-content: flex-start;
-    align-items: center;
-    text-align: left;
 }
-
 
 .icon {
-    margin-right: 10px;
+    margin-right: 1rem;
+    margin-top: 3px;
     color: var(--textcolor);
 }
-
-:global(.icon-active) {
+.icon-selected {
     color: var(--starcolor);
 }
-
-
 </style>
+  

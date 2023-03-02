@@ -226,6 +226,11 @@ ToggleNoClip = function(state)
     IsNoClipping = state or not IsNoClipping
     PlayerPed    = PlayerPedId()
     PlayerIsInVehicle = IsPedInAnyVehicle(PlayerPed, false)
+    if IsNoClipping then 
+        QBCore.Functions.Notify('Noclip Enabled', 'success', 5000)
+    else
+        QBCore.Functions.Notify('Noclip Disabled', 'error', 5000)
+    end
     if PlayerIsInVehicle ~= 0 and IsPedDrivingVehicle(PlayerPed, GetVehiclePedIsIn(PlayerPed, false)) then
         NoClipEntity = GetVehiclePedIsIn(PlayerPed, false)
         SetVehicleEngineOn(NoClipEntity, not IsNoClipping, true, IsNoClipping)
@@ -257,11 +262,6 @@ ToggleNoClip = function(state)
         Wait(50)
         DestroyCamera()
         PlaySoundFromEntity(-1, "CANCEL", PlayerPed, "HUD_LIQUOR_STORE_SOUNDSET", 0, 0)
-    end
-    if IsNoClipping then 
-        QBCore.Functions.Notify('Noclip Enabled', 'success', 5000)
-    else
-        QBCore.Functions.Notify('Noclip Disabled', 'error', 5000)
     end
    
     SetUserRadioControlEnabled(not IsNoClipping)

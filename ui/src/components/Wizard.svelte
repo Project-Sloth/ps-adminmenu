@@ -1,10 +1,9 @@
 <script lang="ts">
   import '../main.css';
   import { fetchNui } from '@utils/fetchNui'
+  import { slide } from 'svelte/transition'
 	import Buttons from '@components/Buttons.svelte'
-	import { slide } from 'svelte/transition';
-	import { quintOut } from 'svelte/easing';
-	import { flip } from 'svelte/animate';
+
 
   let searchTerm = "";
   let showDropdownBanplayer = false;
@@ -18,7 +17,7 @@
   let selectedBanplayer = localStorage.getItem("selectedBanplayer") === "true" || false;
   let selectedBringplayer = localStorage.getItem("selectedBringplayer") === "true" || false;
   let selectedClothing = localStorage.getItem("selectedClothing") === "true" || false;
-  let selectedNoclip = localStorage.getItem("selectedNoclip") === "true" || false;
+  
   let selectedInvisible = localStorage.getItem("selectedInvisible") === "true" || false;
   let selectedKickplayer = localStorage.getItem("selectedKickplayer") === "true" || false;
   let selectedTeleportCoords = localStorage.getItem("selectedTeleportCoords") === "true" || false;
@@ -66,11 +65,7 @@
     event.stopPropagation();
     localStorage.setItem("selectedClothing", selectedClothing);
   }
-  function toggleSelectionNoclip(event) {
-    selectedNoclip = !selectedNoclip;
-    event.stopPropagation();
-    localStorage.setItem("selectedNoclip", selectedNoclip);
-  }
+
   function toggleSelectionInvisible(event) {
     selectedInvisible = !selectedInvisible;
     event.stopPropagation();
@@ -93,8 +88,7 @@
     localStorage.setItem("selectedThemes", selectedThemes);
   }
 
-  function toggleAdmincar() { fetchNui("toggleAdmincar");}
-  function toggleNoclip() { fetchNui("ToggleNoClip"); }
+
   function toggleInvis() { fetchNui("ToggleInvis"); }
   function toggleClothing() {
     fetchNui("ToggleClothing");
@@ -134,19 +128,19 @@ function banPlayer() {
 
     
 <div class="menu">
-    <div class="button-container">
-      <button class="button-all" on:click={() => {showFavorites = false}}>All</button>
-      <button class="button-fav" on:click={() => {showFavorites = true}}>Favorites</button>
-      </div>      
-      <div class="search">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input class="search-input" placeholder="Search.." bind:value={searchTerm}>
-      </div>
-      <ul class="menu-ul">
-
-      {#if (searchTerm === '' || 'Admin Car'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedAdmincar)}
-        <Buttons />
-      {/if}
+  <div class="button-container">
+    <button class="button-all" on:click={() => {showFavorites = false}}>All</button>
+    <button class="button-fav" on:click={() => {showFavorites = true}}>Favorites</button>
+  </div>      
+  <div class="search">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input class="search-input" placeholder="Search.." bind:value={searchTerm}>
+  </div>
+  <div class="buttons-container">
+    
+    <Buttons buttonText={'Noclip'} fetchFunction={'ToggleNoClip'} id="noclip"/>
+    <Buttons buttonText={'Admin'} fetchFunction={'ToggleAdmin'} id="admin"/>
+    <Buttons buttonText={'Kickall'} fetchFunction={'ToggleKickall'} id="kickall"/>
     
         {#if (searchTerm === '' || 'Ban Player'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedBanplayer)}
         <button class="menu-button" on:click={toggleDropdownBanplayer}>
@@ -182,60 +176,6 @@ function banPlayer() {
         {/if}
       {/if}
 
-        {#if (searchTerm === '' || 'Clothing Menu'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedClothing)}
-        <button class="menu-button" on:click={toggleClothing}>
-          <i class={`far fa-star ${selectedClothing ? 'fas' : 'far'}`} on:click={toggleSelectionClothing} style="margin-right: 10px; color: {selectedClothing ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Clothing Menu'} 
-        </button>
-      {/if}
-
-      {#if (searchTerm === '' || 'Customs'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
-        <button class="menu-button" on:click={toggleNoclip}>
-          <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Customs'} 
-        </button>
-      {/if}
-
-      {#if (searchTerm === '' || 'Change Weather'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
-        <button class="menu-button" on:click={toggleNoclip}>
-          <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Change Weather'} 
-        </button>
-      {/if}
-
-      {#if (searchTerm === '' || 'Fix Vehicle'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
-        <button class="menu-button" on:click={toggleNoclip}>
-          <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Fix Vehicle'} 
-        </button>
-      {/if}
-
-      {#if (searchTerm === '' || 'God'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
-        <button class="menu-button" on:click={toggleNoclip}>
-          <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'God'} 
-        </button>
-      {/if}
-
-      {#if (searchTerm === '' || 'Give Cash'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
-        <button class="menu-button" on:click={toggleNoclip}>
-          <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Give Cash'} 
-        </button>
-      {/if}
-
-      {#if (searchTerm === '' || 'Give Item'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
-        <button class="menu-button" on:click={toggleNoclip}>
-          <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Give Item'} 
-        </button>
-      {/if}
-
-      {#if (searchTerm === '' || 'Give License'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
-        <button class="menu-button" on:click={toggleNoclip}>
-          <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Give License'} 
-        </button>
-      {/if}
-
-      {#if (searchTerm === '' || 'Invisible'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedInvisible)}
-        <button class="menu-button" on:click={toggleInvis}>
-          <i class={`far fa-star ${selectedInvisible ? 'fas' : 'far'}`} on:click={toggleSelectionInvisible} style="margin-right: 10px; color: {selectedInvisible ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Invisible'} 
-        </button>
-      {/if}
-
       {#if (searchTerm === '' || 'Kick'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedKickplayer)}
       <button class="menu-button" on:click={toggleDropdownKickplayer}>
         <i class={`far fa-star ${selectedKickplayer ? 'fas' : 'far'}`} on:click={toggleSelectionKickplayer} style="margin-right: 10px; color: {selectedKickplayer ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Kick'} 
@@ -253,36 +193,6 @@ function banPlayer() {
       {/if}
     {/if}
 
-      {#if (searchTerm === '' || 'Noclip'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
-        <button class="menu-button" on:click={toggleNoclip}>
-          <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Noclip'} 
-        </button>
-      {/if}
-
-      {#if (searchTerm === '' || 'Revive'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
-        <button class="menu-button" on:click={toggleNoclip}>
-          <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Revive'} 
-        </button>
-      {/if}
-
-      {#if (searchTerm === '' || 'Revive in Radius'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
-        <button class="menu-button" on:click={toggleNoclip}>
-          <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Revive in Radius'} 
-        </button>
-      {/if}
-
-      {#if (searchTerm === '' || 'Spawn Car'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
-        <button class="menu-button" on:click={toggleNoclip}>
-          <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Spawn Car'} 
-        </button>
-      {/if}
-
-      {#if (searchTerm === '' || 'Teleport'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
-        <button class="menu-button" on:click={toggleNoclip}>
-          <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Teleport'} 
-        </button>
-      {/if}
-
       {#if (searchTerm === '' || 'Teleport Coords'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedTeleportCoords)}
       <button class="menu-button" on:click={toggleDropdownTeleportCoords}>
         <i class={`far fa-star ${selectedTeleportCoords ? 'fas' : 'far'}`} on:click={toggleSelectionTeleportCoords} style="margin-right: 10px; color: {selectedTeleportCoords ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Teleport Coords'} 
@@ -299,20 +209,8 @@ function banPlayer() {
       {/if}
     {/if}
 
-      {#if (searchTerm === '' || 'Teleport Marker'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
-        <button class="menu-button" on:click={toggleNoclip}>
-          <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Teleport Marker'} 
-        </button>
-      {/if}
-
-      {#if (searchTerm === '' || 'Unban'.toLowerCase().includes(searchTerm)) && (!showFavorites || selectedNoclip)}
-        <button class="menu-button" on:click={toggleNoclip}>
-          <i class={`far fa-star ${selectedNoclip ? 'fas' : 'far'}`} on:click={toggleSelectionNoclip} style="margin-right: 10px; color: {selectedNoclip ? 'var(--starcolor)' : 'var(--textcolor)'}"></i> {'Unban'} 
-        </button>
-      {/if}
-
-    </ul>
   </div>
+</div>
 
 <style>
 
@@ -339,7 +237,7 @@ function banPlayer() {
   overflow: hidden;
 }
 
-.menu-ul {
+.buttons-container {
   height: 87%;
   overflow-y: scroll;
   padding: 1px;
