@@ -276,7 +276,7 @@ RegisterNetEvent('qb-admin:client:ToggleNoClip', function()
 end)
 
 RegisterNUICallback('ToggleNoClip', function(_, cb)
-    cb({})
+
     ToggleNoClip(not IsNoClipping)
 end)
 

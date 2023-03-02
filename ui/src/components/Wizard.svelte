@@ -1,103 +1,10 @@
 <script lang="ts">
   import '../main.css';
   import { fetchNui } from '@utils/fetchNui'
-  import { slide } from 'svelte/transition'
 	import Buttons from '@components/Buttons.svelte'
   import ButtonsDropdown  from '@components/ButtonsDropdown.svelte'
 
-
   let searchTerm = "";
-  let showDropdownBanplayer = false;
-  let showDropdownBringplayer = false;
-  let showDropdownKickplayer = false;
-  let showDropdownTeleportCoords = false;
-  let showThemesDropdown = false;
-
-  let selectedAdmincar = localStorage.getItem("selectedAdmincar") === "true" || undefined;
-
-  let selectedBanplayer = localStorage.getItem("selectedBanplayer") === "true" || false;
-  let selectedBringplayer = localStorage.getItem("selectedBringplayer") === "true" || false;
-  let selectedClothing = localStorage.getItem("selectedClothing") === "true" || false;
-  
-  let selectedInvisible = localStorage.getItem("selectedInvisible") === "true" || false;
-  let selectedKickplayer = localStorage.getItem("selectedKickplayer") === "true" || false;
-  let selectedTeleportCoords = localStorage.getItem("selectedTeleportCoords") === "true" || false;
-
-
-  function setSearchTerm(event) {
-    searchTerm = event.target.value.toLowerCase();
-  }
-
-  function toggleDropdownBanplayer() {
-    showDropdownBanplayer = !showDropdownBanplayer;
-  }
-
-  function toggleDropdownKickplayer() {
-    showDropdownKickplayer = !showDropdownKickplayer;
-  }
-
-  function toggleDropdownBringplayer() {
-    showDropdownBringplayer = !showDropdownBringplayer;
-  }
-
-  function toggleDropdownTeleportCoords() {
-    showDropdownTeleportCoords = !showDropdownTeleportCoords;
-  }
-
-  function toggleThemesDropdown() {
-    showThemesDropdown = !showThemesDropdown;
-  }
-
-
-  function toggleSelectionBanplayer(event) {
-    selectedBanplayer = !selectedBanplayer;
-    event.stopPropagation();
-    localStorage.setItem("selectedBanplayer", selectedBanplayer);
-  }
-
-  function toggleSelectionBringplayer(event) {
-    selectedBringplayer = !selectedBringplayer;
-    event.stopPropagation();
-    localStorage.setItem("selectedBringplayer", selectedBringplayer);
-  }
-
-  function toggleSelectionClothing(event) {
-    selectedClothing = !selectedClothing;
-    event.stopPropagation();
-    localStorage.setItem("selectedClothing", selectedClothing);
-  }
-
-  function toggleSelectionInvisible(event) {
-    selectedInvisible = !selectedInvisible;
-    event.stopPropagation();
-    localStorage.setItem("selectedInvisible", selectedInvisible);
-  }
-  function toggleSelectionKickplayer(event) {
-    selectedKickplayer = !selectedKickplayer;
-    event.stopPropagation();
-    localStorage.setItem("selectedKickplayer", selectedKickplayer);
-  }
-  function toggleSelectionTeleportCoords(event) {
-    selectedTeleportCoords = !selectedTeleportCoords;
-    event.stopPropagation();
-    localStorage.setItem("selectedTeleportCoords", selectedTeleportCoords);
-  }
-
-  function toggleSelectionThemes(event) {
-    selectedThemes = !selectedThemes;
-    event.stopPropagation();
-    localStorage.setItem("selectedThemes", selectedThemes);
-  }
-
-
-  function toggleInvis() { fetchNui("ToggleInvis"); }
-  function toggleClothing() {
-    fetchNui("ToggleClothing");
-    visibility.set(false);
-    fetchNui("hideUI");
-  }
-
-
   let showAll = true;
   let showFavorites = false;
 
@@ -111,19 +18,7 @@
     showFavorites = true;
   }
 
-function banPlayer() {
-  const idInput = document.querySelector('input[placeholder="ID"]');
-  const reasonInput = document.querySelector('input[placeholder="Reason"]');
-  const timeInput = document.querySelector('input[placeholder="Length"]');
 
-  const player = idInput.value;
-  const reason = reasonInput.value;
-  const time = timeInput.value;
-
-  // Send the ban request to the server using fetchNui
-  fetchNui('banPlayer', { player, reason, time });
-  console.log(player, reason, time);
-}
 
 </script>
 
@@ -139,13 +34,16 @@ function banPlayer() {
   </div>
   <div class="buttons-container">
     
+    <!-- Normal Button -->
     <Buttons buttonText={'Noclip'} fetchFunction={'ToggleNoClip'} id="noclip"/>
     
-    <ButtonsDropdown buttonText={'Admincar'} fetchFunction={'ToggleAdmincar'} id="admincar">
+    <!-- Dropdown Button -->
+    <ButtonsDropdown buttonText={'Ban Player'} fetchFunction={'BanPlayer'} id="banplayer">
       <div class="dropdown-buttons-container">
-        <input class="dropdown-inputs" placeholder="Coords">
-       <button class="dropdown-buttons" on:click={() => console.log('Teleport button clicked')}>Teleport</button>
-
+        <input class="dropdown-inputs" placeholder="ID">
+        <input class="dropdown-inputs" placeholder="Reason">
+        <input class="dropdown-inputs" placeholder="Time">
+       <button class="dropdown-buttons">Ban Player</button>
       </div>
     </ButtonsDropdown>
 
@@ -154,19 +52,14 @@ function banPlayer() {
         <input class="dropdown-inputs" placeholder="Coords">
         <input class="dropdown-inputs" placeholder="Coords">
         <input class="dropdown-inputs" placeholder="Coords">
-       <button class="dropdown-buttons" on:click={() => console.log('Teleport button clicked')}>Teleport</button>
+       <button class="dropdown-buttons">Teleport</button>
       </div>
     </ButtonsDropdown>
 
-    <ButtonsDropdown buttonText={'Admincar'} fetchFunction={'ToggleAdmincar'} id="admincar">
+    <ButtonsDropdown buttonText={'Admincar'} fetchFunction={'ToggleAdmincar'} id="admincar" on:click={() => console.log('Teleport button clicked')} >
       <div class="dropdown-buttons-container">
         <input class="dropdown-inputs" placeholder="Coords">
         <input class="dropdown-inputs" placeholder="Coords">
-        <input class="dropdown-inputs" placeholder="Coords">
-        <input class="dropdown-inputs" placeholder="Coords">
-       <button class="dropdown-buttons" on:click={() => console.log('Teleport button clicked')}>Teleport</button>
-       <button class="dropdown-buttons" on:click={() => console.log('Teleport button clicked')}>Teleport</button>
-       <button class="dropdown-buttons" on:click={() => console.log('Teleport button clicked')}>Teleport</button>
        <button class="dropdown-buttons" on:click={() => console.log('Teleport button clicked')}>Teleport</button>
       </div>
     </ButtonsDropdown>
@@ -246,7 +139,7 @@ function banPlayer() {
   margin-bottom: 0.5rem;
   border-radius: 0.15rem; 
   border: none;
-  width: 70%;
+  width: 110%;
 }
 
 .dropdown-buttons {
@@ -257,7 +150,7 @@ function banPlayer() {
   padding: 0.5rem;
   margin-bottom: 0.5rem;
   border: none;
-  width: 30%;
+  width: 70%;
 }
 
 
