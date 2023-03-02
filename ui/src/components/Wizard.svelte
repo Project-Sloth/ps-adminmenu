@@ -24,15 +24,7 @@
     { id: "banplayer", text: "Ban Player", fetchFunction: "BanPlayer", favorite: false },
   ];
 
-  function getFilteredButtons() {
-    let filtered = buttons.filter(button => button.text.toLowerCase().includes(searchTerm.toLowerCase()));
 
-    if (showFavorites) {
-      filtered = filtered.filter(button => button.favorite);
-    }
-
-    return filtered;
-  }
 
 </script>
 
@@ -46,19 +38,19 @@
     <input class="search-input" placeholder="Search.." bind:value={searchTerm}>
   </div>
   <div class="buttons-container">
-    {#each getFilteredButtons() as button}
-      {#if button.id === 'banplayer'}
-        <ButtonsDropdown buttonText={button.text} fetchFunction={button.fetchFunction} id={button.id}>
-          <div class="dropdown-buttons-container">
-            <input class="dropdown-inputs" placeholder="ID">
-            <input class="dropdown-inputs" placeholder="Reason">
-            <input class="dropdown-inputs" placeholder="Time">
-            <button class="dropdown-buttons">Ban Player</button>
-          </div>
-        </ButtonsDropdown>
-      {:else}
-        <Buttons buttonText={button.text} fetchFunction={button.fetchFunction} id={button.id}/>
-      {/if}
+    {#each buttons as button}
+        {#if button.fetchFunction === "BanPlayer"}
+          <ButtonsDropdown buttonText={button.text} fetchFunction={button.fetchFunction} id={button.id}>
+            <div class="dropdown-buttons-container">
+              <input class="dropdown-inputs" placeholder="ID">
+              <input class="dropdown-inputs" placeholder="Reason">
+              <input class="dropdown-inputs" placeholder="Time">
+              <button class="dropdown-buttons">Ban Player</button>
+            </div>
+          </ButtonsDropdown>
+        {:else}
+          <Buttons buttonText={button.text} fetchFunction={button.fetchFunction} id={button.id}/>
+        {/if}
     {/each}
   </div>
 </div>
