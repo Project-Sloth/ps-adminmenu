@@ -26,14 +26,10 @@ RegisterNUICallback('ToggleInvis', function(_, cb)
     local ped = PlayerPedId()
     if not invisible then
         invisible = true
-
-        NetworkSetEntityInvisibleToNetwork(ped, true)
-        SetEntityAlpha(ped, 128, false)
+        SetEntityVisible(ped, false, 0)
     else
         invisible = false
-
-        NetworkSetEntityInvisibleToNetwork(ped, false)
-        SetEntityAlpha(ped, 255, false)
+        SetEntityVisible(ped, true, 0)
     end
 end)
 
