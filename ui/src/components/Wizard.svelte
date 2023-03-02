@@ -1,7 +1,7 @@
 <script lang="ts">
   import '../main.css';
   import { fetchNui } from '@utils/fetchNui'
-	import Buttons from '@components/Buttons.svelte'
+  import Buttons from '@components/Buttons.svelte'
   import ButtonsDropdown  from '@components/ButtonsDropdown.svelte'
 
   let searchTerm = "";
@@ -19,11 +19,22 @@
   }
 
   const buttons = [
-    { id: "noclip", text: "Noclip", fetchFunction: "ToggleNoClip", favorite: true },
-    { id: "invisible", text: "Invisible", fetchFunction: "ToggleInvis", favorite: false },
-    { id: "banplayer", text: "Ban Player", fetchFunction: "BanPlayer", favorite: false },
+    { id: "noclip", text: "Noclip", fetchFunction: "ToggleNoClip"},
+    { id: "invisible", text: "Invisible", fetchFunction: "ToggleInvis" },
+    { id: "banplayer", text: "Ban Player", fetchFunction: "BanPlayer"},
   ];
 
+  function banPlayer() {
+    const idInput = document.querySelector('#ban-player-id');
+    const reasonInput = document.querySelector('#ban-player-reason');
+    const timeInput = document.querySelector('#ban-player-time');
+    const player = idInput.value;
+    const reason = reasonInput.value;
+    const time = timeInput.value;
+    // Send the ban request to the server using fetchNui
+    fetchNui('banPlayer', { player, reason, time });
+    console.log(player, reason, time);
+  }
 
 
 </script>
@@ -39,18 +50,18 @@
   </div>
   <div class="buttons-container">
     {#each buttons as button}
-        {#if button.fetchFunction === "BanPlayer"}
-          <ButtonsDropdown buttonText={button.text} fetchFunction={button.fetchFunction} id={button.id}>
-            <div class="dropdown-buttons-container">
-              <input class="dropdown-inputs" placeholder="ID">
-              <input class="dropdown-inputs" placeholder="Reason">
-              <input class="dropdown-inputs" placeholder="Time">
-              <button class="dropdown-buttons">Ban Player</button>
-            </div>
-          </ButtonsDropdown>
-        {:else}
-          <Buttons buttonText={button.text} fetchFunction={button.fetchFunction} id={button.id}/>
-        {/if}
+      {#if button.fetchFunction === "BanPlayer"}
+        <ButtonsDropdown buttonText={button.text} fetchFunction={button.fetchFunction} id={button.id}>
+          <div class="dropdown-buttons-container">
+            <input class="dropdown-inputs" placeholder="ID" id="ban-player-id">
+            <input class="dropdown-inputs" placeholder="Reason" id="ban-player-reason">
+            <input class="dropdown-inputs" placeholder="Length" id="ban-player-time">
+            <button class="dropdown-buttons" on:click={banPlayer}>Ban Player</button>
+          </div>
+        </ButtonsDropdown>
+      {:else}
+        <Buttons buttonText={button.text} fetchFunction={button.fetchFunction} id={button.id}/>
+      {/if}
     {/each}
   </div>
 </div>
