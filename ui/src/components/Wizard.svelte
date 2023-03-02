@@ -46,25 +46,6 @@
        <button class="dropdown-buttons">Ban Player</button>
       </div>
     </ButtonsDropdown>
-
-    <ButtonsDropdown buttonText={'Admincar'} fetchFunction={'ToggleAdmincar'} id="admincar">
-      <div class="dropdown-buttons-container">
-        <input class="dropdown-inputs" placeholder="Coords">
-        <input class="dropdown-inputs" placeholder="Coords">
-        <input class="dropdown-inputs" placeholder="Coords">
-       <button class="dropdown-buttons">Teleport</button>
-      </div>
-    </ButtonsDropdown>
-
-    <ButtonsDropdown buttonText={'Admincar'} fetchFunction={'ToggleAdmincar'} id="admincar" on:click={() => console.log('Teleport button clicked')} >
-      <div class="dropdown-buttons-container">
-        <input class="dropdown-inputs" placeholder="Coords">
-        <input class="dropdown-inputs" placeholder="Coords">
-       <button class="dropdown-buttons" on:click={() => console.log('Teleport button clicked')}>Teleport</button>
-      </div>
-    </ButtonsDropdown>
-
-    
  
   </div>
 </div>
