@@ -80,6 +80,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: var(--textcolor);
   }
 
   .icon {
@@ -109,7 +110,6 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    margin-left: -4rem;
   }
 
 

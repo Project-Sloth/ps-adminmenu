@@ -20,8 +20,6 @@ end)
 -- Invisible
 local invisible = false
 
-local invisible = false
-
 RegisterNUICallback('ToggleInvis', function(_, cb)
     local ped = PlayerPedId()
     if not invisible then
