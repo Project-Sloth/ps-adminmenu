@@ -2,50 +2,59 @@
   import '../main.css';
   import { fetchNui } from '@utils/fetchNui'
   import { onMount } from 'svelte'
-  import Buttons from '@components/Buttons.svelte'
-  import ButtonsDropdown  from '@components/ButtonsDropdown.svelte'
   import { slide } from 'svelte/transition';
-
 
   let searchTerm = "";
   let showAll = true;
-  let showFavorites = false;
 
-  function toggleAll() {
-    showAll = true;
-    showFavorites = false;
+  function toggleAllFav(showFavorites) {
+    showAll = !showFavorites;
   }
 
-  function toggleFavorites() {
-    showAll = false;
-    showFavorites = true;
+  function toggleFavorite(index) {
+    buttons[index].favorite = !buttons[index].favorite;
   }
 
   const buttons = [
-    { id: "noclip", text: "Noclip", fetchFunction: "ToggleNoClip" },
-    { id: "invisible", text: "Invisible", fetchFunction: "ToggleInvis" },
+    { id: "noclip", text: "Noclip", fetchFunction: "ToggleNoClip", favorite: false },
+    { id: "invisible", text: "Invisible", fetchFunction: "ToggleInvis", favorite: false },
     {
       id: "banplayer",
       text: "Ban Player",
       dropdown: {
         items: [
           { type: "input", name: "playerId", label: "Player ID" },
-          { type: "input", name: "banReason", label: "Ban Reason" },
-          { type: "input", name: "banDuration", label: "Ban Duration" },
+          { type: "input", name: "banReason", label: "Reason" },
+          { type: "input", name: "banDuration", label: "Length" },
           { type: "button", name: "banButton", label: "Ban", action: "banPlayer" },
         ]
       },
-      showDropdown: false 
+      showDropdown: false,
+      favorite: false
+    },
+    {
+      id: "kickplayer",
+      text: "Kick Player",
+      dropdown: {
+        items: [
+          { type: "input", name: "playerId", label: "Player ID" },
+          { type: "input", name: "kickReason", label: "Reason" },
+          { type: "button", name: "kickButton", label: "Kick", action: "kickPlayer" },
+        ]
+      },
+      showDropdown: false,
+      favorite: false
     },
   ];
+
 
   function toggleDropdown(index) {
     buttons[index].showDropdown = !buttons[index].showDropdown;
   }
 
+
   onMount(() => {
     document.addEventListener('click', (event) => {
-      // Hide dropdowns when clicking outside of them
       buttons.forEach((button) => {
         if (button.showDropdown && !event.target.closest(`#dropdown-${button.id}`)) {
           button.showDropdown = false;
@@ -58,9 +67,6 @@
   if (!showAll && !button.favorite) {
     return false;
   }
-  if (!showFavorites && button.favorite) {
-    return false;
-  }
   if (searchTerm === "") {
     return true;
   } else {
@@ -69,12 +75,13 @@
 });
 
 
+
 </script>
 <div class="menu">
   <div class="button-container">
-    <button class="button-all" on:click={toggleAll}>All</button>
-    <button class="button-fav" on:click={toggleFavorites}>Favorites</button>
-  </div>      
+    <button class="button-all-fav" on:click={() => toggleAllFav(false)}>All</button>
+    <button class="button-all-fav" on:click={() => toggleAllFav(true)}>Favorites</button>
+  </div>    
   <div class="search">
     <i class="fa-solid fa-magnifying-glass"></i>
     <input class="search-input" placeholder="Search.." bind:value={searchTerm}>
@@ -84,6 +91,7 @@
     {#if button.dropdown}
       <div id={`dropdown-${button.id}`} class="dropdown">
         <button class="menu-button" on:click={() => toggleDropdown(i)}>
+          <i class="icon {button.favorite ? 'fas fa-star icon-selected' : 'far fa-star'}" on:click={() => toggleFavorite(i)}></i>
           {button.text}
           <i class="fas fa-angle-right dropdown-icon" style="transform: rotate({button.showDropdown ? 90 : 0}deg);"></i>
         </button>
@@ -101,14 +109,12 @@
       </div>
     {:else}
     <button class="menu-button" on:click={() => fetchNui(button.fetchFunction)}>
-      <i class="icon far fa-star"></i>
+      <i class="icon {button.favorite ? 'fas fa-star icon-selected' : 'far fa-star'}" on:click={() => toggleFavorite(i)}></i>
       {button.text}
     </button>
-    
     {/if}
   {/each}
   </div>
-  
 </div>
 
 <style>
@@ -142,7 +148,7 @@
   margin-top: 1rem;
 }
 
-.button-all {
+.button-all-fav {
   border: none;
   background-color: var(--color-2);
   color: var(--textcolor);
@@ -152,16 +158,6 @@
   vertical-align: middle;
 }
 
-.button-fav {
-  border: none;
-  background-color: var(--color-2);
-  color: var(--textcolor);
-  margin-left: 5px;
-  width: 75px;
-  height: 35px;
-  text-align: center;
-  vertical-align: middle;
-}
 
 .dropdown-buttons-container {
   display: flex;
@@ -193,46 +189,46 @@
   width: 70%;
 }
 
-.dropdown-toggle .fa-angle-right {
+.menu-button .fa-angle-right {
   transition: transform 0.3s ease;
 }
 
 .menu-button {
-    padding: 1rem;
-    width: 100%;
-    background-color: var(--color-3);
-    color: var(--textcolor);
-    font-family: 'Roboto', sans-serif;
-    margin-top: 0.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--textcolor);
-  }
+  padding: 1rem;
+  width: 100%;
+  background-color: var(--color-3);
+  color: var(--textcolor);
+  font-family: 'Roboto', sans-serif;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--textcolor);
+}
 
-  .icon {
-    margin-right: 1rem;
-    color: var(--textcolor);
-  }
+.icon {
+  margin-right: 1rem;
+  color: var(--textcolor);
+}
 
-  .icon-selected {
-    color: var(--starcolor);
-  }
+.icon-selected {
+  color: var(--starcolor);
+}
 
-  .dropdown-icon {
-    margin-left: auto;
-    margin-right: 1rem;
-  }
+.dropdown-icon {
+  margin-left: auto;
+  margin-right: 1rem;
+}
 
-  .dropdown {
-    background-color: var(--color-3);
-  }
+.dropdown {
+  background-color: var(--color-3);
+}
 
-  .dropdown-buttons-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-  }
+.dropdown-buttons-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
 
 
 .dropdown-inputs {
