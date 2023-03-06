@@ -16,17 +16,17 @@
   }
 
   const buttons = [
-    { id: "noclip", text: "Noclip", fetchFunction: "ToggleNoClip", favorite: false },
-    { id: "invisible", text: "Invisible", fetchFunction: "ToggleInvis", favorite: false },
+    { id: "noclip", label: "Noclip", fetchFunction: "ToggleNoClip", favorite: false },
+    { id: "invisible", label: "Invisible", fetchFunction: "ToggleInvis", favorite: false },
     {
       id: "banplayer",
-      text: "Ban Player",
+      label: "Ban Player",
       dropdown: {
         items: [
-          { type: "input", name: "playerId", label: "Player ID" },
-          { type: "input", name: "banReason", label: "Reason" },
-          { type: "input", name: "banDuration", label: "Length" },
-          { type: "button", name: "banButton", label: "Ban", action: "banPlayer" },
+          { type: "input", label: "Player ID", id: "playerId", inputType: "id" },
+          { type: "input", label: "Reason", id: "banReason" },
+          { type: "input", label: "Length", id: "banDuration", inputType: "length" },
+          { type: "button", label: "Ban", id: "banButton", action: "banPlayer" },
         ]
       },
       showDropdown: false,
@@ -34,18 +34,20 @@
     },
     {
       id: "kickplayer",
-      text: "Kick Player",
+      label: "Kick Player",
       dropdown: {
         items: [
-          { type: "input", name: "playerId", label: "Player ID" },
-          { type: "input", name: "kickReason", label: "Reason" },
-          { type: "button", name: "kickButton", label: "Kick", action: "kickPlayer" },
+          { type: "input", label: "Player ID", id: "playerId", inputType: "id" },
+          { type: "input", label: "Reason", id: "kickReason" },
+          { type: "button", label: "Kick", id: "kickButton", action: "kickPlayer" },
         ]
       },
       showDropdown: false,
       favorite: false
     },
   ];
+
+  const ids = ['1 - OK1ez Wilson', '2 - Dan Brown', '3 - OKie Davis', '4 - Daniel Wilson', '5 - William Davis'];
 
 
   function toggleDropdown(index) {
@@ -70,13 +72,13 @@
   if (searchTerm === "") {
     return true;
   } else {
-    return button.text.toLowerCase().includes(searchTerm.toLowerCase());
+    return button.label.toLowerCase().includes(searchTerm.toLowerCase());
   }
 });
 
-
-
 </script>
+
+
 <div class="menu">
   <div class="button-container">
     <button class="button-all-fav" on:click={() => toggleAllFav(false)}>All</button>
@@ -92,25 +94,34 @@
       <div id={`dropdown-${button.id}`} class="dropdown">
         <button class="menu-button" on:click={() => toggleDropdown(i)}>
           <i class="icon {button.favorite ? 'fas fa-star icon-selected' : 'far fa-star'}" on:click={() => toggleFavorite(i)}></i>
-          {button.text}
+          {button.label}
           <i class="fas fa-angle-right dropdown-icon" style="transform: rotate({button.showDropdown ? 90 : 0}deg);"></i>
         </button>
         {#if button.showDropdown}
           <div class="dropdown-buttons-container" transition:slide="{{duration: 300}}">
             {#each button.dropdown.items as item}
-              {#if item.type === "input"}
-                <input class="dropdown-inputs" placeholder={item.label} id={item.name}>
-              {:else if item.type === "button"}
-                <button class="dropdown-buttons" on:click={() => fetchNui(item.action)}>{item.label}</button>
-              {/if}
-            {/each}
+            {#if item.type === "input" && item.inputType === "id"}
+              <select class="dropdown-inputs" id={item.id}>
+                {#each ids as id}
+                  <option value={id}>{id}</option>
+                {/each}
+              </select>
+            {:else if item.type === "input" && item.inputType === "length"}
+                <input class="dropdown-inputs" type="date" placeholder={item.label} id={item.id}>
+            {:else if item.type === "input"}
+              <input class="dropdown-inputs" placeholder={item.label} id={item.id}>
+            {:else if item.type === "button"}
+              <button class="dropdown-buttons" on:click={() => fetchNui(item.action)}>{item.label}</button>
+            {/if}
+          {/each}
+          
           </div>
         {/if}
       </div>
     {:else}
     <button class="menu-button" on:click={() => fetchNui(button.fetchFunction)}>
       <i class="icon {button.favorite ? 'fas fa-star icon-selected' : 'far fa-star'}" on:click={() => toggleFavorite(i)}></i>
-      {button.text}
+      {button.label}
     </button>
     {/if}
   {/each}
@@ -201,7 +212,6 @@
   font-family: 'Roboto', sans-serif;
   margin-top: 0.5rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   color: var(--textcolor);
 }
@@ -229,7 +239,6 @@
   flex-wrap: wrap;
   justify-content: flex-start;
 }
-
 
 .dropdown-inputs {
   color: var(--textcolor);
