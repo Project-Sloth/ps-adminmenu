@@ -48,6 +48,7 @@
   ];
 
   const ids = ['1 - OK1ez Wilson', '2 - Dan Brown', '3 - OKie Davis', '4 - Daniel Wilson', '5 - William Davis'];
+  const lengths = ['10 Minutes', '30 Minutes', '1 Hour', '6 Hours', '12 Hours', '1 Day', '3 Day', '1 Week', 'Permanent'];
 
 
   function toggleDropdown(index) {
@@ -107,7 +108,11 @@
                 {/each}
               </select>
             {:else if item.type === "input" && item.inputType === "length"}
-                <input class="dropdown-inputs" type="date" placeholder={item.label} id={item.id}>
+            <select class="dropdown-inputs" id={item.length}>
+              {#each lengths as length}
+                <option value={length}>{length}</option>
+              {/each}
+            </select>
             {:else if item.type === "input"}
               <input class="dropdown-inputs" placeholder={item.label} id={item.id}>
             {:else if item.type === "button"}

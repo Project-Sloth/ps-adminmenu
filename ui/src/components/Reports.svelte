@@ -1,8 +1,5 @@
 <script lang="ts">
   import '../main.css';
-  import isMenuLarge from './Navbar.svelte';
-
-  function toggleMenu() { isMenuLarge = !isMenuLarge; }
 
 
   let messageText = '';
