@@ -47,14 +47,35 @@
     },
   ];
 
-  const ids = ['1 - OK1ez Wilson', '2 - Dan Brown', '3 - OKie Davis', '4 - Daniel Wilson', '5 - William Davis'];
-  const lengths = ['10 Minutes', '30 Minutes', '1 Hour', '6 Hours', '12 Hours', '1 Day', '3 Day', '1 Week', 'Permanent'];
+  function banPlayer() {
+    const idInput = document.querySelector('#ban-player-id');
+    const reasonInput = document.querySelector('#ban-player-reason');
+    const timeInput = document.querySelector('#ban-player-time');
+    const player = idInput.value;
+    const reason = reasonInput.value;
+    const time = timeInput.value;
+    // Send the ban request to the server using fetchNui
+    fetchNui('banPlayer', { player, reason, time });
+    console.log(player, reason, time);
+  }
 
+  const lengths = [
+    { label: "10 Minutes", sec: "600" },
+    { label: "30 Minutes", sec: "1800" },
+    { label: "1 Hour", sec: "3600" },
+    { label: "6 Hours", sec: "21600" },
+    { label: "12 Hours", sec: "43200" },
+    { label: "1 Day", sec: "86400" },
+    { label: "3 Days", sec: "259200" },
+    { label: "1 Week", sec: "604800" },
+    { label: "Permanent", sec: "315360000" },
+  ];
+
+  const ids = ['1 - OK1ez Wilson', '2 - Dan Brown', '3 - OKie Davis', '4 - Daniel Wilson', '5 - William Davis'];
 
   function toggleDropdown(index) {
     buttons[index].showDropdown = !buttons[index].showDropdown;
   }
-
 
   onMount(() => {
     document.addEventListener('click', (event) => {
@@ -76,6 +97,7 @@
     return button.label.toLowerCase().includes(searchTerm.toLowerCase());
   }
 });
+
 
 </script>
 
@@ -108,9 +130,9 @@
                 {/each}
               </select>
             {:else if item.type === "input" && item.inputType === "length"}
-            <select class="dropdown-inputs" id={item.length}>
+            <select class="dropdown-inputs" id={item.id} bind:value={item.sec}>
               {#each lengths as length}
-                <option value={length}>{length}</option>
+                <option value={length.sec}>{length.label}</option>
               {/each}
             </select>
             {:else if item.type === "input"}
@@ -119,7 +141,6 @@
               <button class="dropdown-buttons" on:click={() => fetchNui(item.action)}>{item.label}</button>
             {/if}
           {/each}
-          
           </div>
         {/if}
       </div>

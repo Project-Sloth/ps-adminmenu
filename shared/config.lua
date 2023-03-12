@@ -1,15 +1,17 @@
 Config = Config or {}
 
-Conifg.DebugMenu = true
 
 Config.Admin = {
     ["admincar"] = {
+        id = 'admincar',
+        title = 'Give Contact Details',
         type = "server", -- "client", "server", "function", "command"
         event = "ps-adminmenu:server:ReviveAll", -- Event
+        shouldClose = false, -- Should menu closed when clicked?
         perms = {"god", "admin", "mod"}, -- Permissions 
     },
     ["banplayer"] = {
-        label = "Ban Player"
+        label = "Ban Player",
         type = "server",
         event = "ps-adminmenu:server:ReviveAll",
         perms = {"god", "admin", "mod"}, 

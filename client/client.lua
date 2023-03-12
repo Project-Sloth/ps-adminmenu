@@ -31,8 +31,6 @@ RegisterNUICallback('ToggleInvis', function(_, cb)
     end
 end)
 
-
-
 -- Developer Mode
 RegisterNUICallback('ToggleDevMode', function(_, cb)
     cb({})
@@ -41,14 +39,13 @@ end)
 
 -- Ban Player
 RegisterNUICallback('banPlayer', function(data, cb)
+    print(tonumber(data.player))
     local player = tonumber(data.player)
     local reason = tostring(data.reason)
     local time = tonumber(data.time)
     TriggerServerEvent("ps-adminmenu:server:ban", player, reason, time)
-    -- Call the ban function and pass the ban details
 
     print(player, reason, time)
-    -- Return a response to the client
     cb('ok')
 end)
 
@@ -89,4 +86,3 @@ RegisterCommand("ps-players", function()
         
     end)
 end, false)
-
