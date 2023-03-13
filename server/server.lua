@@ -45,7 +45,6 @@ local function tablelength(table)
     return count
 end
 -- Ban Player
--- Load the oxmysql library
 
 RegisterNetEvent('ps-adminmenu:server:ban', function(player, reason, time)
     print(player, reason, time)
