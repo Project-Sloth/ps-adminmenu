@@ -78,11 +78,3 @@ AddEventHandler('onResourceStart', function(resource)
 end)
 
 
-RegisterCommand("ps-players", function()
-    QBCore.Functions.TriggerCallback('ps-adminmenu:getplayers', function(players)
-        for _, v in pairs(players) do
-            print("Player:", v)  
-        end
-        
-    end)
-end, false)
