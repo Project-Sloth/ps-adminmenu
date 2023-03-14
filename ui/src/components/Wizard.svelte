@@ -89,8 +89,9 @@
     fetchNui(btn.fetchFunction, inputs);
   }
 
-  $: filteredButtons = buttons.filter(button => button.text.toLowerCase().includes(searchTerm.toLowerCase()));
-
+  $: filteredButtons = buttons
+  .filter(button => button.text.toLowerCase().includes(searchTerm.toLowerCase()))
+  .sort((a, b) => a.text.localeCompare(b.text));
 
 </script>
 
