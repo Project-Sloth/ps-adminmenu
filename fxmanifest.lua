@@ -7,7 +7,6 @@ version '1.0.0'
 
 lua54 'yes'
 
-
 ui_page 'html/index.html'
 -- ui_page 'http://localhost:3000/' --for dev
 
