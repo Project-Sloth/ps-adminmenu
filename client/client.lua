@@ -38,15 +38,14 @@ RegisterNUICallback('ToggleDevMode', function(_, cb)
 end)
 
 -- Ban Player
-RegisterNUICallback('banPlayer', function(data, cb)
-    print(tonumber(data.player))
-    local player = tonumber(data.player)
-    local reason = tostring(data.reason)
-    local time = tonumber(data.time)
-    TriggerServerEvent("ps-adminmenu:server:ban", player, reason, time)
-
+RegisterNUICallback('BanPlayer', function(inputs, cb)
+    print(json.encode(inputs))
+    local player = tonumber(inputs.player)
+    local reason = tostring(inputs.reason)
+    local time = tonumber(inputs.time)
     print(player, reason, time)
-    cb('ok')
+    TriggerServerEvent("ps-adminmenu:server:ban", player, reason, time)
+    print(player, reason, time)
 end)
 
 -- Gives Clothing Menu
