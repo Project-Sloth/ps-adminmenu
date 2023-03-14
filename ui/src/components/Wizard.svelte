@@ -5,31 +5,21 @@
   import ButtonsDropdown from '@components/ButtonsDropdown.svelte'
 
   let searchTerm = "";
-  let showAll = true;
-  let showFavorites = false;
+
 
   function toggleAll() {
-    showAll = true;
-    showFavorites = false;
+
   }
 
   function toggleFavorites() {
-    showAll = false;
-    showFavorites = true;
+
   }
 
   const buttons = [
     { 
-      id: "noclip", 
-      text: "Noclip", 
+      id: "admincar", 
+      text: "Admin car", 
       fetchFunction: "ToggleNoClip", 
-      inputs: [],
-      buttons: [] 
-    },
-    { 
-      id: "invisible", 
-      text: "Invisible", 
-      fetchFunction: "ToggleInvis", 
       inputs: [],
       buttons: [] 
     },
@@ -37,7 +27,7 @@
       id: "banplayer", 
       text: "Ban Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "text" },
+        { id: "player", placeholder: "ID", inputType: "id" },
         { id: "reason", placeholder: "Reason", inputType: "text" },
         { id: "time", placeholder: "Length", inputType: "length" }
       ],
@@ -50,10 +40,138 @@
       ] 
     },
     { 
+      id: "bringplayer", 
+      text: "Bring Player", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+      ],
+      buttons: [
+        { 
+          id: "bring", 
+          placeholder: "Bring",
+          fetchFunction: "BringPlayer",
+        },
+      ] 
+    },
+    { 
+      id: "changeweather", 
+      text: "Change Weather", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+      ],
+      buttons: [
+        { 
+          id: "bring", 
+          placeholder: "Change",
+          fetchFunction: "BringPlayer",
+        },
+      ] 
+    },
+    { 
+      id: "clearinventory", 
+      text: "Clear Inventory", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+      ],
+      buttons: [
+        { 
+          id: "clearinv", 
+          placeholder: "Clear Inv",
+          fetchFunction: "ClearInv",
+        },
+      ] 
+    },
+    { 
+      id: "clothingmenu", 
+      text: "Clothing Menu", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+      ],
+      buttons: [
+        { 
+          id: "giveclothingmenu", 
+          placeholder: "Give Menu",
+          fetchFunction: "GiveClothingMenu",
+        },
+      ] 
+    },
+    { 
+      id: "customs", 
+      text: "Customs", 
+      fetchFunction: "ToggleCustoms", 
+      inputs: [],
+      buttons: [] 
+    },
+    { 
+      id: "fixvehicle", 
+      text: "Fix Vehicle", 
+      fetchFunction: "FixVehicle", 
+      inputs: [],
+      buttons: [] 
+    },
+    { 
+      id: "freezeplayer", 
+      text: "Freeze Player", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+      ],
+      buttons: [
+        { 
+          id: "freezebutton", 
+          placeholder: "Freeze",
+          fetchFunction: "FreezePlayer",
+        },
+      ] 
+    },
+    { 
+      id: "givemoney", 
+      text: "Give Money", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "type", placeholder: "Type", inputType: "text" },
+        { id: "amount", placeholder: "Amount", inputType: "text" },
+      ],
+      buttons: [
+        { 
+          id: "givemoneybutton", 
+          placeholder: "Give",
+          fetchFunction: "GiveMoney",
+        },
+      ] 
+    },
+    { 
+      id: "givenuifocus", 
+      text: "Give Nui Focus", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+      ],
+      buttons: [
+        { 
+          id: "givenuifocus", 
+          placeholder: "Give",
+          fetchFunction: "GiveNuiFocus",
+        },
+      ] 
+    },
+    { 
+      id: "god", 
+      text: "God", 
+      fetchFunction: "ToggleGodMode", 
+      inputs: [],
+      buttons: [] 
+    },
+    { 
+      id: "invisible", 
+      text: "Invisible", 
+      fetchFunction: "ToggleInvis", 
+      inputs: [],
+      buttons: [] 
+    },
+    { 
       id: "kickplayer", 
       text: "Kick Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "text" },
+        { id: "player", placeholder: "ID", inputType: "id" },
         { id: "reason", placeholder: "Reason", inputType: "text" },
       ],
       buttons: [
@@ -61,6 +179,213 @@
           id: "kick", 
           placeholder: "Kick",
           fetchFunction: "KickPlayer", 
+        },
+      ] 
+    },
+    { 
+      id: "kickall", 
+      text: "Kick All", 
+      fetchFunction: "KickAll", 
+      inputs: [],
+      buttons: [] 
+    },
+    { 
+      id: "killplayer", 
+      text: "Kill Player", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+      ],
+      buttons: [
+        { 
+          id: "kill", 
+          placeholder: "Kill",
+          fetchFunction: "KillPlayer", 
+        },
+      ] 
+    },
+    { 
+      id: "muteplayer", 
+      text: "Mute Player", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+      ],
+      buttons: [
+        { 
+          id: "mute", 
+          placeholder: "Mute",
+          fetchFunction: "MutePlayer", 
+        },
+      ] 
+    },
+    { 
+      id: "noclip", 
+      text: "Noclip", 
+      fetchFunction: "ToggleNoClip", 
+      inputs: [],
+      buttons: [] 
+    },
+    { 
+      id: "openinventory", 
+      text: "Open Inventory", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+      ],
+      buttons: [
+        { 
+          id: "openinv", 
+          placeholder: "Open Inv",
+          fetchFunction: "OpenPlayerInv", 
+        },
+      ] 
+    },
+    { 
+      id: "reviveplayer", 
+      text: "Revive Player", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+      ],
+      buttons: [
+        { 
+          id: "revive", 
+          placeholder: "Revive",
+          fetchFunction: "RevivePlayer", 
+        },
+      ] 
+    },
+    { 
+      id: "reviveall", 
+      text: "Revive All", 
+      fetchFunction: "ReviveAll", 
+      inputs: [],
+      buttons: [] 
+    },
+    { 
+      id: "reviveRadius", 
+      text: "Revive Radius", 
+      fetchFunction: "ReviveRadius", 
+      inputs: [],
+      buttons: [] 
+    },
+    { 
+      id: "setplayerjob", 
+      text: "Set Job", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "job", placeholder: "Job", inputType: "text" },
+        { id: "grade", placeholder: "Grade", inputType: "text" },
+      ],
+      buttons: [
+        { 
+          id: "setjob", 
+          placeholder: "Set Job",
+          fetchFunction: "SetPlayerJob", 
+        },
+      ] 
+    },
+    { 
+      id: "spawncar", 
+      text: "Spawn Car", 
+      inputs: [
+        { id: "vehicle", placeholder: "Vehicle", inputType: "text" },
+      ],
+      buttons: [
+        { 
+          id: "spawnvehicle", 
+          placeholder: "Spawn",
+          fetchFunction: "SpawnVehicle", 
+        },
+      ] 
+    },
+    { 
+      id: "spectate", 
+      text: "Spectate Player", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+      ],
+      buttons: [
+        { 
+          id: "spectateplayer", 
+          placeholder: "Spectate",
+          fetchFunction: "SpectatePlayer", 
+        },
+      ] 
+    },
+    { 
+      id: "teleporttoplayer", 
+      text: "Teleport To Player", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+      ],
+      buttons: [
+        { 
+          id: "teleportplayer", 
+          placeholder: "Teleport",
+          fetchFunction: "TeleportToPLayer", 
+        },
+      ] 
+    },
+    { 
+      id: "teleporttocoords", 
+      text: "Teleport to Coords", 
+      inputs: [
+        { id: "coords", placeholder: "Coords", inputType: "text" },
+      ],
+      buttons: [
+        { 
+          id: "teleportcoords", 
+          placeholder: "Teleport",
+          fetchFunction: "TeleportToCoords", 
+        },
+      ] 
+    },
+    { 
+      id: "teleporttomarker", 
+      text: "Teleport To Marker", 
+      fetchFunction: "TeleportToMarker", 
+      inputs: [],
+      buttons: [] 
+    },
+    { 
+      id: "unbanplayer", 
+      text: "Unban Player", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "reason", placeholder: "Reason", inputType: "text" },
+      ],
+      buttons: [
+        { 
+          id: "unban", 
+          placeholder: "Unban",
+          fetchFunction: "UnbanPlayer",
+        },
+      ] 
+    },
+    { 
+      id: "uncuffplayer", 
+      text: "Uncuff Player", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+      ],
+      buttons: [
+        { 
+          id: "uncuff", 
+          placeholder: "Uncuff",
+          fetchFunction: "UncuffPlayer",
+        },
+      ] 
+    },
+    { 
+      id: "warnplayer", 
+      text: "Warn Player", 
+      inputs: [
+        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "reason", placeholder: "Reason", inputType: "text" },
+      ],
+      buttons: [
+        { 
+          id: "warn", 
+          placeholder: "Warn",
+          fetchFunction: "WarnPlayer",
         },
       ] 
     },
@@ -79,6 +404,13 @@
   ];
 
   const ids = ['1 - OK1ez Wilson', '2 - Dan Brown', '3 - OKie Davis', '4 - Daniel Wilson', '5 - William Davis'];
+
+  const moneytypes = [
+    { label: "Cash", type: "cash" },
+    { label: "Bank", type: "bank" },
+    { label: "Crypto", type: "crypto" },
+  ];
+
 
   function executeFetchFunction(btn, button) {
     const inputs = button.inputs.reduce((acc, input) => {
@@ -113,19 +445,25 @@
           <div class="dropdown-buttons-container">
             {#each button.inputs as input}
               {#if input.inputType === "id"}
+                <select class="dropdown-inputs" placeholder={input.placeholder} id={`${input.id}_${button.id}`} bind:value={input.sec}>
+                  {#each ids as id}
+                    <option value={id}>{id}</option>
+                  {/each}
+                </select>
+              {:else if input.inputType === "length"}
+                <select class="dropdown-inputs" placeholder={input.placeholder} id={`${input.id}_${button.id}`} bind:value={input.sec}>
+                  {#each lengths as length}
+                    <option value={length.sec}>{length.label}</option>
+                  {/each}
+                </select>
+              {:else if input.inputType === "length"}
               <select class="dropdown-inputs" placeholder={input.placeholder} id={`${input.id}_${button.id}`} bind:value={input.sec}>
-                {#each ids as id}
-                  <option value={id}>{id}</option>
+                {#each moneytypes as moneytype}
+                  <option value={moneytype.type}>{moneytype.label}</option>
                 {/each}
               </select>
               {:else if input.inputType === "text"}
-              <input class="dropdown-inputs" placeholder={input.placeholder} id={`${input.id}_${button.id}`}>
-              {:else if input.inputType === "length"}
-              <select class="dropdown-inputs" placeholder={input.placeholder} id={`${input.id}_${button.id}`} bind:value={input.sec}>
-                {#each lengths as length}
-                  <option value={length.sec}>{length.label}</option>
-                {/each}
-              </select>
+                <input class="dropdown-inputs" placeholder={input.placeholder} id={`${input.id}_${button.id}`}>
               {/if}
             {/each}
             {#each button.buttons as btn}
