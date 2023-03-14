@@ -80,7 +80,6 @@
 
   const ids = ['1 - OK1ez Wilson', '2 - Dan Brown', '3 - OKie Davis', '4 - Daniel Wilson', '5 - William Davis'];
 
-
   function executeFetchFunction(btn, button) {
     const inputs = button.inputs.reduce((acc, input) => {
       acc[input.id] = document.querySelector(`#${input.id}_${button.id}`).value;
@@ -89,6 +88,9 @@
     console.log(btn.fetchFunction, JSON.stringify(inputs))
     fetchNui(btn.fetchFunction, inputs);
   }
+
+  $: filteredButtons = buttons.filter(button => button.text.toLowerCase().includes(searchTerm.toLowerCase()));
+
 
 </script>
 
@@ -102,7 +104,7 @@
     <input class="search-input" placeholder="Search.." bind:value={searchTerm}>
   </div>
   <div class="buttons-container">
-    {#each buttons as button}
+    {#each filteredButtons as button}
       {#if button.inputs.length === 0}
         <Buttons buttonText={button.text} fetchFunction={button.fetchFunction} id={button.id}/>
       {:else}
