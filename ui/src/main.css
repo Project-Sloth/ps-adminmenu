@@ -8,27 +8,21 @@
   --starcolor: #02F1B5;
 }
 
-:export {
-  primaryColor: var(--primary-color);
-  secondaryColor: var(--secondary-color);
-}
-
-:root[data-theme="Light"] {
-  --color-1: #FFFFFF;
-  --color-2: #F0F0F0;
-  --color-3: #ECECEC;
-  --textcolor: #333333;
-  --starcolor: #FFD700;
-}
-
-:root[data-theme="Dark"] {
-  --color-1: #1D1D1D;
-  --color-2: #121212;
-  --color-3: #333333;
-  --textcolor: #EFEFEF;
+.light {
+  --color-1: #f3f3f3;
+  --color-2: #979797;
+  --color-3: #8a8a8a;
+  --textcolor: #c7c7c7;
   --starcolor: #02F1B5;
 }
 
+.dark {
+  --color-1: #222033;
+  --color-2: #131121;
+  --color-3: #222033;
+  --textcolor: #c7c7c7;
+  --starcolor: #02F1B5;
+}
 ::-webkit-scrollbar {
   width: 4px;
 }

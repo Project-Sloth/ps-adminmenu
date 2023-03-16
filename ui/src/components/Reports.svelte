@@ -97,11 +97,7 @@
     }
   }
   // Check if the menu is already toggled
-  if (isMenuLarge) {
-    console.log("Åpner")
-    // Toggle the menu
-    toggleMenu();
-  }
+
 }
 
   // Watch for changes in selectedUser and messages, and update userMessages accordingly
@@ -164,7 +160,7 @@
       {/each}
       
       </div>
-      {#if isMenuLarge}
+
       <div>
         <span class="admin-input-container2">REPORT: 52</span>
       </div>
@@ -192,7 +188,7 @@
         </div>
       {/if}
     {/if}
-    {/if}
+
     </div>
   </div>
 

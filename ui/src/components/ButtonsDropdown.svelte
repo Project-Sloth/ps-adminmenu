@@ -92,8 +92,8 @@
 
   .dropdown {
     background-color: var(--color-3);
-    padding-top: 1rem;
-    padding-left: 8.5rem;
+    padding-left: 9rem;
+    padding-bottom: 0.5rem;
     height: auto;
     transition: height 1.5s ease-in-out;
     overflow: hidden;
@@ -107,27 +107,27 @@
   }
 
 
-.dropdown-inputs {
-  color: var(--textcolor);
-  font-family: 'Roboto', sans-serif;
-  outline: none;
-  background-color: var(--color-2);
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-  border-radius: 0.15rem; 
-  border: none;
-  width: 80%;
-}
+  .dropdown-inputs {
+    color: var(--textcolor);
+    font-family: 'Roboto', sans-serif;
+    outline: none;
+    background-color: var(--color-2);
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.15rem; 
+    border: none;
+    width: 80%;
+  }
 
-.dropdown-buttons {
-  color: var(--textcolor);
-  font-family: 'Roboto', sans-serif;
-  outline: none;
-  background-color: var(--color-2);
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-  border: none;
-  width: 30%;
-}
+  .dropdown-buttons {
+    color: var(--textcolor);
+    font-family: 'Roboto', sans-serif;
+    outline: none;
+    background-color: var(--color-2);
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: none;
+    width: 30%;
+  }
   </style>
   

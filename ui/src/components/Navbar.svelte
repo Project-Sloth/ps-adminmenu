@@ -36,7 +36,7 @@
       <button on:click={showWizard} aria-label="Wizard">
         <i class="fas fa-hat-wizard"></i>
       </button>
-      <button on:click={showList} aria-label="List">
+      <!-- <button on:click={showList} aria-label="List">
         <i class="fas fa-list"></i>
       </button>
       <button on:click={showServer} aria-label="Server">
@@ -44,12 +44,12 @@
       </button>
       <button on:click={showReports} aria-label="Reports">
         <i class="fas fa-message"></i>
-      </button>
+      </button> -->
       <button on:click={toggleMenu}>
-        <i class="fas fa-angle-left" id="icon" style="margin-bottom: 36.6rem;transform: rotate({isMenuLarge ? 180 : 0}deg);"></i>
+        <i class="fas fa-angle-left arrow-icon" id="icon" style="transform: rotate({isMenuLarge ? 180 : 0}deg);"></i>
       </button>
-    </div>
-  
+    </div>  
+    
     {#if currentPage === 'wizard'}
       <Wizard />
     {:else if currentPage === 'list'}
@@ -72,15 +72,15 @@
   right: 2%;
   transform: translateY(-50%);
   width: 22%;
-  height: 650px;
+  height: 95rem;
   transition: all 0.5s ease-in-out;
   background-color: var(--color-1);
 }
 
 .container.open {
   right: 0%;
-  transform: translate(-50%, -50%);
-  width: 50%;
+  transform: translate(-12%, -50%);
+  width: 80%;
 }
 
 .sidebar {
@@ -99,6 +99,13 @@
   font-family: 'Roboto', sans-serif;
   border: none;
   cursor: pointer;
+}
+
+.arrow-icon {
+  position: absolute;
+  top: 0;
+  margin-top: 2rem;
+  left: 1.8rem;
 }
 
 </style>
