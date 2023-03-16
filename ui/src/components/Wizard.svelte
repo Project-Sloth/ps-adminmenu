@@ -19,7 +19,7 @@
     { 
       id: "admincar", // Id must be unique
       text: "Admin car", // Button Text
-      fetchFunction: "ToggleNoClip", // Name of the RegisterNUICallback 
+      fetchFunction: "getPlayers", // Name of the RegisterNUICallback 
       inputs: [], // keep empty if you dont want dropdown
       buttons: []  // keep empty if you dont want dropdown
     },
@@ -27,13 +27,13 @@
       id: "banplayer", // Id must be unique
       text: "Ban Player", // Button Text
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" }, // Placeholder is that input text, InputType is if you want a dropdown for the input, InputTypes: id, text, legth, moneytype
-        { id: "reason", placeholder: "Reason", inputType: "text" },
-        { id: "time", placeholder: "Length", inputType: "length" }
+        { id: "player", placeholder: "ID:", inputType: "id", fetchFunction: "getPlayers"  }, // Placeholder is that input text, InputType is if you want a dropdown for the input, InputTypes: id, text, legth, moneytype
+        { id: "reason", placeholder: "Reason:", inputType: "text" },
+        { id: "time", placeholder: "Length:", inputType: "length" }
       ],
       buttons: [
         { 
-          id: "ban", placeholder: "Ban", fetchFunction: "BanPlayer", // Placeholder is that button text, fetchFunction is the name of the RegisterNUICallback 
+          id: "ban", placeholder: "Confirm", fetchFunction: "BanPlayer", // Placeholder is that button text, fetchFunction is the name of the RegisterNUICallback 
         },
       ] 
     },
@@ -41,12 +41,12 @@
       id: "bringplayer", 
       text: "Bring Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
       ],
       buttons: [
         { 
           id: "bring", 
-          placeholder: "Bring",
+          placeholder: "Confirm",
           fetchFunction: "BringPlayer",
         },
       ] 
@@ -55,12 +55,12 @@
       id: "changeweather", 
       text: "Change Weather", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
       ],
       buttons: [
         { 
           id: "bring", 
-          placeholder: "Change",
+          placeholder: "Confirm",
           fetchFunction: "BringPlayer",
         },
       ] 
@@ -69,12 +69,12 @@
       id: "clearinventory", 
       text: "Clear Inventory", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
       ],
       buttons: [
         { 
           id: "clearinv", 
-          placeholder: "Clear Inv",
+          placeholder: "Confirm",
           fetchFunction: "ClearInv",
         },
       ] 
@@ -83,12 +83,12 @@
       id: "clothingmenu", 
       text: "Clothing Menu", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
       ],
       buttons: [
         { 
           id: "giveclothingmenu", 
-          placeholder: "Give Menu",
+          placeholder: "Confirm",
           fetchFunction: "GiveClothingMenu",
         },
       ] 
@@ -111,12 +111,12 @@
       id: "freezeplayer", 
       text: "Freeze Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
       ],
       buttons: [
         { 
           id: "freezebutton", 
-          placeholder: "Freeze",
+          placeholder: "Confirm",
           fetchFunction: "FreezePlayer",
         },
       ] 
@@ -125,14 +125,14 @@
       id: "givemoney", 
       text: "Give Money", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
-        { id: "type", placeholder: "Type", inputType: "money" },
-        { id: "amount", placeholder: "Amount", inputType: "text" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
+        { id: "type", placeholder: "Type:", inputType: "money" },
+        { id: "amount", placeholder: "Amount:", inputType: "text" },
       ],
       buttons: [
         { 
           id: "givemoneybutton", 
-          placeholder: "Give",
+          placeholder: "Confirm",
           fetchFunction: "GiveMoney",
         },
       ] 
@@ -141,12 +141,12 @@
       id: "givenuifocus", 
       text: "Give Nui Focus", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
       ],
       buttons: [
         { 
           id: "givenuifocus", 
-          placeholder: "Give",
+          placeholder: "Confirm",
           fetchFunction: "GiveNuiFocus",
         },
       ] 
@@ -169,13 +169,13 @@
       id: "kickplayer", 
       text: "Kick Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
-        { id: "reason", placeholder: "Reason", inputType: "text" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
+        { id: "reason", placeholder: "Reason:", inputType: "text" },
       ],
       buttons: [
         { 
           id: "kick", 
-          placeholder: "Kick",
+          placeholder: "Confirm",
           fetchFunction: "KickPlayer", 
         },
       ] 
@@ -191,12 +191,12 @@
       id: "killplayer", 
       text: "Kill Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
       ],
       buttons: [
         { 
           id: "kill", 
-          placeholder: "Kill",
+          placeholder: "Confirm",
           fetchFunction: "KillPlayer", 
         },
       ] 
@@ -205,12 +205,12 @@
       id: "muteplayer", 
       text: "Mute Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
       ],
       buttons: [
         { 
           id: "mute", 
-          placeholder: "Mute",
+          placeholder: "Confirm",
           fetchFunction: "MutePlayer", 
         },
       ] 
@@ -226,12 +226,12 @@
       id: "openinventory", 
       text: "Open Inventory", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
       ],
       buttons: [
         { 
           id: "openinv", 
-          placeholder: "Open Inv",
+          placeholder: "Confirm",
           fetchFunction: "OpenPlayerInv", 
         },
       ] 
@@ -240,12 +240,12 @@
       id: "reviveplayer", 
       text: "Revive Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
       ],
       buttons: [
         { 
           id: "revive", 
-          placeholder: "Revive",
+          placeholder: "Confirm",
           fetchFunction: "RevivePlayer", 
         },
       ] 
@@ -268,14 +268,14 @@
       id: "setplayerjob", 
       text: "Set Job", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
-        { id: "job", placeholder: "Job", inputType: "text" },
-        { id: "grade", placeholder: "Grade", inputType: "text" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
+        { id: "job", placeholder: "Job:", inputType: "text" },
+        { id: "grade", placeholder: "Grade:", inputType: "text" },
       ],
       buttons: [
         { 
           id: "setjob", 
-          placeholder: "Set Job",
+          placeholder: "Confirm",
           fetchFunction: "SetPlayerJob", 
         },
       ] 
@@ -289,7 +289,7 @@
       buttons: [
         { 
           id: "spawnvehicle", 
-          placeholder: "Spawn",
+          placeholder: "Confirm",
           fetchFunction: "SpawnVehicle", 
         },
       ] 
@@ -298,12 +298,12 @@
       id: "spectate", 
       text: "Spectate Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
       ],
       buttons: [
         { 
           id: "spectateplayer", 
-          placeholder: "Spectate",
+          placeholder: "Confirm",
           fetchFunction: "SpectatePlayer", 
         },
       ] 
@@ -312,12 +312,12 @@
       id: "teleporttoplayer", 
       text: "Teleport To Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
       ],
       buttons: [
         { 
           id: "teleportplayer", 
-          placeholder: "Teleport",
+          placeholder: "Confirm",
           fetchFunction: "TeleportToPLayer", 
         },
       ] 
@@ -326,12 +326,12 @@
       id: "teleporttocoords", 
       text: "Teleport to Coords", 
       inputs: [
-        { id: "coords", placeholder: "Coords", inputType: "text" },
+        { id: "coords", placeholder: "Coords:", inputType: "text" },
       ],
       buttons: [
         { 
           id: "teleportcoords", 
-          placeholder: "Teleport",
+          placeholder: "Confirm",
           fetchFunction: "TeleportToCoords", 
         },
       ] 
@@ -347,13 +347,13 @@
       id: "unbanplayer", 
       text: "Unban Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
-        { id: "reason", placeholder: "Reason", inputType: "text" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
+        { id: "reason", placeholder: "Reason:", inputType: "text" },
       ],
       buttons: [
         { 
           id: "unban", 
-          placeholder: "Unban",
+          placeholder: "Confirm",
           fetchFunction: "UnbanPlayer",
         },
       ] 
@@ -362,12 +362,12 @@
       id: "uncuffplayer", 
       text: "Uncuff Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
       ],
       buttons: [
         { 
           id: "uncuff", 
-          placeholder: "Uncuff",
+          placeholder: "Confirm",
           fetchFunction: "UncuffPlayer",
         },
       ] 
@@ -376,13 +376,13 @@
       id: "warnplayer", 
       text: "Warn Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
-        { id: "reason", placeholder: "Reason", inputType: "text" },
+        { id: "player", placeholder: "ID:", inputType: "id" },
+        { id: "reason", placeholder: "Reason:", inputType: "text" },
       ],
       buttons: [
         { 
           id: "warn", 
-          placeholder: "Warn",
+          placeholder: "Confirm",
           fetchFunction: "WarnPlayer",
         },
       ] 
@@ -524,7 +524,7 @@
 }
 
 .buttons-container {
-  height: 87%;
+  height: 89.8%;
   overflow-y: scroll;
   padding: 1px;
   margin-top: 1rem;
