@@ -77,3 +77,14 @@ AddEventHandler('onResourceStart', function(resource)
 end)
 
 
+RegisterNUICallback("getPlayers", function(data, cb)
+    QBCore.Functions.TriggerCallback('ps-adminmenu:server:GetPlayers', function(players)
+        local playerIds = {}
+        for _, playerId in ipairs(players) do
+            table.insert(playerIds, playerId)
+            print(playerId)
+        end
+        cb(playerIds)
+    end)
+end)
+

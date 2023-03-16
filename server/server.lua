@@ -109,6 +109,7 @@ RegisterNetEvent('ps-adminmenu:server:updateResource', function(optionalSrc)
 end)
  
 
-QBCore.Functions.CreateCallback('ps-adminmenu:getplayers', function(_, cb) -- WORKS
+QBCore.Functions.CreateCallback('ps-adminmenu:server:GetPlayers', function(_, cb)
+    local players = QBCore.Functions.GetPlayers()
     cb(players)
 end)
