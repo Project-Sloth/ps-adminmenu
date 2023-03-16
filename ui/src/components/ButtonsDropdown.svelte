@@ -33,7 +33,6 @@
 
   function toggleDropdown() {
     showDropdown = !showDropdown;
-    afterUpdate(updateDropdownHeight);
   }
 
   function handleClick(event: MouseEvent) {
@@ -46,12 +45,6 @@
     }
   }
 
-  function updateDropdownHeight() {
-    if (dropdown) {
-      dropdown.style.height = 'auto';
-      dropdown.style.height = `${dropdown.offsetHeight}px`;
-    }
-  }
 
 </script>
 
@@ -94,6 +87,7 @@
   .dropdown-icon {
     margin-left: auto;
     margin-right: 1rem;
+    transition: transform 0.3s ease;
   }
 
   .dropdown {
