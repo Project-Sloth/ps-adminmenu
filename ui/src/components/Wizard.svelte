@@ -17,25 +17,23 @@
 
   const buttons = [
     { 
-      id: "admincar", 
-      text: "Admin car", 
-      fetchFunction: "ToggleNoClip", 
-      inputs: [],
-      buttons: [] 
+      id: "admincar", // Id must be unique
+      text: "Admin car", // Button Text
+      fetchFunction: "ToggleNoClip", // Name of the RegisterNUICallback 
+      inputs: [], // keep empty if you dont want dropdown
+      buttons: []  // keep empty if you dont want dropdown
     },
     { 
-      id: "banplayer", 
-      text: "Ban Player", 
+      id: "banplayer", // Id must be unique
+      text: "Ban Player", // Button Text
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "id" }, // Placeholder is that input text, InputType is if you want a dropdown for the input, InputTypes: id, text, legth, moneytype
         { id: "reason", placeholder: "Reason", inputType: "text" },
         { id: "time", placeholder: "Length", inputType: "length" }
       ],
       buttons: [
         { 
-          id: "ban", 
-          placeholder: "Ban",
-          fetchFunction: "BanPlayer",
+          id: "ban", placeholder: "Ban", fetchFunction: "BanPlayer", // Placeholder is that button text, fetchFunction is the name of the RegisterNUICallback 
         },
       ] 
     },
@@ -128,7 +126,7 @@
       text: "Give Money", 
       inputs: [
         { id: "player", placeholder: "ID", inputType: "id" },
-        { id: "type", placeholder: "Type", inputType: "text" },
+        { id: "type", placeholder: "Type", inputType: "money" },
         { id: "amount", placeholder: "Amount", inputType: "text" },
       ],
       buttons: [
@@ -411,6 +409,24 @@
     { label: "Crypto", type: "crypto" },
   ];
 
+  const weathertypes = [
+    { label: "EXTRASUNNY", type: "cash" },
+    { label: "CLEAR", type: "bank" },
+    { label: "NEUTRAL", type: "crypto" },
+    { label: "SMOG", type: "crypto" },
+    { label: "FOGGY", type: "crypto" },
+    { label: "OVERCAST", type: "crypto" },
+    { label: "CLOUDS", type: "crypto" },
+    { label: "CLEARING", type: "crypto" },
+    { label: "RAIN", type: "crypto" },
+    { label: "THUNDER", type: "crypto" },
+    { label: "SNOW", type: "crypto" },
+    { label: "BLIZZARD", type: "crypto" },
+    { label: "SNOWLIGHT", type: "crypto" },
+    { label: "XMAS", type: "crypto" },
+    { label: "HALLOWEEN", type: "crypto" },
+  ];
+
 
   function executeFetchFunction(btn, button) {
     const inputs = button.inputs.reduce((acc, input) => {
@@ -444,6 +460,7 @@
         <ButtonsDropdown buttonText={button.text} fetchFunction={button.fetchFunction} id={button.id}>
           <div class="dropdown-buttons-container">
             {#each button.inputs as input}
+            <p class="dropdown-input-label">{input.placeholder}</p>
               {#if input.inputType === "id"}
                 <select class="dropdown-inputs" placeholder={input.placeholder} id={`${input.id}_${button.id}`} bind:value={input.sec}>
                   {#each ids as id}
@@ -456,10 +473,16 @@
                     <option value={length.sec}>{length.label}</option>
                   {/each}
                 </select>
-              {:else if input.inputType === "length"}
-              <select class="dropdown-inputs" placeholder={input.placeholder} id={`${input.id}_${button.id}`} bind:value={input.sec}>
+              {:else if input.inputType === "money"}
+              <select class="dropdown-inputs" placeholder={input.placeholder} id={`${input.id}_${button.id}`} bind:value={input.type}>
                 {#each moneytypes as moneytype}
                   <option value={moneytype.type}>{moneytype.label}</option>
+                {/each}
+              </select>
+              {:else if input.inputType === "weather"}
+              <select class="dropdown-inputs" placeholder={input.placeholder} id={`${input.id}_${button.id}`} bind:value={input.type}>
+                {#each weathertypes as weathertype}
+                  <option value={weathertype.type}>{weathertype.label}</option>
                 {/each}
               </select>
               {:else if input.inputType === "text"}
@@ -546,6 +569,11 @@
   border-radius: 0.15rem; 
   border: none;
   width: 110%;
+  height: 3.4rem;
+}
+
+.dropdown-input-label {
+  color: var(--textcolor);
 }
 
 .dropdown-buttons {
