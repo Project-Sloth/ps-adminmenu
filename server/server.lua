@@ -109,7 +109,12 @@ RegisterNetEvent('ps-adminmenu:server:updateResource', function(optionalSrc)
 end)
  
 
+
 QBCore.Functions.CreateCallback('ps-adminmenu:server:GetPlayers', function(_, cb)
     local players = QBCore.Functions.GetPlayers()
-    cb(players)
+    local playerIds = {}
+    for _, player in ipairs(players) do
+        table.insert(playerIds, player)
+    end
+    cb(playerIds)
 end)

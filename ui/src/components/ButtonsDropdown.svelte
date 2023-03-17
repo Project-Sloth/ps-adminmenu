@@ -14,14 +14,6 @@
   let showDropdown = false;
   let dropdown: HTMLElement;
 
-  onMount(() => {
-    document.addEventListener('click', handleClickOutside);
-  });
-
-  onDestroy(() => {
-    document.removeEventListener('click', handleClickOutside);
-  });
-
   function toggle(event: MouseEvent) {
     const target = event.target as HTMLElement;
     if (target === icon) {
@@ -39,11 +31,6 @@
     event.stopPropagation();
   }
 
-  function handleClickOutside(event: MouseEvent) {
-    if (event.target !== button && event.target.closest('.dropdown') !== dropdown) {
-      showDropdown = false;
-    }
-  }
 
 
 </script>
