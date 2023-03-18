@@ -47,7 +47,6 @@ end
 -- Ban Player
 
 RegisterNetEvent('ps-adminmenu:server:ban', function(player, reason, time)
-    print(player, reason, time)
     local src = source
     if QBCore.Functions.HasPermission(src, permissions['ban']) or IsPlayerAceAllowed(src, 'command') then
         time = tonumber(time)

@@ -8,7 +8,6 @@ local function toggleUI(bool)
 		data = bool
 	})
     QBCore.Functions.TriggerCallback('ps-adminmenu:server:GetPlayers', function(playerIds)
-        print(playerIds)
         SendNUIMessage({
             type = 'updatePlayers',
             playerIds = playerIds,
@@ -46,11 +45,9 @@ end)
 
 -- Ban Player
 RegisterNUICallback('BanPlayer', function(inputs, cb)
-    print(json.encode(inputs))
     local player = tonumber(inputs.player)
     local reason = tostring(inputs.reason)
     local time = tonumber(inputs.time)
-    print(player, reason, time)
     TriggerServerEvent("ps-adminmenu:server:ban", player, reason, time)
     print(player, reason, time)
 end)
@@ -63,7 +60,6 @@ end)
 
 -- Resources
 RegisterNUICallback('UpdateResourceList', function(data, cb)
-    print('Updating Resource List')
     TriggerServerEvent('ps-adminmenu:server:updateResource')
     cb(1)
 end)
