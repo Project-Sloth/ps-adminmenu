@@ -6,24 +6,27 @@
   import Buttons from '@components/Buttons.svelte'
   import ButtonsDropdown from '@components/ButtonsDropdown.svelte'
 
+  export let options = ["1 - Joe", "2 - Joe", "3 - Joe", "4 - Joe", "5 - Joe"];
+  let selectedOption = "";
+  let filteredOptions = options;
+  let isDropdownOpen = false;
 
-  let isInputFocused = false;
-  function handleInputFocus() {
-    isInputFocused = true;
+  function filterIds(event) {
+    const filterValue = event.target.value.toLowerCase();
+    filteredOptions = options.filter((option) => option.toLowerCase().includes(filterValue));
+    selectedOption = filteredOptions[0] || "";
+    isDropdownOpen = true;
   }
-  
-  function handleInputBlur() {
-    isInputFocused = false;
-  }
-  
 
-  
+  function toggleDropdown() {
+    isDropdownOpen = !isDropdownOpen;
+  } 
+
   let ids: Array<number> = [];
   const getPlayers = async () => {
     const playerIds = await fetchNui<Array<number>>('getPlayers');
     ids = playerIds;
   }; 
-
 
   onMount(() => {
     getPlayers();
@@ -36,6 +39,8 @@
     filteredIds = ids.filter(id => id.toString().includes(searchValue.toLowerCase()));
   }
 
+
+  
   let searchTerm = "";
 
   function toggleAll() {
@@ -489,17 +494,16 @@
             {#each button.inputs as input}
             <p class="dropdown-input-label">{input.placeholder}</p>
               {#if input.inputType === "id"}
-              <div class="dropdown-wrapper">
-                <input class="dropdown-inputs" type="text" placeholder={input.placeholder} id={`${input.id}_${button.id}`} on:change={handleChange} on:focus={handleInputFocus} on:blur={handleInputBlur}>
-                
-                {#if isInputFocused}
-                  <div class="inputs-dropdown">
-                    {#each filteredIds as id}
-                      <option value={id}>{id}</option>
+                <input class="dropdown-inputs" on:input={filterIds} on:click={toggleDropdown} value={selectedOption} />
+                {#if isDropdownOpen && filteredOptions.length > 0}
+                  <div class="options-container">
+                    {#each filteredOptions as option}
+                      <div class="option" on:click={() => { selectedOption = option; toggleDropdown(); }}>
+                        {option}
+                      </div>
                     {/each}
                   </div>
                 {/if}
-              </div>
               {:else if input.inputType === "length"}
                 <select class="dropdown-inputs" placeholder={input.placeholder} id={`${input.id}_${button.id}`} bind:value={input.sec}>
                   {#each lengths as length}
@@ -620,7 +624,7 @@
   width: 12rem;
 }
 
-.inputs-dropdown {
+.options-container {
   background-color: var(--color-2);
   color: var(--textcolor);
   width: 25rem;
