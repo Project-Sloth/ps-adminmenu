@@ -7,12 +7,12 @@
 <div class="settings">
   <div class="search">
     <i class="fa-solid fa-magnifying-glass"></i>
-    <input class="search-input" placeholder="Search..">
+    <input class="search-input" placeholder="Search Settings">
   </div>
   <ul class="settings-ul"> 
-    <div class="theme-selector">
-
-    </div>
+    <button class="settings-button">
+      <i class="fa-solid fa-signal-stream"></i>
+    </button>
   <ul>
 </div>
 
@@ -47,7 +47,7 @@
 }
 
 .settings-button {
-  padding: 0.8rem;
+  height: 4rem;
   width: 100%;
   background-color: var(--color-3);
   border: 1px solid var(--color-3);

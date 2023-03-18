@@ -6,22 +6,8 @@
   import Buttons from '@components/Buttons.svelte'
   import ButtonsDropdown from '@components/ButtonsDropdown.svelte'
 
-  export let options = ["1 - Joe", "2 - Joe", "3 - Joe", "4 - Joe", "5 - Joe"];
-  let selectedOption = "";
-  let filteredOptions = options;
-  let isDropdownOpen = false;
 
-  function filterIds(event) {
-    const filterValue = event.target.value.toLowerCase();
-    filteredOptions = options.filter((option) => option.toLowerCase().includes(filterValue));
-    selectedOption = filteredOptions[0] || "";
-    isDropdownOpen = true;
-  }
-
-  function toggleDropdown() {
-    isDropdownOpen = !isDropdownOpen;
-  } 
-
+/*   
   let ids: Array<number> = [];
   const getPlayers = async () => {
     const playerIds = await fetchNui<Array<number>>('getPlayers');
@@ -37,10 +23,9 @@
   function handleChange(event) {
     const searchValue = event.target.value;
     filteredIds = ids.filter(id => id.toString().includes(searchValue.toLowerCase()));
-  }
+  } 
+*/
 
-
-  
   let searchTerm = "";
 
   function toggleAll() {
@@ -61,7 +46,7 @@
       id: "banplayer", // Id must be unique
       text: "Ban Player", // Button Text
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" }, // Placeholder is that input text, InputType is if you want a dropdown for the input, InputTypes: id, text, legth, moneytype
+        { id: "player", placeholder: "ID", inputType: "text" }, // Placeholder is that input text, InputType is if you want a dropdown for the input, InputTypes: id, text, legth, moneytype
         { id: "reason", placeholder: "Reason", inputType: "text" },
         { id: "time", placeholder: "Length:", inputType: "length" }
       ],
@@ -75,7 +60,7 @@
       id: "bringplayer", 
       text: "Bring Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
       ],
       buttons: [
         { 
@@ -89,7 +74,7 @@
       id: "changeweather", 
       text: "Change Weather", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
       ],
       buttons: [
         { 
@@ -103,7 +88,7 @@
       id: "clearinventory", 
       text: "Clear Inventory", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
       ],
       buttons: [
         { 
@@ -117,7 +102,7 @@
       id: "clothingmenu", 
       text: "Clothing Menu", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
       ],
       buttons: [
         { 
@@ -145,7 +130,7 @@
       id: "freezeplayer", 
       text: "Freeze Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
       ],
       buttons: [
         { 
@@ -159,7 +144,7 @@
       id: "givemoney", 
       text: "Give Money", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
         { id: "type", placeholder: "Type", inputType: "money" },
         { id: "amount", placeholder: "Amount:", inputType: "text" },
       ],
@@ -175,7 +160,7 @@
       id: "givenuifocus", 
       text: "Give Nui Focus", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
       ],
       buttons: [
         { 
@@ -203,7 +188,7 @@
       id: "kickplayer", 
       text: "Kick Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
         { id: "reason", placeholder: "Reason", inputType: "text" },
       ],
       buttons: [
@@ -225,7 +210,7 @@
       id: "killplayer", 
       text: "Kill Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
       ],
       buttons: [
         { 
@@ -239,7 +224,7 @@
       id: "muteplayer", 
       text: "Mute Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
       ],
       buttons: [
         { 
@@ -260,7 +245,7 @@
       id: "openinventory", 
       text: "Open Inventory", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
       ],
       buttons: [
         { 
@@ -274,7 +259,7 @@
       id: "reviveplayer", 
       text: "Revive Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
       ],
       buttons: [
         { 
@@ -302,7 +287,7 @@
       id: "setplayerjob", 
       text: "Set Job", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
         { id: "job", placeholder: "Job", inputType: "text" },
         { id: "grade", placeholder: "Grade", inputType: "text" },
       ],
@@ -332,7 +317,7 @@
       id: "spectate", 
       text: "Spectate Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
       ],
       buttons: [
         { 
@@ -346,7 +331,7 @@
       id: "teleporttoplayer", 
       text: "Teleport To Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
       ],
       buttons: [
         { 
@@ -381,7 +366,7 @@
       id: "unbanplayer", 
       text: "Unban Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
         { id: "reason", placeholder: "Reason", inputType: "text" },
       ],
       buttons: [
@@ -396,7 +381,7 @@
       id: "uncuffplayer", 
       text: "Uncuff Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
       ],
       buttons: [
         { 
@@ -410,7 +395,7 @@
       id: "warnplayer", 
       text: "Warn Player", 
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "id" },
+        { id: "player", placeholder: "ID", inputType: "text" },
         { id: "reason", placeholder: "Reason", inputType: "text" },
       ],
       buttons: [
@@ -482,7 +467,7 @@
   </div>      
   <div class="search">
     <i class="fa-solid fa-magnifying-glass"></i>
-    <input class="search-input" placeholder="Search.." bind:value={searchTerm}>
+    <input class="search-input" placeholder="Search Actions" bind:value={searchTerm}>
   </div>
   <div class="buttons-container">
     {#each filteredButtons as button}
@@ -493,18 +478,7 @@
           <div class="dropdown-buttons-container">
             {#each button.inputs as input}
             <p class="dropdown-input-label">{input.placeholder}</p>
-              {#if input.inputType === "id"}
-                <input class="dropdown-inputs" on:input={filterIds} on:click={toggleDropdown} value={selectedOption} />
-                {#if isDropdownOpen && filteredOptions.length > 0}
-                  <div class="options-container">
-                    {#each filteredOptions as option}
-                      <div class="option" on:click={() => { selectedOption = option; toggleDropdown(); }}>
-                        {option}
-                      </div>
-                    {/each}
-                  </div>
-                {/if}
-              {:else if input.inputType === "length"}
+              {#if input.inputType === "length"}
                 <select class="dropdown-inputs" placeholder={input.placeholder} id={`${input.id}_${button.id}`} bind:value={input.sec}>
                   {#each lengths as length}
                     <option value={length.sec}>{length.label}</option>

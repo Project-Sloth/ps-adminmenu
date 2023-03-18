@@ -25,7 +25,6 @@ end)
 
 -- Invisible
 local invisible = false
-
 RegisterNUICallback('ToggleInvis', function(_, cb)
     local ped = PlayerPedId()
     if not invisible then
@@ -39,7 +38,6 @@ end)
 
 -- Developer Mode
 RegisterNUICallback('ToggleDevMode', function(_, cb)
-    cb({})
     TriggerEvent('qb-admin:client:ToggleDevmode')
 end)
 
@@ -54,9 +52,28 @@ end)
 
 -- Gives Clothing Menu
 RegisterNUICallback('ToggleClothing', function(_, cb)
-    cb({})
     TriggerEvent("illenium-appearance:client:openClothingShopMenu")
 end)
+
+
+-- Godmode
+local godmode = false
+RegisterNUICallback('ToggleGodMode', function(_, cb)
+    godmode = not godmode
+    if godmode then 
+        QBCore.Functions.Notify('God Mode Enabled', 'success', 5000)
+    else
+        QBCore.Functions.Notify('God Mode Disabled', 'error', 5000)
+    end
+    if godmode then
+        while godmode do
+            Wait(0)
+            SetPlayerInvincible(PlayerId(), true)
+        end
+        SetPlayerInvincible(PlayerId(), false)
+    end
+end)
+
 
 -- Resources
 RegisterNUICallback('UpdateResourceList', function(data, cb)
