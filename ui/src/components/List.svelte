@@ -1,5 +1,4 @@
 <script lang="ts">
-  import '../main.css';
   import { ReceiveNUI } from '@utils/ReceiveNUI';
   import { SendNUI } from '@utils/SendNUI';
   import { playerStore } from '../store/stores';

@@ -1,7 +1,5 @@
 <script lang="ts">
     import { fly } from 'svelte/transition';
-    import { quintOut } from 'svelte/easing';
-    import '../main.css';
     import { fetchNui } from '@utils/fetchNui'
     import Wizard from './Wizard.svelte';
     import List from './List.svelte';
@@ -12,8 +10,6 @@
     export let isMenuLarge = false;
     let isMenuHidden = false;
     let DevMode = false;
-    let DebugMode = false;
-    let showThemes = false;
     let currentPage = 'wizard';
   
     export function toggleMenu() { isMenuLarge = !isMenuLarge; }
@@ -24,25 +20,26 @@
     function showReports() { currentPage = 'reports'; }
     function toggleDevMode() { DevMode = !DevMode; fetchNui("ToggleDevMode"); }
   </script>
+
   
-  <div class="container {isMenuLarge ? 'open' : ''}" transition:fly="{{x: 200}}" >
+  <div class="container {isMenuLarge ? 'open' : ''}" transition:fly="{{}}" >
     <div class="sidebar">
-      <button on:click={showSettings} aria-label="Settings" style="margin-bottom: 0.7rem;">
+      <button on:click={showSettings}>
         <i class="fas fa-gear"></i>
       </button>
-      <button on:click={toggleDevMode} style="color: {DevMode ? 'var(--starcolor)' : 'var(--textcolor)'}" aria-label="Dev Mode">
+      <button on:click={toggleDevMode} style="color: {DevMode ? 'var(--starcolor)' : 'var(--textcolor)'}">
         <i class="fas fa-terminal"></i>
       </button>
-      <button on:click={showWizard} aria-label="Wizard">
+      <button on:click={showWizard}>
         <i class="fas fa-hat-wizard"></i>
       </button>
-      <!-- <button on:click={showList} aria-label="List">
+      <!-- <button on:click={showList}>
         <i class="fas fa-list"></i>
       </button>
-      <button on:click={showServer} aria-label="Server">
+      <button on:click={showServer}>
         <i class="fas fa-server"></i>
       </button>
-      <button on:click={showReports} aria-label="Reports">
+      <button on:click={showReports}>
         <i class="fas fa-message"></i>
       </button> -->
       <button on:click={toggleMenu}>
@@ -79,8 +76,8 @@
 
 .container.open {
   right: 0%;
-  transform: translate(-12%, -50%);
-  width: 80%;
+  transform: translate(-40%, -50%);
+  width: 55%;
 }
 
 .sidebar {

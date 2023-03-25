@@ -4,10 +4,8 @@
 	import DebugBrowser from '@providers/DebugBrowser.svelte'
 	import AlwaysListener from '@providers/AlwaysListener.svelte'
 	import Navbar from '@components/Navbar.svelte'
-	import UserReport from '@components/UserReport.svelte'
-	import './main.css';
 
-	$resName = 'ps-adminmenu' // Change this to your resource name (case sensitive)
+	$resName = 'ps-adminmenu'
 </script>
 
 <VisibilityProvider>

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import '../main.css';
+
     import { resourceStore } from '../store/stores';
     import { ReceiveNUI } from '@utils/ReceiveNUI'
     import { SendNUI } from '@utils/SendNUI';

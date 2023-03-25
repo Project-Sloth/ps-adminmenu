@@ -23,6 +23,22 @@ RegisterNUICallback("hideUI", function()
     toggleUI(false)
 end)
 
+--Report
+local function toggleReport(bool)
+	SetNuiFocus(bool, bool)
+	SendNUIMessage({
+		action = "setVisibleReport",
+		data = bool
+	})
+end
+RegisterCommand("report", function()
+	toggleReport(true)
+end, false)
+
+RegisterNUICallback("hideReport", function()
+    toggleReport(false)
+end)
+
 -- Invisible
 local invisible = false
 RegisterNUICallback('ToggleInvis', function(_, cb)
@@ -55,6 +71,12 @@ RegisterNUICallback('ToggleClothing', function(_, cb)
     TriggerEvent("illenium-appearance:client:openClothingShopMenu")
 end)
 
+-- Open Inventory
+RegisterNUICallback('OpenPlayerInv', function(inputs, cb)
+    local player = tonumber(inputs.player)
+    TriggerServerEvent("inventory:server:OpenInventory", "otherplayer", player)
+    print("opened inv",player)
+end)
 
 -- Godmode
 local godmode = false

@@ -1,12 +1,17 @@
 <script lang="ts">
-  import '../main.css';
   import { fetchNui } from '@utils/fetchNui'
   import { SendNUI } from '@utils/SendNUI'
   import { onMount } from 'svelte';
   import Buttons from '@components/Buttons.svelte'
   import ButtonsDropdown from '@components/ButtonsDropdown.svelte'
+	import { fly, slide } from 'svelte/transition';
+  import Dropdown from './InputDropdown.svelte';
 
+  const options1 = ['Option 1', 'Option 2', 'Option 3'];
+  const options2 = ['Option A', 'Option B', 'Option C'];
 
+  let selectedOption1 = '';
+  let selectedOption2 = '';
 /*   
   let ids: Array<number> = [];
   const getPlayers = async () => {
@@ -46,7 +51,7 @@
       id: "banplayer", // Id must be unique
       text: "Ban Player", // Button Text
       inputs: [
-        { id: "player", placeholder: "ID", inputType: "text" }, // Placeholder is that input text, InputType is if you want a dropdown for the input, InputTypes: id, text, legth, moneytype
+        { id: "player", placeholder: "ID", inputType: "id" }, // Placeholder is that input text, InputType is if you want a dropdown for the input, InputTypes: id, text, legth, moneytype
         { id: "reason", placeholder: "Reason", inputType: "text" },
         { id: "time", placeholder: "Length:", inputType: "length" }
       ],
@@ -408,6 +413,23 @@
     },
   ];
 
+  let options = ['1 - Cade Richmond', '2 - Filip Fleming', '3 - Ruairi Andrews', '4 - Hussain Walker', '5 - Dante Gregory', '6 - Kaine Clarke', '7 - Marion Franklin'];
+  let selectedOption = '';
+  let searchTermIds = '';
+
+  $: filteredIds = options
+  .filter(button => button.toLowerCase().includes(searchTermIds.toLowerCase()));
+
+
+  function selectOption(option) {
+    selectedOption = option;
+    searchTermIds = '';
+  }
+
+  function handleInput(event) {
+    searchTermIds = event.target.value;
+    selectedOption = '';
+  }
   const lengths = [
     { label: "10 Minutes", sec: "600" },
     { label: "30 Minutes", sec: "1800" },
@@ -461,7 +483,7 @@
 </script>
 
 <div class="menu">
-  <div class="button-container">
+  <div class="category-container">
     <button class="button-all" on:click={toggleAll}>All</button>
     <button class="button-fav" on:click={toggleFavorites}>Favorites</button>
   </div>      
@@ -490,6 +512,21 @@
                   <option value={moneytype.type}>{moneytype.label}</option>
                 {/each}
               </select>
+              {:else if input.inputType === "id"}
+              <input class="dropdown-inputs" placeholder={input.placeholder} id={`${input.id}_${button.id}`} value={selectedOption} on:input={handleInput} />
+              {#if searchTermIds.length > 0}
+              <div transition:slide="{{duration: 250}}">
+                {#if filteredIds.length > 0}
+                  <ul class="select-options">
+                    {#each filteredIds as option}
+                      <li on:click={() => selectOption(option)}>{option}</li>
+                    {/each}
+                  </ul>
+                {:else}
+                  <ul class="select-options"> <li>No Result.</li> </ul>
+                {/if}
+                </div>
+              {/if}
               {:else if input.inputType === "weather"}
               <select class="dropdown-inputs" placeholder={input.placeholder} id={`${input.id}_${button.id}`} bind:value={input.type}>
                 {#each weathertypes as weathertype}
@@ -512,9 +549,9 @@
 
 <style>
 .search {
-  border-bottom: 2px solid;
+  border-bottom: 0.2rem solid;
   color: var(--textcolor);
-  margin: 4px;
+  margin: 0.4rem;
 }
 
 .search-input {
@@ -529,38 +566,17 @@
 .menu {
   flex: 1;
   background-color: var(--color-2);
-  padding: 0.8rem;
-  height: 100%;
+  padding: 0.6rem;
   overflow: hidden;
 }
 
 .buttons-container {
-  height: 89.8%;
+  height: 89%;
   overflow-y: scroll;
   padding: 1px;
   margin-top: 1rem;
 }
 
-.button-all {
-  border: none;
-  background-color: var(--color-2);
-  color: var(--textcolor);
-  width: 40px;
-  height: 35px;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.button-fav {
-  border: none;
-  background-color: var(--color-2);
-  color: var(--textcolor);
-  margin-left: 5px;
-  width: 75px;
-  height: 35px;
-  text-align: center;
-  vertical-align: middle;
-}
 
 .dropdown-buttons-container {
   display: flex;
@@ -576,15 +592,26 @@
   outline: none;
   background-color: var(--color-2);
   padding: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
   border-radius: 0.15rem; 
   border: none;
   width: 25rem;
   height: 3.4rem;
 }
 
+.select-options {
+  color: var(--textcolor);
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--color-2);
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom-left-radius: 0.15rem;
+  border-bottom-right-radius: 0.15rem;
+}
+
 .dropdown-input-label {
   color: var(--textcolor);
+  font-family: 'Roboto', sans-serif;
 }
 
 .dropdown-buttons {
@@ -593,22 +620,26 @@
   outline: none;
   background-color: var(--color-2);
   padding: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
   border: none;
   width: 12rem;
 }
 
-.options-container {
-  background-color: var(--color-2);
+.category-container {
+  display: flex;
+  padding: 0.4rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
   color: var(--textcolor);
-  width: 25rem;
-  height: 10rem;
-  padding: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
-  margin-bottom: 0.5rem;
-  margin-top: -0.5rem;
-  overflow-y: scroll;
 }
+
+.category-container button{
+  padding: 0.85rem;
+}
+
+.category-container button:hover{
+  color: var(--starcolor);
+}
+
 
 </style>

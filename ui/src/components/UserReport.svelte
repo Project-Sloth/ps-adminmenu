@@ -1,6 +1,4 @@
 <script lang="ts">
-    import '../main.css';
-
   let messageText = '';
   let messages = [];
 
@@ -14,7 +12,7 @@
         text: messageText,
         sent: true,
         timestamp: { time: stringData },
-        messages: [] // add a messages property to the new message object
+        messages: [] 
       };
       messages = [
         ...messages,
@@ -29,16 +27,12 @@
       replyToMessage();
     }
   }
-  // Report System End
-  // Default state for the admin UI
+  
   let selectedUser = "you";
   let userMessages = [];
   let replyMessageText = '';
-  // Handler function for the user dropdown menu
+ 
   function handleUserSelect(event) {
-    if (!isMenuLarge) {
-      toggleMenu();
-    }
   selectedUser = event.target.value;
   if (selectedUser === 'you') {
     userMessages = messages;
@@ -61,7 +55,7 @@ function replyToMessage() {
         sent: true,
         timestamp: { time: stringData }
       };
-      // Create a new variable with function scope
+      
       let updatedMessages = [...messages];
       const userIndex = messages.findIndex(message => message.header === replyHeader);
       if (updatedMessages[userIndex]) {
@@ -70,12 +64,12 @@ function replyToMessage() {
           replyMessage
         ];
       }
-      // Update the messages array with the new variable
+      
       messages = updatedMessages;
       replyMessageText = '';
     }
   }
-  // Watch for changes in selectedUser and messages, and update userMessages accordingly
+  
   $: {
     if (selectedUser !== null) {
       const userIndex = messages.findIndex(message => message.header === selectedUser);
@@ -167,7 +161,7 @@ function replyToMessage() {
   width: 377px;
   height: 0rem;
   margin: 0 auto;
-  margin-top: 50px; /* Add margin-top property */
+  margin-top: 50px;
   margin-bottom: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
@@ -236,7 +230,7 @@ button[type="submit"] :hover {
 
 .user-message {
   display: flex;
-  justify-content: flex-start; /* changed from flex-end */
+  justify-content: flex-start; 
   margin: 10px;
 }
 
@@ -292,8 +286,9 @@ button[type="submit"] :hover {
 
 .user-user-message {
   display: flex;
-  justify-content: flex-start; /* changed from flex-end */
+  justify-content: flex-start; 
   margin: 10px;
+  width: 15rem;
 }
 
 .user-user-message .user-message-text {

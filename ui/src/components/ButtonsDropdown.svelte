@@ -31,8 +31,6 @@
     event.stopPropagation();
   }
 
-
-
 </script>
 
 <button on:click={toggle} bind:this={button}>

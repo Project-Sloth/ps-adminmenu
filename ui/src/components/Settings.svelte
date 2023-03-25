@@ -1,7 +1,5 @@
 <script>
 
-
-
 </script>
 
 <div class="settings">

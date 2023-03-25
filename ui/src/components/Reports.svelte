@@ -1,6 +1,4 @@
 <script lang="ts">
-  import '../main.css';
-
 
   let messageText = '';
   let messages = [];
@@ -15,16 +13,14 @@
         text: messageText,
         sent: true,
         timestamp: { time: stringData },
-        messages: [] // add a messages property to the new message object
+        messages: [] 
       };
 
-      // Update the messages array with the new message
       messages = [
         ...messages,
         newMessage
       ];
 
-      // Add the new message to the messages array of the selected user
       const selectedUserIndex = messages.findIndex(message => message.header === selectedUser);
       if (selectedUserIndex >= 0) {
         messages[selectedUserIndex].messages = [
@@ -33,7 +29,6 @@
         ];
       }
 
-      // Clear the message input field
       messageText = '';
     }
   }
@@ -57,7 +52,7 @@
         sent: true,
         timestamp: { time: stringData }
       };
-      // Create a new variable with function scope
+
       let updatedMessages = [...messages];
       const userIndex = messages.findIndex(message => message.header === replyHeader);
       if (updatedMessages[userIndex]) {
@@ -66,14 +61,12 @@
           replyMessage
         ];
       }
-      
-      // Update the messages array with the new variable
+
       messages = updatedMessages;
       replyMessageText = '';
     }
   }
 
-  // Default state for the admin UI
   let selectedUser = null;
   let userMessages = [];
   let replyMessageText = '';
@@ -87,7 +80,7 @@
     const userIndex = messages.findIndex(message => message.header === selectedUser);
     if (messages[userIndex]) {
       userMessages = [messages[userIndex], ...messages[userIndex].messages];
-      // Check for and include any admin replies to the selected user's messages
+
       for (let i = 0; i < userMessages.length; i++) {
         if (userMessages[i].header !== 'You' && userMessages[i].header !== selectedUser) {
           userMessages.splice(i, 1);
@@ -96,11 +89,9 @@
       }
     }
   }
-  // Check if the menu is already toggled
 
 }
 
-  // Watch for changes in selectedUser and messages, and update userMessages accordingly
   $: {
   if (selectedUser !== null) {
     const userIndex = messages.findIndex(message => message.header === selectedUser);
@@ -111,9 +102,6 @@
     userMessages = [];
   }
 }
-
-
-
   let User = true;
 </script>
 
