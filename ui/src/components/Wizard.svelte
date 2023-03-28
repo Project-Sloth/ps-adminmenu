@@ -12,7 +12,7 @@
 
   let selectedOption1 = '';
   let selectedOption2 = '';
-/*   
+
   let ids: Array<number> = [];
   const getPlayers = async () => {
     const playerIds = await fetchNui<Array<number>>('getPlayers');
@@ -29,7 +29,24 @@
     const searchValue = event.target.value;
     filteredIds = ids.filter(id => id.toString().includes(searchValue.toLowerCase()));
   } 
-*/
+
+  let options = ['1 - Cade Richmond', '2 - Filip Fleming', '3 - Ruairi Andrews', '4 - Hussain Walker', '5 - Dante Gregory', '6 - Kaine Clarke', '7 - Marion Franklin'];
+  let selectedOption = '';
+  let searchTermIds = '';
+
+  $: filteredIds = ids
+  .filter(button => button);
+
+
+  function selectOption(option) {
+    selectedOption = option;
+    searchTermIds = '';
+  }
+
+  function handleInput(event) {
+    searchTermIds = event.target.value;
+    selectedOption = '';
+  }
 
   let searchTerm = "";
 
@@ -413,23 +430,6 @@
     },
   ];
 
-  let options = ['1 - Cade Richmond', '2 - Filip Fleming', '3 - Ruairi Andrews', '4 - Hussain Walker', '5 - Dante Gregory', '6 - Kaine Clarke', '7 - Marion Franklin'];
-  let selectedOption = '';
-  let searchTermIds = '';
-
-  $: filteredIds = options
-  .filter(button => button.toLowerCase().includes(searchTermIds.toLowerCase()));
-
-
-  function selectOption(option) {
-    selectedOption = option;
-    searchTermIds = '';
-  }
-
-  function handleInput(event) {
-    searchTermIds = event.target.value;
-    selectedOption = '';
-  }
   const lengths = [
     { label: "10 Minutes", sec: "600" },
     { label: "30 Minutes", sec: "1800" },
@@ -515,7 +515,7 @@
               {:else if input.inputType === "id"}
               <input class="dropdown-inputs" placeholder={input.placeholder} id={`${input.id}_${button.id}`} value={selectedOption} on:input={handleInput} />
               {#if searchTermIds.length > 0}
-              <div transition:slide="{{duration: 250}}">
+              <div in:slide="{{duration: 250}}">
                 {#if filteredIds.length > 0}
                   <ul class="select-options">
                     {#each filteredIds as option}
