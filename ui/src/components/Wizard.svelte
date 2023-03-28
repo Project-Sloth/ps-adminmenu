@@ -12,30 +12,29 @@
 
   let selectedOption1 = '';
   let selectedOption2 = '';
+let players = [];
+const getPlayers = async () => {
+  players = await fetchNui<Array<{id: number, name: string}>>('getPlayers');
+};
 
-  let ids: Array<number> = [];
-  const getPlayers = async () => {
-    const playerIds = await fetchNui<Array<number>>('getPlayers');
-    ids = playerIds;
-  }; 
+onMount(() => {
+  getPlayers();
+});
 
-  onMount(() => {
-    getPlayers();
-  });
+let filteredIds = players;
 
-  let filteredIds = ids;
+function handleChange(event) {
+  const searchValue = event.target.value;
+  filteredIds = players.filter(player => player.id.toString().includes(searchValue.toLowerCase()) || player.name.toLowerCase().includes(searchValue.toLowerCase()));
+} 
 
-  function handleChange(event) {
-    const searchValue = event.target.value;
-    filteredIds = ids.filter(id => id.toString().includes(searchValue.toLowerCase()));
-  } 
+let options = filteredIds.map(player => `${player.id} - ${player.name}`);
+let selectedOption = '';
+let searchTermIds = '';
 
-  let options = ['1 - Cade Richmond', '2 - Filip Fleming', '3 - Ruairi Andrews', '4 - Hussain Walker', '5 - Dante Gregory', '6 - Kaine Clarke', '7 - Marion Franklin'];
-  let selectedOption = '';
-  let searchTermIds = '';
-
-  $: filteredIds = ids
-  .filter(button => button);
+$: filteredIds = players
+  .filter(player => player.name.toLowerCase().includes(searchTermIds.toLowerCase()) || player.id.toString().includes(searchTermIds.toLowerCase()))
+  .map(player => `${player.id} - ${player.name}`);
 
 
   function selectOption(option) {

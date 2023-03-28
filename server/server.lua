@@ -113,7 +113,10 @@ QBCore.Functions.CreateCallback('ps-adminmenu:server:GetPlayers', function(_, cb
     local players = QBCore.Functions.GetPlayers()
     local playerIds = {}
     for _, player in ipairs(players) do
-        table.insert(playerIds, player)
+        local playerData = {}
+        playerData.id = player
+        playerData.name = GetPlayerName(player)
+        table.insert(playerIds, playerData)
     end
     cb(playerIds)
 end)

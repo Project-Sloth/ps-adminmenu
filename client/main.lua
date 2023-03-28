@@ -121,8 +121,11 @@ end)
 RegisterNUICallback("getPlayers", function(data, cb)
     QBCore.Functions.TriggerCallback('ps-adminmenu:server:GetPlayers', function(players)
         local playerIds = {}
-        for _, playerId in ipairs(players) do
-            table.insert(playerIds, playerId)
+        for _, player in ipairs(players) do
+            local playerData = {}
+            playerData.id = player.id
+            playerData.name = player.name
+            table.insert(playerIds, playerData)
         end
         cb(playerIds)
     end)
