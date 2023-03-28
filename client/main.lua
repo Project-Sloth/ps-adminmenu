@@ -15,7 +15,7 @@ local function toggleUI(bool)
     end)
 end
 
-RegisterCommand("menu", function()
+RegisterCommand("admin", function()
 	toggleUI(true)
 end, false)
 
