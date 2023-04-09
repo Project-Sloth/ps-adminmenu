@@ -21,8 +21,7 @@
     );
 
     const dispatch = createEventDispatcher();
-  
-    // Listen for changes to the selected option and emit a 'change' event
+
     $: dispatch('change', { value: selectedOption });
 
 
