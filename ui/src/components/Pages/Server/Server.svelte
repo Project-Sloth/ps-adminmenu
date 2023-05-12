@@ -43,7 +43,7 @@
 </div>
 
     {#if $menuWideStore.isMenuWide}
-        <div class="w-full h-full border-l-2 border-tertiary flex flex-col items-center"> 
+        <div class="w-[80rem]  h-full border-l-2 border-tertiary flex flex-col items-center"> 
             <!-- Header  -->
             <div class="w-full h-[7.5rem] border-b-2 border-tertiary p-9 px-8 font-medium text-[2.2rem]"> 
                 Server
