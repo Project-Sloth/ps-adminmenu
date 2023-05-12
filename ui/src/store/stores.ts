@@ -20,18 +20,21 @@ export const toggleWideMenu = () => {
 
 interface DropdownItem {
   type: string;
-  name: string;
+  event?: string;
   label: string;
+  inputtype?: string; 
 }
+
 
 interface ConfigItem {
   label: string;
-  event: string;
+  event?: string;
   type: string;
-  dropdown?: Record<number, DropdownItem>;
+  dropdown?: DropdownItem[]; 
   perms?: string[];
   favorited?: boolean;
 }
+
 
 export const ACTIONS = writable<ConfigItem[]>(null);
 export const ACTIONSBUTTONS = writable<ConfigItem>(null);

@@ -14,111 +14,49 @@
 	const debugActions = [
 		{
 			label: "Admin Car",
-			event: "ps-adminmenu:client:noclip",
 			type: "client",
-		},
-		{
-			label: "Noclip",
-			event: "ps-adminmenu:client:noclip",
-			type: "client",
-		},
-		{
-			label: "Invisible",
-			event: "ps-adminmenu:client:noclip",
-			type: "client",
+			perms: "mod",
 		},
 		{
 			label: "Ban Player",
-			event: "ps-adminmenu:client:noclip",
 			type: "client",
-			dropdown: "dropdown"
-		},
-		{
-			label: "Kick Player",
-			event: "ps-adminmenu:client:noclip",
-			type: "client",
-			dropdown: "dropdown"
-		},
-		{
-			label: "Admin Car",
-			event: "ps-adminmenu:client:noclip",
-			type: "client",
+			perms: "mod",
+			dropdown: [
+				{ label: "Player ID", type: "input", inputtype: "normal" },
+				{ label: "Reason", type: "input", inputtype: "normal" },
+				{ label: "Copy Coords", type: "button", event: "ps-adminmenu:client:banplayer" },
+				{ label: "Time", type: "input", inputtype: "normal" },
+				{ label: "Ban", type: "button", event: "ps-adminmenu:client:banplayer" },
+
+			],
 		},
 		{
 			label: "Noclip",
-			event: "ps-adminmenu:client:noclip",
 			type: "client",
+			perms: "mod",
 		},
 		{
 			label: "Invisible",
-			event: "ps-adminmenu:client:noclip",
 			type: "client",
-		},
-		{
-			label: "Ban Player",
-			event: "ps-adminmenu:client:noclip",
-			type: "client",
-			dropdown: "dropdown"
+			perms: "mod",
 		},
 		{
 			label: "Kick Player",
-			event: "ps-adminmenu:client:noclip",
 			type: "client",
-			dropdown: "dropdown"
+			perms: "mod",
+			dropdown: [
+				{ label: "label", type: "input", inputtype: "normal" },
+				{ label: "Ban", type: "button", event: "ps-adminmenu:client:banplayer" },
+			],
 		},
 		{
-			label: "Admin Car",
-			event: "ps-adminmenu:client:noclip",
+			label: "Spawn Vehicle",
 			type: "client",
-		},
-		{
-			label: "Noclip",
-			event: "ps-adminmenu:client:noclip",
-			type: "client",
-		},
-		{
-			label: "Invisible",
-			event: "ps-adminmenu:client:noclip",
-			type: "client",
-		},
-		{
-			label: "Ban Player",
-			event: "ps-adminmenu:client:noclip",
-			type: "client",
-			dropdown: "dropdown"
-		},
-		{
-			label: "Kick Player",
-			event: "ps-adminmenu:client:noclip",
-			type: "client",
-			dropdown: "dropdown"
-		},
-		{
-			label: "Admin Car",
-			event: "ps-adminmenu:client:noclip",
-			type: "client",
-		},
-		{
-			label: "Noclip",
-			event: "ps-adminmenu:client:noclip",
-			type: "client",
-		},
-		{
-			label: "Invisible",
-			event: "ps-adminmenu:client:noclip",
-			type: "client",
-		},
-		{
-			label: "Ban Player",
-			event: "ps-adminmenu:client:noclip",
-			type: "client",
-			dropdown: "dropdown"
-		},
-		{
-			label: "Kick Player",
-			event: "ps-adminmenu:client:noclip",
-			type: "client",
-			dropdown: "dropdown"
+			perms: "mod",
+			dropdown: [
+				{ label: "label", type: "input", inputtype: "normal" },
+				{ label: "Ban", type: "button", event: "ps-adminmenu:client:banplayer" },
+			],
 		},
 	]
 

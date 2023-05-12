@@ -37,12 +37,20 @@
                     </button>
                     {#if dropdownActive[i]}
                     <div transition:fly="{{ y: -20, duration: 150 }}" class="bg-primary flex flex-col flex-wrap p-4 {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%] t')}">
-                            <input class="bg-secondary p-3 w-[15rem] mt-2" type="text" placeholder="Input">
-                            <input class="bg-secondary p-3 w-[15rem] mt-2" type="text" placeholder="Input">
-                            <input class="bg-secondary p-3 w-[15rem] mt-2" type="text" placeholder="Input">
-                            <button class="bg-secondary p-3 w-[15rem] mt-2"> Confirm</button>
-                        </div>
-                    {/if}
+                      {#each button.dropdown as dropdownItem}
+                        {#if dropdownItem.type === 'input'}
+                            <p class="font-medium mt-2">{dropdownItem.label}:</p>
+                            <input class="bg-secondary p-3 w-[25rem] mt-1 font-medium" type="text" placeholder="{dropdownItem.label}">
+                        {:else if dropdownItem.type === 'button'}
+                            <button                     
+                            on:click={() => {
+                                SendNUI('normalButton', { event: dropdownItem.event, type: dropdownItem.type });
+                            }} 
+                            class="bg-secondary p-3 w-[15rem] mt-2 font-medium hover:bg-tertiary">{dropdownItem.label}</button>
+                        {/if}
+                      {/each}
+                    </div>
+                  {/if}
                 {:else}
                 <!-- Normal Buttons -->
                 <button 						
