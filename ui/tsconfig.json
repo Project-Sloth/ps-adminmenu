@@ -6,13 +6,14 @@
     "module": "esnext",
     "resolveJsonModule": true,
     "baseUrl": ".",
+    "types": ["@citizenfx/client", "@types/node"],
     "paths": {
       "@assets/*": ["src/assets/*"],
       "@components/*": ["src/components/*"],
       "@providers/*": ["src/providers/*"],
       "@store/*": ["src/store/*"],
       "@utils/*": ["src/utils/*"],
-      "@customTypes/*": ["src/customTypes/*"],
+      "@typings/*": ["src/typings/*"],
     },
     /**
      * Typecheck JS in `.svelte` and `.js` files by default.

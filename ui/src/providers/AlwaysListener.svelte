@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
 	import { debugData } from '@utils/debugData'
-	import { browserMode, visibility } from '@store/stores'
-	import { fetchNui } from '@utils/fetchNui'
-
-
+	import { browserMode, visibility, ACTIONS, ACTIONSBUTTONS, RESOURCES, RESOURCESBUTTONS } from '@store/stores'
 
 	debugData([
 		{
@@ -35,5 +32,16 @@
 			window.removeEventListener('keydown', browserHideAndShow)
 		}
 	})
+
+	ReceiveNUI('setActionData', (data: any) => {
+		ACTIONS.set(data)
+		ACTIONSBUTTONS.set($ACTIONS[0])
+	})
+
+	ReceiveNUI('setResourceData', (data: any) => {
+		RESOURCES.set(data)
+		RESOURCESBUTTONS.set($RESOURCES[0])
+	})
+
 
 </script>

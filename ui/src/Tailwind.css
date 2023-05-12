@@ -1,22 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
-:root {
-    font-size: 62.5%;
-    --color-1: #222033;
-    --color-2: #131121;
-    --color-3: #222033;
-    --textcolor: #c7c7c7;
-    --starcolor: #02F1B5;
-}
 
 * {
     margin: 0;
     padding: 0;
+}
+
+*:focus {
     outline: none;
-    font-family: 'Roboto', sans-serif;
+}
+
+:root {
+    font-size: 62.5%;
+    color: rgb(180, 180, 180);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
 }
 
 html, body {
@@ -27,10 +29,9 @@ overflow: hidden;
 }
 
 ::-webkit-scrollbar {
-    width: 4px;
+    width: 0px;
 }
 
 ::-webkit-scrollbar-thumb {
     display: none;
 }
-

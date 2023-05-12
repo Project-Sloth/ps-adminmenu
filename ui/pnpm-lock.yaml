@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@fortawesome/fontawesome-free': ^6.1.1
   '@sveltejs/vite-plugin-svelte': 1.0.0-next.49
   '@tsconfig/svelte': ^3.0.0
   autoprefixer: ^10.4.7
@@ -8,10 +9,13 @@ specifiers:
   svelte: ^3.48.0
   svelte-check: ^2.7.2
   svelte-preprocess: ^4.10.7
-  tailwindcss: ^3.1.3
+  tailwindcss: ^3.1.2
   tslib: ^2.4.0
   typescript: ^4.7.3
   vite: ^2.9.12
+
+dependencies:
+  '@fortawesome/fontawesome-free': 6.1.1
 
 devDependencies:
   '@sveltejs/vite-plugin-svelte': 1.0.0-next.49_svelte@3.48.0+vite@2.9.12
@@ -21,12 +25,18 @@ devDependencies:
   svelte: 3.48.0
   svelte-check: 2.7.2_s3dopqgs4h45owyu2kxaf6kyfu
   svelte-preprocess: 4.10.7_ul755q3dxsprj73ozc64nxdp4y
-  tailwindcss: 3.1.3_postcss@8.4.14
+  tailwindcss: 3.1.3
   tslib: 2.4.0
   typescript: 4.7.3
   vite: 2.9.12
 
 packages:
+
+  /@fortawesome/fontawesome-free/6.1.1:
+    resolution: {integrity: sha512-J/3yg2AIXc9wznaVqpHVX3Wa5jwKovVF0AMYSnbmcXTiL3PpRPfF58pzWucCwEiCJBp+hCNRLWClTomD8SseKg==}
+    engines: {node: '>=6'}
+    requiresBuild: true
+    dev: false
 
   /@jridgewell/resolve-uri/3.0.7:
     resolution: {integrity: sha512-8cXDaBBHOr2pQ7j77Y6Vp5VDT2sIqWyWQ56TjEq4ih/a4iST3dItRe8Q9fp0rrIl9DoKhWQtUQz/YpOxLkXbNA==}
@@ -153,7 +163,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.20.4
-      caniuse-lite: 1.0.30001457
+      caniuse-lite: 1.0.30001352
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -189,7 +199,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001457
+      caniuse-lite: 1.0.30001352
       electron-to-chromium: 1.4.154
       escalade: 3.1.1
       node-releases: 2.0.5
@@ -210,8 +220,8 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /caniuse-lite/1.0.30001457:
-    resolution: {integrity: sha512-SDIV6bgE1aVbK6XyxdURbUE89zY7+k1BBBaOwYwkNCglXlel/E7mELiHC64HQ+W0xSKlqWhV9Wh7iHxUjMs4fA==}
+  /caniuse-lite/1.0.30001352:
+    resolution: {integrity: sha512-GUgH8w6YergqPQDGWhJGt8GDRnY0L/iJVQcU3eJ46GYf52R8tk0Wxp0PymuFVZboJYXGiCqwozAYZNRjVj6IcA==}
     dev: true
 
   /chokidar/3.5.3:
@@ -1042,12 +1052,10 @@ packages:
     engines: {node: '>= 8'}
     dev: true
 
-  /tailwindcss/3.1.3_postcss@8.4.14:
+  /tailwindcss/3.1.3:
     resolution: {integrity: sha512-PRJNYdSIthrb8hjmAyymEyEN8Yo61TMXpzyFUpxULeeyRn3Y3gpvuw6FlRTKrJvK7thSGKRnhT36VovVx4WeMA==}
     engines: {node: '>=12.13.0'}
     hasBin: true
-    peerDependencies:
-      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3

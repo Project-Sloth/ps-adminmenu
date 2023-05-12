@@ -4,7 +4,6 @@
   import { onMount } from 'svelte';
   import { visibility } from '../store/stores';
   import BackdropFix from './BackdropFix.svelte';
-  import { fetchNui } from '@utils/fetchNui'
 
 
 let isVisible: boolean;
@@ -49,7 +48,7 @@ onMount(() => {
     padding: 0;
     margin: 0;
     height: 100vh;
-    width: 100vw;
+width: 100vw;
   }
   </style>
 

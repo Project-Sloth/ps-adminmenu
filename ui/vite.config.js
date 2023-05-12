@@ -19,7 +19,7 @@ export default defineConfig({
       "@providers": resolve("./src/providers"),
       "@store": resolve("./src/store"),
       "@utils": resolve("./src/utils"),
-      "@types": resolve("./src/types"),
+      "@typings": resolve("./src/typings"),
     },
   },
   build: {
