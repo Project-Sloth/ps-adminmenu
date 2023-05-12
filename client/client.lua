@@ -1,3 +1,5 @@
+QBCore = exports['qb-core']:GetCoreObject()
+
 local function toggleUI(bool)
 	SetNuiFocus(bool, bool)
 	SendNUIMessage({
@@ -6,7 +8,7 @@ local function toggleUI(bool)
 	})
 end
 
-RegisterCommand("Admin", function()
+RegisterCommand("admin", function()
 	toggleUI(true)
 	SendNUIMessage({
 		action = "setActionData",

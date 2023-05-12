@@ -11,8 +11,9 @@
         <button class="fa-solid fa-magnifying-glass fa-xl hover:bg-tertiary h-full w-40"></button>
     </div>
     <!-- Report List -->
-    <div class="mt-2 w-[38rem] h-[72.5rem] overflow-auto">
-        <button on:click={toggleWideMenu} class="mt-4 ml-3  w-[36.5rem] h-[8rem] bg-primary text-start px-4 flex items-center hover:bg-tertiary">
+    <div class="w-full h-[88.5%] flex items-center flex-col overflow-auto ">
+        
+        <button on:click={toggleWideMenu} class="w-[94%] bg-primary flex px-[1.5rem] py-[1.2rem] mt-2 text-start items-center hover:bg-tertiary">
             <div>
                 <p class="font-medium text-[2.2rem]">Personalization</p>
                 <p class="text-[1.4rem]">Personalize you menu</p>

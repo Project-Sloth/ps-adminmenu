@@ -2,6 +2,7 @@
     import Autocomplete from '@components/components/Autocomplete.svelte'
     import { ACTIONSBUTTONS, ACTIONS, menuWideStore } from '@store/stores'
     import { SendNUI } from '@utils/SendNUI'
+    import { fly } from 'svelte/transition';
 
     const dropdownActive = Array(ACTIONS.length).fill(false);
 
@@ -9,10 +10,9 @@
         dropdownActive[index] = !dropdownActive[index];
     }
 
-
 </script>
 
-<div class="w-full h-full flex flex-col ">
+<div class="w-full h-full flex flex-col">
     <!-- Tabs -->
     <div class="w-full h-[5.5rem] flex"> 
         <button class="w-[6rem] h-full hover:bg-tertiary font-medium">All</button>
@@ -23,9 +23,9 @@
         <input class="ml-8 w-full h-[95%] bg-transparent font-medium text-[2.1rem]" type="text" placeholder="Search">
     </div>
     <!-- Button List -->
-    <div class="w-full h-[88%] flex items-center flex-col overflow-auto mt-1">
+    <div class="w-full h-[88.5%] flex items-center flex-col overflow-auto ">
         {#if $ACTIONSBUTTONS && $ACTIONS}
-            {#each $ACTIONS as button, i}
+        {#each $ACTIONS.sort((a, b) => a.label.localeCompare(b.label)) as button, i}
                 {#if button.dropdown}
                     <!-- Dropdown Buttons -->
                     <button 
@@ -36,11 +36,11 @@
                         <i class="fa fa-angle-right fa-lg ml-auto"></i>
                     </button>
                     {#if dropdownActive[i]}
-                        <div class="bg-primary flex flex-col flex-wrap p-4 {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%] t')}">
+                    <div transition:fly="{{ y: -20, duration: 150 }}" class="bg-primary flex flex-col flex-wrap p-4 {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%] t')}">
                             <input class="bg-secondary p-3 w-[15rem] mt-2" type="text" placeholder="Input">
                             <input class="bg-secondary p-3 w-[15rem] mt-2" type="text" placeholder="Input">
                             <input class="bg-secondary p-3 w-[15rem] mt-2" type="text" placeholder="Input">
-                            <button> Confirm</button>
+                            <button class="bg-secondary p-3 w-[15rem] mt-2"> Confirm</button>
                         </div>
                     {/if}
                 {:else}

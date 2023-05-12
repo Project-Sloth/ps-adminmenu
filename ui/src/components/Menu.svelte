@@ -11,12 +11,12 @@
 </script>
   
 <!-- Menu -->
-<div class="h-screen flex items-center transition-all {($menuWideStore.isMenuWide ? 'w-[125rem] mx-auto' : 'w-[45rem] mr-8 float-right')}" 
+<div class="h-screen flex items-center transition-all {($menuWideStore.isMenuWide ? 'w-[125rem] mx-auto' : 'w-[45rem]  float-right')}" 
 transition:fly="{{delay: 250, duration: 300, x: 500}}">
   <!-- Sidebar -->
   <Sidebar />
   <!-- Pages -->
-  <div class="h-[100rem] bg-secondary  {($menuWideStore.isMenuWide  ? 'w-[120rem]' : 'w-[40rem]')}" >
+  <div class="mr-8 h-[100rem] bg-secondary  {($menuWideStore.isMenuWide  ? 'w-[120rem]' : 'w-[40rem]')}" >
     {#if $currentPage === "actions"}
       <Actions />
     {:else if $currentPage === "settings"}

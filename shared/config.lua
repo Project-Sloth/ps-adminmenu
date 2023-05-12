@@ -2,9 +2,10 @@ Config = {}
 
 Config.Actions = {
     { 
-        label = "Admin car", 
-        event = "ps-adminmenu:client:Admincar", 
-        type = "client",
+        label = "Admin car", -- Label of the button
+        event = "ps-adminmenu:client:Admincar", -- Event or command
+        type = "client", -- client, server, command
+        perms = "mod", -- mod, admin
     },
     { 
         label = "Ban Player", 
