@@ -13,7 +13,7 @@
     <!-- Report List -->
     <div class="w-full h-[88.5%] flex items-center flex-col overflow-auto ">
         
-        <button on:click={toggleWideMenu} class="w-[94%] bg-primary flex px-[1.5rem] py-[1.2rem] mt-2 text-start items-center hover:bg-tertiary">
+        <button on:click={toggleWideMenu} class="w-[94%] min-h-[8rem] bg-primary flex px-4 mt-2 text-start items-center hover:bg-tertiary">
             <div>
                 <p class="font-medium text-[2.2rem]">Personalization</p>
                 <p class="text-[1.4rem]">Personalize you menu</p>
@@ -26,7 +26,7 @@
     </div>
 </div>
 {#if $menuWideStore.isMenuWide}
-    <div class="w-full h-full border-l-2 border-tertiary"> 
+    <div class="w-[80rem]  h-full border-l-2 border-tertiary"> 
         <!-- Report Chat Header  -->
         <div class="w-full h-[7.5rem] border-b-2 border-tertiary p-9 px-8 font-medium text-[2.2rem]"> 
             
