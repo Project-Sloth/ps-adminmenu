@@ -26,7 +26,7 @@
         </div>
     </div>
     {#if $menuWideStore.isMenuWide}
-        <div class="w-full h-full border-l-2 border-tertiary flex flex-col">
+        <div class="w-[80rem] h-full border-l-2 border-tertiary flex flex-col">
             <!-- Report Chat Header  -->
             <div class="w-full h-[7.5rem] border-b-2 border-tertiary p-8 px-8 font-medium text-[2.2rem]"> Report 52</div>
             <!-- Report Chat Container  -->
