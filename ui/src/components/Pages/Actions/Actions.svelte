@@ -9,14 +9,17 @@
     function ToggleDropdown(index: number) {
         dropdownActive[index] = !dropdownActive[index];
     }
+    let showFavorites = false;
+
+
 
 </script>
 
 <div class="w-full h-full flex flex-col">
     <!-- Tabs -->
     <div class="w-full h-[5.5rem] flex"> 
-        <button class="w-[6rem] h-full hover:bg-tertiary font-medium">All</button>
-        <button class="w-[10rem] h-full hover:bg-tertiary font-medium">Favourites</button>
+        <button class="w-[6rem] h-full hover:bg-tertiary font-medium" on:click={() => (showFavorites = !showFavorites)} >All</button>
+        <button class="w-[10rem] h-full hover:bg-tertiary font-medium" on:click={() => (showFavorites = !showFavorites)} >Favorites</button>      
     </div>
     <!-- SearchBar -->
     <div class="h-[5.5rem] w-full border-b-2 border-tertiary flex items-center justify-center"> 
@@ -25,7 +28,7 @@
     <!-- Button List -->
     <div class="w-full h-[88.5%] flex items-center flex-col overflow-auto ">
         {#if $ACTIONSBUTTONS && $ACTIONS}
-        {#each $ACTIONS.sort((a, b) => a.label.localeCompare(b.label)) as button, i}
+        {#each $ACTIONS.filter(button => button.favorited || !showFavorites).sort((a, b) => a.label.localeCompare(b.label)) as button, i}
                 {#if button.dropdown}
                     <!-- Dropdown Buttons -->
                     <button 
@@ -40,7 +43,7 @@
                       {#each button.dropdown as dropdownItem}
                         {#if dropdownItem.type === 'input'}
                             <p class="font-medium mt-2">{dropdownItem.label}:</p>
-                            <input class="bg-secondary p-3 w-[25rem] mt-1 font-medium" type="text" placeholder="{dropdownItem.label}">
+                            <input class="bg-secondary p-3 w-[25rem] mt-1 font-medium  hover:bg-tertiary" type="text" placeholder="{dropdownItem.label}">
                         {:else if dropdownItem.type === 'button'}
                             <button                     
                             on:click={() => {
