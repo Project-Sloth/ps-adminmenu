@@ -36,7 +36,7 @@
                         class="bg-primary flex px-[1.5rem] py-[1.2rem] mt-2 flex-row items-center {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%]')}">
                         <i on:click={() => button.favorited = !button.favorited} class="{(button.favorited ? 'fas text-accent' : 'far')} fa-star fa-lg "></i>
                         <p class="ml-6 text-[2rem] font-medium">{button.label}</p>
-                        <i class="fa fa-angle-right fa-lg ml-auto"></i>
+                        <i class="fa fa-{(dropdownActive[i] ? 'angle-down' : 'angle-right')} fa-lg ml-auto"></i>
                     </button>
                     {#if dropdownActive[i]}
                     <div transition:fly="{{ y: -20, duration: 150 }}" class="bg-primary flex flex-col flex-wrap p-4 {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%] t')}">
