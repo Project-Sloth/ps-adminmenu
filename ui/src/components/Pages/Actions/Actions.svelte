@@ -10,7 +10,7 @@
         dropdownActive[index] = !dropdownActive[index];
     }
     let showFavorites = false;
-
+    let searchTerm = '';
 
 
 </script>
@@ -23,12 +23,12 @@
     </div>
     <!-- SearchBar -->
     <div class="h-[5.5rem] w-full border-b-2 border-tertiary flex items-center justify-center"> 
-        <input class="ml-8 w-full h-[95%] bg-transparent font-medium text-[2.1rem]" type="text" placeholder="Search">
+        <input class="ml-8 w-full h-[95%] bg-transparent font-medium text-[2.1rem]" type="text" placeholder="Search" bind:value={searchTerm}>
     </div>
     <!-- Button List -->
     <div class="w-full h-[88.5%] flex items-center flex-col overflow-auto ">
         {#if $ACTIONSBUTTONS && $ACTIONS}
-        {#each $ACTIONS.filter(button => button.favorited || !showFavorites).sort((a, b) => a.label.localeCompare(b.label)) as button, i}
+        {#each $ACTIONS.filter(button => button.label.toLowerCase().includes(searchTerm.toLowerCase()) && (button.favorited || !showFavorites)).sort((a, b) => a.label.localeCompare(b.label)) as button, i}
                 {#if button.dropdown}
                     <!-- Dropdown Buttons -->
                     <button 
