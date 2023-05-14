@@ -15,27 +15,27 @@
     <div>
         <!-- SearchBar -->
         <div class="h-[7.5rem] w-full border-b-2 border-tertiary flex items-center justify-center"> 
-            <input class="ml-8 mt-2 w-full h-[95%] bg-transparent font-medium text-[2.1rem]" type="text" placeholder="Search"  bind:value={searchTerm}>
+            <input class="ml-8 mt-2 w-full h-[95%] bg-transparent font-medium text-[2.1rem]" type="text" placeholder="Search" bind:value={searchTerm}>
             <button class="fa-solid fa-rotate fa-xl hover:bg-tertiary h-full w-40"></button>
         </div>
         <!-- Resource List -->
-        <div class="h-[88.5%] flex items-center flex-col overflow-auto ">
+        <div class="h-[91.5%] flex items-center flex-col overflow-auto">
             <!-- Resources -->
             {#if $RESOURCESBUTTONS && $RESOURCES}
-            {#each $RESOURCES.filter(button => button.name.toLowerCase().includes(searchTerm.toLowerCase()) || (button.author && button.author.toLowerCase().includes(searchTerm.toLowerCase()))) as button, i}
-                    <div class="mt-2 w-[94%] min-h-[15rem] bg-primary text-start px-4 flex flex-col">
-                        <p class="font-medium text-[2.2rem] ml-3 mt-4">{button.name}</p>
-                        <p class="font-medium text-[1.4rem] ml-3 mt-6">Version: {button.version ?? 'N/A'}</p>
-                        <p class="font-medium text-[1.4rem] ml-3">Author: {button.author ?? 'N/A'}</p>
-                        <p class="font-medium text-[1.4rem] ml-3">Description: {button.description ?? 'N/A'}</p>
-                        <div class="ml-auto -mt-44">
-                            {#if !started[i]}
-                                <button class="mr-3 border border-yellow-400 p-2 px-4 text-yellow-400 hover:text-white hover:bg-yellow-400 rounded-lg"><i class="fa-solid fa-arrows-rotate"></i></button>
-                                <button on:click={() => toggleState(i)} class="mr-3 border border-red-500 p-2 px-4 text-red-400 hover:text-white hover:bg-red-500 rounded-lg"><i class="fa-solid fa-stop"></i></button>
+                {#each $RESOURCES.filter(button => button.name.toLowerCase().includes(searchTerm.toLowerCase()) || (button.author && button.author.toLowerCase().includes(searchTerm.toLowerCase()))) as button, i}
+                    <div class="mt-2 w-[94%] h-fit bg-primary text-start px-4 flex flex-col flex-grow">
+                        <div class="ml-auto flex mt-4">
+                            {#if button.resourceState === "started"}
+                                <button class="z-50 mr-3 border border-yellow-400 p-2 px-4 text-yellow-400 hover:text-white hover:bg-yellow-400 rounded-lg"><i class="fa-solid fa-arrows-rotate"></i></button>
+                                <button on:click={() => toggleState(i)} class="z-50 border border-red-500 p-2 px-4 text-red-400 hover:text-white hover:bg-red-500 rounded-lg"><i class="fa-solid fa-stop"></i></button>
                             {:else}
-                                <button on:click={() => toggleState(i)} class="mr-3 border border-green-400 p-2 px-4 text-green-400 hover:text-white hover:bg-green-400 rounded-lg"><i class="fa-solid fa-play"></i></button>
+                                <button on:click={() => toggleState(i)} class="z-50 border border-green-400 p-2 px-4 text-green-400 hover:text-white hover:bg-green-400 rounded-lg"><i class="fa-solid fa-play"></i></button>
                             {/if}
                         </div>
+                        <p class="font-medium text-[2.2rem] ml-3 -mt-12">{button.name}</p>
+                        <p class="font-medium text-[1.4rem] ml-3 mt-2">Version: {button.version ?? 'N/A'}</p>
+                        <p class="font-medium text-[1.4rem] ml-3 mt-1">Author: {button.author ?? 'N/A'}</p>
+                        <p class="font-medium text-[1.4rem] ml-3 mt-1 mb-6 overflow-auto">Description: {button.description ?? 'N/A'}</p>
                     </div>
                 {/each}
             {/if}
