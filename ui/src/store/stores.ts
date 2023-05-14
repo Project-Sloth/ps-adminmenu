@@ -42,10 +42,11 @@ export const FAVORITES = writable<string[]>(null);
 
 
 interface ResourceData {
-  name: string;
-  version: string;
-  author: string;
-  desc: string;
+  name?: string;
+  author?: string;
+  version?: string;
+  description?: string;
+  resourceState?: string;
 }
 
 export const RESOURCES = writable<ResourceData[]>(null);

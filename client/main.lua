@@ -14,6 +14,7 @@ RegisterCommand("admin", function()
 		action = "setActionData",
 		data = Config.Actions
 	})
+	TriggerServerEvent("ps-adminmenu:client:Getresources")
 end, false)
 
 RegisterNUICallback("hideUI", function()
@@ -33,4 +34,13 @@ RegisterNUICallback("normalButton", function(data, cb)
 		end
 	end
     cb("ok")
+end)
+
+RegisterNetEvent('ps-adminmenu:client:UpdateResources', function(data)
+    --print("Done")
+    SendNUIMessage({
+        action = "setResourceData", 
+        data = data
+    })
+    --print("Done")
 end)
