@@ -96,13 +96,13 @@ Config.Actions = {
     },
     { 
         label = "God", 
-        event = "ps-adminmenu:client:ToggleGod", 
-        type = "server" 
+        event = "ps-adminmenu:client:ToggleGodmode", 
+        type = "client" 
     },
     { 
         label = "Invisible", 
         event = "ps-adminmenu:client:ToggleInvisible", 
-        type = "command" 
+        type = "client" 
     },
     { 
         label = "Kick Player", 
