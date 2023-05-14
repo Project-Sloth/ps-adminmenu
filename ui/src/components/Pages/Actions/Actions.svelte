@@ -17,9 +17,9 @@
 
 <div class="w-full h-full flex flex-col">
     <!-- Tabs -->
-    <div class="w-full h-[5.5rem] flex"> 
-        <button class="w-[6rem] h-full hover:bg-tertiary font-medium" on:click={() => (showFavorites = !showFavorites)} >All</button>
-        <button class="w-[10rem] h-full hover:bg-tertiary font-medium" on:click={() => (showFavorites = !showFavorites)} >Favorites</button>      
+    <div class="w-full h-[5.5rem] flex border-b-2 border-tertiary"> 
+        <button class="w-full h-full hover:bg-tertiary font-medium {(!showFavorites ? 'bg-tertiary' : '')}" on:click={() => (showFavorites = !showFavorites)} >All</button>
+        <button class="w-full h-full hover:bg-tertiary font-medium {(showFavorites ? 'bg-tertiary' : '')}" on:click={() => (showFavorites = !showFavorites)} >Favorites</button>      
     </div>
     <!-- SearchBar -->
     <div class="h-[5.5rem] w-full border-b-2 border-tertiary flex items-center justify-center"> 
