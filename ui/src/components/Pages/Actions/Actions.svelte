@@ -4,14 +4,13 @@
     import { SendNUI } from '@utils/SendNUI'
     import { fly } from 'svelte/transition';
 
-    const dropdownActive = Array(ACTIONS.length).fill(false);
+    const dropdownActive = Array().fill(false);
 
     function ToggleDropdown(index: number) {
         dropdownActive[index] = !dropdownActive[index];
     }
     let showFavorites = false;
     let searchTerm = '';
-
 
 </script>
 
@@ -34,7 +33,7 @@
                     <button 
                         on:click={() => ToggleDropdown(i)}
                         class="bg-primary flex px-[1.5rem] py-[1.2rem] mt-2 flex-row items-center {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%]')}">
-                        <i on:click={() => button.favorited = !button.favorited} class="{(button.favorited ? 'fas text-accent' : 'far')} fa-star fa-lg "></i>
+                        <i on:click={() => button.favorited = !button.favorited} class="{(button.favorited ? 'fas text-accent' : 'far hover:text-accent')} fa-star fa-lg "></i>
                         <p class="ml-6 text-[2rem] font-medium">{button.label}</p>
                         <i class="fa fa-{(dropdownActive[i] ? 'angle-down' : 'angle-right')} fa-lg ml-auto"></i>
                     </button>
@@ -61,7 +60,7 @@
                         SendNUI('normalButton', { event: button.event, type: button.type });
                     }}
                     class="bg-primary flex px-[1.5rem] py-[1.2rem] mt-2 flex-row items-center {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%]')}">
-                    <i on:click={() => button.favorited = !button.favorited} class="{(button.favorited ? 'fas text-accent' : 'far')} fa-star fa-lg "></i>
+                    <i on:click={() => button.favorited = !button.favorited} class="{(button.favorited ? 'fas text-accent' : 'far hover:text-accent')} fa-star fa-lg "></i>
                     <p class="ml-6 text-[2rem] font-medium">{button.label}</p>
                 </button>
                 {/if}
