@@ -32,11 +32,10 @@
             <!-- Report Chat Container  -->
             {#if reportchat}
                 <div class="w-full flex-grow overflow-auto">
-
                 </div>
             {:else}
                 <div class="w-full h-full flex items-center justify-center flex-col">
-                    <img class="w-[18rem] opacity-50" src="https://cdn.discordapp.com/attachments/975460884514226296/1106634092486860961/sadslothy.png" alt="">
+                    <img class="w-[18rem] opacity-50" src="https://i.imgur.com/CJXACFN.png" alt="">
                     <p class="mb-[10rem] mt-8 text-tertiary text-[2.5rem] font-bold w-[26rem] text-center opacity-50">You have not selected any report!</p>
                 </div>
             {/if}
@@ -48,6 +47,4 @@
             </div>
         </div>
     {/if}
-
-
 </div>
