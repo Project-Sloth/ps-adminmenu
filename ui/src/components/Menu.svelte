@@ -16,7 +16,7 @@ transition:fly="{{delay: 250, duration: 300, x: 500}}">
   <!-- Sidebar -->
   <Sidebar />
   <!-- Pages -->
-  <div class="mr-8 h-[100rem] bg-secondary  {($menuWideStore.isMenuWide  ? 'w-[120rem]' : 'w-[40rem]')}" >
+  <div class="mr-8 h-[93%] bg-secondary  {($menuWideStore.isMenuWide  ? 'w-[100%]' : 'w-[100%]')}" >
     {#if $currentPage === "actions"}
       <Actions />
     {:else if $currentPage === "settings"}

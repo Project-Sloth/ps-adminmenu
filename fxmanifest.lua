@@ -4,6 +4,8 @@ game "gta5"
 
 author "Project Sloth & OK1ez"
 version '1.0.0'
+description 'Admin Menu'
+repository 'https://github.com/Project-Sloth/ps-adminmenu'
 
 lua54 'yes'
 

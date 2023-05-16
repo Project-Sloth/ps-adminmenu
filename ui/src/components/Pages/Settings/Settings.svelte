@@ -5,7 +5,7 @@
 
 <div class="w-full h-full flex flex-row ">
 <div>
-    <!-- SearchBar -->
+    <!-- Search Bar -->
     <div class="h-[7.5rem] w-full border-b-2 border-tertiary flex items-center justify-center"> 
         <input class="ml-8 mt-2 w-full h-[95%] bg-transparent font-medium text-[2.1rem]" type="text" placeholder="Search">
         <button class="fa-solid fa-magnifying-glass fa-xl hover:bg-tertiary h-full w-40"></button>
