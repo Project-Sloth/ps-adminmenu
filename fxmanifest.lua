@@ -10,8 +10,8 @@ repository 'https://github.com/Project-Sloth/ps-adminmenu'
 lua54 'yes'
 
 
--- ui_page 'html/index.html'
-ui_page 'http://localhost:3000/' --for dev
+ui_page 'html/index.html'
+-- ui_page 'http://localhost:3000/' --for dev
 
 client_script {
   'client/**',
