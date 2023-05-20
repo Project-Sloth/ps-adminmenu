@@ -11,6 +11,11 @@
     }
     let showFavorites = false;
     let searchTerm = '';
+    let inputValues: { [key: string]: string } = {};
+    
+    function updateInputValue(label: string, value: string) {
+        inputValues[label] = value;
+    }
 
 </script>
 
@@ -39,19 +44,35 @@
                     </button>
                     {#if dropdownActive[i]}
                     <div transition:fly="{{ y: -20, duration: 150 }}" class="bg-primary flex flex-col flex-wrap p-4 {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%] t')}">
-                      {#each button.dropdown as dropdownItem}
-                        {#if dropdownItem.type === 'input'}
+                        {#each button.dropdown as dropdownItem}
+                          {#if dropdownItem.type === 'input'}
                             <p class="font-medium mt-2">{dropdownItem.label}:</p>
-                            <input class="bg-secondary p-3 w-[25rem] mt-1 font-medium  hover:bg-tertiary" type="text" placeholder="{dropdownItem.label}">
-                        {:else if dropdownItem.type === 'button'}
-                            <button                     
+                            <input
+                              class="bg-secondary p-3 w-[25rem] mt-1 font-medium hover:bg-tertiary"
+                              type="text"
+                              placeholder="{dropdownItem.label}"
+                              value={inputValues[dropdownItem.label] || ''}
+                              on:input={(event) => updateInputValue(dropdownItem.label, event.currentTarget.value)}
+                            >
+                          {:else if dropdownItem.type === 'button'}
+                            <button
                             on:click={() => {
-                                SendNUI('normalButton', { event: dropdownItem.event, type: dropdownItem.type });
-                            }} 
-                            class="bg-secondary p-3 w-[15rem] mt-2 font-medium hover:bg-tertiary">{dropdownItem.label}</button>
-                        {/if}
-                      {/each}
-                    </div>
+                                console.log("Inputs:");
+                                for (const [key, value] of Object.entries(inputValues)) {
+                                console.log(key + ": " + value);
+                                }
+                                SendNUI("normalButton", {
+                                event: dropdownItem.event,
+                                type: dropdownItem.type,
+                                data: inputValues,
+                                });
+                            }}
+                            >
+                            {dropdownItem.label}
+                            </button>
+                          {/if}
+                        {/each}
+                      </div>
                   {/if}
                 {:else}
                 <!-- Normal Buttons -->

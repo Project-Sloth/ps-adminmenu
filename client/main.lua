@@ -21,20 +21,25 @@ RegisterNUICallback("hideUI", function()
     toggleUI(false)
 end)
 
-RegisterNUICallback("normalButton", function(data, cb) 
-    local event = data.event 
+RegisterNUICallback("normalButton", function(data, cb)
+    local event = data.event
     local type = data.type
-	if event and type then 
-		if type == "client" then 
-			TriggerEvent(event)
-		elseif type == "server" then 
-			TriggerServerEvent(event)
-		elseif type == "command" then 
-			ExecuteCommand(event)
-		end
-	end
+    local inputData = data.data
+
+    if event and inputData then
+        TriggerEvent(event, inputData)
+    elseif event and type then
+        if type == "client" then
+            TriggerEvent(event)
+        elseif type == "server" then
+            TriggerServerEvent(event)
+        elseif type == "command" then
+            ExecuteCommand(event)
+        end
+    end
     cb("ok")
 end)
+
 
 RegisterNetEvent('ps-adminmenu:client:UpdateResources', function(data)
     --print("Done")
@@ -53,6 +58,7 @@ RegisterNUICallback("ChangeResourcesState", function(data, cb)
 	local name = data.name
 	local state = data.state
 	TriggerServerEvent("ps-adminmenu:server:changeResourceState", name, state)
+	Wait(500)
 	TriggerServerEvent("ps-adminmenu:client:Getresources")
 	cb("ok")
 end)
