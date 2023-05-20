@@ -35,3 +35,28 @@ RegisterNetEvent('ps-adminmenu:server:changeResourceState', function(name, state
 		StartResource(name)
 	end
 end)
+
+
+RegisterNetEvent('ps-adminmenu:server:SaveCar', function(mods, vehicle, _, plate)
+    local src = source
+    if QBCore.Functions.HasPermission(src, 'admin') or IsPlayerAceAllowed(src, 'command') then
+        local Player = QBCore.Functions.GetPlayer(src)
+        local result = MySQL.query.await('SELECT plate FROM player_vehicles WHERE plate = ?', { plate })
+        if result[1] == nil then
+            MySQL.insert('INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state) VALUES (?, ?, ?, ?, ?, ?, ?)', {
+                Player.PlayerData.license,
+                Player.PlayerData.citizenid,
+                vehicle.model,
+                vehicle.hash,
+                json.encode(mods),
+                plate,
+                0
+            })
+            TriggerClientEvent('QBCore:Notify', src, Lang:t("success.veh_owner"), 'success', 5000)
+        else
+            TriggerClientEvent('QBCore:Notify', src, Lang:t("error.u_veh_owner"), 'error', 3000)
+        end
+    else
+        BanPlayer(src)
+    end
+end)
