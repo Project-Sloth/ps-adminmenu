@@ -44,3 +44,15 @@ RegisterNetEvent('ps-adminmenu:client:UpdateResources', function(data)
     })
     --print("Done")
 end)
+
+RegisterNUICallback("RefreshResources", function(data, cb)
+	TriggerServerEvent("ps-adminmenu:client:Getresources")
+end)
+
+RegisterNUICallback("ChangeResourcesState", function(data, cb)
+	local name = data.name
+	local state = data.state
+	TriggerServerEvent("ps-adminmenu:server:changeResourceState", name, state)
+	TriggerServerEvent("ps-adminmenu:client:Getresources")
+	cb("ok")
+end)

@@ -1,11 +1,8 @@
 <script lang="ts">
     import {toggleWideMenu, menuWideStore, RESOURCESBUTTONS, RESOURCES} from '@store/stores';
+	import { SendNUI } from '@utils/SendNUI'
 
     const started = Array().fill(false);
-
-    function toggleState(index: number) {
-        started[index] = !started[index];
-    }
 
     let searchTerm = '';
 
@@ -16,7 +13,7 @@
         <!-- Search Bar -->
         <div class="h-[7.5rem] w-full border-b-2 border-tertiary flex items-center justify-center"> 
             <input class="ml-8 mt-2 w-full h-[95%] bg-transparent font-medium text-[2.1rem]" type="text" placeholder="Search" bind:value={searchTerm}>
-            <button class="fa-solid fa-magnifying-glass fa-xl hover:bg-tertiary h-full w-40"></button>
+            <button on:click={ () => { SendNUI("RefreshResources") }} class="fa-solid fa-arrows-rotate fa-xl hover:bg-tertiary h-full w-40"></button>
         </div>
         <!-- Resource List -->
         <div class="w-[37.3rem] h-[91.5%] flex items-center flex-col overflow-auto ">
@@ -26,10 +23,22 @@
                     <div class="mt-2 ml-2 w-[95%] min-h-[16rem] bg-primary text-start px-4 flex flex-col hover:bg-tertiary">
                         <div class="ml-auto flex mt-4">
                             {#if button.resourceState === "started"}
-                                <button class="z-50 mr-3 border border-yellow-400 p-2 px-4 text-yellow-400 hover:text-white hover:bg-yellow-400 rounded-lg"><i class="fa-solid fa-arrows-rotate"></i></button>
-                                <button on:click={() => toggleState(i)} class="z-50 border border-red-500 p-2 px-4 text-red-400 hover:text-white hover:bg-red-500 rounded-lg"><i class="fa-solid fa-stop"></i></button>
+                                <button 
+                                on:click={() => {
+                                    SendNUI('ChangeResourcesState', { name: button.name, state: "restart" });
+                                }} 
+                                class="z-50 mr-3 border border-yellow-400 p-2 px-4 text-yellow-400 hover:text-white hover:bg-yellow-400 rounded-lg"><i class="fa-solid fa-arrows-rotate"></i></button>
+                                <button 
+                                on:click={() => {
+                                    SendNUI('ChangeResourcesState', { name: button.name, state: button.resourceState });
+                                }} 
+                                class="z-50 border border-red-500 p-2 px-4 text-red-400 hover:text-white hover:bg-red-500 rounded-lg"><i class="fa-solid fa-stop z-50"></i></button>
                             {:else}
-                                <button on:click={() => toggleState(i)} class="z-50 border border-green-400 p-2 px-4 text-green-400 hover:text-white hover:bg-green-400 rounded-lg"><i class="fa-solid fa-play"></i></button>
+                                <button 
+                                on:click={() => {
+                                    SendNUI('ChangeResourcesState', { name: button.name, state: button.resourceState });
+                                }} 
+                                class="z-50 border border-green-400 p-2 px-4 text-green-400 hover:text-white hover:bg-green-400 rounded-lg"><i class="fa-solid fa-play z-50"></i></button>
                             {/if}
                         </div>
                         <p class="font-medium text-[2.5rem] ml-3 -mt-12">{button.name}</p>

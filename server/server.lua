@@ -24,8 +24,14 @@ RegisterNetEvent('ps-adminmenu:client:Getresources', function(data)
     --print("sendt resources")
 end)
     
-
-
-
-
-
+RegisterNetEvent('ps-adminmenu:server:changeResourceState', function(name, state)
+	if state == "started" then
+		StopResource(name)
+	elseif state == "stopped" then
+		StartResource(name)
+	else
+		StopResource(name)
+		Wait(200)
+		StartResource(name)
+	end
+end)
