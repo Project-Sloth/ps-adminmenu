@@ -8,13 +8,15 @@
 
     function ToggleDropdown(index: number) {
         dropdownActive[index] = !dropdownActive[index];
+
+        inputValues[index] = {};  
     }
     let showFavorites = false;
     let searchTerm = '';
-    let inputValues: { [key: string]: string } = {};
+    let inputValues: {[key: string]: string}[] = [];
     
-    function updateInputValue(label: string, value: string) {
-        inputValues[label] = value;
+    function updateInputValue(dropdownIndex: number, label: string, value: string) {
+        inputValues[dropdownIndex][label] = value;
     }
 
 </script>
@@ -52,14 +54,14 @@
                                 type="text"
                                 placeholder="{dropdownItem.label}"
                                 value={inputValues[dropdownItem.label] || ''}
-                                on:input={(event) => updateInputValue(dropdownItem.label, event.currentTarget.value)}
+                                on:input={(event) => updateInputValue(i, dropdownItem.label, event.currentTarget.value)}
                                 >
                             {:else if dropdownItem.type === 'options'}
                                 <p class="font-medium mt-2">{dropdownItem.label}:</p>
                                 <select
                                     class="bg-secondary p-3 w-[25rem] mt-1 font-medium hover:bg-tertiary"
                                     value={inputValues[dropdownItem.label] || ''}
-                                    on:change={(event) => updateInputValue(dropdownItem.label, event.currentTarget.value)}
+                                    on:input={(event) => updateInputValue(i, dropdownItem.label, event.currentTarget.value)}
                                     >
                                     {#each dropdownItem.options as option}
                                         <option value={option.value}>{option.label}</option>
@@ -68,14 +70,10 @@
                             {:else if dropdownItem.type === 'button'}
                                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary"
                                     on:click={() => {
-                                        console.log("Inputs:");
-                                        for (const [key, value] of Object.entries(inputValues)) {
-                                        console.log(key + ": " + value);
-                                        }
                                         SendNUI("normalButton", {
                                         event: dropdownItem.event,
                                         type: dropdownItem.type,
-                                        data: inputValues,
+                                        data: inputValues[i] 
                                         });
                                     }}
                                     >
