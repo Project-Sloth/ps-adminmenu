@@ -75,7 +75,7 @@ RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(inputData)
     local playerid = inputData["Player ID"]
     local reason = inputData["Reason"]
     local time = inputData["Time"]
-    if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
+
     time = tonumber(time)
     local banTime = tonumber(os.time() + time)
     if banTime > 2147483647 then
@@ -92,9 +92,9 @@ RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(inputData)
         GetPlayerName(src)
     })
     if banTime >= 2147483647 then
-        DropPlayer(playerid, Lang:t("info.banned") .. '\n' .. reason .. Lang:t("info.ban_perm") .. QBCore.Config.Server.Discord)
+        DropPlayer(playerid, Lang:t("info.banned") .. '\n' .. Lang:t("info.reason") .. reason .. Lang:t("info.ban_perm") .. '\n \n' .. Lang:t("info.join_disc") .. '\n' .. QBCore.Config.Server.Discord)
     else
-        DropPlayer(playerid, Lang:t("info.banned") .. '\n' .. reason .. Lang:t("info.ban_expires") .. timeTable['day'] .. '/' .. timeTable['month'] .. '/' .. timeTable['year'] .. ' ' .. timeTable['hour'] .. ':' .. timeTable['min'] .. '\n🔸 Check our Discord for more information: ' .. QBCore.Config.Server.Discord)
+        DropPlayer(playerid, Lang:t("info.banned") .. '\n' .. Lang:t("info.reason") .. reason .. '\n' .. Lang:t("info.ban_expires") .. timeTable['day'] .. '/' .. timeTable['month'] .. '/' .. timeTable['year'] .. ' ' .. timeTable['hour'] .. ':' .. timeTable['min'] .. '\n \n' .. Lang:t("info.join_disc") .. '\n' .. QBCore.Config.Server.Discord)
     end
 
 end)
@@ -165,4 +165,13 @@ RegisterNetEvent('ps-adminmenu:server:ReviveAll', function()
     local src = source
     if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
     TriggerClientEvent('hospital:client:Revive', -1)
+end)
+
+-- Kick Player
+RegisterNetEvent('ps-adminmenu:server:KickPlayer', function(inputData)
+    local src = source
+    local playerid = inputData["Player ID"]
+    local reason = inputData["Reason"]
+    if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
+    DropPlayer(playerid, Lang:t("info.kicked") .. '\n' .. Lang:t("info.reason") .. reason .. '\n \n' .. Lang:t("info.join_disc") .. '\n' .. QBCore.Config.Server.Discord)
 end)

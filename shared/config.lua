@@ -26,7 +26,7 @@ Config.Actions = {
                     { label = "1 Day", value = "86400"},
                     { label = "3 Days", value = "259200"},
                     { label = "1 Week", value = "604800"},
-                    { label = "Permanent", value = "315360000"},
+                    { label = "Permanent", value = "2147483647"},
                 },
             },
             { label = "Ban", InputType = "button", type = "server", event = "ps-adminmenu:server:BanPlayer" },
@@ -36,7 +36,7 @@ Config.Actions = {
         label = "Bring Player", 
         perms = "mod", 
         dropdown = {
-            { label = "Player ID", type = "input", inputtype = "normal" },
+            { label = "Player ID", type = "input", InputType = "input" },
             { label = "Bring", type = "button", type = "server", event = "ps-adminmenu:server:BringPlayer" },
         },
     },
@@ -44,7 +44,7 @@ Config.Actions = {
         label = "Change Weather", 
         perms = "mod", 
         dropdown = {
-            { label = "Weather", type = "options", 
+            { label = "Weather", InputType = "options", 
                options = { 
                 { label = "Extrasunny", value = "Extrasunny"},
                 { label = "Clear", value = "Clear"},
@@ -63,7 +63,7 @@ Config.Actions = {
                 { label = "Halloween", value = "Halloween"},
                 },
             },
-            { label = "Change", type = "button", type = "client", event = "ps-adminmenu:client:ChangeWeather" },
+            { label = "Change", InputType = "button", type = "client", event = "ps-adminmenu:client:ChangeWeather" },
         },
     },
     { 
@@ -71,8 +71,8 @@ Config.Actions = {
         type = "client",
         perms = "mod", 
         dropdown = {
-            { label = "Time", type = "input", inputtype = "normal" },
-            { label = "Change", type = "button", event = "ps-adminmenu:client:ChangeTime" },
+            { label = "Time", type = "input", InputType = "input" },
+            { label = "Change", InputType = "button", type = "client", event = "ps-adminmenu:client:ChangeTime" },
         },
     },
     { 
@@ -142,7 +142,7 @@ Config.Actions = {
         dropdown = {
             { label = "Player ID", InputType = "input" },
             { label = "Reason", InputType = "input" },
-            { label = "Kick", InputType = "button", type = "client", event = "ps-adminmenu:client:banplayer" },
+            { label = "Kick", InputType = "button", type = "server", event = "ps-adminmenu:server:KickPlayer" },
         },
     },
     { 
@@ -186,8 +186,8 @@ Config.Actions = {
         label = "Revive Player", 
         perms = "mod", 
         dropdown = {
-            { label = "Player ID", type = "input", inputtype = "normal" },
-            { label = "Revive", type = "button", type = "server", event = "ps-adminmenu:server:Revive" },
+            { label = "Player ID", type = "input", InputType = "input" },
+            { label = "Revive", InputType = "button", type = "server", event = "ps-adminmenu:server:Revive" },
         },
     },
     { 
@@ -244,22 +244,20 @@ Config.Actions = {
     },
     { 
         label = "Teleport To Player", 
-        type = "server",
         perms = "mod", 
         dropdown = {
-            { label = "Player ID", type = "input", inputtype = "normal" },
-            { label = "Teleport", type = "button", event = "ps-adminmenu:server:TeleportToPlayer" },
+            { label = "Player ID", type = "input", InputType = "input" },
+            { label = "Teleport", InputType = "button", type = "server", event = "ps-adminmenu:server:TeleportToPlayer" },
         },
     },
     { 
         label = "Teleport To Coordinates",  
-        type = "server",
         perms = "mod", 
         dropdown = {
-            { label = "X", type = "input", inputtype = "normal" },
-            { label = "Y", type = "input", inputtype = "normal" },
-            { label = "Z", type = "input", inputtype = "normal" },
-            { label = "Teleport", type = "button", event = "ps-adminmenu:server:TeleportToCoords" },
+            { label = "X", type = "input", InputType = "input" },
+            { label = "Y", type = "input", InputType = "input" },
+            { label = "Z", type = "input", InputType = "input" },
+            { label = "Teleport", InputType = "button", type = "server", event = "ps-adminmenu:server:TeleportToCoords" },
         },
     },
     { 
