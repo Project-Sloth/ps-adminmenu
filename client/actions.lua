@@ -66,3 +66,16 @@ RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(inputData)
     TriggerServerEvent('qb-weathersync:server:setWeather', weatherType)
     QBCore.Functions.Notify(Lang:t("info.weatherType", {value = weatherType}))
 end)
+
+-- Ban 
+RegisterNetEvent('ps-adminmenu:client:banplayer', function(inputData)
+    local playerid = inputData["Player ID"]
+    local reason = inputData["Reason"]
+    local time = inputData["Time"].Time
+    if playerid and reason and time then
+        print("ID: " .. playerid)
+        print("Reason: " .. reason)
+        print("Time: " .. time)
+        TriggerServerEvent("ps-adminmenu:server:banplayer", playerid, time, reason)
+    end
+end)
