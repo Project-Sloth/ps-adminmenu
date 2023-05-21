@@ -1,5 +1,7 @@
 Config = {}
 
+Config.Inventory = "qb" -- qb, lj, ox
+
 Config.Actions = {
     { 
         label = "Admin car", -- Label of the button
@@ -154,12 +156,20 @@ Config.Actions = {
     },
     { 
         label = "Open Inventory", 
-        event = "ps-adminmenu:client:OpenInventory", 
         type = "client",
         perms = "mod", 
         dropdown = {
             { label = "Player ID", type = "input", inputtype = "normal" },
-            { label = "Submit", type = "button", event = "ps-adminmenu:client:banplayer" },
+            { label = "Submit", type = "button", event = "ps-adminmenu:client:openInventory" },
+        },
+    },
+    { 
+        label = "Open Stash", 
+        type = "client",
+        perms = "mod", 
+        dropdown = {
+            { label = "Stash", type = "input", inputtype = "normal" },
+            { label = "Submit", type = "button", event = "ps-adminmenu:client:openStash" },
         },
     },
     { 
