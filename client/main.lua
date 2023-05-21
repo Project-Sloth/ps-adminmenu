@@ -26,8 +26,14 @@ RegisterNUICallback("normalButton", function(data, cb)
     local type = data.type
     local inputData = data.data
 
-    if event and inputData then
-        TriggerEvent(event, inputData)
+    if event and inputData and type then
+        if type == "client" then
+            TriggerEvent(event, inputData)
+        elseif type == "server" then
+            TriggerServerEvent(event, inputData)
+        elseif type == "command" then
+            ExecuteCommand(event, inputData)
+        end
     elseif event and type then
         if type == "client" then
             TriggerEvent(event)
