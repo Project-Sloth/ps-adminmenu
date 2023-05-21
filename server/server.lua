@@ -1,5 +1,9 @@
 QBCore = exports['qb-core']:GetCoreObject()
 
+local function NoPerms(source)
+    QBCore.Functions.Notify(source, Lang:t('error.no_perms'), 'error')
+end
+
 RegisterNetEvent('ps-adminmenu:client:Getresources', function(data)
     local totalResources = GetNumResources()
     -- print("total " .. totalResources)
@@ -35,35 +39,33 @@ RegisterNetEvent('ps-adminmenu:server:changeResourceState', function(name, state
 		StartResource(name)
 	end
 end)
-
-
+--admincar
 RegisterNetEvent('ps-adminmenu:server:SaveCar', function(mods, vehicle, _, plate)
     local src = source
-    if QBCore.Functions.HasPermission(src, 'admin') or IsPlayerAceAllowed(src, 'command') then
-        local Player = QBCore.Functions.GetPlayer(src)
-        local result = MySQL.query.await('SELECT plate FROM player_vehicles WHERE plate = ?', { plate })
-        if result[1] == nil then
-            MySQL.insert('INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state) VALUES (?, ?, ?, ?, ?, ?, ?)', {
-                Player.PlayerData.license,
-                Player.PlayerData.citizenid,
-                vehicle.model,
-                vehicle.hash,
-                json.encode(mods),
-                plate,
-                0
-            })
-            TriggerClientEvent('QBCore:Notify', src, Lang:t("success.veh_owner"), 'success', 5000)
-        else
-            TriggerClientEvent('QBCore:Notify', src, Lang:t("error.u_veh_owner"), 'error', 3000)
-        end
+    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+    local Player = QBCore.Functions.GetPlayer(src)
+    local result = MySQL.query.await('SELECT plate FROM player_vehicles WHERE plate = ?', { plate })
+    if result[1] == nil then
+        MySQL.insert('INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state) VALUES (?, ?, ?, ?, ?, ?, ?)', {
+            Player.PlayerData.license,
+            Player.PlayerData.citizenid,
+            vehicle.model,
+            vehicle.hash,
+            json.encode(mods),
+            plate,
+            0
+        })
+        TriggerClientEvent('QBCore:Notify', src, Lang:t("success.veh_owner"), 'success', 5000)
     else
-        BanPlayer(src)
+        TriggerClientEvent('QBCore:Notify', src, Lang:t("error.u_veh_owner"), 'error', 3000)
     end
+
 end)
 
+--ban player
 RegisterNetEvent('ps-adminmenu:server:banplayer', function(player, time, reason)
     local src = source
-    if not QBCore.Functions.HasPermission(src, "mod") or IsPlayerAceAllowed(src, 'command') then NoPerms(src) return end
+    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
     time = tonumber(time)
     local banTime = tonumber(os.time() + time)
     if banTime > 2147483647 then
@@ -87,3 +89,35 @@ RegisterNetEvent('ps-adminmenu:server:banplayer', function(player, time, reason)
 
 end)
 
+-- bring player
+RegisterNetEvent('ps-adminmenu:server:BringPlayer', function(inputData)
+    local src = source
+    local targetPed = inputData["Player ID"]
+
+    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+    local admin = GetPlayerPed(src)
+    local coords = GetEntityCoords(admin)
+    local target = GetPlayerPed(targetPed)
+    SetEntityCoords(target, coords)
+
+end)
+
+-- heal player
+RegisterNetEvent('ps-adminmenu:server:Revive', function(inputData)
+    local src = source
+    local id = inputData["Player ID"]
+    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+    if type(id) ~= 'string' and type(id) ~= 'number' then
+        return
+    end
+    id = tonumber(id)
+
+    TriggerClientEvent('hospital:client:Revive', id)
+end)
+
+-- heal all players
+RegisterNetEvent('ps-adminmenu:server:ReviveAll', function()
+    local src = source
+    if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
+    TriggerClientEvent('hospital:client:Revive', -1)
+end)
