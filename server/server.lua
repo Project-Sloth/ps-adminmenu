@@ -35,3 +35,7 @@ RegisterNetEvent('ps-adminmenu:server:changeResourceState', function(name, state
 		StartResource(name)
 	end
 end)
+
+RegisterNetEvent('ps-adminmenu:server:testserver', function(data)
+    print("server")
+end)

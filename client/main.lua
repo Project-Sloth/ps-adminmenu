@@ -1,5 +1,6 @@
 QBCore = exports['qb-core']:GetCoreObject()
 
+
 local function toggleUI(bool)
 	SetNuiFocus(bool, bool)
 	SendNUIMessage({
@@ -7,6 +8,7 @@ local function toggleUI(bool)
 		data = bool
 	})
 end
+
 
 RegisterCommand("admin", function()
 	toggleUI(true)
@@ -17,30 +19,25 @@ RegisterCommand("admin", function()
 	TriggerServerEvent("ps-adminmenu:client:Getresources")
 end, false)
 
+
 RegisterNUICallback("hideUI", function()
     toggleUI(false)
 end)
+
 
 RegisterNUICallback("normalButton", function(data, cb)
     local event = data.event
     local type = data.type
     local inputData = data.data
 
-    if event and inputData and type then
+    print("Event: "..event.." Type: "..type)
+    if event and type then
         if type == "client" then
             TriggerEvent(event, inputData)
         elseif type == "server" then
             TriggerServerEvent(event, inputData)
         elseif type == "command" then
             ExecuteCommand(event, inputData)
-        end
-    elseif event and type then
-        if type == "client" then
-            TriggerEvent(event)
-        elseif type == "server" then
-            TriggerServerEvent(event)
-        elseif type == "command" then
-            ExecuteCommand(event)
         end
     end
     cb("ok")
@@ -56,9 +53,11 @@ RegisterNetEvent('ps-adminmenu:client:UpdateResources', function(data)
     --print("Done")
 end)
 
+
 RegisterNUICallback("RefreshResources", function(data, cb)
 	TriggerServerEvent("ps-adminmenu:client:Getresources")
 end)
+
 
 RegisterNUICallback("ChangeResourcesState", function(data, cb)
 	local name = data.name

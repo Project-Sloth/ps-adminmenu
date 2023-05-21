@@ -32,12 +32,20 @@ end)
 -- Open Stash
 RegisterNetEvent('ps-adminmenu:client:openStash', function(inputData)
     local stash = inputData["Stash"]
-    TriggerServerEvent("inventory:server:OpenInventory", "stash", tostring(stash))
-    TriggerEvent("inventory:client:SetCurrentStash", tostring(stash))
+    if not Config.UseOXInventory then
+        TriggerServerEvent("inventory:server:OpenInventory", "stash", tostring(stash))
+        TriggerEvent("inventory:client:SetCurrentStash", tostring(stash))
+    else 
+        print("ox_inv")
+    end
 end)
 
 -- Open Inventory
 RegisterNetEvent('ps-adminmenu:client:openInventory', function(inputData)
     local playerid = inputData["Player ID"]
-    TriggerServerEvent("inventory:server:OpenInventory", "otherplayer", playerid)
+    if not Config.UseOXInventory then
+        TriggerServerEvent("inventory:server:OpenInventory", "otherplayer", playerid)
+    else 
+        print("ox_inv")
+    end
 end)

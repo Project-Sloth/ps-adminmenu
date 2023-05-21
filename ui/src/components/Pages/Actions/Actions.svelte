@@ -47,7 +47,7 @@
                     {#if dropdownActive[i]}
                     <div transition:fly="{{ y: -5, duration: 150 }}" class="-mt-6 bg-primary flex flex-col flex-wrap p-4 {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%] t')}">
                         {#each button.dropdown as dropdownItem}
-                            {#if dropdownItem.type === 'input'}
+                            {#if dropdownItem.InputType === 'input'}
                                 <p class="font-medium mt-2">{dropdownItem.label}:</p>
                                 <input
                                 class="bg-secondary p-3 w-[25rem] mt-1 font-medium hover:bg-tertiary"
@@ -56,7 +56,7 @@
                                 value={inputValues[dropdownItem.label] || ''}
                                 on:input={(event) => updateInputValue(i, dropdownItem.label, event.currentTarget.value)}
                                 >
-                            {:else if dropdownItem.type === 'options'}
+                            {:else if dropdownItem.InputType === 'options'}
                                 <p class="font-medium mt-2">{dropdownItem.label}:</p>
                                 <select
                                     class="bg-secondary p-3 w-[25rem] mt-1 font-medium hover:bg-tertiary"
@@ -67,7 +67,7 @@
                                         <option value={option.value}>{option.label}</option>
                                     {/each}
                                 </select>
-                            {:else if dropdownItem.type === 'button'}
+                            {:else if dropdownItem.InputType === 'button'}
                                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary"
                                     on:click={() => {
                                         SendNUI("normalButton", {
