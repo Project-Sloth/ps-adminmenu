@@ -18,13 +18,18 @@ export const toggleWideMenu = () => {
   });
 };
 
+interface OptionsItems {
+  label: string;
+  value?: string;
+}
+
 interface DropdownItem {
   type: string;
   event?: string;
+  options?: OptionsItems[]; 
   label: string;
   inputtype?: string; 
 }
-
 
 interface ConfigItem {
   label: string;
@@ -34,7 +39,6 @@ interface ConfigItem {
   perms?: string[];
   favorited?: boolean;
 }
-
 
 export const ACTIONS = writable<ConfigItem[]>(null);
 export const ACTIONSBUTTONS = writable<ConfigItem>(null);
