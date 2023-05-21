@@ -29,23 +29,50 @@ Config.Actions = {
                     { label = "Permanent", value = "315360000"},
                 },
             },
-            { label = "Ban", InputType = "button", type = "client", event = "ps-adminmenu:client:banplayer" },
+            { label = "Ban", InputType = "button", type = "server", event = "ps-adminmenu:server:BanPlayer" },
         },
     },
     { 
         label = "Bring Player", 
         perms = "mod", 
         dropdown = {
-            { label = "Player ID", InputType = "input" },
-            { label = "Bring", InputType = "button", type = "client", event = "" },
+            { label = "Player ID", type = "input", inputtype = "normal" },
+            { label = "Bring", type = "button", type = "server", event = "ps-adminmenu:server:BringPlayer" },
         },
     },
     { 
         label = "Change Weather", 
         perms = "mod", 
         dropdown = {
-            { label = "Wheather", InputType = "input" },
-            { label = "Change", InputType = "button", type = "client", event = "" },
+            { label = "Weather", type = "options", 
+               options = { 
+                { label = "Extrasunny", value = "Extrasunny"},
+                { label = "Clear", value = "Clear"},
+                { label = "Neutral", value = "Neutral"},
+                { label = "Smog", value = "Smog"},
+                { label = "Foggy", value = "Foggy"},
+                { label = "Overcast", value = "Overcast"},
+                { label = "Clouds", value = "Clouds"},
+                { label = "Clearing", value = "Clearing"},
+                { label = "Rain", value = "Rain"},
+                { label = "Thunder", value = "Thunder"},
+                { label = "Snow", value = "Snow"},
+                { label = "Blizzard", value = "Blizzard"},
+                { label = "Snowlight", value = "Snowlight"},
+                { label = "Xmas", value = "Xmas"},
+                { label = "Halloween", value = "Halloween"},
+                },
+            },
+            { label = "Change", type = "button", type = "client", event = "ps-adminmenu:client:ChangeWeather" },
+        },
+    },
+    { 
+        label = "Change Time", 
+        type = "client",
+        perms = "mod", 
+        dropdown = {
+            { label = "Time", type = "input", inputtype = "normal" },
+            { label = "Change", type = "button", event = "ps-adminmenu:client:ChangeTime" },
         },
     },
     { 
@@ -159,14 +186,14 @@ Config.Actions = {
         label = "Revive Player", 
         perms = "mod", 
         dropdown = {
-            { label = "Player ID", InputType = "input" },
-            { label = "Revive", InputType = "button", type = "client", event = "ps-adminmenu:client:banplayer" },
+            { label = "Player ID", type = "input", inputtype = "normal" },
+            { label = "Revive", type = "button", type = "server", event = "ps-adminmenu:server:Revive" },
         },
     },
     { 
         label = "Revive All", 
-        event = "ps-adminmenu:client:ReviveAll", 
-        type = "client" 
+        event = "ps-adminmenu:server:ReviveAll", 
+        type = "server" 
     },
     { 
         label = "Revive Radius", 
@@ -217,23 +244,32 @@ Config.Actions = {
     },
     { 
         label = "Teleport To Player", 
+        type = "server",
         perms = "mod", 
         dropdown = {
-            { label = "Player ID", InputType = "input" },
-            { label = "Teleport", InputType = "button", type = "client", event = "ps-adminmenu:client:banplayer" },
+            { label = "Player ID", type = "input", inputtype = "normal" },
+            { label = "Teleport", type = "button", event = "ps-adminmenu:server:TeleportToPlayer" },
         },
     },
     { 
-        label = "Teleport To Coordinates", 
+        label = "Teleport To Coordinates",  
+        type = "server",
         perms = "mod", 
         dropdown = {
-            { label = "Coordinates", InputType = "input" },
-            { label = "Teleport", InputType = "button", type = "client", event = "ps-adminmenu:client:banplayer" },
+            { label = "X", type = "input", inputtype = "normal" },
+            { label = "Y", type = "input", inputtype = "normal" },
+            { label = "Z", type = "input", inputtype = "normal" },
+            { label = "Teleport", type = "button", event = "ps-adminmenu:server:TeleportToCoords" },
         },
     },
     { 
         label = "Teleport To Marker", 
         event = "ps-adminmenu:client:TeleportToMarker", 
+        type = "client" 
+    },
+    { 
+        label = "Teleport Back", 
+        event = "ps-adminmenu:client:TeleportBack", 
         type = "client" 
     },
     { 

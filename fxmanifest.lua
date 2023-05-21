@@ -14,15 +14,18 @@ ui_page 'html/index.html'
 -- ui_page 'http://localhost:3000/' --for dev
 
 client_script {
-  'client/**',
+    'client/**',
 }
-server_script {
-  "server/**",
-  }
+server_scripts {
+    "@oxmysql/lib/MySQL.lua",
+    "server/**",
+}
 shared_script {
-  "shared/**",
-  }
+	'@qb-core/shared/locale.lua',
+	'locales/en.lua',
+    "shared/**",
+}
 
 files {
-  'html/**',
+    'html/**',
 }
