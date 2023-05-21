@@ -76,19 +76,6 @@ RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(inputData)
     QBCore.Functions.Notify(Lang:t("info.weatherType", {value = weatherType}))
 end)
 
--- Ban
-RegisterNetEvent('ps-adminmenu:client:banplayer', function(inputData)
-    local playerid = inputData["Player ID"]
-    local reason = inputData["Reason"]
-    local time = inputData["Time"]
-    if playerid and reason and time then
-        print("ID: " .. playerid)
-        print("Reason: " .. reason)
-        print("Time: " .. time)
-        TriggerServerEvent("ps-adminmenu:server:banplayer", playerid, time, reason)
-    end
-end)
-
 -- Teleport back
 local function teleport(vehicle, x, y, z)
     local ped = PlayerPedId()
