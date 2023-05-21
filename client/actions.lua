@@ -61,6 +61,13 @@ end)
 
 
 
+-- Time
+RegisterNetEvent('ps-adminmenu:client:ChangeTime', function(inputData)
+    local time = inputData["Time"]
+    print(time)
+    TriggerServerEvent('qb-weathersync:server:setTime', time)
+end)
+
 -- weather
 RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(inputData)
     local weatherType = inputData["Weather"]
@@ -68,8 +75,6 @@ RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(inputData)
     TriggerServerEvent('qb-weathersync:server:setWeather', weatherType)
     QBCore.Functions.Notify(Lang:t("info.weatherType", {value = weatherType}))
 end)
-
-
 
 -- Ban
 RegisterNetEvent('ps-adminmenu:client:banplayer', function(inputData)
@@ -82,4 +87,124 @@ RegisterNetEvent('ps-adminmenu:client:banplayer', function(inputData)
         print("Time: " .. time)
         TriggerServerEvent("ps-adminmenu:server:banplayer", playerid, time, reason)
     end
+end)
+
+-- Teleport back
+local function teleport(vehicle, x, y, z)
+    local ped = PlayerPedId()
+    if vehicle then
+        return SetPedCoordsKeepVehicle(ped, x, y, z)
+    end    
+    SetEntityCoords(ped, x, y, z, false, false, false, false)
+end
+
+local lastCoords
+RegisterNetEvent('ps-adminmenu:client:TeleportBack', function(coords)
+    local ped = PlayerPedId()
+    local vehicle = GetVehiclePedIsIn(ped, false)
+    if lastCoords then
+        local currentCoords = GetEntityCoords(ped)
+        teleport(vehicle, lastCoords.x, lastCoords.y, lastCoords.z)
+        lastCoords = currentCoords
+    end
+end)
+-- tp to player
+RegisterNetEvent('ps-adminmenu:client:TeleportToPlayer', function(coords)
+    local ped = PlayerPedId()
+    lastCoords = GetEntityCoords(ped)
+    SetPedCoordsKeepVehicle(ped, coords.x, coords.y, coords.z)
+end)
+-- tp to coords
+RegisterNetEvent('ps-adminmenu:client:TeleportToCoords', function(x, y, z, h)
+    local ped = PlayerPedId()
+    lastCoords = GetEntityCoords(ped)
+    SetPedCoordsKeepVehicle(ped, x, y, z)
+    SetEntityHeading(ped, h or GetEntityHeading(ped))
+end)
+-- tp to marker
+RegisterNetEvent('ps-adminmenu:client:TeleportToMarker', function()
+    local PlayerPedId = PlayerPedId
+    local GetEntityCoords = GetEntityCoords
+    local GetGroundZFor_3dCoord = GetGroundZFor_3dCoord
+
+    local blipMarker <const> = GetFirstBlipInfoId(8)
+    if not DoesBlipExist(blipMarker) then
+        QBCore.Functions.Notify(Lang:t("error.no_waypoint"), "error", 5000)
+        return 'marker'
+    end
+
+    -- Fade screen to hide how clients get teleported.
+    DoScreenFadeOut(650)
+    while not IsScreenFadedOut() do
+        Wait(0)
+    end
+
+    local ped, coords <const> = PlayerPedId(), GetBlipInfoIdCoord(blipMarker)
+    local vehicle = GetVehiclePedIsIn(ped, false)
+    local oldCoords <const> = GetEntityCoords(ped)
+    lastCoords = GetEntityCoords(ped)
+
+    -- Unpack coords instead of having to unpack them while iterating.
+    -- 825.0 seems to be the max a player can reach while 0.0 being the lowest.
+    local x, y, groundZ, Z_START = coords['x'], coords['y'], 850.0, 950.0
+    local found = false
+    if vehicle > 0 then
+        FreezeEntityPosition(vehicle, true)
+    else
+        FreezeEntityPosition(ped, true)
+    end
+
+    for i = Z_START, 0, -25.0 do
+        local z = i
+        if (i % 2) ~= 0 then
+            z = Z_START - i
+        end
+
+        NewLoadSceneStart(x, y, z, x, y, z, 50.0, 0)
+        local curTime = GetGameTimer()
+        while IsNetworkLoadingScene() do
+            if GetGameTimer() - curTime > 1000 then
+                break
+            end
+            Wait(0)
+        end
+        NewLoadSceneStop()
+        SetPedCoordsKeepVehicle(ped, x, y, z)
+
+        while not HasCollisionLoadedAroundEntity(ped) do
+            RequestCollisionAtCoord(x, y, z)
+            if GetGameTimer() - curTime > 1000 then
+                break
+            end
+            Wait(0)
+        end
+
+        -- Get ground coord. As mentioned in the natives, this only works if the client is in render distance.
+        found, groundZ = GetGroundZFor_3dCoord(x, y, z, false);
+        if found then
+            Wait(0)
+            SetPedCoordsKeepVehicle(ped, x, y, groundZ)
+            break
+        end
+        Wait(0)
+    end
+
+    -- Remove black screen once the loop has ended.
+    DoScreenFadeIn(650)
+    if vehicle > 0 then
+        FreezeEntityPosition(vehicle, false)
+    else
+        FreezeEntityPosition(ped, false)
+    end
+
+    if not found then
+        -- If we can't find the coords, set the coords to the old ones.
+        -- We don't unpack them before since they aren't in a loop and only called once.
+        SetPedCoordsKeepVehicle(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0)
+        QBCore.Functions.Notify(Lang:t("error.tp_error"), "error", 5000)
+    end
+
+    -- If Z coord was found, set coords in found coords.
+    SetPedCoordsKeepVehicle(ped, x, y, groundZ)
+    QBCore.Functions.Notify(Lang:t("success.teleported_waypoint"), "success", 5000)
 end)
