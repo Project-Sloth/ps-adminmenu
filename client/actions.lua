@@ -49,3 +49,9 @@ RegisterNetEvent('ps-adminmenu:client:openInventory', function(inputData)
         print("ox_inv")
     end
 end)
+
+-- Mute Player
+RegisterNetEvent('ps-adminmenu:client:MutePlayer', function(inputData)
+    local playerid = inputData["Player ID"]
+    exports['pma-voice']:toggleMutePlayer(playerid)
+end)
