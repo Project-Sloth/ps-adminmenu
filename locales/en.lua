@@ -18,6 +18,9 @@ local Translations = {
         ["invisible"] = "Invisible: %{value}",
         ["banreason"] = 'Reason: %{reason}, until %{lenght}',
         ["weatherType"] = "Weather is changed to: %{value}",
+        ["ban_perm"] = "\n\nYour ban is permanent.\n🔸 Check our Discord for more information: ",
+        ["ban_expires"] = "\n\nBan expires: ",
+        ["banned"] = "You have been banned:",
     },
 
 }
