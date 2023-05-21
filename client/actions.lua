@@ -9,6 +9,7 @@ local function getVehicleFromVehList(hash)
 	end
 end
 RegisterNetEvent('ps-adminmenu:client:Admincar', function(data)
+	print("AdminCarTriggerd")
     local ped = PlayerPedId()
     local veh = GetVehiclePedIsIn(ped)
 
@@ -62,12 +63,15 @@ end)
 
 -- weather
 RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(inputData)
-    local weatherType = inputData["Wheather"]
+    local weatherType = inputData["Weather"]
+    -- print(weatherType)
     TriggerServerEvent('qb-weathersync:server:setWeather', weatherType)
     QBCore.Functions.Notify(Lang:t("info.weatherType", {value = weatherType}))
 end)
 
--- Ban 
+
+
+-- Ban
 RegisterNetEvent('ps-adminmenu:client:banplayer', function(inputData)
     local playerid = inputData["Player ID"]
     local reason = inputData["Reason"]
