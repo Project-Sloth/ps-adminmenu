@@ -92,15 +92,6 @@ Config.Actions = {
         },
     },
     { 
-        label = "Give Money", 
-        perms = "mod", 
-        dropdown = {
-            { label = "Player ID", InputType = "input" },
-            { label = "Amount", InputType = "input" },
-            { label = "Give", InputType = "button", type = "client", event = "" },
-        },
-    },
-    { 
         label = "Give Nui Focus", 
         perms = "mod", 
         dropdown = {
@@ -190,6 +181,22 @@ Config.Actions = {
             { label = "Job", InputType = "input" },
             { label = "Grade", InputType = "input" },
             { label = "Sumbit", InputType = "button", type = "client", event = "ps-adminmenu:client:banplayer" },
+        },
+    },
+    { 
+        label = "Set Money", 
+        perms = "mod", 
+        dropdown = {
+            { label = "Player ID", InputType = "input" },
+            { label = "Amount", InputType = "input" },
+            { label = "Type", InputType = "options", 
+                options = { 
+                    { label = "Bank", value = "bank"},
+                    { label = "Cash", value = "cash"},
+                    { label = "Crypto", value = "crypto"},
+                },
+            },
+            { label = "Give", InputType = "button", type = "client", event = "" },
         },
     },
     { 
