@@ -27,7 +27,7 @@ Config.Actions = {
                     { label = "Permanent", value = "315360000"},
                 },
             },
-            { label = "Ban", type = "button", event = "ps-adminmenu:client:banplayer" },
+            { label = "Ban", type = "button", event = "ps-adminmenu:server:BanPlayer" },
         },
     },
     { 
