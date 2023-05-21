@@ -65,8 +65,9 @@ end)
 --ban player
 RegisterNetEvent('ps-adminmenu:server:banplayer', function(player, time, reason)
     local src = source
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+    if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
     time = tonumber(time)
+    print("tet")
     local banTime = tonumber(os.time() + time)
     if banTime > 2147483647 then
         banTime = 2147483647
@@ -102,9 +103,44 @@ RegisterNetEvent('ps-adminmenu:server:BringPlayer', function(inputData)
 
 end)
 
+-- teleport to player
+RegisterNetEvent('ps-adminmenu:server:TeleportToPlayer', function(inputData)
+    local src = source
+    
+    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+    local target = GetPlayerPed(tonumber(inputData["Player ID"]))
+    if target ~= 0 then
+        local coords = GetEntityCoords(target)
+        TriggerClientEvent('ps-adminmenu:client:TeleportToPlayer', src, coords)
+    else
+        TriggerClientEvent('QBCore:Notify', src, Lang:t('error.not_online'), 'error')
+    end
+end)
+
+-- teleport to coords
+RegisterNetEvent('ps-adminmenu:server:TeleportToCoords', function(inputData)
+    local src = source
+    local xdata = inputData["X"]
+    local ydata = inputData["Y"]
+    local zdata = inputData["Z"]
+
+    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+    if xdata and ydata and zdata then
+        local x = tonumber((xdata:gsub(",",""))) + .0
+        local y = tonumber((ydata:gsub(",",""))) + .0
+        local z = tonumber((zdata:gsub(",",""))) + .0
+        TriggerClientEvent('ps-adminmenu:client:TeleportToCoords', src, x, y, z)
+        
+    else
+        TriggerClientEvent('QBCore:Notify', src, Lang:t('error.missing_args'), 'error')
+    end
+
+end)
+
 -- heal player
 RegisterNetEvent('ps-adminmenu:server:Revive', function(inputData)
     local src = source
+    print(inputData)
     local id = inputData["Player ID"]
     if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
     if type(id) ~= 'string' and type(id) ~= 'number' then
