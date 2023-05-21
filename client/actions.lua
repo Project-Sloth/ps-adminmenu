@@ -9,7 +9,6 @@ local function getVehicleFromVehList(hash)
 	end
 end
 RegisterNetEvent('ps-adminmenu:client:Admincar', function(data)
-	print("AdminCarTriggerd")
     local ped = PlayerPedId()
     local veh = GetVehiclePedIsIn(ped)
 
@@ -34,9 +33,36 @@ RegisterNetEvent('ps-adminmenu:client:ToggleInvisible', function(data)
     local ped = PlayerPedId()
     if not invisible then
         invisible = true
+        QBCore.Functions.Notify(Lang:t("info.invisible", {value = "on"}), 'inform')
         SetEntityVisible(ped, false, 0)
     else
         invisible = false
         SetEntityVisible(ped, true, 0)
+        QBCore.Functions.Notify(Lang:t("info.invisible", {value = "off"}), 'inform')
     end
+end)
+
+-- godmode
+local Godmode = false
+RegisterNetEvent('ps-adminmenu:client:ToggleGodmode', function(data)
+    godmode = not godmode
+
+    if godmode then
+        QBCore.Functions.Notify(Lang:t("info.godmode", {value = "enabled"}), 'inform')
+        while godmode do
+            Wait(0)
+            SetPlayerInvincible(PlayerId(), true)
+        end
+        SetPlayerInvincible(PlayerId(), false)
+        QBCore.Functions.Notify(Lang:t("info.godmode", {value = "disabled"}), 'inform')
+    end
+end)
+
+
+
+-- weather
+RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(data)
+    local weatherType = inputData["Wheather"]
+    TriggerServerEvent('qb-weathersync:server:setWeather', weatherType)
+    QBCore.Functions.Notify(Lang:t("info.weatherType", {value = weatherType}))
 end)
