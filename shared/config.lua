@@ -65,9 +65,23 @@ Config.Actions = {
         },
     },
     { 
+        label = "Copy Coordinates", 
+        perms = "mod", 
+        dropdown = {
+            { label = "Copy Vector2", InputType = "button", type = "client", event = "" },
+            { label = "Copy Vector3", InputType = "button", type = "client", event = "" },
+            { label = "Copy Vector4", InputType = "button", type = "client", event = "" },
+        },
+    },
+    { 
         label = "Customs", 
         event = "ps-adminmenu:client:Customs", 
         type = "client" 
+    },
+    { 
+        label = "Delete Vehicle", 
+        event = "dv", 
+        type = "command" 
     },
     { 
         label = "Freeze Player", 
@@ -126,7 +140,7 @@ Config.Actions = {
         perms = "mod", 
         dropdown = {
             { label = "Player ID", InputType = "input" },
-            { label = "Mute", InputType = "button", type = "client", event = "ps-adminmenu:client:banplayer" },
+            { label = "Mute", InputType = "button", type = "client", event = "ps-adminmenu:client:MutePlayer" },
         },
     },
     { 
@@ -183,7 +197,7 @@ Config.Actions = {
         perms = "mod", 
         dropdown = {
             { label = "Vehicle", InputType = "input" },
-            { label = "Sumbit", InputType = "button", type = "client", event = "ps-adminmenu:client:banplayer" },
+            { label = "Sumbit", InputType = "button", type = "server", event = "ps-adminmenu:server:SpawnVehicle" },
         },
     },
     { 
