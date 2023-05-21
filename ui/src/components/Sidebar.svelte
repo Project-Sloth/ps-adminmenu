@@ -3,7 +3,7 @@
 
 </script>
 
-<div class="w-[6rem] h-[93%] bg-primary float-right">
+<div class="w-[6rem] h-[91%] bg-primary float-right">
     <div class="w-full h-full flex flex-col-reverse">
         <button on:click={() => currentPage.set('settings')} class="w-full h-[5.5rem] hover:bg-secondary mb-16 {($currentPage === 'settings' ? 'bg-tertiary text-accent' : '')}"><i class="fas fa-gear fa-lg"></i></button>
         <button on:click={() => currentPage.set('actions')} class="w-full h-[5.5rem] hover:bg-secondary {($currentPage === 'actions' ? 'bg-tertiary text-accent' : '')}"><i class="fas fa-hat-wizard fa-lg"></i></button>
