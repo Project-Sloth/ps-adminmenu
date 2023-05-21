@@ -63,29 +63,31 @@ RegisterNetEvent('ps-adminmenu:server:SaveCar', function(mods, vehicle, _, plate
 end)
 
 --ban player
-RegisterNetEvent('ps-adminmenu:server:banplayer', function(player, time, reason)
+RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(inputData)
     local src = source
+    local playerid = inputData["Player ID"]
+    local reason = inputData["Reason"]
+    local time = inputData["Time"]
     if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
     time = tonumber(time)
-    print("tet")
     local banTime = tonumber(os.time() + time)
     if banTime > 2147483647 then
         banTime = 2147483647
     end
     local timeTable = os.date('*t', banTime)
     MySQL.insert('INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)', {
-        GetPlayerName(player.id),
-        QBCore.Functions.GetIdentifier(player.id, 'license'),
-        QBCore.Functions.GetIdentifier(player.id, 'discord'),
-        QBCore.Functions.GetIdentifier(player.id, 'ip'),
+        GetPlayerName(playerid),
+        QBCore.Functions.GetIdentifier(playerid, 'license'),
+        QBCore.Functions.GetIdentifier(playerid, 'discord'),
+        QBCore.Functions.GetIdentifier(playerid, 'ip'),
         reason,
         banTime,
         GetPlayerName(src)
     })
     if banTime >= 2147483647 then
-        DropPlayer(player.id, Lang:t("info.banned") .. '\n' .. reason .. Lang:t("info.ban_perm") .. QBCore.Config.Server.Discord)
+        DropPlayer(playerid, Lang:t("info.banned") .. '\n' .. reason .. Lang:t("info.ban_perm") .. QBCore.Config.Server.Discord)
     else
-        DropPlayer(player.id, Lang:t("info.banned") .. '\n' .. reason .. Lang:t("info.ban_expires") .. timeTable['day'] .. '/' .. timeTable['month'] .. '/' .. timeTable['year'] .. ' ' .. timeTable['hour'] .. ':' .. timeTable['min'] .. '\n🔸 Check our Discord for more information: ' .. QBCore.Config.Server.Discord)
+        DropPlayer(playerid, Lang:t("info.banned") .. '\n' .. reason .. Lang:t("info.ban_expires") .. timeTable['day'] .. '/' .. timeTable['month'] .. '/' .. timeTable['year'] .. ' ' .. timeTable['hour'] .. ':' .. timeTable['min'] .. '\n🔸 Check our Discord for more information: ' .. QBCore.Config.Server.Discord)
     end
 
 end)
