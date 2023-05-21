@@ -67,6 +67,15 @@ Config.Actions = {
         },
     },
     { 
+        label = "Change Time", 
+        type = "client",
+        perms = "mod", 
+        dropdown = {
+            { label = "Time", type = "input", inputtype = "normal" },
+            { label = "Change", type = "button", event = "ps-adminmenu:client:ChangeTime" },
+        },
+    },
+    { 
         label = "Clear Inventory", 
         event = "ps-adminmenu:client:ClearInventory", 
         type = "client",
@@ -180,7 +189,6 @@ Config.Actions = {
     },
     { 
         label = "Revive Player", 
-
         type = "server",
         perms = "mod", 
         dropdown = {
@@ -232,27 +240,32 @@ Config.Actions = {
     },
     { 
         label = "Teleport To Player", 
-        event = "ps-adminmenu:client:TeleportToPlayer", 
-        type = "client",
+        type = "server",
         perms = "mod", 
         dropdown = {
             { label = "Player ID", type = "input", inputtype = "normal" },
-            { label = "Teleport", type = "button", event = "ps-adminmenu:client:banplayer" },
+            { label = "Teleport", type = "button", event = "ps-adminmenu:server:TeleportToPlayer" },
         },
     },
     { 
-        label = "Teleport To Coordinates", 
-        event = "ps-adminmenu:client:TeleportToCoords", 
-        type = "client",
+        label = "Teleport To Coordinates",  
+        type = "server",
         perms = "mod", 
         dropdown = {
-            { label = "Coordinates", type = "input", inputtype = "normal" },
-            { label = "Teleport", type = "button", event = "ps-adminmenu:client:banplayer" },
+            { label = "X", type = "input", inputtype = "normal" },
+            { label = "Y", type = "input", inputtype = "normal" },
+            { label = "Z", type = "input", inputtype = "normal" },
+            { label = "Teleport", type = "button", event = "ps-adminmenu:server:TeleportToCoords" },
         },
     },
     { 
         label = "Teleport To Marker", 
         event = "ps-adminmenu:client:TeleportToMarker", 
+        type = "client" 
+    },
+    { 
+        label = "Teleport Back", 
+        event = "ps-adminmenu:client:TeleportBack", 
         type = "client" 
     },
     { 
