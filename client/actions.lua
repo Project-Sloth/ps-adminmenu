@@ -61,7 +61,7 @@ end)
 
 
 -- weather
-RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(data)
+RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(inputData)
     local weatherType = inputData["Wheather"]
     TriggerServerEvent('qb-weathersync:server:setWeather', weatherType)
     QBCore.Functions.Notify(Lang:t("info.weatherType", {value = weatherType}))
