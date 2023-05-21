@@ -36,6 +36,8 @@ RegisterNetEvent('ps-adminmenu:server:changeResourceState', function(name, state
 	end
 end)
 
-RegisterNetEvent('ps-adminmenu:server:testserver', function(data)
-    print("server")
+-- Spawn Vehicle
+RegisterNetEvent('ps-adminmenu:server:SpawnVehicle', function(inputData)
+    local vehicle = inputData["Vehicle"]
+    TriggerClientEvent('QBCore:Command:SpawnVehicle', source, vehicle)
 end)
