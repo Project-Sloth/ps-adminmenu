@@ -25,6 +25,7 @@ interface OptionsItems {
 
 interface DropdownItem {
   type: string;
+  InputType?: string;
   event?: string;
   options?: OptionsItems[]; 
   label: string;
