@@ -43,7 +43,7 @@
                         <i class="fa fa-{(dropdownActive[i] ? 'angle-down' : 'angle-right')} fa-lg ml-auto"></i>
                     </button>
                     {#if dropdownActive[i]}
-                    <div transition:fly="{{ y: -20, duration: 150 }}" class="bg-primary flex flex-col flex-wrap p-4 {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%] t')}">
+                    <div transition:fly="{{ y: -5, duration: 250 }}" class="-mt-6 bg-primary flex flex-col flex-wrap p-4 {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%] t')}">
                         {#each button.dropdown as dropdownItem}
                             {#if dropdownItem.type === 'input'}
                                 <p class="font-medium mt-2">{dropdownItem.label}:</p>
