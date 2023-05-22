@@ -12,6 +12,7 @@ local Translations = {
     success = {
         ["veh_owner"] = "The vehicle is now yours!",
         ["teleported_waypoint"] = 'Teleported To Waypoint.',
+        ["invcleared"] = "%{player}'s inventory is cleared"
     },
     info = {
         ["godmode"] = "Godmode is %{value}",
