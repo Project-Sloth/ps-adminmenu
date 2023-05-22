@@ -208,4 +208,29 @@ RegisterNetEvent('ps-adminmenu:server:ClothingMenu', function(inputData)
     if playerId == src then
         TriggerClientEvent("ps-adminmenu:client:CloseUI", src)
     end
+    local Player = QBCore.Functions.GetPlayer(playerId)
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
+end)
+
+-- Freeze Player
+local frozen = false
+RegisterNetEvent('ps-adminmenu:server:FreezePlayer', function(inputData)
+    local src = source
+    local playerId = tonumber(inputData["Player ID"])
+    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+    local target = GetPlayerPed(playerId)
+    local Player = QBCore.Functions.GetPlayer(playerId)
+
+    if not frozen then
+        frozen = true
+        FreezeEntityPosition(target, true)
+        QBCore.Functions.Notify(src, Lang:t("success.Frozen", {player = Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname.. " | " ..Player.PlayerData.citizenid}), 'Success', 7500)
+    else
+        frozen = false
+        FreezeEntityPosition(target, false)
+        QBCore.Functions.Notify(src, Lang:t("success.deFrozen", {player = Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname.. " | " ..Player.PlayerData.citizenid}), 'Success', 7500)
+
+    end
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
+
 end)
