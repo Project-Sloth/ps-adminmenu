@@ -1,6 +1,6 @@
 Config = {}
 
-Config.Inventory =  "lj" -- qb(for qb-inventory) lj(for lj-inventory) or ox(for ox_inventory) [Inventory system]
+Config.InventoryUsage =  "lj" -- qb(for qb-inventory) lj(for lj-inventory) or ox(for ox_inventory) [Inventory system]
 
 Config.Actions = {
     { 
@@ -36,7 +36,7 @@ Config.Actions = {
         perms = "mod", 
         dropdown = {
             { label = "Player ID", type = "input", InputType = "input" },
-            { label = "Bring", type = "button", type = "server", event = "ps-adminmenu:server:BringPlayer" },
+            { label = "Bring", InputType = "button", type = "server", event = "ps-adminmenu:server:BringPlayer" },
         },
     },
     { 
@@ -154,7 +154,7 @@ Config.Actions = {
         perms = "mod", 
         dropdown = {
             { label = "Player ID", InputType = "input" },
-            { label = "Freeze", InputType = "button", type = "client", event = "" },
+            { label = "Freeze", InputType = "button", type = "server", event = "ps-adminmenu:server:FreezePlayer" },
         },
     },
     { 
@@ -202,7 +202,7 @@ Config.Actions = {
     },
     { 
         label = "Noclip", 
-        event = "ps-adminmenu:client:ToggleNoclip", 
+        event = "ps-adminmenu:client:ToggleNoClip", 
         type = "client" 
     },
     { 
