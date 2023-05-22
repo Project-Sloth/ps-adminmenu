@@ -198,3 +198,14 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(inputData)
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
     QBCore.Functions.Notify(src, Lang:t("success.invcleared", {player = Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname.. " | " ..Player.PlayerData.citizenid}), 'Success', 7500)
 end)
+
+-- Clothing Menu
+RegisterNetEvent('ps-adminmenu:server:ClothingMenu', function(inputData)
+    local src = source
+    local playerId = tonumber(inputData["Player ID"])
+    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+    TriggerClientEvent('qb-clothing:client:openMenu', playerId)
+    if playerId == src then
+        TriggerClientEvent("ps-adminmenu:client:CloseUI", src)
+    end
+end)
