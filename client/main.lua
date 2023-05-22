@@ -45,14 +45,15 @@ end)
 
 
 RegisterNetEvent('ps-adminmenu:client:UpdateResources', function(data)
-    --print("Done")
     SendNUIMessage({
         action = "setResourceData", 
         data = data
     })
-    --print("Done")
 end)
 
+RegisterNetEvent('ps-adminmenu:client:CloseUI', function()
+    toggleUI(false)
+end)
 
 RegisterNUICallback("RefreshResources", function(data, cb)
 	TriggerServerEvent("ps-adminmenu:client:Getresources")
