@@ -241,15 +241,33 @@ end)
 -- Open Stash
 RegisterNetEvent('ps-adminmenu:client:openStash', function(inputData)
     local stash = inputData["Stash"]
-    TriggerServerEvent("inventory:server:OpenInventory", "stash", tostring(stash))
-    TriggerEvent("inventory:client:SetCurrentStash", tostring(stash))
+    local inv = Config.InventoryUsage
+    if not (inv == "qb" or inv == "ox" or inv == "lj") then 
+        ConfigInvInvalid()
+        return;
+    end
+    if inv == "qb" or inv == "lj" then
+        TriggerServerEvent("inventory:server:OpenInventory", "stash", tostring(stash))
+        TriggerEvent("inventory:client:SetCurrentStash", tostring(stash))
+    elseif inv == "ox" then
+        TriggerServerEvent("ps-adminmenu:server:OpenStash", stash)
+    end
 end)
 
 
 -- Open Inventory
 RegisterNetEvent('ps-adminmenu:client:openInventory', function(inputData)
     local playerid = inputData["Player ID"]
-    TriggerServerEvent("inventory:server:OpenInventory", "otherplayer", playerid)
+    local inv = Config.InventoryUsage
+    if not (inv == "qb" or inv == "ox" or inv == "lj") then 
+        ConfigInvInvalid()
+        return;
+    end
+    if inv == "qb" or inv == "lj" then
+        TriggerServerEvent("inventory:server:OpenInventory", "otherplayer", playerid)
+    elseif inv == "ox" then
+        TriggerServerEvent("ps-adminmenu:server:OpenInv", playerid)
+    end
 end)
 
 -- noclip
