@@ -50,6 +50,7 @@ end)
 -- Spawn Vehicle
 RegisterNetEvent('ps-adminmenu:server:SpawnVehicle', function(inputData)
     local vehicle = inputData["Vehicle"]
+    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
     TriggerClientEvent('QBCore:Command:SpawnVehicle', source, vehicle)
 end)
 
@@ -84,6 +85,7 @@ RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(inputData)
     local playerid = inputData["Player ID"]
     local reason = inputData["Reason"]
     local time = inputData["Time"]
+    if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
 		if reason == nil then reason = "" end
     time = tonumber(time)
     local banTime = tonumber(os.time() + time)
@@ -187,7 +189,7 @@ RegisterNetEvent('ps-adminmenu:server:KickPlayer', function(inputData)
     local src = source
     local playerid = inputData["Player ID"]
     local reason = inputData["Reason"]
-    if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
+    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
 		if reason == nil then reason = "" end
     DropPlayer(playerid, Lang:t("info.kicked") .. '\n' .. Lang:t("info.reason") .. reason .. '\n \n' .. Lang:t("info.join_disc") .. '\n' .. QBCore.Config.Server.Discord)
 end)
@@ -199,7 +201,7 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(inputData)
     local playerId = tonumber(inputData["Player ID"])
     local Player = QBCore.Functions.GetPlayer(playerId)
     local inv = Config.Inventory
-
+    if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
     if not (inv == "qb" or inv == "ox" or inv == "lj") then 
         ConfigInvInvalid()
         return;
