@@ -195,3 +195,9 @@ RegisterNetEvent('ps-adminmenu:client:TeleportToMarker', function()
     SetPedCoordsKeepVehicle(ped, x, y, groundZ)
     QBCore.Functions.Notify(Lang:t("success.teleported_waypoint"), "success", 5000)
 end)
+
+-- Mute Player
+RegisterNetEvent('ps-adminmenu:client:MutePlayer', function(inputData)
+    local playerid = inputData["Player ID"]
+    exports['pma-voice']:toggleMutePlayer(playerid)
+end)
