@@ -102,7 +102,7 @@ RegisterNetEvent('ps-adminmenu:client:TeleportBack', function(coords)
 end)
 
 
--- tp to player
+-- Tp to player
 RegisterNetEvent('ps-adminmenu:client:TeleportToPlayer', function(coords)
     local ped = PlayerPedId()
     lastCoords = GetEntityCoords(ped)
@@ -110,7 +110,7 @@ RegisterNetEvent('ps-adminmenu:client:TeleportToPlayer', function(coords)
 end)
 
 
--- tp to coords
+-- Tp to coords
 RegisterNetEvent('ps-adminmenu:client:TeleportToCoords', function(x, y, z, h)
     local ped = PlayerPedId()
     lastCoords = GetEntityCoords(ped)
@@ -212,4 +212,19 @@ end)
 RegisterNetEvent('ps-adminmenu:client:MutePlayer', function(inputData)
     local playerid = inputData["Player ID"]
     exports['pma-voice']:toggleMutePlayer(playerid)
+end)
+
+
+-- Open Stash
+RegisterNetEvent('ps-adminmenu:client:openStash', function(inputData)
+    local stash = inputData["Stash"]
+    TriggerServerEvent("inventory:server:OpenInventory", "stash", tostring(stash))
+    TriggerEvent("inventory:client:SetCurrentStash", tostring(stash))
+end)
+
+
+-- Open Inventory
+RegisterNetEvent('ps-adminmenu:client:openInventory', function(inputData)
+    local playerid = inputData["Player ID"]
+    TriggerServerEvent("inventory:server:OpenInventory", "otherplayer", playerid)
 end)
