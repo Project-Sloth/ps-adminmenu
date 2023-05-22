@@ -3,6 +3,9 @@ QBCore = exports['qb-core']:GetCoreObject()
 local function NoPerms(source)
     QBCore.Functions.Notify(source, Lang:t('error.no_perms'), 'error')
 end
+local function ConfigInvInvalid()
+    print('^1[Error] Your Config.InventoryUsage isnt set.. you probably had a typo\nYou have it set as= Config.InventoryUsage = "'.. Config.InventoryUsage .. '"')
+end
 
 RegisterNetEvent('ps-adminmenu:client:Getresources', function(data)
     local totalResources = GetNumResources()
@@ -174,4 +177,24 @@ RegisterNetEvent('ps-adminmenu:server:KickPlayer', function(inputData)
     local reason = inputData["Reason"]
     if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
     DropPlayer(playerid, Lang:t("info.kicked") .. '\n' .. Lang:t("info.reason") .. reason .. '\n \n' .. Lang:t("info.join_disc") .. '\n' .. QBCore.Config.Server.Discord)
+end)
+
+-- Clear Inventory
+RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(inputData)
+    local src = source
+    local playerId = tonumber(inputData["Player ID"])
+    local Player = QBCore.Functions.GetPlayer(playerId)
+    local inv = Config.InventoryUsage
+
+    if not (inv == "qb" or inv == "ox" or inv == "lj") then 
+        ConfigInvInvalid()
+        return;
+    end
+    if inv == "qb" or inv == "lj" then
+        exports[inv.."-inventory"]:ClearInventory(playerId, nil)
+    elseif inv == "ox" then
+        exports.ox_inventory:ClearInventory(playerId, nil)
+    end
+    if Player.Offline then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
+    QBCore.Functions.Notify(src, Lang:t("success.invcleared", {player = Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname.. " | " ..Player.PlayerData.citizenid}), 'Success', 7500)
 end)
