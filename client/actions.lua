@@ -66,15 +66,13 @@ end)
 -- Time
 RegisterNetEvent('ps-adminmenu:client:ChangeTime', function(inputData)
     local time = inputData["Time"]
-    print(time)
-    TriggerServerEvent('qb-weathersync:server:setTime', time)
+    TriggerServerEvent('qb-weathersync:server:setTime', time, 00)
 end)
 
 
 -- weather
 RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(inputData)
     local weatherType = inputData["Weather"]
-    -- print(weatherType)
     TriggerServerEvent('qb-weathersync:server:setWeather', weatherType)
     QBCore.Functions.Notify(Lang:t("info.weatherType", {value = weatherType}))
 end)
