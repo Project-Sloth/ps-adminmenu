@@ -9,8 +9,8 @@ local function getVehicleFromVehList(hash)
 	end
 end
 
+
 RegisterNetEvent('ps-adminmenu:client:Admincar', function(data)
-	print("AdminCarTriggerd")
     local ped = PlayerPedId()
     local veh = GetVehiclePedIsIn(ped)
 

@@ -53,7 +53,6 @@
 	})
 
 	ReceiveNUI('CopyCoordinatesToClipboard', (data: any) => {
-		console.log(data)
 		copyToClipboard(data);
 	})
 

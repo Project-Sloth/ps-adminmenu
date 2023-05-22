@@ -1,6 +1,7 @@
 Config = {}
 
-Config.InventoryUsage =  "lj" -- qb(for qb-inventory) lj(for lj-inventory) or ox(for ox_inventory) [Inventory system]
+Config.Inventory =  "lj" -- qb(for qb-inventory) lj(for lj-inventory) or ox(for ox_inventory) [Inventory system]
+Config.ClothingMenu = "illenium" -- illenium
 
 Config.Actions = {
     { 
