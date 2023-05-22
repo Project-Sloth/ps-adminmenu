@@ -1,7 +1,6 @@
 Config = {}
 
--- Set to true to use ox_inventory, false to use qbcore inventory.
-Config.UseOXInventory = false 
+Config.InventoryUsage =  "lj" -- qb(for qb-inventory) lj(for lj-inventory) or ox(for ox_inventory) [Inventory system]
 
 Config.Actions = {
     { 
@@ -71,7 +70,47 @@ Config.Actions = {
         type = "client",
         perms = "mod", 
         dropdown = {
-            { label = "Time", type = "input", InputType = "input" },
+            { label = "Timestamp", InputType = "options", 
+               options = { 
+                { label = "01:00", value = "01"},
+                { label = "02:00", value = "02"},
+                { label = "03:00", value = "03"},
+                { label = "04:00", value = "04"},
+                { label = "05:00", value = "05"},
+                { label = "06:00", value = "06"},
+                { label = "07:00", value = "07"},
+                { label = "08:00", value = "08"},
+                { label = "09:00", value = "09"},
+                { label = "10:00", value = "10"},
+                { label = "11:00", value = "11"},
+                { label = "12:00", value = "12"},
+                { label = "13:00", value = "13"},
+                { label = "14:00", value = "14"},
+                { label = "15:00", value = "15"},
+                { label = "16:00", value = "16"},
+                { label = "17:00", value = "17"},
+                { label = "18:00", value = "18"},
+                { label = "19:00", value = "19"},
+                { label = "20:00", value = "20"},
+                { label = "21:00", value = "21"},
+                { label = "22:00", value = "22"},
+                { label = "23:00", value = "23"},
+                { label = "24:00", value = "24"},
+                { label = "Clear Input", value = ""},
+                },
+            },
+            { label = "Time Events", InputType = "options", 
+               options = { 
+                { label = "Sunrise", value = "06"},
+                { label = "Morning", value = "09"},
+                { label = "Noon", value = "12"},
+                { label = "Sunset", value = "21"},
+                { label = "Evening", value = "22"},
+                { label = "Night", value = "24"},
+                { label = "Clear Input", value = ""},
+                
+                },
+            },
             { label = "Change", InputType = "button", type = "client", event = "ps-adminmenu:client:ChangeTime" },
         },
     },
@@ -79,16 +118,16 @@ Config.Actions = {
         label = "Clear Inventory", 
         perms = "mod", 
         dropdown = {
-            { label = "Player ID", InputType = "input" },
-            { label = "Clear", InputType = "button", type = "client", event = "" },
+            { label = "Player ID", InputType = "input" },  
+            { label = "Clear", InputType = "button", type = "server", event = "ps-adminmenu:server:ClearInventory" },
         },
     },
     { 
-        label = "Clothing Menu", 
+        label = "Clothing Menu",
         perms = "mod", 
         dropdown = {
             { label = "Player ID", InputType = "input" },
-            { label = "Give Menu", InputType = "button", type = "client", event = "" },
+            { label = "Give Menu", InputType = "button", type = "server", event = "ps-adminmenu:server:ClothingMenu" },
         },
     },
     { 
