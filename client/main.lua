@@ -29,15 +29,16 @@ RegisterNUICallback("normalButton", function(data, cb)
     local event = data.event
     local type = data.type
     local inputData = data.data
+    local buttonlable = data.button
 
     print("Event: "..event.." Type: "..type)
     if event and type then
         if type == "client" then
-            TriggerEvent(event, inputData)
+            TriggerEvent(event, inputData, buttonlable)
         elseif type == "server" then
-            TriggerServerEvent(event, inputData)
+            TriggerServerEvent(event, inputData, buttonlable)
         elseif type == "command" then
-            ExecuteCommand(event, inputData)
+            ExecuteCommand(event, inputData,buttonlable)
         end
     end
     cb("ok")

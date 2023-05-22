@@ -73,7 +73,8 @@
                                         SendNUI("normalButton", {
                                         event: dropdownItem.event,
                                         type: dropdownItem.type,
-                                        data: inputValues[i] 
+                                        data: inputValues[i],
+                                        button: dropdownItem.label
                                         });
                                     }}
                                     >

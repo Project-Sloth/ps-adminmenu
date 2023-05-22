@@ -134,9 +134,10 @@ Config.Actions = {
         label = "Copy Coordinates", 
         perms = "mod", 
         dropdown = {
-            { label = "Copy Vector2", InputType = "button", type = "client", event = "" },
-            { label = "Copy Vector3", InputType = "button", type = "client", event = "" },
-            { label = "Copy Vector4", InputType = "button", type = "client", event = "" },
+            { label = "Copy Vector2", InputType = "button", type = "client", event = "ps-adminmenu:client:CopyCoords" },
+            { label = "Copy Vector3", InputType = "button", type = "client", event = "ps-adminmenu:client:CopyCoords" },
+            { label = "Copy Vector4", InputType = "button", type = "client", event = "ps-adminmenu:client:CopyCoords" },
+            { label = "Copy Heading", InputType = "button", type = "client", event = "ps-adminmenu:client:CopyCoords" },
         },
     },
     { 

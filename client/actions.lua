@@ -119,6 +119,30 @@ RegisterNetEvent('ps-adminmenu:client:TeleportToCoords', function(x, y, z, h)
 end)
 
 
+-- Copy Coords
+RegisterNetEvent('ps-adminmenu:client:CopyCoords', function(inputData, buttonlable)
+    local ped = PlayerPedId()
+    local coords = GetEntityCoords(ped)
+    local x, y, z, h = QBCore.Shared.Round(coords.x, 2), QBCore.Shared.Round(coords.y, 2), QBCore.Shared.Round(coords.z, 2), QBCore.Shared.Round(GetEntityHeading(ped), 2)
+    
+    local data = ""
+    if buttonlable == "Copy Vector2" then
+        data = string.format('vector2(%s, %s)', x, y)
+    elseif buttonlable == "Copy Vector3" then
+        data = string.format('vector3(%s, %s, %s)', x, y, z)
+    elseif buttonlable == "Copy Vector4" then
+        data = string.format('vector4(%s, %s, %s, %s)', x, y, z, h)
+    elseif buttonlable == "Copy Heading" then
+        data = h
+    end
+
+    SendNUIMessage({
+        action = "CopyCoordinatesToClipboard",
+        data = data
+    })
+end)
+
+
 -- tp to marker
 RegisterNetEvent('ps-adminmenu:client:TeleportToMarker', function()
     local PlayerPedId = PlayerPedId

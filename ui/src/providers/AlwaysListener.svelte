@@ -3,6 +3,15 @@
 	import { debugData } from '@utils/debugData'
 	import { browserMode, visibility, ACTIONS, ACTIONSBUTTONS, RESOURCES, RESOURCESBUTTONS } from '@store/stores'
 
+	function copyToClipboard(str) {
+		const el = document.createElement('textarea');
+		el.value = str;
+		document.body.appendChild(el);
+		el.select();
+		document.execCommand('copy');
+		document.body.removeChild(el);
+	}
+	
 	debugData([
 		{
 			action: 'setVisible',
@@ -41,6 +50,11 @@
 	ReceiveNUI('setResourceData', (data: any) => {
 		RESOURCES.set(data)
 		RESOURCESBUTTONS.set($RESOURCES[0])
+	})
+
+	ReceiveNUI('CopyCoordinatesToClipboard', (data: any) => {
+		console.log(data)
+		copyToClipboard(data);
 	})
 
 
