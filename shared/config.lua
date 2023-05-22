@@ -335,3 +335,7 @@ Config.Actions = {
         },
     },
 }
+
+function ConfigInvInvalid()
+    print('^1[Error] Your Config.InventoryUsage isnt set.. you probably had a typo\nYou have it set as= Config.InventoryUsage = "'.. Config.InventoryUsage .. '"')
+end
