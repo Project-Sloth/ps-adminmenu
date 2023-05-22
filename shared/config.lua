@@ -246,7 +246,17 @@ Config.Actions = {
             { label = "Player ID", InputType = "input" },
             { label = "Job", InputType = "input" },
             { label = "Grade", InputType = "input" },
-            { label = "Sumbit", InputType = "button", type = "client", event = "ps-adminmenu:client:banplayer" },
+            { label = "Sumbit", InputType = "button", type = "server", event = "ps-adminmenu:server:SetJob" },
+        },
+    },
+    { 
+        label = "Set Gang", 
+        perms = "mod", 
+        dropdown = {
+            { label = "Player ID", InputType = "input" },
+            { label = "Gang", InputType = "input" },
+            { label = "Grade", InputType = "input" },
+            { label = "Sumbit", InputType = "button", type = "server", event = "ps-adminmenu:server:SetGang" },
         },
     },
     { 
