@@ -247,3 +247,14 @@ RegisterNetEvent('ps-adminmenu:server:OpenStash', function(data)
     local src = source
     exports.ox_inventory:forceOpenInventory(src, 'stash', data)
 end)
+
+-- Give Money
+RegisterNetEvent('ps-adminmenu:server:GiveMoney', function(inputData)
+    local src = source
+    local playerId, amount, moneyType = inputData["Player ID"], inputData["Amount"], inputData["Type"]
+    local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
+
+    Player.Functions.AddMoney(tostring(moneyType), tonumber(amount))
+
+end)
