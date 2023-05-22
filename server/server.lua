@@ -256,5 +256,24 @@ RegisterNetEvent('ps-adminmenu:server:GiveMoney', function(inputData)
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
 
     Player.Functions.AddMoney(tostring(moneyType), tonumber(amount))
+end)
 
+-- Set Job
+RegisterNetEvent('ps-adminmenu:server:SetJob', function(inputData)
+    local src = source
+    local playerId, Job, grade = inputData["Player ID"], inputData["Job"], inputData["Grade"]
+    local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
+
+    Player.Functions.SetJob(tostring(Job), tonumber(grade))
+end)
+
+-- Set Gang
+RegisterNetEvent('ps-adminmenu:server:SetGang', function(inputData)
+    local src = source
+    local playerId, Gang, grade = inputData["Player ID"], inputData["Gang"], inputData["Grade"]
+    local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
+
+    Player.Functions.SetGang(tostring(Gang), tonumber(grade))
 end)
