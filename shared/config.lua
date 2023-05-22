@@ -250,8 +250,8 @@ Config.Actions = {
         },
     },
     { 
-        label = "Set Money", 
-        perms = "mod", 
+        label = "Give Money", 
+        perms = "admin", 
         dropdown = {
             { label = "Player ID", InputType = "input" },
             { label = "Amount", InputType = "input" },
@@ -262,7 +262,7 @@ Config.Actions = {
                     { label = "Crypto", value = "crypto"},
                 },
             },
-            { label = "Give", InputType = "button", type = "client", event = "" },
+            { label = "Give", InputType = "button", type = "server", event = "ps-adminmenu:server:GiveMoney" },
         },
     },
     { 
