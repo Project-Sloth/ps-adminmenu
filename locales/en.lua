@@ -14,7 +14,9 @@ local Translations = {
         ["teleported_waypoint"] = 'Teleported To Waypoint.',
         ["invcleared"] = "%{player}'s inventory is cleared",
         ["Frozen"] = "%{player}'s successfully frozen",
-        ["deFrozen"] = "You've set %{player} free"
+        ["deFrozen"] = "You've set %{player} free",
+        ["noclip_enabled"] = "No-clip enabled",
+        ["noclip_disabled"] = "No-clip disabled",
     },
     info = {
         ["godmode"] = "Godmode is %{value}",
