@@ -4,10 +4,6 @@ local function NoPerms(source)
     QBCore.Functions.Notify(source, Lang:t('error.no_perms'), 'error')
 end
 
-local function ConfigInvInvalid()
-    print('^1[Error] Your Config.Inventory isnt set.. you probably had a typo\nYou have it set as= Config.Inventory = "'.. Config.Inventory .. '"')
-end
-
 
 RegisterNetEvent('ps-adminmenu:client:Getresources', function(data)
     local totalResources = GetNumResources()
@@ -32,7 +28,6 @@ RegisterNetEvent('ps-adminmenu:client:Getresources', function(data)
     TriggerClientEvent('ps-adminmenu:client:UpdateResources', -1, resources)
     --print("sendt resources")
 end)
-
     
 RegisterNetEvent('ps-adminmenu:server:changeResourceState', function(name, state)
 	if state == "started" then
@@ -46,14 +41,11 @@ RegisterNetEvent('ps-adminmenu:server:changeResourceState', function(name, state
 	end
 end)
 
-
 -- Spawn Vehicle
 RegisterNetEvent('ps-adminmenu:server:SpawnVehicle', function(inputData)
     local vehicle = inputData["Vehicle"]
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
     TriggerClientEvent('QBCore:Command:SpawnVehicle', source, vehicle)
 end)
-
 
 -- Admin Car
 RegisterNetEvent('ps-adminmenu:server:SaveCar', function(mods, vehicle, _, plate)
@@ -78,14 +70,12 @@ RegisterNetEvent('ps-adminmenu:server:SaveCar', function(mods, vehicle, _, plate
 
 end)
 
-
 -- Ban Player
 RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(inputData)
     local src = source
     local playerid = inputData["Player ID"]
     local reason = inputData["Reason"]
     local time = inputData["Time"]
-    if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
 		if reason == nil then reason = "" end
     time = tonumber(time)
     local banTime = tonumber(os.time() + time)
@@ -110,7 +100,6 @@ RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(inputData)
 
 end)
 
-
 -- Bring Player
 RegisterNetEvent('ps-adminmenu:server:BringPlayer', function(inputData)
     local src = source
@@ -123,7 +112,6 @@ RegisterNetEvent('ps-adminmenu:server:BringPlayer', function(inputData)
     SetEntityCoords(target, coords)
 
 end)
-
 
 -- Teleport To Player
 RegisterNetEvent('ps-adminmenu:server:TeleportToPlayer', function(inputData)
@@ -138,7 +126,6 @@ RegisterNetEvent('ps-adminmenu:server:TeleportToPlayer', function(inputData)
         TriggerClientEvent('QBCore:Notify', src, Lang:t('error.not_online'), 'error')
     end
 end)
-
 
 -- Teleport To Coords
 RegisterNetEvent('ps-adminmenu:server:TeleportToCoords', function(inputData)
@@ -160,7 +147,6 @@ RegisterNetEvent('ps-adminmenu:server:TeleportToCoords', function(inputData)
 
 end)
 
-
 -- Revive Player
 RegisterNetEvent('ps-adminmenu:server:Revive', function(inputData)
     local src = source
@@ -175,7 +161,6 @@ RegisterNetEvent('ps-adminmenu:server:Revive', function(inputData)
     TriggerClientEvent('hospital:client:Revive', id)
 end)
 
-
 -- Revive All
 RegisterNetEvent('ps-adminmenu:server:ReviveAll', function()
     local src = source
@@ -183,25 +168,23 @@ RegisterNetEvent('ps-adminmenu:server:ReviveAll', function()
     TriggerClientEvent('hospital:client:Revive', -1)
 end)
 
-
 -- Kick Player
 RegisterNetEvent('ps-adminmenu:server:KickPlayer', function(inputData)
     local src = source
     local playerid = inputData["Player ID"]
     local reason = inputData["Reason"]
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+    if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
 		if reason == nil then reason = "" end
     DropPlayer(playerid, Lang:t("info.kicked") .. '\n' .. Lang:t("info.reason") .. reason .. '\n \n' .. Lang:t("info.join_disc") .. '\n' .. QBCore.Config.Server.Discord)
 end)
-
 
 -- Clear Inventory
 RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(inputData)
     local src = source
     local playerId = tonumber(inputData["Player ID"])
     local Player = QBCore.Functions.GetPlayer(playerId)
-    local inv = Config.Inventory
-    if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
+    local inv = Config.InventoryUsage
+
     if not (inv == "qb" or inv == "ox" or inv == "lj") then 
         ConfigInvInvalid()
         return;
@@ -215,7 +198,6 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(inputData)
     QBCore.Functions.Notify(src, Lang:t("success.invcleared", {player = Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname.. " | " ..Player.PlayerData.citizenid}), 'Success', 7500)
 end)
 
-
 -- Clothing Menu
 RegisterNetEvent('ps-adminmenu:server:ClothingMenu', function(inputData)
     local src = source
@@ -228,7 +210,6 @@ RegisterNetEvent('ps-adminmenu:server:ClothingMenu', function(inputData)
     local Player = QBCore.Functions.GetPlayer(playerId)
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
 end)
-
 
 -- Freeze Player
 local frozen = false
@@ -251,4 +232,18 @@ RegisterNetEvent('ps-adminmenu:server:FreezePlayer', function(inputData)
     end
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
 
+end)
+
+-- Open Inv [ox side]
+RegisterNetEvent('ps-adminmenu:server:OpenInv', function(data)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(tonumber(data))
+    exports.ox_inventory:forceOpenInventory(src, 'player', tonumber(data))
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
+end)
+
+-- Open Stash [ox side]
+RegisterNetEvent('ps-adminmenu:server:OpenStash', function(data)
+    local src = source
+    exports.ox_inventory:forceOpenInventory(src, 'stash', data)
 end)
