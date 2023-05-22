@@ -195,6 +195,6 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(inputData)
     elseif inv == "ox" then
         exports.ox_inventory:ClearInventory(playerId, nil)
     end
-    if Player.Offline then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
     QBCore.Functions.Notify(src, Lang:t("success.invcleared", {player = Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname.. " | " ..Player.PlayerData.citizenid}), 'Success', 7500)
 end)
