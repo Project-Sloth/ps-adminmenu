@@ -221,11 +221,7 @@ RegisterNetEvent('ps-adminmenu:server:ClothingMenu', function(inputData)
     local src = source
     local playerId = tonumber(inputData["Player ID"])
     if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
-    if Config.ClothingMenu == "illenium" then 
-        TriggerClientEvent("illenium-appearance:client:openClothingShopMenu", playerId, true)
-    elseif Config.ClothingMenu == "qb" then 
-        TriggerClientEvent('qb-clothing:client:openMenu', playerId)
-    end
+    TriggerClientEvent('qb-clothing:client:openMenu', playerId)
     if playerId == src then
         TriggerClientEvent("ps-adminmenu:client:CloseUI", src)
     end

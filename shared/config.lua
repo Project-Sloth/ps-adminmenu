@@ -1,7 +1,6 @@
 Config = {}
 
 Config.Inventory =  "lj" -- qb(for qb-inventory) lj(for lj-inventory) or ox(for ox_inventory) [Inventory system]
-Config.ClothingMenu = "illenium" -- illenium
 
 Config.Actions = {
     { 
@@ -73,6 +72,7 @@ Config.Actions = {
         dropdown = {
             { label = "Timestamp", InputType = "options", 
                options = { 
+                { label = "Clear Input", value = "clear"},
                 { label = "01:00", value = "01"},
                 { label = "02:00", value = "02"},
                 { label = "03:00", value = "03"},
@@ -97,19 +97,17 @@ Config.Actions = {
                 { label = "22:00", value = "22"},
                 { label = "23:00", value = "23"},
                 { label = "24:00", value = "24"},
-                { label = "Clear Input", value = ""},
                 },
             },
             { label = "Time Events", InputType = "options", 
                options = { 
+                { label = "Clear Input", value = "clear"},
                 { label = "Sunrise", value = "06"},
                 { label = "Morning", value = "09"},
                 { label = "Noon", value = "12"},
                 { label = "Sunset", value = "21"},
                 { label = "Evening", value = "22"},
                 { label = "Night", value = "24"},
-                { label = "Clear Input", value = ""},
-                
                 },
             },
             { label = "Change", InputType = "button", type = "client", event = "ps-adminmenu:client:ChangeTime" },
