@@ -78,7 +78,7 @@ RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(inputData)
     local playerid = inputData["Player ID"]
     local reason = inputData["Reason"]
     local time = inputData["Time"]
-
+		if reason == nil then reason = "" end
     time = tonumber(time)
     local banTime = tonumber(os.time() + time)
     if banTime > 2147483647 then
@@ -176,6 +176,7 @@ RegisterNetEvent('ps-adminmenu:server:KickPlayer', function(inputData)
     local playerid = inputData["Player ID"]
     local reason = inputData["Reason"]
     if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
+		if reason == nil then reason = "" end
     DropPlayer(playerid, Lang:t("info.kicked") .. '\n' .. Lang:t("info.reason") .. reason .. '\n \n' .. Lang:t("info.join_disc") .. '\n' .. QBCore.Config.Server.Discord)
 end)
 
