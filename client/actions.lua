@@ -8,6 +8,7 @@ local function getVehicleFromVehList(hash)
 		end
 	end
 end
+
 RegisterNetEvent('ps-adminmenu:client:Admincar', function(data)
 	print("AdminCarTriggerd")
     local ped = PlayerPedId()
@@ -29,6 +30,7 @@ RegisterNetEvent('ps-adminmenu:client:Admincar', function(data)
     end
 end)
 
+
 -- Invisible
 RegisterNetEvent('ps-adminmenu:client:ToggleInvisible', function(data)
     local ped = PlayerPedId()
@@ -42,6 +44,7 @@ RegisterNetEvent('ps-adminmenu:client:ToggleInvisible', function(data)
         QBCore.Functions.Notify(Lang:t("info.invisible", {value = "off"}), 'inform')
     end
 end)
+
 
 -- godmode
 local Godmode = false
@@ -60,13 +63,13 @@ RegisterNetEvent('ps-adminmenu:client:ToggleGodmode', function(data)
 end)
 
 
-
 -- Time
 RegisterNetEvent('ps-adminmenu:client:ChangeTime', function(inputData)
     local time = inputData["Time"]
     print(time)
     TriggerServerEvent('qb-weathersync:server:setTime', time)
 end)
+
 
 -- weather
 RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(inputData)
@@ -76,6 +79,7 @@ RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(inputData)
     QBCore.Functions.Notify(Lang:t("info.weatherType", {value = weatherType}))
 end)
 
+
 -- Teleport back
 local function teleport(vehicle, x, y, z)
     local ped = PlayerPedId()
@@ -84,6 +88,7 @@ local function teleport(vehicle, x, y, z)
     end    
     SetEntityCoords(ped, x, y, z, false, false, false, false)
 end
+
 
 local lastCoords
 RegisterNetEvent('ps-adminmenu:client:TeleportBack', function(coords)
@@ -95,12 +100,16 @@ RegisterNetEvent('ps-adminmenu:client:TeleportBack', function(coords)
         lastCoords = currentCoords
     end
 end)
+
+
 -- tp to player
 RegisterNetEvent('ps-adminmenu:client:TeleportToPlayer', function(coords)
     local ped = PlayerPedId()
     lastCoords = GetEntityCoords(ped)
     SetPedCoordsKeepVehicle(ped, coords.x, coords.y, coords.z)
 end)
+
+
 -- tp to coords
 RegisterNetEvent('ps-adminmenu:client:TeleportToCoords', function(x, y, z, h)
     local ped = PlayerPedId()
@@ -108,6 +117,8 @@ RegisterNetEvent('ps-adminmenu:client:TeleportToCoords', function(x, y, z, h)
     SetPedCoordsKeepVehicle(ped, x, y, z)
     SetEntityHeading(ped, h or GetEntityHeading(ped))
 end)
+
+
 -- tp to marker
 RegisterNetEvent('ps-adminmenu:client:TeleportToMarker', function()
     local PlayerPedId = PlayerPedId
@@ -195,6 +206,7 @@ RegisterNetEvent('ps-adminmenu:client:TeleportToMarker', function()
     SetPedCoordsKeepVehicle(ped, x, y, groundZ)
     QBCore.Functions.Notify(Lang:t("success.teleported_waypoint"), "success", 5000)
 end)
+
 
 -- Mute Player
 RegisterNetEvent('ps-adminmenu:client:MutePlayer', function(inputData)
