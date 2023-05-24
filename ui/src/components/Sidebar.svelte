@@ -9,6 +9,7 @@
         <button on:click={() => currentPage.set('actions')} class="w-full h-[5.5rem] hover:bg-secondary {($currentPage === 'actions' ? 'bg-tertiary text-accent' : '')}"><i class="fas fa-hat-wizard fa-lg"></i></button>
         <button on:click={() => currentPage.set('server')} class="w-full h-[5.5rem] hover:bg-secondary {($currentPage === 'server' ? ' bg-tertiary text-accent' : '')}"><i class="fas fa-server fa-lg"></i></button>
         <button on:click={() => currentPage.set('reports')} class="w-full h-[5.5rem] hover:bg-secondary {($currentPage === 'reports' ? ' bg-tertiary text-accent' : '')}"><i class="fas fa-comments fa-lg"></i></button>
+        <button on:click={() => currentPage.set('players')} class="w-full h-[5.5rem] hover:bg-secondary {($currentPage === 'players' ? ' bg-tertiary text-accent' : '')}"><i class="fas fa-users fa-lg"></i></button>
         <button on:click={toggleWideMenu} class="w-full h-[5.5rem] hover:bg-tertiary mb-auto"> <i class="fas fa-{$menuWideStore.isMenuWide ? 'angle-right' : 'angle-left'} fa-lg"></i></button>
     </div>
 </div>

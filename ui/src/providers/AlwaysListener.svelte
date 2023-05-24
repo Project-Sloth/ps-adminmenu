@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
 	import { debugData } from '@utils/debugData'
-	import { browserMode, visibility, ACTIONS, ACTIONSBUTTONS, RESOURCES, RESOURCESBUTTONS } from '@store/stores'
+	import { browserMode, visibility, ACTIONS, ACTIONSBUTTONS, RESOURCES, RESOURCESBUTTONS, PLAYERS, PLAYERSBUTTONS } from '@store/stores'
 
 	function copyToClipboard(str) {
 		const el = document.createElement('textarea');
@@ -50,6 +50,11 @@
 	ReceiveNUI('setResourceData', (data: any) => {
 		RESOURCES.set(data)
 		RESOURCESBUTTONS.set($RESOURCES[0])
+	})
+
+	ReceiveNUI('setPlayersData', (data: any) => {
+		PLAYERS.set(data)
+		PLAYERSBUTTONS.set($PLAYERS[0])
 	})
 
 	ReceiveNUI('CopyCoordinatesToClipboard', (data: any) => {

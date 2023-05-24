@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Autocomplete from '@components/components/Autocomplete.svelte'
-    import { ACTIONSBUTTONS, ACTIONS, menuWideStore } from '@store/stores'
+    import { createEventDispatcher } from 'svelte';
+    import { ACTIONSBUTTONS, ACTIONS, menuWideStore, PLAYERSBUTTONS, PLAYERS } from '@store/stores'
     import { SendNUI } from '@utils/SendNUI'
     import { fly } from 'svelte/transition';
 
@@ -17,6 +17,22 @@
     
     function updateInputValue(dropdownIndex: number, label: string, value: string) {
         inputValues[dropdownIndex][label] = value;
+    }
+
+    let searchQuery = '';
+    let options = ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5', 'Option 6', 'Option 7', 'Option 8'];
+    let selectedOption = '';
+
+    const dispatch = createEventDispatcher();
+
+    function handleInputChange(event) {
+        searchQuery = event.target.value;
+    }
+
+    function selectOption(option) {
+        searchQuery = option;
+        selectedOption = option;
+        dispatch('optionSelected', option);
     }
 
 </script>
@@ -67,6 +83,20 @@
                                         <option value={option.value}>{option.label}</option>
                                     {/each}
                                 </select>
+
+                                <div class="bg-secondary p-3 w-[25rem] mt-1 font-medium hover:bg-tertiary">
+                                    <input type="text" value={searchQuery} on:input={handleInputChange} placeholder="Search..." class=" bg-transparent" />
+                                  
+                                    {#if searchQuery}
+                                      <div class="">
+                                        {#if $PLAYERSBUTTONS && $PLAYERS}
+                                        {#each $PLAYERS.filter(button => button.name.toLowerCase().includes(searchTerm.toLowerCase())) as button, i}
+                                            <div class=" hover:bg-primary p-3" on:click={() => selectOption(button.name)}>{button.name}</div>
+                                            {/each}
+                                        {/if}
+                                      </div>
+                                    {/if}
+                                  </div>
                             {:else if dropdownItem.InputType === 'button'}
                                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary"
                                     on:click={() => {

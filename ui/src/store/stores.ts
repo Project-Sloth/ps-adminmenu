@@ -56,3 +56,16 @@ interface ResourceData {
 
 export const RESOURCES = writable<ResourceData[]>(null);
 export const RESOURCESBUTTONS = writable<ResourceData>(null);
+
+
+interface PlayerData {
+  id?: string;
+  name?: string;
+  cid?: string;
+  license?: string;
+  discord?: string;
+  steam?: string;
+}
+
+export const PLAYERS = writable<PlayerData[]>(null);
+export const PLAYERSBUTTONS = writable<PlayerData>(null);

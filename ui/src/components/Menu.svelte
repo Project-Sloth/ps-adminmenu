@@ -1,12 +1,12 @@
 <script>
-  import { fly, slide } from 'svelte/transition';
-  import { quintOut } from 'svelte/easing';
+  import { fly } from 'svelte/transition';
   import { menuWideStore, currentPage  } from '@store/stores';
   import Actions from "./Pages/Actions/Actions.svelte";
   import Settings from "./Pages/Settings/Settings.svelte";
   import Sidebar from "./Sidebar.svelte";
 	import Reports from './Pages/Report/Reports.svelte'
 	import Server from './Pages/Server/Server.svelte'
+	import PlayerList from './Pages/PlayerList/PlayerList.svelte'
 
 </script>
   
@@ -25,8 +25,9 @@ transition:fly="{{delay: 250, duration: 300, x: 500}}">
       <Reports />
     {:else if $currentPage === "server"}
       <Server />
+    {:else if $currentPage === "players"}
+      <PlayerList />
     {/if}
   </div>
 </div>
 
-  
