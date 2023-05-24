@@ -65,11 +65,11 @@ end)
 
 -- Time
 RegisterNetEvent('ps-adminmenu:client:ChangeTime', function(inputData)
-    local time = inputData["Timestamp"] == "clear" or inputData["Timestamp"] == nil and inputData["Time Events"] or inputData["Timestamp"]
+    local time = inputData["Timestamp"] == "clear" and nil or inputData["Timestamp"] or inputData["Time Events"]
+    if time then
     TriggerServerEvent('qb-weathersync:server:setTime', time, 00)
+    end
 end)
-
-
 
 -- weather
 RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(inputData)
