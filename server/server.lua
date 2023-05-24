@@ -5,7 +5,7 @@ local function NoPerms(source)
 end
 
 
-RegisterNetEvent('ps-adminmenu:client:Getresources', function(data)
+RegisterNetEvent('ps-adminmenu:server:Getresources', function(data)
     local totalResources = GetNumResources()
     -- print("total " .. totalResources)
     local resources = {} 
@@ -40,6 +40,25 @@ RegisterNetEvent('ps-adminmenu:server:changeResourceState', function(name, state
 		StartResource(name)
 	end
 end)
+
+-- Get Players
+QBCore.Functions.CreateCallback('ps-adminmenu:server:GetPlayers', function(_, cb)
+    local Players = {}
+    local GetPlayers = QBCore.Functions.GetQBPlayers()
+    for k, v in pairs(GetPlayers) do
+        local playerData = v.PlayerData
+
+        Players[#Players + 1] = {
+            id = k,
+            name = playerData.charinfo.firstname .. ' ' .. playerData.charinfo.lastname,
+            cid = playerData.citizenid,
+            license = QBCore.Functions.GetIdentifier(k, 'license'),
+        }
+    end
+    table.sort(Players, function(a, b) return a.id < b.id end)
+    cb(Players)
+end)
+
 
 -- Spawn Vehicle
 RegisterNetEvent('ps-adminmenu:server:SpawnVehicle', function(inputData)

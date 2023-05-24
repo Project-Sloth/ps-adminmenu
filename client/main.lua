@@ -16,7 +16,16 @@ RegisterCommand("admin", function()
 		action = "setActionData",
 		data = Config.Actions
 	})
-	TriggerServerEvent("ps-adminmenu:client:Getresources")
+	TriggerServerEvent("ps-adminmenu:server:Getresources")
+
+    QBCore.Functions.TriggerCallback('ps-adminmenu:server:GetPlayers', function(Players)
+        SendNUIMessage({
+            action = "setPlayersData", 
+            data = Players
+        })
+      
+    end)
+    
 end, false)
 
 
@@ -59,7 +68,7 @@ end)
 
 
 RegisterNUICallback("RefreshResources", function(data, cb)
-	TriggerServerEvent("ps-adminmenu:client:Getresources")
+	TriggerServerEvent("ps-adminmenu:server:Getresources")
 end)
 
 
@@ -68,6 +77,9 @@ RegisterNUICallback("ChangeResourcesState", function(data, cb)
 	local state = data.state
 	TriggerServerEvent("ps-adminmenu:server:changeResourceState", name, state)
 	Wait(500)
-	TriggerServerEvent("ps-adminmenu:client:Getresources")
+	TriggerServerEvent("ps-adminmenu:server:Getresources")
 	cb("ok")
 end)
+
+
+
