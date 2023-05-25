@@ -1,11 +1,12 @@
 <script>
-    import {toggleWideMenu, menuWideStore, currentPage } from '@store/stores';
+    import {toggleWideMenu, menuWideStore, currentPage, toggleDevMode, devmodeStore } from '@store/stores';
 
 </script>
 
 <div class="w-[6rem] h-[91%] bg-primary float-right">
-    <div class="w-full h-full flex flex-col-reverse">
+    <div class="w-[6rem] h-full flex flex-col-reverse">
         <button on:click={() => currentPage.set('settings')} class="w-full h-[5.5rem] hover:bg-secondary mb-16 {($currentPage === 'settings' ? 'bg-tertiary text-accent' : '')}"><i class="fas fa-gear fa-lg"></i></button>
+        <button on:click={toggleDevMode} class="w-full h-[5.5rem] hover:bg-secondary {$devmodeStore.isDevmode ? '' : ' text-accent'}"><i class="fas fa-terminal fa-lg"></i></button>
         <button on:click={() => currentPage.set('actions')} class="w-full h-[5.5rem] hover:bg-secondary {($currentPage === 'actions' ? 'bg-tertiary text-accent' : '')}"><i class="fas fa-hat-wizard fa-lg"></i></button>
         <button on:click={() => currentPage.set('server')} class="w-full h-[5.5rem] hover:bg-secondary {($currentPage === 'server' ? ' bg-tertiary text-accent' : '')}"><i class="fas fa-server fa-lg"></i></button>
         <button on:click={() => currentPage.set('reports')} class="w-full h-[5.5rem] hover:bg-secondary {($currentPage === 'reports' ? ' bg-tertiary text-accent' : '')}"><i class="fas fa-comments fa-lg"></i></button>

@@ -18,6 +18,19 @@ export const toggleWideMenu = () => {
   });
 };
 
+export const devmodeStore = writable({
+  isDevmode: false,
+});
+
+export const toggleDevMode = () => {
+  devmodeStore.update((DevModeData) => {
+    return {
+      ...DevModeData,
+      isDevmode: !DevModeData.isDevmode,
+    };
+  });
+};
+
 interface OptionsItems {
   label: string;
   value?: string;
