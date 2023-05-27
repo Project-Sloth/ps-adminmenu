@@ -267,21 +267,27 @@ RegisterNetEvent('ps-adminmenu:server:GiveMoney', function(inputData)
     local playerId, amount, moneyType = inputData["Player ID"], inputData["Amount"], inputData["Type"]
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
-
     Player.Functions.AddMoney(tostring(moneyType), tonumber(amount))
-    QBCore.Functions.Notify(src, Lang:t("success.give_money"), "success")
+    if moneyType == "crypto" then 
+        QBCore.Functions.Notify(src, Lang:t("success.give_money_crypto", {info = tonumber(amount), player = Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname}), "success")
+    else
+        QBCore.Functions.Notify(src, Lang:t("success.give_money", {info = tonumber(amount).. "$", player = Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname}), "success")
+    end
 end)
 
 -- Give Money to all
 RegisterNetEvent('ps-adminmenu:server:GiveMoneyAll', function(inputData)
+    local src = source
+    local amount, moneyType = inputData["Amount"], inputData["Type"]
+    --if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
     for _, v in pairs(QBCore.Functions.GetPlayers()) do
-        local src = source
-        local amount, moneyType = inputData["Amount"], inputData["Type"]
         local Player = QBCore.Functions.GetPlayer(v)
-        if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
-
         Player.Functions.AddMoney(tostring(moneyType), tonumber(amount))
-        QBCore.Functions.Notify(src, Lang:t("success.give_money_all"), "success")
+        if moneyType == "crypto" then 
+            QBCore.Functions.Notify(src, Lang:t("success.give_money_all_crypto", {info = tonumber(amount)}), "success")
+        else
+            QBCore.Functions.Notify(src, Lang:t("success.give_money_all", {info = tonumber(amount).. "$", moneyType = moneyType}), "success")
+        end
     end
 end)
 
@@ -290,21 +296,22 @@ RegisterNetEvent('ps-adminmenu:server:GiveItem', function(inputData)
     local src = source
     local playerId, item, amount = inputData["Player ID"], inputData["Item"], inputData["Amount"]
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
+    if amount == nil then amount = 1 end
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
     Player.Functions.AddItem(item, tonumber(amount))
-    QBCore.Functions.Notify(src, Lang:t("success.give_item"), "success")
+    QBCore.Functions.Notify(src, Lang:t("success.give_item", {info = tonumber(amount).. " " ..item, player = Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname}), "success", 7500)
 end)
 
 -- Give Item to All
 RegisterNetEvent('ps-adminmenu:server:GiveItemAll', function(inputData)
+    local src = source
+    local item, amount = inputData["Item"], inputData["Amount"]
+    if amount == nil then amount = 1 end
+    --if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
     for _, v in pairs(QBCore.Functions.GetPlayers()) do
-        local src = source
-        local item, amount = inputData["Item"], inputData["Amount"]
         local Player = QBCore.Functions.GetPlayer(v)
-        if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
-
         Player.Functions.AddItem(item, tonumber(amount))
-        QBCore.Functions.Notify(src, Lang:t("success.give_item_all"), "success")
+        QBCore.Functions.Notify(src, Lang:t("success.give_item_all", {info = tonumber(amount).. " " ..item}), "success", 7500)
     end
 end)
 
