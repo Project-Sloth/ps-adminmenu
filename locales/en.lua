@@ -21,6 +21,10 @@ local Translations = {
         ["copy_vector3"] = "Copied vector3",
         ["copy_vector4"] = "Copied vector4",
         ["copy_heading"] = "Copied heading",
+        ["give_money"] = "Gave Money to the Player",
+        ["give_money_all"] = "Gave Money to every Player",
+        ["give_item"] = "Gave the Item to the Player",
+        ["give_item_all"] = "Gave the Item to every Player",
     },
     info = {
         ["godmode"] = "Godmode is %{value}",

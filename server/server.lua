@@ -1,4 +1,4 @@
-QBCore = exports['qb-core']:GetCoreObject()
+local QBCore = exports['qb-core']:GetCoreObject()
 
 local function NoPerms(source)
     QBCore.Functions.Notify(source, Lang:t('error.no_perms'), 'error')
@@ -180,6 +180,7 @@ RegisterNetEvent('ps-adminmenu:server:ReviveAll', function()
     TriggerClientEvent('hospital:client:Revive', -1)
 end)
 
+
 -- Kick Player
 RegisterNetEvent('ps-adminmenu:server:KickPlayer', function(inputData)
     local src = source
@@ -206,7 +207,7 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(inputData)
     elseif inv == "ox" then
         exports.ox_inventory:ClearInventory(playerId, nil)
     end
-    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
     QBCore.Functions.Notify(src, Lang:t("success.invcleared", {player = Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname.. " | " ..Player.PlayerData.citizenid}), 'Success', 7500)
 end)
 
@@ -220,7 +221,7 @@ RegisterNetEvent('ps-adminmenu:server:ClothingMenu', function(inputData)
         TriggerClientEvent("ps-adminmenu:client:CloseUI", src)
     end
     local Player = QBCore.Functions.GetPlayer(playerId)
-    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
 end)
 
 -- Freeze Player
@@ -242,7 +243,7 @@ RegisterNetEvent('ps-adminmenu:server:FreezePlayer', function(inputData)
         QBCore.Functions.Notify(src, Lang:t("success.deFrozen", {player = Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname.. " | " ..Player.PlayerData.citizenid}), 'Success', 7500)
 
     end
-    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
 
 end)
 
@@ -251,7 +252,7 @@ RegisterNetEvent('ps-adminmenu:server:OpenInv', function(data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(tonumber(data))
     exports.ox_inventory:forceOpenInventory(src, 'player', tonumber(data))
-    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
 end)
 
 -- Open Stash [ox side]
@@ -265,9 +266,46 @@ RegisterNetEvent('ps-adminmenu:server:GiveMoney', function(inputData)
     local src = source
     local playerId, amount, moneyType = inputData["Player ID"], inputData["Amount"], inputData["Type"]
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
-    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
 
     Player.Functions.AddMoney(tostring(moneyType), tonumber(amount))
+    QBCore.Functions.Notify(src, Lang:t("success.give_money"), "success")
+end)
+
+-- Give Money to all
+RegisterNetEvent('ps-adminmenu:server:GiveMoneyAll', function(inputData)
+    for _, v in pairs(QBCore.Functions.GetPlayers()) do
+        local src = source
+        local amount, moneyType = inputData["Amount"], inputData["Type"]
+        local Player = QBCore.Functions.GetPlayer(v)
+        if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
+
+        Player.Functions.AddMoney(tostring(moneyType), tonumber(amount))
+        QBCore.Functions.Notify(src, Lang:t("success.give_money_all"), "success")
+    end
+end)
+
+-- Give Item
+RegisterNetEvent('ps-adminmenu:server:GiveItem', function(inputData)
+    local src = source
+    local playerId, item, amount = inputData["Player ID"], inputData["Item"], inputData["Amount"]
+    local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
+    Player.Functions.AddItem(item, tonumber(amount))
+    QBCore.Functions.Notify(src, Lang:t("success.give_item"), "success")
+end)
+
+-- Give Item to All
+RegisterNetEvent('ps-adminmenu:server:GiveItemAll', function(inputData)
+    for _, v in pairs(QBCore.Functions.GetPlayers()) do
+        local src = source
+        local item, amount = inputData["Item"], inputData["Amount"]
+        local Player = QBCore.Functions.GetPlayer(v)
+        if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
+
+        Player.Functions.AddItem(item, tonumber(amount))
+        QBCore.Functions.Notify(src, Lang:t("success.give_item_all"), "success")
+    end
 end)
 
 -- Set Job
@@ -275,7 +313,7 @@ RegisterNetEvent('ps-adminmenu:server:SetJob', function(inputData)
     local src = source
     local playerId, Job, grade = inputData["Player ID"], inputData["Job"], inputData["Grade"]
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
-    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
 
     Player.Functions.SetJob(tostring(Job), tonumber(grade))
 end)
@@ -285,7 +323,7 @@ RegisterNetEvent('ps-adminmenu:server:SetGang', function(inputData)
     local src = source
     local playerId, Gang, grade = inputData["Player ID"], inputData["Gang"], inputData["Grade"]
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
-    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'Error', 7500) end
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
 
     Player.Functions.SetGang(tostring(Gang), tonumber(grade))
 end)

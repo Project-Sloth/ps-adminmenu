@@ -278,6 +278,40 @@ Config.Actions = {
         },
     },
     { 
+        label = "Give Money to All", 
+        perms = "admin", 
+        dropdown = {
+            { label = "Amount", InputType = "input" },
+            { label = "Type", InputType = "options", 
+                options = { 
+                    { label = "Bank", value = "bank"},
+                    { label = "Cash", value = "cash"},
+                    { label = "Crypto", value = "crypto"},
+                },
+            },
+            { label = "Give", InputType = "button", type = "server", event = "ps-adminmenu:server:GiveMoneyAll" },
+        },
+    },
+    { 
+        label = "Give Item", 
+        perms = "admin", 
+        dropdown = {
+            { label = "Player ID", InputType = "input" },
+            { label = "Item", InputType = "input" },
+            { label = "Amount", InputType = "input"},
+            { label = "Give", InputType = "button", type = "server", event = "ps-adminmenu:server:GiveItem" },
+        },
+    },
+    { 
+        label = "Give Item to All", 
+        perms = "admin", 
+        dropdown = {
+            { label = "Item", InputType = "input" },
+            { label = "Amount", InputType = "input"},
+            { label = "Give", InputType = "button", type = "server", event = "ps-adminmenu:server:GiveItemAll" },
+        },
+    },
+    { 
         label = "Spawn Vehicle", 
         perms = "mod", 
         dropdown = {
