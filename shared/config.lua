@@ -2,6 +2,8 @@ Config = {}
 
 Config.InventoryUsage =  "lj" -- qb(for qb-inventory) lj(for lj-inventory) or ox(for ox_inventory) [Inventory system]
 
+Config.FuelScript =  "LegacyFuel" -- LegacyFuel / qb-fuel / ps-fuel / lj-fuel [Car spawning/fixing]
+
 Config.Actions = {
     { 
         label = "Admin car", -- Label of the button
@@ -280,8 +282,14 @@ Config.Actions = {
         perms = "mod", 
         dropdown = {
             { label = "Vehicle", InputType = "input" },
-            { label = "Sumbit", InputType = "button", type = "server", event = "ps-adminmenu:server:SpawnVehicle" },
+            { label = "Sumbit", InputType = "button", type = "client", event = "ps-adminmenu:client:SpawnVehicle" },
         },
+    },
+    { 
+        label = "Fix Vehicle",
+        event = "fix",
+        type = "command",
+        perms = "mod",
     },
     { 
         label = "Specate Player", 

@@ -127,12 +127,16 @@ RegisterNetEvent('ps-adminmenu:client:CopyCoords', function(inputData, buttonlab
     local data = ""
     if buttonlable == "Copy Vector2" then
         data = string.format('vector2(%s, %s)', x, y)
+        QBCore.Functions.Notify(Lang:t("success.copy_vector2"), "success", 5000)
     elseif buttonlable == "Copy Vector3" then
         data = string.format('vector3(%s, %s, %s)', x, y, z)
+        QBCore.Functions.Notify(Lang:t("success.copy_vector3"), "success", 5000)
     elseif buttonlable == "Copy Vector4" then
         data = string.format('vector4(%s, %s, %s, %s)', x, y, z, h)
+        QBCore.Functions.Notify(Lang:t("success.copy_vector4"), "success", 5000)
     elseif buttonlable == "Copy Heading" then
         data = h
+        QBCore.Functions.Notify(Lang:t("success.copy_heading"), "success", 5000)
     end
 
     SendNUIMessage({
@@ -268,6 +272,29 @@ RegisterNetEvent('ps-adminmenu:client:openInventory', function(inputData)
     elseif inv == "ox" then
         TriggerServerEvent("ps-adminmenu:server:OpenInv", playerid)
     end
+end)
+
+-- Spawn Vehicle
+RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(inputData)
+    local ped = PlayerPedId()
+    local hash = GetHashKey(inputData["Vehicle"])
+    local veh = GetVehiclePedIsUsing(ped)
+    if not IsModelInCdimage(hash) then return end
+    RequestModel(hash)
+    while not HasModelLoaded(hash) do
+        Wait(0)
+    end
+
+    if IsPedInAnyVehicle(ped) then
+        DeleteVehicle(veh)
+    end
+
+    local vehicle = CreateVehicle(hash, GetEntityCoords(ped), GetEntityHeading(ped), true, false)
+    TaskWarpPedIntoVehicle(ped, vehicle, -1)
+    exports[Config.FuelScript]:SetFuel(vehicle, 100.0)
+    SetVehicleDirtLevel(vehicle, 0.0)
+    SetModelAsNoLongerNeeded(hash)
+    TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
 end)
 
 -- noclip
