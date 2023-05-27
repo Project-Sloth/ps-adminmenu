@@ -17,6 +17,10 @@ local Translations = {
         ["deFrozen"] = "You've set %{player} free",
         ["noclip_enabled"] = "No-clip enabled",
         ["noclip_disabled"] = "No-clip disabled",
+        ["copy_vector2"] = "Copied vector2",
+        ["copy_vector3"] = "Copied vector3",
+        ["copy_vector4"] = "Copied vector4",
+        ["copy_heading"] = "Copied heading",
     },
     info = {
         ["godmode"] = "Godmode is %{value}",

@@ -28,6 +28,8 @@ RegisterCommand("admin", function()
     
 end, false)
 
+RegisterKeyMapping('admin', 'Open Adminmenu', 'keyboard', 'U') -- https://docs.fivem.net/docs/game-references/controls/
+
 
 RegisterNUICallback("hideUI", function()
     toggleUI(false)

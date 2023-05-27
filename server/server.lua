@@ -59,13 +59,6 @@ QBCore.Functions.CreateCallback('ps-adminmenu:server:GetPlayers', function(_, cb
     cb(Players)
 end)
 
-
--- Spawn Vehicle
-RegisterNetEvent('ps-adminmenu:server:SpawnVehicle', function(inputData)
-    local vehicle = inputData["Vehicle"]
-    TriggerClientEvent('QBCore:Command:SpawnVehicle', source, vehicle)
-end)
-
 -- Admin Car
 RegisterNetEvent('ps-adminmenu:server:SaveCar', function(mods, vehicle, _, plate)
     local src = source
