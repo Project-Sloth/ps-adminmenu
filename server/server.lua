@@ -298,7 +298,11 @@ RegisterNetEvent('ps-adminmenu:server:GiveItem', function(inputData)
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
     if amount == nil then amount = 1 end
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
-    Player.Functions.AddItem(item, tonumber(amount))
+    if Config.Inventory == "ox" then
+        exports.ox_inventory:AddItem(Player, item, tonumber(amount))
+    else
+        Player.Functions.AddItem(item, tonumber(amount))
+    end
     QBCore.Functions.Notify(src, Lang:t("success.give_item", {info = tonumber(amount).. " " ..item, player = Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname}), "success", 7500)
 end)
 
@@ -310,7 +314,11 @@ RegisterNetEvent('ps-adminmenu:server:GiveItemAll', function(inputData)
     --if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
     for _, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
-        Player.Functions.AddItem(item, tonumber(amount))
+        if Config.Inventory == "ox" then
+            exports.ox_inventory:AddItem(Player, item, tonumber(amount))
+        else
+            Player.Functions.AddItem(item, tonumber(amount))
+        end
         QBCore.Functions.Notify(src, Lang:t("success.give_item_all", {info = tonumber(amount).. " " ..item}), "success", 7500)
     end
 end)
