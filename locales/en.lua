@@ -36,6 +36,8 @@ local Translations = {
         ["take_money_crypto"] = "Removed %{info} Crypto/s from %{player}",
         ["refueled_vehicle"] = "Refueled Vehicle",
         ["entered_vehicle"] = "Entered vehicle",
+        ["set_on_fire"] = "Person set on Fire :P",
+        ["explode_player"] = "Person was exploded :P",
     },
     info = {
         ["godmode"] = "Godmode is %{value}",

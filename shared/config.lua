@@ -285,6 +285,29 @@ Config.Actions = {
         },
     },
     { 
+        label = "Set On Fire", 
+        perms = "mod", 
+        dropdown = {
+            { label = "Player ID", InputType = "input" },
+            { label = "Time", InputType = "input" },
+            { label = "Let him Burn", InputType = "button", type = "client", event = "ps-adminmenu:client:SetOnFire" },
+        },
+    },
+    { 
+        label = "Explode Player", 
+        perms = "mod", 
+        dropdown = {
+            { label = "Player ID", InputType = "input" },
+            { label = "Damage", InputType = "options", 
+                options = { 
+                    { label = "No Damage", value = "nodamage"},
+                    { label = "Damage", value = "damage"},
+                },
+            },
+            { label = "BOOOM", InputType = "button", type = "client", event = "ps-adminmenu:client:ExplodePlayer" },
+        },
+    },
+    { 
         label = "Sit in Vehicle", 
         perms = "mod", 
         dropdown = {
