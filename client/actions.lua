@@ -1,4 +1,4 @@
-QBCore = exports['qb-core']:GetCoreObject()
+local QBCore = exports['qb-core']:GetCoreObject()
 
 -- Admin Car
 local function getVehicleFromVehList(hash)
@@ -36,12 +36,12 @@ RegisterNetEvent('ps-adminmenu:client:ToggleInvisible', function(data)
     local ped = PlayerPedId()
     if not invisible then
         invisible = true
-        QBCore.Functions.Notify(Lang:t("info.invisible", {value = "on"}), 'inform')
+        QBCore.Functions.Notify(Lang:t("info.invisible", {value = "on"}), 'primary')
         SetEntityVisible(ped, false, 0)
     else
         invisible = false
         SetEntityVisible(ped, true, 0)
-        QBCore.Functions.Notify(Lang:t("info.invisible", {value = "off"}), 'inform')
+        QBCore.Functions.Notify(Lang:t("info.invisible", {value = "off"}), 'primary')
     end
 end)
 
@@ -52,13 +52,13 @@ RegisterNetEvent('ps-adminmenu:client:ToggleGodmode', function(data)
     godmode = not godmode
 
     if godmode then
-        QBCore.Functions.Notify(Lang:t("info.godmode", {value = "enabled"}), 'inform')
+        QBCore.Functions.Notify(Lang:t("info.godmode", {value = "enabled"}), 'primary')
         while godmode do
             Wait(0)
             SetPlayerInvincible(PlayerId(), true)
         end
         SetPlayerInvincible(PlayerId(), false)
-        QBCore.Functions.Notify(Lang:t("info.godmode", {value = "disabled"}), 'inform')
+        QBCore.Functions.Notify(Lang:t("info.godmode", {value = "disabled"}), 'primary')
     end
 end)
 
@@ -77,7 +77,6 @@ RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(inputData)
     TriggerServerEvent('qb-weathersync:server:setWeather', weatherType)
     QBCore.Functions.Notify(Lang:t("info.weatherType", {value = weatherType}))
 end)
-
 
 -- Teleport back
 local function teleport(vehicle, x, y, z)
@@ -234,13 +233,11 @@ RegisterNetEvent('ps-adminmenu:client:TeleportToMarker', function()
     QBCore.Functions.Notify(Lang:t("success.teleported_waypoint"), "success", 5000)
 end)
 
-
 -- Mute Player
 RegisterNetEvent('ps-adminmenu:client:MutePlayer', function(inputData)
     local playerid = inputData["Player ID"]
     exports['pma-voice']:toggleMutePlayer(playerid)
 end)
-
 
 -- Open Stash
 RegisterNetEvent('ps-adminmenu:client:openStash', function(inputData)
@@ -257,7 +254,6 @@ RegisterNetEvent('ps-adminmenu:client:openStash', function(inputData)
         TriggerServerEvent("ps-adminmenu:server:OpenStash", stash)
     end
 end)
-
 
 -- Open Inventory
 RegisterNetEvent('ps-adminmenu:client:openInventory', function(inputData)
@@ -295,6 +291,11 @@ RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(inputData)
     SetVehicleDirtLevel(vehicle, 0.0)
     SetModelAsNoLongerNeeded(hash)
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
+end)
+
+-- toggle duty
+RegisterNetEvent('ps-adminmenu:client:ToggleDuty', function()
+    TriggerServerEvent("QBCore:ToggleDuty")
 end)
 
 -- noclip

@@ -42,6 +42,32 @@ Config.Actions = {
         },
     },
     { 
+        label = "Kick Player", 
+        perms = "admin", 
+        dropdown = {
+            { label = "Player ID", type = "input", InputType = "input" },
+            { label = "Kick", InputType = "button", type = "server", event = "ps-adminmenu:server:KickPlayer" },
+        },
+    },
+    { 
+        label = "Server Announcement", 
+        perms = "admin", 
+        dropdown = {
+            { label = "Message", type = "message", InputType = "input" },
+            { label = "Length", InputType = "options", 
+            options = { 
+                 { label = "10 Seconds", value = "10000"},
+                 { label = "15 Seconds", value = "15000"},
+                 { label = "30 Seconds", value = "30000"},
+                 { label = "45 Seconds", value = "45000"},
+                 { label = "1 Minutes", value = "60000"},
+                 { label = "2 Minutes", value = "180000"},
+             },
+         },
+            { label = "Announce", InputType = "button", type = "server", event = "ps-adminmenu:server:ServerAnnouncement" },
+        },
+    },
+    { 
         label = "Change Weather", 
         perms = "mod", 
         dropdown = {
@@ -124,6 +150,25 @@ Config.Actions = {
         },
     },
     { 
+        label = "Message Player", 
+        perms = "admin", 
+        dropdown = {
+            { label = "Player ID", InputType = "input" },  
+            { label = "Message", type = "message", InputType = "input" },
+            { label = "Length", InputType = "options", 
+                options = { 
+                    { label = "10 Seconds", value = "10000"},
+                    { label = "15 Seconds", value = "15000"},
+                    { label = "30 Seconds", value = "30000"},
+                    { label = "45 Seconds", value = "45000"},
+                    { label = "1 Minutes", value = "60000"},
+                    { label = "2 Minutes", value = "180000"},
+                },
+            },
+            { label = "Send Message", InputType = "button", type = "server", event = "ps-adminmenu:server:MessagePlayer" },
+        },
+    },
+    { 
         label = "Clothing Menu",
         perms = "mod", 
         dropdown = {
@@ -178,20 +223,44 @@ Config.Actions = {
         type = "client" 
     },
     { 
-        label = "Kick Player", 
-        perms = "mod", 
-        dropdown = {
-            { label = "Player ID", InputType = "input" },
-            { label = "Reason", InputType = "input" },
-            { label = "Kick", InputType = "button", type = "server", event = "ps-adminmenu:server:KickPlayer" },
-        },
+        label = "Toggle Blackout", 
+        event = "ps-adminmenu:server:ToggleBlackout", 
+        type = "server" 
+    },
+    { 
+        label = "Toggle Duty", 
+        event = "ps-adminmenu:client:ToggleDuty", 
+        type = "client" 
     },
     { 
         label = "Kill Player", 
         perms = "mod", 
         dropdown = {
             { label = "Player ID", InputType = "input" },
-            { label = "Kill", InputType = "button", type = "client", event = "ps-adminmenu:client:banplayer" },
+            { label = "Kill", InputType = "button", type = "server", event = "ps-adminmenu:server:KillPlayer" },
+        },
+    },
+    { 
+        label = "Check Permissions", 
+        perms = "admin", 
+        dropdown = {
+            { label = "Player ID", InputType = "input" },
+            { label = "Check", InputType = "button", type = "server", event = "ps-adminmenu:server:CheckPerms" },
+        },
+    },
+    { 
+        label = "Set Permissions", 
+        perms = "admin", 
+        dropdown = {
+            { label = "Player ID", InputType = "input" },
+            { label = "Permissions", InputType = "options", 
+                options = { 
+                { label = "Mod", value = "mod"},
+                { label = "Admin", value = "admin"},
+                { label = "God", value = "god"},
+                },
+            },
+            { label = "Confirm", InputType = "button", type = "server", event = "ps-adminmenu:server:SetPerms" },
         },
     },
     { 
@@ -293,6 +362,22 @@ Config.Actions = {
         },
     },
     { 
+        label = "Take Money", 
+        perms = "admin", 
+        dropdown = {
+            { label = "Player ID", InputType = "input" },
+            { label = "Amount", InputType = "input" },
+            { label = "Type", InputType = "options", 
+                options = { 
+                    { label = "Bank", value = "bank"},
+                    { label = "Cash", value = "cash"},
+                    { label = "Crypto", value = "crypto"},
+                },
+            },
+            { label = "Remove", InputType = "button", type = "server", event = "ps-adminmenu:server:TakeMoney" },
+        },
+    },
+    { 
         label = "Give Item", 
         perms = "admin", 
         dropdown = {
@@ -369,6 +454,7 @@ Config.Actions = {
             { label = "Unban", InputType = "button", type = "client", event = "ps-adminmenu:client:banplayer" },
         },
     },
+    -- WE SHOULD CREATE A FUNCTION TO CUFF/UNCUFF PLAYERS BY ID NOT WHEN NEARBY!
     { 
         label = "Uncuff Player", 
         perms = "mod", 

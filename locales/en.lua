@@ -8,6 +8,7 @@ local Translations = {
         ["not_online"] = 'Player not online',
         ['no_waypoint'] = 'No Waypoint Set.',
         ["tp_error"] = 'Error While Teleporting.',
+        ["empty_input"] = 'Input was empty.',
     },
     success = {
         ["veh_owner"] = "The vehicle is now yours!",
@@ -27,6 +28,8 @@ local Translations = {
         ["give_money_all_crypto"] = "Gave %{info} Crypto/s to every Player",
         ["give_item"] = "Gave %{info} to %{player}",
         ["give_item_all"] = "Gave %{info} to every Player",
+        ["take_money"] = "Removed %{info} from %{player}",
+        ["take_money_crypto"] = "Removed %{info} Crypto/s from %{player}",
     },
     info = {
         ["godmode"] = "Godmode is %{value}",
@@ -39,6 +42,8 @@ local Translations = {
         ["reason"] = "Reason: ",
         ["kicked"] = "You have been kicked!",
         ["join_disc"] = "Join Discord for more information:",
+        ["blackout"] = "Blackout is %{value}",
+        ["not_enough_money"] = "Insufficient funds to remove money from the player",
     },
 
 }
