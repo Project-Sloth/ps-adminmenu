@@ -12,6 +12,7 @@ local Translations = {
         ["plate_max"] = 'Max Digits for a Plate is 8',
         ["amount_max"] = 'Max Input is 999.999$',
         ["not_in_vehicle"] = 'Your not in a Vehicle',
+        ["no_free_seats"] = "The vehicle has no free seats!",
     },
     success = {
         ["veh_owner"] = "The vehicle is now yours!",
@@ -33,6 +34,8 @@ local Translations = {
         ["give_item_all"] = "Gave %{info} to every Player",
         ["take_money"] = "Removed %{info} from %{player}",
         ["take_money_crypto"] = "Removed %{info} Crypto/s from %{player}",
+        ["refueled_vehicle"] = "Refueled Vehicle",
+        ["entered_vehicle"] = "Entered vehicle",
     },
     info = {
         ["godmode"] = "Godmode is %{value}",

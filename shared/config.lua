@@ -285,6 +285,14 @@ Config.Actions = {
         },
     },
     { 
+        label = "Sit in Vehicle", 
+        perms = "mod", 
+        dropdown = {
+            { label = "Player ID", InputType = "input" },
+            { label = "Confirm", InputType = "button", type = "server", event = "ps-adminmenu:server:SitInVehicle" },
+        },
+    },
+    { 
         label = "Open Stash", 
         perms = "mod", 
         dropdown = {
@@ -299,6 +307,12 @@ Config.Actions = {
             { label = "Plate", InputType = "input" },
             { label = "Confirm", InputType = "button", type = "client", event = "ps-adminmenu:client:ChangePlate" },
         },
+    },
+    { 
+        label = "Refuel vehicle",
+        event = "ps-adminmenu:client:RefuelVehicle",
+        type = "client",
+        perms = "mod",
     },
     { 
         label = "Revive Player", 

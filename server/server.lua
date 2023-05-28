@@ -347,6 +347,31 @@ RegisterNetEvent('ps-adminmenu:server:TakeMoney', function(inputData)
     end
 end)
 
+-- sit in vehicle
+RegisterNetEvent('ps-adminmenu:server:SitInVehicle', function(inputData)
+    local src = source
+    local playerId = inputData["Player ID"]
+    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+    local admin = GetPlayerPed(src)
+    local targetPed = GetPlayerPed(playerId)
+    local vehicle = GetVehiclePedIsIn(targetPed,false)
+    local seat = -1
+    if vehicle ~= 0 then
+        for i=0,8,1 do
+            if GetPedInVehicleSeat(vehicle,i) == 0 then
+                seat = i
+                break
+            end
+        end
+        if seat ~= -1 then
+            SetPedIntoVehicle(admin,vehicle,seat)
+            TriggerClientEvent('QBCore:Notify', src, Lang:t("success.entered_vehicle"), 'success', 5000)
+        else
+            TriggerClientEvent('QBCore:Notify', src, Lang:t("error.no_free_seats"), 'danger', 5000)
+        end
+    end
+end)
+
 -- Give Item
 RegisterNetEvent('ps-adminmenu:server:GiveItem', function(inputData)
     local src = source

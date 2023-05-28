@@ -293,6 +293,18 @@ RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(inputData)
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
 end)
 
+-- Refuel Vehicle
+RegisterNetEvent('ps-adminmenu:client:RefuelVehicle', function()
+    local ped = PlayerPedId()
+    if IsPedInAnyVehicle(ped) then
+        local veh = GetVehiclePedIsUsing(ped)
+        exports[Config.FuelScript]:SetFuel(veh, 100.0)
+        QBCore.Functions.Notify(Lang:t("success.refueled_vehicle"))
+    else
+        QBCore.Functions.Notify(Lang:t("error.not_in_vehicle"))
+    end
+end)
+
 -- change plate
 RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(inputData)
     local ped = PlayerPedId()
