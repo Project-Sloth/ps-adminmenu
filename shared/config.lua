@@ -293,6 +293,14 @@ Config.Actions = {
         },
     },
     { 
+        label = "Change Plate", 
+        perms = "mod", 
+        dropdown = {
+            { label = "Plate", InputType = "input" },
+            { label = "Confirm", InputType = "button", type = "client", event = "ps-adminmenu:client:ChangePlate" },
+        },
+    },
+    { 
         label = "Revive Player", 
         perms = "mod", 
         dropdown = {

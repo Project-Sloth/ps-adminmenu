@@ -322,6 +322,7 @@ RegisterNetEvent('ps-adminmenu:server:TakeMoney', function(inputData)
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
     if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
+    if string.len(amount) > 6 then return QBCore.Functions.Notify(src, Lang:t("error.amount_max"), "error", 5000) end
     if moneyType == "bank" then
         if Player.PlayerData.money.bank >= tonumber(amount) then
             Player.Functions.RemoveMoney("bank", tonumber(amount), "state-fees")

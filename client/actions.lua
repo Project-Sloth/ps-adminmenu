@@ -293,6 +293,19 @@ RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(inputData)
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
 end)
 
+-- change plate
+RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(inputData)
+    local ped = PlayerPedId()
+    local plate = inputData["Plate"]
+    if string.len(plate) > 8 then return QBCore.Functions.Notify(Lang:t("error.plate_max"), "error", 5000) end
+    if IsPedInAnyVehicle(ped) then
+        local veh = GetVehiclePedIsUsing(ped)
+        SetVehicleNumberPlateText(veh, plate)
+    else
+        QBCore.Functions.Notify(Lang:t("error.not_in_vehicle"))
+    end
+end)
+
 -- toggle duty
 RegisterNetEvent('ps-adminmenu:client:ToggleDuty', function()
     TriggerServerEvent("QBCore:ToggleDuty")

@@ -9,6 +9,9 @@ local Translations = {
         ['no_waypoint'] = 'No Waypoint Set.',
         ["tp_error"] = 'Error While Teleporting.',
         ["empty_input"] = 'Input was empty.',
+        ["plate_max"] = 'Max Digits for a Plate is 8',
+        ["amount_max"] = 'Max Input is 999.999$',
+        ["not_in_vehicle"] = 'Your not in a Vehicle',
     },
     success = {
         ["veh_owner"] = "The vehicle is now yours!",
