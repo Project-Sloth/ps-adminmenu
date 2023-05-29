@@ -493,6 +493,26 @@ Config.Actions = {
         type = "client" 
     },
     { 
+        label = "Vehicle Dev Menu", 
+        event = "ps-adminmenu:client:ToggleVehDevMenu", 
+        type = "client" 
+    },
+    { 
+        label = "Toggle Coords", 
+        event = "ps-adminmenu:client:ToggleCoords", 
+        type = "client" 
+    },
+    { 
+        label = "Toggle Blips", 
+        event = "ps-adminmenu:client:toggleBlips", 
+        type = "client" 
+    },
+    { 
+        label = "Toggle Names", 
+        event = "ps-adminmenu:client:toggleNames", 
+        type = "client" 
+    },
+    { 
         label = "Unban Player", 
         perms = "mod", 
         dropdown = {

@@ -13,6 +13,8 @@ local Translations = {
         ["amount_max"] = 'Max Input is 999.999$',
         ["not_in_vehicle"] = 'Your not in a Vehicle',
         ["no_free_seats"] = "The vehicle has no free seats!",
+        ["blips_deactivated"] = "Blips deactivated",
+        ["names_deactivated"] = "Names deactivated",
     },
     success = {
         ["veh_owner"] = "The vehicle is now yours!",
@@ -38,6 +40,8 @@ local Translations = {
         ["entered_vehicle"] = "Entered vehicle",
         ["set_on_fire"] = "Person set on Fire :P",
         ["explode_player"] = "Person was exploded :P",
+        ["blips_activated"] = "Blips activated",
+        ["names_activated"] = "Names activated",
     },
     info = {
         ["godmode"] = "Godmode is %{value}",
@@ -52,6 +56,15 @@ local Translations = {
         ["join_disc"] = "Join Discord for more information:",
         ["blackout"] = "Blackout is %{value}",
         ["not_enough_money"] = "Insufficient funds to remove money from the player",
+        ["ent_id"] = "Entity ID: ",
+        ["net_id"] = "Net ID: ",
+        ["net_id_not_registered"] = "Not registered",
+        ["vehicle_dev_data"] = "Vehicle Information",
+        ["model"] = "Model: ",
+        ["hash"] = "Hash: ",
+        ["eng_health"] = "Engine Health: ",
+        ["body_health"] = "Body Health: ",
+        ["ped_coords"] = "Ped Coordinates:",
     },
 
 }

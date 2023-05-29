@@ -483,3 +483,38 @@ RegisterNetEvent('ps-adminmenu:server:SetGang', function(inputData)
 
     Player.Functions.SetGang(tostring(Gang), tonumber(grade))
 end)
+
+-- toggle namens and blips
+
+local players = {}
+
+RegisterNetEvent('ps-adminmenu:server:GetPlayersForBlips', function()
+    local src = source
+    TriggerClientEvent('ps-adminmenu:client:Show', src, players)
+end)
+
+CreateThread(function()
+    while true do
+        local tempPlayers = {}
+        for _, v in pairs(QBCore.Functions.GetPlayers()) do
+            local targetped = GetPlayerPed(v)
+            local ped = QBCore.Functions.GetPlayer(v)
+            tempPlayers[#tempPlayers + 1] = {
+                name = (ped.PlayerData.charinfo.firstname or '') .. ' ' .. (ped.PlayerData.charinfo.lastname or '') .. ' | CID: ' .. ped.PlayerData.citizenid .. ' (' .. (GetPlayerName(v) or '') .. ')',
+                id = v,
+                coords = GetEntityCoords(targetped),
+                cid = ped.PlayerData.charinfo.firstname .. ' ' .. ped.PlayerData.charinfo.lastname,
+                citizenid = ped.PlayerData.citizenid,
+                sources = GetPlayerPed(ped.PlayerData.source),
+                sourceplayer = ped.PlayerData.source
+
+            }
+        end
+        -- Sort players list by source ID (1,2,3,4,5, etc) --
+        table.sort(tempPlayers, function(a, b)
+            return a.id < b.id
+        end)
+        players = tempPlayers
+        Wait(1500)
+    end
+end)
