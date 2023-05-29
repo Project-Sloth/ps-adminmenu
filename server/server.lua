@@ -207,11 +207,12 @@ end)
 -- Kick Player
 RegisterNetEvent('ps-adminmenu:server:KickPlayer', function(inputData)
     local src = source
-    local playerid = inputData["Player ID"]
+    local playerId = inputData["Player ID"]
     local reason = inputData["Reason"]
     if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
-	if reason == nil then reason = "" end
-    DropPlayer(playerid, Lang:t("info.kicked") .. '\n' .. Lang:t("info.reason") .. reason .. '\n \n' .. Lang:t("info.join_disc") .. '\n' .. QBCore.Config.Server.Discord)
+    if playerId == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
+	if reason == nil then reason = "NONE" end
+    DropPlayer(playerId, Lang:t("info.kicked") .. '\n' .. Lang:t("info.reason") .. reason .. '\n \n' .. Lang:t("info.join_disc") .. '\n' .. QBCore.Config.Server.Discord)
 end)
 
 -- Clear Inventory
@@ -239,12 +240,11 @@ RegisterNetEvent('ps-adminmenu:server:ClothingMenu', function(inputData)
     local src = source
     local playerId = tonumber(inputData["Player ID"])
     if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+    if playerId == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
     TriggerClientEvent('qb-clothing:client:openMenu', playerId)
     if playerId == src then
         TriggerClientEvent("ps-adminmenu:client:CloseUI", src)
     end
-    local Player = QBCore.Functions.GetPlayer(playerId)
-    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
 end)
 
 -- Freeze Player
@@ -443,10 +443,10 @@ RegisterNetEvent('ps-adminmenu:server:CheckPerms', function(inputData)
     local src = source
     local playerId = inputData["Player ID"]
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
+    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 15000) end
     local perms = QBCore.Functions.GetPermission(Player.PlayerData.source)
     local permsStr = permsToString(perms)
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
-    if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 15000) end
+    --if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
     if permsStr == "" then permsStr = "NONE" end
     QBCore.Functions.Notify(src, Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname.. " got [ " ..permsStr.. " ] Permissions.", "primary", 7500)
 end)
@@ -456,7 +456,7 @@ RegisterNetEvent('ps-adminmenu:server:SetPerms', function(inputData)
     local src = source
     local playerId, permissions = inputData["Player ID"], inputData["Permissions"]
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+    --if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
     if permissions == nil then return QBCore.Functions.Notify(src, Lang:t("error.empty_input"), 'error', 15000) end 
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 15000) end
     QBCore.Functions.AddPermission(Player.PlayerData.source, permissions)

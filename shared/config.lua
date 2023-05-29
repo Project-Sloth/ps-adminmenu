@@ -46,6 +46,7 @@ Config.Actions = {
         perms = "admin", 
         dropdown = {
             { label = "Player ID", type = "input", InputType = "input" },
+            { label = "Reason", type = "input", InputType = "input" },
             { label = "Kick", InputType = "button", type = "server", event = "ps-adminmenu:server:KickPlayer" },
         },
     },
@@ -501,11 +502,11 @@ Config.Actions = {
     },
     -- WE SHOULD CREATE A FUNCTION TO CUFF/UNCUFF PLAYERS BY ID NOT WHEN NEARBY!
     { 
-        label = "Uncuff Player", 
+        label = "Toggle Cuffs", 
         perms = "mod", 
         dropdown = {
             { label = "Player ID", InputType = "input" },
-            { label = "Uncuff", InputType = "button", type = "client", event = "ps-adminmenu:client:banplayer" },
+            { label = "Confirm", InputType = "button", type = "client", event = "ps-adminmenu:client:ToggleCuffs" },
         },
     },
     { 
