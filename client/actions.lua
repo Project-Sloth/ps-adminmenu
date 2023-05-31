@@ -1,4 +1,4 @@
-QBCore = exports['qb-core']:GetCoreObject()
+local QBCore = exports['qb-core']:GetCoreObject()
 
 -- Admin Car
 local function getVehicleFromVehList(hash)
@@ -9,6 +9,18 @@ local function getVehicleFromVehList(hash)
 	end
 end
 
+local function Draw2DText(content, font, colour, scale, x, y)
+    SetTextFont(font)
+    SetTextScale(scale, scale)
+    SetTextColour(colour[1],colour[2],colour[3], 255)
+    SetTextEntry("STRING")
+    SetTextDropShadow(0, 0, 0, 0,255)
+    SetTextDropShadow()
+    SetTextEdge(4, 0, 0, 0, 255)
+    SetTextOutline()
+    AddTextComponentString(content)
+    DrawText(x, y)
+end
 
 RegisterNetEvent('ps-adminmenu:client:Admincar', function(data)
     local ped = PlayerPedId()
@@ -36,12 +48,12 @@ RegisterNetEvent('ps-adminmenu:client:ToggleInvisible', function(data)
     local ped = PlayerPedId()
     if not invisible then
         invisible = true
-        QBCore.Functions.Notify(Lang:t("info.invisible", {value = "on"}), 'inform')
+        QBCore.Functions.Notify(Lang:t("info.invisible", {value = "on"}), 'primary')
         SetEntityVisible(ped, false, 0)
     else
         invisible = false
         SetEntityVisible(ped, true, 0)
-        QBCore.Functions.Notify(Lang:t("info.invisible", {value = "off"}), 'inform')
+        QBCore.Functions.Notify(Lang:t("info.invisible", {value = "off"}), 'primary')
     end
 end)
 
@@ -52,16 +64,44 @@ RegisterNetEvent('ps-adminmenu:client:ToggleGodmode', function(data)
     godmode = not godmode
 
     if godmode then
-        QBCore.Functions.Notify(Lang:t("info.godmode", {value = "enabled"}), 'inform')
+        QBCore.Functions.Notify(Lang:t("info.godmode", {value = "enabled"}), 'primary')
         while godmode do
             Wait(0)
             SetPlayerInvincible(PlayerId(), true)
         end
         SetPlayerInvincible(PlayerId(), false)
-        QBCore.Functions.Notify(Lang:t("info.godmode", {value = "disabled"}), 'inform')
+        QBCore.Functions.Notify(Lang:t("info.godmode", {value = "disabled"}), 'primary')
     end
 end)
 
+-- set on fire
+RegisterNetEvent('ps-adminmenu:client:SetOnFire', function(inputData)
+    local playerId, time = inputData["Player ID"], inputData["Time"]
+    local Player = GetPlayerPed(GetPlayerFromServerId(playerId))
+    if playerId == nil then return QBCore.Functions.Notify(Lang:t("error.not_online"), 'error', 7500) end
+    if time == nil then time = 10 end
+    local timer = time * 1000
+    QBCore.Functions.Notify(Lang:t("success.set_on_fire"), 'success')
+    StartEntityFire(Player)
+    Wait(timer)
+    StopEntityFire(Player)
+end)
+
+-- explode player
+RegisterNetEvent('ps-adminmenu:client:ExplodePlayer', function(inputData)
+    local playerId, damage = inputData["Player ID"], inputData["Damage"]
+    local Player = GetPlayerPed(GetPlayerFromServerId(playerId))
+    local playerCoords = GetEntityCoords(Player)
+    if playerId == nil then return QBCore.Functions.Notify(Lang:t("error.not_online"), 'error', 7500) end
+    if damage == nil then damage = "nodamage" end
+    if damage == "nodamage" then
+        QBCore.Functions.Notify(Lang:t("success.explode_player"), 'success')
+        AddExplosion(playerCoords.x, playerCoords.y, playerCoords.z, 'EXPLOSION_TANKER', 2.0, true, false, 2.0)
+    else   
+        QBCore.Functions.Notify(Lang:t("success.explode_player"), 'success')
+        AddExplosion(playerCoords.x, playerCoords.y, playerCoords.z, 2, 0.9, 1, 0, 1065353216, 0)
+    end
+end)
 
 -- Time
 RegisterNetEvent('ps-adminmenu:client:ChangeTime', function(inputData)
@@ -77,7 +117,6 @@ RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(inputData)
     TriggerServerEvent('qb-weathersync:server:setWeather', weatherType)
     QBCore.Functions.Notify(Lang:t("info.weatherType", {value = weatherType}))
 end)
-
 
 -- Teleport back
 local function teleport(vehicle, x, y, z)
@@ -234,13 +273,11 @@ RegisterNetEvent('ps-adminmenu:client:TeleportToMarker', function()
     QBCore.Functions.Notify(Lang:t("success.teleported_waypoint"), "success", 5000)
 end)
 
-
 -- Mute Player
 RegisterNetEvent('ps-adminmenu:client:MutePlayer', function(inputData)
     local playerid = inputData["Player ID"]
     exports['pma-voice']:toggleMutePlayer(playerid)
 end)
-
 
 -- Open Stash
 RegisterNetEvent('ps-adminmenu:client:openStash', function(inputData)
@@ -257,7 +294,6 @@ RegisterNetEvent('ps-adminmenu:client:openStash', function(inputData)
         TriggerServerEvent("ps-adminmenu:server:OpenStash", stash)
     end
 end)
-
 
 -- Open Inventory
 RegisterNetEvent('ps-adminmenu:client:openInventory', function(inputData)
@@ -295,6 +331,91 @@ RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(inputData)
     SetVehicleDirtLevel(vehicle, 0.0)
     SetModelAsNoLongerNeeded(hash)
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
+end)
+
+-- Refuel Vehicle
+RegisterNetEvent('ps-adminmenu:client:RefuelVehicle', function()
+    local ped = PlayerPedId()
+    if IsPedInAnyVehicle(ped) then
+        local veh = GetVehiclePedIsUsing(ped)
+        exports[Config.FuelScript]:SetFuel(veh, 100.0)
+        QBCore.Functions.Notify(Lang:t("success.refueled_vehicle"))
+    else
+        QBCore.Functions.Notify(Lang:t("error.not_in_vehicle"))
+    end
+end)
+
+-- change plate
+RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(inputData)
+    local ped = PlayerPedId()
+    local plate = inputData["Plate"]
+    if string.len(plate) > 8 then return QBCore.Functions.Notify(Lang:t("error.plate_max"), "error", 5000) end
+    if IsPedInAnyVehicle(ped) then
+        local veh = GetVehiclePedIsUsing(ped)
+        SetVehicleNumberPlateText(veh, plate)
+    else
+        QBCore.Functions.Notify(Lang:t("error.not_in_vehicle"))
+    end
+end)
+
+-- toggle duty
+RegisterNetEvent('ps-adminmenu:client:ToggleDuty', function()
+    TriggerServerEvent("QBCore:ToggleDuty")
+end)
+
+-- cuff/Uncuff
+RegisterNetEvent('ps-adminmenu:client:ToggleCuffs', function(inputData)
+    local player = inputData["Player ID"]
+    if player == nil then return QBCore.Functions.Notify(Lang:t("error.not_online"), 'error', 7500) end
+    local playerId = GetPlayerServerId(player)
+    TriggerEvent("police:client:GetCuffed", playerId)
+end)
+
+--toggle veh dev menu
+local vehicleDevMode = false
+RegisterNetEvent('ps-adminmenu:client:ToggleVehDevMenu', function()
+    local x = 0.4
+    local y = 0.888
+    vehicleDevMode = not vehicleDevMode
+    CreateThread(function()
+        while vehicleDevMode do
+            local ped = PlayerPedId()
+            Wait(1)
+            if IsPedInAnyVehicle(ped, false) then
+                local vehicle = GetVehiclePedIsIn(ped, false)
+                local netID = VehToNet(vehicle)
+                local hash = GetEntityModel(vehicle)
+                local modelName = GetLabelText(GetDisplayNameFromVehicleModel(hash))
+                local eHealth = GetVehicleEngineHealth(vehicle)
+                local bHealth = GetVehicleBodyHealth(vehicle)
+                Draw2DText(Lang:t("info.vehicle_dev_data"), 4, {66, 182, 245}, 0.4, x + 0.0, y + 0.0)
+                Draw2DText(string.format(Lang:t("info.ent_id") .. '~b~%s~s~ | ' .. Lang:t("info.net_id") .. '~b~%s~s~', vehicle, netID), 4, {255, 255, 255}, 0.4, x + 0.0, y + 0.025)
+                Draw2DText(string.format(Lang:t("info.model") .. '~b~%s~s~ | ' .. Lang:t("info.hash") .. '~b~%s~s~', modelName, hash), 4, {255, 255, 255}, 0.4, x + 0.0, y + 0.050)
+                Draw2DText(string.format(Lang:t("info.eng_health") .. '~b~%s~s~ | ' .. Lang:t("info.body_health") .. '~b~%s~s~', QBCore.Shared.Round(eHealth, 2), QBCore.Shared.Round(bHealth, 2)), 4, {255, 255, 255}, 0.4, x + 0.0, y + 0.075)
+            end
+        end
+    end)
+end)
+
+--toggle coords
+local showCoords = false
+RegisterNetEvent('ps-adminmenu:client:ToggleCoords', function()
+    local x = 0.4
+    local y = 0.025
+    showCoords = not showCoords
+    CreateThread(function()
+        while showCoords do
+            local coords = GetEntityCoords(PlayerPedId())
+            local heading = GetEntityHeading(PlayerPedId())
+            local c = {}
+            c.x = QBCore.Shared.Round(coords.x, 2)
+            c.y = QBCore.Shared.Round(coords.y, 2)
+            c.z = QBCore.Shared.Round(coords.z, 2)
+            heading = QBCore.Shared.Round(heading, 2)
+            Wait(1)
+            Draw2DText(string.format('~w~'..Lang:t("info.ped_coords") .. '~b~ vector4(~w~%s~b~, ~w~%s~b~, ~w~%s~b~, ~w~%s~b~)', c.x, c.y, c.z, heading), 4, {66, 182, 245}, 0.4, x + 0.0, y + 0.0)
+        end
+    end)
 end)
 
 -- noclip
@@ -571,6 +692,237 @@ end
 RegisterNetEvent('ps-adminmenu:client:ToggleNoClip', function()
     ToggleNoClip(not IsNoClipping)
     TriggerEvent("ps-adminmenu:client:CloseUI")
+end)
+
+-- toggle names and blips
+
+local ShowBlips = false
+local ShowNames = false
+local NetCheck1 = false
+local NetCheck2 = false
+
+CreateThread(function()
+    while true do
+        Wait(1000)
+        if NetCheck1 or NetCheck2 then
+            TriggerServerEvent('ps-adminmenu:server:GetPlayersForBlips')
+        end
+    end
+end)
+
+RegisterNetEvent('ps-adminmenu:client:toggleBlips', function()
+    if not ShowBlips then
+        ShowBlips = true
+        NetCheck1 = true
+        QBCore.Functions.Notify(Lang:t("success.blips_activated"), "success")
+    else
+        ShowBlips = false
+        QBCore.Functions.Notify(Lang:t("error.blips_deactivated"), "error")
+    end
+end)
+
+RegisterNetEvent('ps-adminmenu:client:toggleNames', function()
+    if not ShowNames then
+        ShowNames = true
+        NetCheck2 = true
+        QBCore.Functions.Notify(Lang:t("success.names_activated"), "success")
+    else
+        ShowNames = false
+        QBCore.Functions.Notify(Lang:t("error.names_deactivated"), "error")
+    end
+end)
+
+RegisterNetEvent('ps-adminmenu:client:Show', function(players)
+    for _, player in pairs(players) do
+        local playeridx = GetPlayerFromServerId(player.id)
+        local ped = GetPlayerPed(playeridx)
+        local blip = GetBlipFromEntity(ped)
+        local name = 'ID: '..player.id..' | '..player.name
+
+        local Tag = CreateFakeMpGamerTag(ped, name, false, false, "", false)
+        SetMpGamerTagAlpha(Tag, 0, 255) -- Sets "MP_TAG_GAMER_NAME" bar alpha to 100% (not needed just as a fail safe)
+        SetMpGamerTagAlpha(Tag, 2, 255) -- Sets "MP_TAG_HEALTH_ARMOUR" bar alpha to 100%
+        SetMpGamerTagAlpha(Tag, 4, 255) -- Sets "MP_TAG_AUDIO_ICON" bar alpha to 100%
+        SetMpGamerTagAlpha(Tag, 6, 255) -- Sets "MP_TAG_PASSIVE_MODE" bar alpha to 100%
+        SetMpGamerTagHealthBarColour(Tag, 25)  --https://wiki.rage.mp/index.php?title=Fonts_and_Colors
+
+        if ShowNames then
+            SetMpGamerTagVisibility(Tag, 0, true) -- Activates the player ID Char name and FiveM name
+            SetMpGamerTagVisibility(Tag, 2, true) -- Activates the health (and armor if they have it on) bar below the player names
+            if NetworkIsPlayerTalking(playeridx) then
+                SetMpGamerTagVisibility(Tag, 4, true) -- If player is talking a voice icon will show up on the left side of the name
+            else
+                SetMpGamerTagVisibility(Tag, 4, false)
+            end
+            if GetPlayerInvincible(playeridx) then
+                SetMpGamerTagVisibility(Tag, 6, true) -- If player is in godmode a circle with a line through it will show up
+            else
+                SetMpGamerTagVisibility(Tag, 6, false)
+            end
+        else
+            SetMpGamerTagVisibility(Tag, 0, false)
+            SetMpGamerTagVisibility(Tag, 2, false)
+            SetMpGamerTagVisibility(Tag, 4, false)
+            SetMpGamerTagVisibility(Tag, 6, false)
+            RemoveMpGamerTag(Tag) -- Unloads the tags till you activate it again
+            NetCheck2 = false
+        end
+
+        -- Blips Logic
+        if ShowBlips then
+            if not DoesBlipExist(blip) then
+                blip = AddBlipForEntity(ped)
+                SetBlipSprite(blip, 1)
+                ShowHeadingIndicatorOnBlip(blip, true)
+            else
+                local veh = GetVehiclePedIsIn(ped, false)
+                local blipSprite = GetBlipSprite(blip)
+                --Payer Death
+                if not GetEntityHealth(ped) then
+                    if blipSprite ~= 274 then
+                        SetBlipSprite(blip, 274)            --Dead icon
+                        ShowHeadingIndicatorOnBlip(blip, false)
+                    end
+                --Player in Vehicle
+                elseif veh ~= 0 then
+                    local classveh = GetVehicleClass(veh)
+                    local modelveh = GetEntityModel(veh)
+                    --MotorCycles (8) or Cycles (13)
+                    if classveh == 8  or classveh == 13 then
+                        if blipSprite ~= 226 then
+                            SetBlipSprite(blip, 226)        --Motorcycle icon
+                            ShowHeadingIndicatorOnBlip(blip, false)
+                        end
+                    --OffRoad (9)
+                    elseif classveh == 9 then
+                        if blipSprite ~= 757 then
+                            SetBlipSprite(blip, 757)        --OffRoad icon
+                            ShowHeadingIndicatorOnBlip(blip, false)
+                        end
+                    --Industrial (10)
+                    elseif classveh == 10 then
+                        if blipSprite ~= 477 then
+                            SetBlipSprite(blip, 477)        --Truck icon
+                            ShowHeadingIndicatorOnBlip(blip, false)
+                        end
+                    --Utility (11)
+                    elseif classveh == 11 then
+                        if blipSprite ~= 477 then
+                            SetBlipSprite(blip, 477)        --Truck icon despite finding better one
+                            ShowHeadingIndicatorOnBlip(blip, false)
+                        end
+                    --Vans (12)
+                    elseif classveh == 12 then
+                        if blipSprite ~= 67 then
+                            SetBlipSprite(blip, 67)         --Van icon
+                            ShowHeadingIndicatorOnBlip(blip, false)
+                        end
+                    --Boats (14)
+                    elseif classveh == 14 then
+                        if blipSprite ~= 427 then
+                            SetBlipSprite(blip, 427)        --Boat icon
+                            ShowHeadingIndicatorOnBlip(blip, false)
+                        end
+                    --Helicopters (15)
+                    elseif classveh == 15 then
+                        if blipSprite ~= 422 then
+                            SetBlipSprite(blip, 422)        --Moving helicopter icon
+                            ShowHeadingIndicatorOnBlip(blip, false)
+                        end
+                    --Planes (16)
+                    elseif classveh == 16 then
+                        if modelveh == 'besra' or modelveh == 'hydra' or modelveh == 'lazer' then
+                            if blipSprite ~= 424 then
+                                SetBlipSprite(blip, 424)    --Jet icon
+                                ShowHeadingIndicatorOnBlip(blip, false)
+                            end
+                        elseif blipSprite ~= 423 then
+                            SetBlipSprite(blip, 423)        --Plane icon
+                            ShowHeadingIndicatorOnBlip(blip, false)
+                        end
+                    --Service (17)
+                    elseif classveh == 17 then
+                        if blipSprite ~= 198 then
+                            SetBlipSprite(blip, 198)        --Taxi icon
+                            ShowHeadingIndicatorOnBlip(blip, false)
+                        end
+                    --Emergency (18)
+                    elseif classveh == 18 then
+                        if blipSprite ~= 56 then
+                            SetBlipSprite(blip, 56)        --Cop icon
+                            ShowHeadingIndicatorOnBlip(blip, false)
+                        end
+                    --Military (19)
+                    elseif classveh == 19 then
+                        if modelveh == 'rhino' then
+                            if blipSprite ~= 421 then
+                                SetBlipSprite(blip, 421)    --Tank icon
+                                ShowHeadingIndicatorOnBlip(blip, false)
+                            end
+                        elseif blipSprite ~= 750 then
+                            SetBlipSprite(blip, 750)        --Military truck icon
+                            ShowHeadingIndicatorOnBlip(blip, false)
+                        end
+                    --Commercial (20)
+                    elseif classveh == 20 then
+                        if blipSprite ~= 477 then
+                            SetBlipSprite(blip, 477)        --Truck icon
+                            ShowHeadingIndicatorOnBlip(blip, false)
+                        end
+                    --Every car (0, 1, 2, 3, 4, 5, 6, 7)
+                    else
+                        if modelveh == 'insurgent' or modelveh == 'insurgent2' or modelveh == 'limo2' then
+                            if blipSprite ~= 426 then
+                                SetBlipSprite(blip, 426)    --Armed car icon
+                                ShowHeadingIndicatorOnBlip(blip, false)
+                            end
+                        elseif blipSprite ~= 225 then
+                            SetBlipSprite(blip, 225)        --Car icon
+                            ShowHeadingIndicatorOnBlip(blip, true)
+                        end
+                    end
+                    -- Show number in case of passangers
+                    local passengers = GetVehicleNumberOfPassengers(veh)
+                    if passengers then
+                        if not IsVehicleSeatFree(veh, -1) then
+                            passengers = passengers + 1
+                        end
+                        ShowNumberOnBlip(blip, passengers)
+                    else
+                        HideNumberOnBlip(blip)
+                    end
+                --Player on Foot
+                else
+                    HideNumberOnBlip(blip)
+                    if blipSprite ~= 1 then
+                        SetBlipSprite(blip, 1)
+                        ShowHeadingIndicatorOnBlip(blip, true)
+                    end
+                end
+
+                SetBlipRotation(blip, math.ceil(GetEntityHeading(veh)))
+                SetBlipNameToPlayerName(blip, playeridx)
+                SetBlipScale(blip, 0.85)
+
+                if IsPauseMenuActive() then
+                    SetBlipAlpha(blip, 255)
+                else
+                    local x1, y1 = table.unpack(GetEntityCoords(PlayerPedId(), true))
+                    local x2, y2 = table.unpack(GetEntityCoords(GetPlayerPed(playeridx), true))
+                    local distance = (math.floor(math.abs(math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))) / -1)) + 900
+                    if distance < 0 then
+                        distance = 0
+                    elseif distance > 255 then
+                        distance = 255
+                    end
+                    SetBlipAlpha(blip, distance)
+                end
+            end
+        else
+            RemoveBlip(blip)
+            NetCheck1 = false
+        end
+    end
 end)
 
 AddEventHandler('onResourceStop', function(resourceName)
