@@ -53,7 +53,6 @@ local Translations = {
         ["banned"] = "You have been banned!",
         ["reason"] = "Reason: ",
         ["kicked"] = "You have been kicked!",
-        ["join_disc"] = "Join Discord for more information:",
         ["blackout"] = "Blackout is %{value}",
         ["not_enough_money"] = "Insufficient funds to remove money from the player",
         ["ent_id"] = "Entity ID: ",
@@ -65,7 +64,11 @@ local Translations = {
         ["eng_health"] = "Engine Health: ",
         ["body_health"] = "Body Health: ",
         ["ped_coords"] = "Ped Coordinates:",
+        ["started_resource"] = "Started Resource",
+        ["stopped_resource"] = "Stopped Resource",
+        ["restarted_resource"] = "Restarted Resource",
     },
+
 
 }
 

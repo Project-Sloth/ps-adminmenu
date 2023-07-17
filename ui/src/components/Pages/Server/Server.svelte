@@ -8,19 +8,19 @@
 
 </script>
 
-<div class="w-full h-full flex flex-row ">
-    <div>
+<div class="w-full h-full flex flex-col ">
+
         <!-- Search Bar -->
         <div class="h-[7.5rem] w-full border-b-2 border-tertiary flex items-center justify-center"> 
             <input class="ml-8 mt-2 w-full h-[95%] bg-transparent font-medium text-[2.1rem]" type="text" placeholder="Search" bind:value={searchTerm}>
             <button on:click={ () => { SendNUI("RefreshResources") }} class="fa-solid fa-arrows-rotate fa-xl hover:bg-tertiary h-full w-40"></button>
         </div>
         <!-- Resource List -->
-        <div class="w-[37.3rem] h-[91.5%] flex items-center flex-col overflow-auto ">
+        <div class="w-full h-[91.5%] flex items-center flex-col overflow-auto ">
             <!-- Resources -->
-            {#if $RESOURCESBUTTONS && $RESOURCES}
+          {#if $RESOURCESBUTTONS && $RESOURCES}
                 {#each $RESOURCES.filter(button => button.name.toLowerCase().includes(searchTerm.toLowerCase()) || (button.author && button.author.toLowerCase().includes(searchTerm.toLowerCase()))) as button, i}
-                    <div class="mt-2 ml-2 w-[95%] min-h-[16rem] bg-primary text-start px-4 flex flex-col hover:bg-tertiary">
+                    <div class="mt-2 ml-2 {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%]')} min-h-[16rem] bg-primary text-start px-4 flex flex-col hover:bg-tertiary">
                         <div class="ml-auto flex mt-4">
                             {#if button.resourceState === "started"}
                                 <button 
@@ -30,13 +30,13 @@
                                 class="z-50 mr-3 border border-yellow-400 p-2 px-4 text-yellow-400 hover:text-white hover:bg-yellow-400 rounded-lg"><i class="fa-solid fa-arrows-rotate"></i></button>
                                 <button 
                                 on:click={() => {
-                                    SendNUI('ChangeResourcesState', { name: button.name, state: button.resourceState });
+                                    SendNUI('ChangeResourcesState', { name: button.name, state: "stopped" });
                                 }} 
                                 class="z-50 border border-red-500 p-2 px-4 text-red-400 hover:text-white hover:bg-red-500 rounded-lg"><i class="fa-solid fa-stop z-50"></i></button>
                             {:else}
                                 <button 
                                 on:click={() => {
-                                    SendNUI('ChangeResourcesState', { name: button.name, state: button.resourceState });
+                                    SendNUI('ChangeResourcesState', { name: button.name, state: "started" });
                                 }} 
                                 class="z-50 border border-green-400 p-2 px-4 text-green-400 hover:text-white hover:bg-green-400 rounded-lg"><i class="fa-solid fa-play z-50"></i></button>
                             {/if}
@@ -49,12 +49,5 @@
                 {/each}
             {/if}
         </div>
-    </div>
 
-    {#if $menuWideStore.isMenuWide}
-        <div class="w-[80rem]  h-full border-l-2 border-tertiary"> 
-            <!-- Header  -->
-            <div class="w-full h-[7.5rem] border-b-2 border-tertiary p-9 px-8 font-medium text-[2.2rem]"> Server Name</div>
-        </div>
-    {/if}
 </div>

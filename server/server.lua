@@ -30,14 +30,18 @@ RegisterNetEvent('ps-adminmenu:server:Getresources', function(data)
 end)
     
 RegisterNetEvent('ps-adminmenu:server:changeResourceState', function(name, state)
-	if state == "started" then
-		StopResource(name)
+	local src = source
+    if state == "started" then
+        StartResource(name)
+        QBCore.Functions.Notify(source, Lang:t('info.started_resource'), 'primary')
 	elseif state == "stopped" then
-		StartResource(name)
+		StopResource(name)
+        QBCore.Functions.Notify(source, Lang:t('info.stopped_resource'), 'primary')
 	else
 		StopResource(name)
 		Wait(200)
 		StartResource(name)
+        QBCore.Functions.Notify(source, Lang:t('info.restarted_resource'), 'primary')
 	end
 end)
 
@@ -122,9 +126,9 @@ RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(inputData)
         GetPlayerName(src)
     })
     if banTime >= 2147483647 then
-        DropPlayer(playerid, Lang:t("info.banned") .. '\n' .. Lang:t("info.reason") .. reason .. Lang:t("info.ban_perm") .. '\n \n' .. Lang:t("info.join_disc") .. '\n' .. QBCore.Config.Server.Discord)
+        DropPlayer(playerid, Lang:t("info.banned") .. '\n' .. Lang:t("info.reason") .. reason .. Lang:t("info.ban_perm"))
     else
-        DropPlayer(playerid, Lang:t("info.banned") .. '\n' .. Lang:t("info.reason") .. reason .. '\n' .. Lang:t("info.ban_expires") .. timeTable['day'] .. '/' .. timeTable['month'] .. '/' .. timeTable['year'] .. ' ' .. timeTable['hour'] .. ':' .. timeTable['min'] .. '\n \n' .. Lang:t("info.join_disc") .. '\n' .. QBCore.Config.Server.Discord)
+        DropPlayer(playerid, Lang:t("info.banned") .. '\n' .. Lang:t("info.reason") .. reason .. '\n' .. Lang:t("info.ban_expires") .. timeTable['day'] .. '/' .. timeTable['month'] .. '/' .. timeTable['year'] .. ' ' .. timeTable['hour'] .. ':' .. timeTable['min'])
     end
 
 end)
@@ -212,7 +216,7 @@ RegisterNetEvent('ps-adminmenu:server:KickPlayer', function(inputData)
     if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
     if playerId == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
 	if reason == nil then reason = "NONE" end
-    DropPlayer(playerId, Lang:t("info.kicked") .. '\n' .. Lang:t("info.reason") .. reason .. '\n \n' .. Lang:t("info.join_disc") .. '\n' .. QBCore.Config.Server.Discord)
+    DropPlayer(playerId, Lang:t("info.kicked") .. '\n' .. Lang:t("info.reason") .. reason)
 end)
 
 -- Clear Inventory
@@ -222,11 +226,11 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(inputData)
     local Player = QBCore.Functions.GetPlayer(playerId)
     local inv = Config.InventoryUsage
 
-    if not (inv == "qb" or inv == "ox" or inv == "lj") then 
+    if not (inv == "qb" or inv == "ox" or inv == "lj" or inv == "ps") then 
         ConfigInvInvalid()
         return;
     end
-    if inv == "qb" or inv == "lj" then
+    if inv == "qb" or inv == "lj" or inv == "ps" then
         exports[inv.."-inventory"]:ClearInventory(playerId, nil)
     elseif inv == "ox" then
         exports.ox_inventory:ClearInventory(playerId, nil)
