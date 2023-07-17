@@ -14,26 +14,32 @@
     let showFavorites = false;
     let searchTerm = '';
     let inputValues: {[key: string]: string}[] = [];
-    
+    let selectedPlayerId = '';
+
     function updateInputValue(dropdownIndex: number, label: string, value: string) {
+        if (label === 'playerid') {
+        selectedPlayerId = value;
+        } else {
         inputValues[dropdownIndex][label] = value;
+        }
     }
 
-    let searchQuery = '';
-    let options = ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5', 'Option 6', 'Option 7', 'Option 8'];
-    let selectedOption = '';
+  let searchQuery = '';
+  let selectedOption = '';
 
-    const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher();
 
-    function handleInputChange(event) {
-        searchQuery = event.target.value;
+  function handleInputChange(event) {
+    searchQuery = event.target.value;
+  }
+
+  function selectOption(option) {
+    if (searchQuery !== selectedPlayerId) {
+      searchQuery = option;
     }
-
-    function selectOption(option) {
-        searchQuery = option;
-        selectedOption = option;
-        dispatch('optionSelected', option);
-    }
+    selectedOption = option;
+    dispatch('optionSelected', option);
+  }
 
 </script>
 
@@ -83,15 +89,14 @@
                                         <option value={option.value}>{option.label}</option>
                                     {/each}
                                 </select>
-
-                                <div class="bg-secondary p-3 w-[25rem] mt-1 font-medium hover:bg-tertiary">
-                                    <input type="text" value={searchQuery} on:input={handleInputChange} placeholder="Search..." class=" bg-transparent" />
-                                  
+                            {:else if dropdownItem.InputType === 'playerid'}
+                                <div class="bg-secondary w-[25rem] mt-1 font-medium ">
+                                    <input type="text" value={searchQuery} on:input={handleInputChange} on:input={(event) => updateInputValue(i, dropdownItem.label, searchQuery)} placeholder="Search..." class=" bg-transparent py-3 ml-2" />
                                     {#if searchQuery}
                                       <div class="">
                                         {#if $PLAYERSBUTTONS && $PLAYERS}
-                                        {#each $PLAYERS.filter(button => button.name.toLowerCase().includes(searchTerm.toLowerCase())) as button, i}
-                                            <div class=" hover:bg-primary p-3" on:click={() => selectOption(button.name)}>{button.name}</div>
+                                        {#each $PLAYERS.filter(button => button.name.toLowerCase().includes(searchQuery.toLowerCase())) as button, i}
+                                            <div class="p-3" on:click={() => selectOption(button.id)}>{button.name}</div>
                                             {/each}
                                         {/if}
                                       </div>
@@ -100,12 +105,21 @@
                             {:else if dropdownItem.InputType === 'button'}
                                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary"
                                     on:click={() => {
-                                        SendNUI("normalButton", {
-                                        event: dropdownItem.event,
-                                        type: dropdownItem.type,
-                                        data: inputValues[i],
-                                        button: dropdownItem.label
-                                        });
+                                        if (dropdownItem.label === 'playerid') {
+                                            SendNUI("normalButton", {
+                                                event: dropdownItem.event,
+                                                type: dropdownItem.type,
+                                                data: selectedPlayerId,
+                                                button: dropdownItem.label
+                                            });
+                                        } else {
+                                            SendNUI("normalButton", {
+                                                event: dropdownItem.event,
+                                                type: dropdownItem.type,
+                                                data: inputValues[i],
+                                                button: dropdownItem.label
+                                            });
+                                        }
                                     }}
                                     >
                                     {dropdownItem.label}

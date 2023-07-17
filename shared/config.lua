@@ -1,6 +1,6 @@
 Config = {}
 
-Config.InventoryUsage =  "lj" -- qb(for qb-inventory) lj(for lj-inventory) or ox(for ox_inventory) [Inventory system]
+Config.InventoryUsage =  "qb" -- qb(for qb-inventory) lj(for lj-inventory) or ox(for ox_inventory) [Inventory system]
 
 Config.FuelScript =  "LegacyFuel" -- LegacyFuel / qb-fuel / ps-fuel / lj-fuel [Car spawning/fixing]
 
@@ -188,11 +188,6 @@ Config.Actions = {
         },
     },
     { 
-        label = "Customs", 
-        event = "ps-adminmenu:client:Customs", 
-        type = "client" 
-    },
-    { 
         label = "Delete Vehicle", 
         event = "dv", 
         type = "command" 
@@ -352,11 +347,6 @@ Config.Actions = {
         type = "server" 
     },
     { 
-        label = "Revive Radius", 
-        event = "ps-adminmenu:client:ReviveRadius", 
-        type = "client" 
-    },
-    { 
         label = "Set Job", 
         perms = "mod", 
         dropdown = {
@@ -461,7 +451,7 @@ Config.Actions = {
         perms = "mod", 
         dropdown = {
             { label = "Player ID", InputType = "input" },
-            { label = "Spectate", InputType = "button", type = "client", event = "ps-adminmenu:client:banplayer" },
+            { label = "Spectate", InputType = "button", type = "client", event = "ps-adminmenu:client:specateplayer" },
         },
     },
     { 
@@ -512,14 +502,6 @@ Config.Actions = {
         event = "ps-adminmenu:client:toggleNames", 
         type = "client" 
     },
-    { 
-        label = "Unban Player", 
-        perms = "mod", 
-        dropdown = {
-            { label = "Player ID", InputType = "input" },
-            { label = "Unban", InputType = "button", type = "client", event = "ps-adminmenu:client:banplayer" },
-        },
-    },
     -- WE SHOULD CREATE A FUNCTION TO CUFF/UNCUFF PLAYERS BY ID NOT WHEN NEARBY!
     { 
         label = "Toggle Cuffs", 
@@ -535,7 +517,7 @@ Config.Actions = {
         dropdown = {
             { label = "Player ID", InputType = "input" },
             { label = "Reason", InputType = "input" },
-            { label = "Warn", InputType = "button", type = "client", event = "ps-adminmenu:client:banplayer" },
+            { label = "Warn", InputType = "button", type = "server", event = "ps-adminmenu:server:warnplayer" },
         },
     },
 }

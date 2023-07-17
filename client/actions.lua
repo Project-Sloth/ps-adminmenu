@@ -74,6 +74,32 @@ RegisterNetEvent('ps-adminmenu:client:ToggleGodmode', function(data)
     end
 end)
 
+-- Spectate Player
+RegisterNetEvent('ps-adminmenu:client:specateplayer', function(inputData)
+    local playerId = inputData["Player ID"]
+    local myPed = PlayerPedId()
+    local targetplayer = GetPlayerFromServerId(playerId)
+    local target = GetPlayerPed(targetplayer)
+    if not isSpectating then
+        isSpectating = true
+        SetEntityVisible(myPed, false) -- Set invisible
+        SetEntityCollision(myPed, false, false) -- Set collision
+        SetEntityInvincible(myPed, true) -- Set invincible
+        NetworkSetEntityInvisibleToNetwork(myPed, true) -- Set invisibility
+        lastSpectateCoord = GetEntityCoords(myPed) -- save my last coords
+        NetworkSetInSpectatorMode(true, target) -- Enter Spectate Mode
+    else
+        isSpectating = false
+        NetworkSetInSpectatorMode(false, target) -- Remove From Spectate Mode
+        NetworkSetEntityInvisibleToNetwork(myPed, false) -- Set Visible
+        SetEntityCollision(myPed, true, true) -- Set collision
+        SetEntityCoords(myPed, lastSpectateCoord) -- Return Me To My Coords
+        SetEntityVisible(myPed, true) -- Remove invisible
+        SetEntityInvincible(myPed, false) -- Remove godmode
+        lastSpectateCoord = nil -- Reset Last Saved Coords
+    end
+end)
+
 -- set on fire
 RegisterNetEvent('ps-adminmenu:client:SetOnFire', function(inputData)
     local playerId, time = inputData["Player ID"], inputData["Time"]

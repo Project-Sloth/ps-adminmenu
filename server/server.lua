@@ -109,6 +109,7 @@ RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(inputData)
     local playerid = inputData["Player ID"]
     local reason = inputData["Reason"]
     local time = inputData["Time"]
+    print(playerid)
 		if reason == nil then reason = "" end
     time = tonumber(time)
     local banTime = tonumber(os.time() + time)
@@ -130,7 +131,6 @@ RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(inputData)
     else
         DropPlayer(playerid, Lang:t("info.banned") .. '\n' .. Lang:t("info.reason") .. reason .. '\n' .. Lang:t("info.ban_expires") .. timeTable['day'] .. '/' .. timeTable['month'] .. '/' .. timeTable['year'] .. ' ' .. timeTable['hour'] .. ':' .. timeTable['min'])
     end
-
 end)
 
 -- Kill Player
@@ -152,6 +152,25 @@ RegisterNetEvent('ps-adminmenu:server:BringPlayer', function(inputData)
 
 end)
 
+-- Warn Player 
+RegisterNetEvent('ps-adminmenu:server:warnplayer', function(inputData)
+    local targetPlayer = QBCore.Functions.GetPlayer(inputData["Player ID"])
+    local msg = inputData["Reason"]
+    local senderPlayer = QBCore.Functions.GetPlayer(source)
+    local warnId = 'WARN-'..math.random(1111, 9999)
+    if targetPlayer ~= nil then
+        TriggerClientEvent('chat:addMessage', targetPlayer.PlayerData.source, { args = { "SYSTEM", Lang:t("info.warning_chat_message")..GetPlayerName(source).."," .. Lang:t("info.reason") .. ": "..msg }, color = 255, 0, 0 })
+        TriggerClientEvent('chat:addMessage', source, { args = { "SYSTEM", Lang:t("info.warning_staff_message")..GetPlayerName(targetPlayer.PlayerData.source)..", for: "..msg }, color = 255, 0, 0 })
+        MySQL.insert('INSERT INTO player_warns (senderIdentifier, targetIdentifier, reason, warnId) VALUES (?, ?, ?, ?)', {
+            senderPlayer.PlayerData.license,
+            targetPlayer.PlayerData.license,
+            msg,
+            warnId
+        })
+    else
+        TriggerClientEvent('QBCore:Notify', source, Lang:t("error.not_online"), 'error')
+    end
+end)
 -- Teleport To Player
 RegisterNetEvent('ps-adminmenu:server:TeleportToPlayer', function(inputData)
     local src = source
