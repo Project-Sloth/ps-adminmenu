@@ -382,18 +382,25 @@ RegisterNetEvent('ps-adminmenu:server:SitInVehicle', function(inputData)
     local vehicle = GetVehiclePedIsIn(targetPed,false)
     local seat = -1
     if vehicle ~= 0 then
+        local coords = GetEntityCoords(targetPed)
+        SetEntityCoords(admin, coords)
+
         for i=0,8,1 do
             if GetPedInVehicleSeat(vehicle,i) == 0 then
                 seat = i
                 break
             end
         end
+        Wait(100)
         if seat ~= -1 then
             SetPedIntoVehicle(admin,vehicle,seat)
             TriggerClientEvent('QBCore:Notify', src, Lang:t("success.entered_vehicle"), 'success', 5000)
         else
             TriggerClientEvent('QBCore:Notify', src, Lang:t("error.no_free_seats"), 'danger', 5000)
         end
+    else
+        TriggerClientEvent('QBCore:Notify', src, "Player not inside a vehicle", 'danger', 5000)
+
     end
 end)
 
