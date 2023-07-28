@@ -311,6 +311,14 @@ Config.Actions = {
             { label = "Confirm", InputType = "button", type = "server", event = "ps-adminmenu:server:SitInVehicle" },
         },
     },
+    {
+        label = "Spawn Personal vehicle",
+        perms = "mod",
+        dropdown = {
+            { label = "Personal Vehicle", InputType = "personalveh" },
+            { label = "Confirm", InputType = "button", type = "client", event = "ps-adminmenu:client:SpawnPersonalvehicle" },
+        },
+    },
     { 
         label = "Open Stash", 
         perms = "mod", 
