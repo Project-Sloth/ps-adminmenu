@@ -533,6 +533,11 @@ Config.Actions = {
             { label = "Warn", InputType = "button", type = "server", event = "ps-adminmenu:server:warnplayer" },
         },
     },
+    {
+        label = "Infinite Ammo",
+        event = "ps-adminmenu:client:setInfiniteAmmo",
+        type = "client"
+    },
 }
 
 function ConfigInvInvalid()
