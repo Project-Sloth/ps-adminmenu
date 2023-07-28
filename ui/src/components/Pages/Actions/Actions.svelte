@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import { ACTIONSBUTTONS, ACTIONS, menuWideStore, PLAYERSBUTTONS, PLAYERS } from '@store/stores'
+    import { ACTIONSBUTTONS, ACTIONS, menuWideStore, PLAYERSBUTTONS, PLAYERS, VEHICLES } from '@store/stores'
     import { SendNUI } from '@utils/SendNUI'
     import { fly } from 'svelte/transition';
 
@@ -9,7 +9,7 @@
     function ToggleDropdown(index: number) {
         dropdownActive[index] = !dropdownActive[index];
 
-        inputValues[index] = {};  
+        inputValues[index] = {};
     }
     let showFavorites = false;
     let searchTerm = '';
@@ -45,12 +45,12 @@
 
 <div class="w-full h-full flex flex-col">
     <!-- Tabs -->
-    <div class="w-full h-[5.5rem] flex border-b-2 border-tertiary"> 
+    <div class="w-full h-[5.5rem] flex border-b-2 border-tertiary">
         <button class="w-full h-full hover:bg-tertiary font-medium {(!showFavorites ? 'bg-tertiary' : '')}" on:click={() => (showFavorites = !showFavorites)} >All</button>
-        <button class="w-full h-full hover:bg-tertiary font-medium {(showFavorites ? 'bg-tertiary' : '')}" on:click={() => (showFavorites = !showFavorites)} >Favorites</button>      
+        <button class="w-full h-full hover:bg-tertiary font-medium {(showFavorites ? 'bg-tertiary' : '')}" on:click={() => (showFavorites = !showFavorites)} >Favorites</button>
     </div>
     <!-- SearchBar -->
-    <div class="h-[5.5rem] w-full border-b-2 border-tertiary flex items-center justify-center"> 
+    <div class="h-[5.5rem] w-full border-b-2 border-tertiary flex items-center justify-center">
         <input class="ml-8 w-full h-[95%] bg-transparent font-medium text-[2.1rem]" type="text" placeholder="Search" bind:value={searchTerm}>
     </div>
     <!-- Button List -->
@@ -59,7 +59,7 @@
         {#each $ACTIONS.filter(button => button.label.toLowerCase().includes(searchTerm.toLowerCase()) && (button.favorited || !showFavorites)).sort((a, b) => a.label.localeCompare(b.label)) as button, i}
                 {#if button.dropdown}
                     <!-- Dropdown Buttons -->
-                    <button 
+                    <button
                         on:click={() => ToggleDropdown(i)}
                         class="bg-primary flex px-[1.5rem] py-[1.2rem] mt-2 flex-row items-center {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%]')}">
                         <i on:click={() => button.favorited = !button.favorited} class="{(button.favorited ? 'fas text-accent' : 'far hover:text-accent')} fa-star fa-lg "></i>
@@ -102,6 +102,34 @@
                                       </div>
                                     {/if}
                                   </div>
+                            {:else if dropdownItem.InputType === 'players'}
+                                <p class="font-medium mt-2">{dropdownItem.label}:</p>
+                                <select
+                                    class="bg-secondary p-3 w-[25rem] mt-1 font-medium hover:bg-tertiary"
+                                    value={inputValues[dropdownItem.label] || ''}
+                                    on:input={(event) => updateInputValue(i, dropdownItem.label, event.currentTarget.value)}
+                                    >
+                                    {#if $PLAYERSBUTTONS && $PLAYERS}
+                                        {#each $PLAYERS.filter(button => button.name.toLowerCase().includes(searchTerm.toLowerCase())) as button, i}
+                                            <div class=" hover:bg-primary p-3" on:click={() => selectOption(button.name)}>{button.name}</div>
+                                            <option value={button.id}>{button.name}</option>
+                                            {/each}
+                                    {/if}
+                                </select>
+                            {:else if dropdownItem.InputType === 'personalveh'}
+                            {#if $VEHICLES}
+                            <p class="font-medium mt-2">{dropdownItem.label}:</p>
+                            <select
+                                    class="bg-secondary p-3 w-[25rem] mt-1 font-medium hover:bg-tertiary"
+                                    value={inputValues[dropdownItem.label] || ''}
+                                    on:input={(event) => updateInputValue(i, dropdownItem.label, event.currentTarget.value)}
+                                    >
+                                        {#each $VEHICLES.filter(button => button.label) as button}
+                                            <div class=" hover:bg-primary p-3" on:click={() => selectOption(button.label)}>{button.label}</div>
+                                            <option value={button.plate}>{button.label}</option>
+                                        {/each}
+                                    </select>
+                                {/if}
                             {:else if dropdownItem.InputType === 'button'}
                                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary"
                                     on:click={() => {
@@ -130,7 +158,7 @@
                   {/if}
                 {:else}
                 <!-- Normal Buttons -->
-                <button 						
+                <button
                     on:click={() => {
                         SendNUI('normalButton', { event: button.event, type: button.type });
                     }}
@@ -142,5 +170,5 @@
             {/each}
         {/if}
     </div>
-  
+
 </div>
