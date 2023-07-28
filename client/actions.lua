@@ -997,6 +997,25 @@ RegisterNetEvent('ps-adminmenu:client:maxmodVehicle', function()
     QBCore.Functions.Notify('Vehicle max modded', 'success', 7500)
 end)
 
+-- Infinite Ammo
+RegisterNetEvent('ps-adminmenu:client:setInfiniteAmmo', function()
+    local ped = PlayerPedId()
+    InfiniteAmmo = not InfiniteAmmo
+        local weapon = GetSelectedPedWeapon(ped)
+        if InfiniteAmmo then
+            if GetAmmoInPedWeapon(ped, weapon) < 6 then SetAmmoInClip(ped, weapon, 10) Wait(50) end
+            while InfiniteAmmo do
+                weapon = GetSelectedPedWeapon(ped)
+                SetPedInfiniteAmmo(ped, true, weapon)
+                RefillAmmoInstantly(ped)
+                Wait(250)
+            end
+        else
+            SetPedInfiniteAmmo(ped, false, weapon)
+        end
+    QBCore.Functions.Notify('InfiniteAmmo Toggled', 'success', 7500)
+end)
+
 AddEventHandler('onResourceStop', function(resourceName)
     if resourceName == ResourceName then
         FreezeEntityPosition(NoClipEntity, false)
