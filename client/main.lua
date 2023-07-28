@@ -25,6 +25,13 @@ RegisterCommand("admin", function()
         })
       
     end)
+    QBCore.Functions.TriggerCallback('ps-adminmenu:server:GetPersonalVehicles', function(Vehicles)
+        SendNUIMessage({
+            action = "setPersonalVehicles",
+            data = Vehicles
+        })
+
+    end)
     
 end, false)
 
