@@ -951,6 +951,30 @@ RegisterNetEvent('ps-adminmenu:client:Show', function(players)
     end
 end)
 
+RegisterNetEvent("ps-adminmenu:client:SpawnPersonalvehicle", function(inputData)
+    local plate = inputData['Personal Vehicle']
+    local ped = PlayerPedId()
+    local coords = QBCore.Functions.GetCoords(ped)
+    QBCore.Functions.TriggerCallback("qb-garage:server:GetVehicleProperties", function(properties, plate)
+        props = properties
+    end, plate)
+    QBCore.Functions.TriggerCallback("ps-adminmenu:server:GetVehicleByPlate", function(vehModel)
+        vehicle = vehModel
+    end, plate)
+    Wait(100)
+    QBCore.Functions.TriggerCallback('QBCore:Server:SpawnVehicle', function(vehicle)
+        local veh = NetToVeh(vehicle)
+        SetEntityHeading(veh, coords.w)
+        TaskWarpPedIntoVehicle(ped, veh, -1)
+        SetVehicleModKit(veh, 0)
+        Wait(100)
+        QBCore.Functions.SetVehicleProperties(veh, props)
+        SetVehicleNumberPlateText(veh, plate)
+        exports[Config.FuelScript]:SetFuel(veh, 100.0)
+        TriggerEvent("vehiclekeys:client:SetOwner", plate)
+    end, vehicle, coords, true)
+end)
+
 AddEventHandler('onResourceStop', function(resourceName)
     if resourceName == ResourceName then
         FreezeEntityPosition(NoClipEntity, false)
