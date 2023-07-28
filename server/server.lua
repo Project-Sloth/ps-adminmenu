@@ -541,3 +541,38 @@ CreateThread(function()
         Wait(1500)
     end
 end)
+
+QBCore.Functions.CreateCallback('ps-adminmenu:server:GetPersonalVehicles', function(source, cb)
+    local Player = QBCore.Functions.GetPlayer(source)
+    local Vehicles = {}
+    -- MySQL.query('SELECT * FROM player_vehicles WHERE citizenid = ?', {Player.PlayerData.citizenid}, function(result)
+    MySQL.query('SELECT * FROM player_vehicles', function(result)
+        for k, v in pairs(result) do
+            local VehicleData = QBCore.Shared.Vehicles[v.vehicle]
+            Vehicles[#Vehicles+1] = {
+                id = k,
+                label = v.citizenid .." | ".. VehicleData["name"] .. " | " .. v.plate,
+                brand = VehicleData["brand"],
+                model = VehicleData["model"],
+                plate = v.plate,
+                fuel = v.fuel,
+                engine = v.engine,
+                body = v.body
+            }
+        end
+        table.sort(Vehicles, function(a, b)
+            return a.label < b.label
+        end)
+        cb(Vehicles)
+    end)
+end)
+
+
+QBCore.Functions.CreateCallback("ps-adminmenu:server:GetVehicleByPlate", function(source, cb, plate)
+    local veh = {}
+    local result = MySQL.query.await('SELECT vehicle FROM player_vehicles WHERE plate = ?', {plate})
+    if result[1] then
+        veh = result[1].vehicle
+    end
+    cb(veh)
+end)
