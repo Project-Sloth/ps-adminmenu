@@ -975,6 +975,28 @@ RegisterNetEvent("ps-adminmenu:client:SpawnPersonalvehicle", function(inputData)
     end, vehicle, coords, true)
 end)
 
+-- Max mods
+local performanceModIndices = { 11, 12, 13, 15, 16 }
+function PerformanceUpgradeVehicle(vehicle, customWheels)
+    customWheels = customWheels or false
+    local max
+    if DoesEntityExist(vehicle) and IsEntityAVehicle(vehicle) then
+        SetVehicleModKit(vehicle, 0)
+        for _, modType in ipairs(performanceModIndices) do
+            max = GetNumVehicleMods(vehicle, tonumber(modType)) - 1
+            SetVehicleMod(vehicle, modType, max, customWheels)
+        end
+        ToggleVehicleMod(vehicle, 18, true) -- Turbo
+	SetVehicleFixed(vehicle)
+    end
+end
+
+RegisterNetEvent('ps-adminmenu:client:maxmodVehicle', function()
+    local vehicle = GetVehiclePedIsIn(PlayerPedId())
+    PerformanceUpgradeVehicle(vehicle)
+    QBCore.Functions.Notify('Vehicle max modded', 'success', 7500)
+end)
+
 AddEventHandler('onResourceStop', function(resourceName)
     if resourceName == ResourceName then
         FreezeEntityPosition(NoClipEntity, false)
