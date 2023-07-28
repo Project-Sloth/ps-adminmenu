@@ -10,8 +10,27 @@ local function toggleUI(bool)
 end
 
 
-RegisterCommand("admin", function()
-	toggleUI(true)
+-- RegisterCommand("admin", function()
+-- 	toggleUI(true)
+-- 	SendNUIMessage({
+-- 		action = "setActionData",
+-- 		data = Config.Actions
+-- 	})
+-- 	TriggerServerEvent("ps-adminmenu:server:Getresources")
+
+--     QBCore.Functions.TriggerCallback('ps-adminmenu:server:GetPlayers', function(Players)
+--         SendNUIMessage({
+--             action = "setPlayersData",
+--             data = Players
+--         })
+
+--     end)
+
+
+-- end, true) -- add_ace group.mod command.admin allow
+
+RegisterNetEvent('ps-adminmenu:client:openmenu', function()
+    toggleUI(true)
 	SendNUIMessage({
 		action = "setActionData",
 		data = Config.Actions
@@ -20,10 +39,10 @@ RegisterCommand("admin", function()
 
     QBCore.Functions.TriggerCallback('ps-adminmenu:server:GetPlayers', function(Players)
         SendNUIMessage({
-            action = "setPlayersData", 
+            action = "setPlayersData",
             data = Players
         })
-      
+
     end)
     QBCore.Functions.TriggerCallback('ps-adminmenu:server:GetPersonalVehicles', function(Vehicles)
         SendNUIMessage({
@@ -32,10 +51,9 @@ RegisterCommand("admin", function()
         })
 
     end)
-    
-end, false)
+end)
 
-RegisterKeyMapping('admin', 'Open Adminmenu', 'keyboard', 'U') -- https://docs.fivem.net/docs/game-references/controls/
+-- RegisterKeyMapping('admin', 'Open Adminmenu', 'keyboard', 'U') -- https://docs.fivem.net/docs/game-references/controls/
 
 
 RegisterNUICallback("hideUI", function()
