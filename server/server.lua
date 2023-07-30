@@ -3,6 +3,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local function NoPerms(source)
     QBCore.Functions.Notify(source, Lang:t('error.no_perms'), 'error')
 end
+
 QBCore.Commands.Add('psadmin', 'Opens Adminmenu', {}, false, function(source, _)
     TriggerClientEvent('ps-adminmenu:client:openmenu', source)
 end, 'mod')
