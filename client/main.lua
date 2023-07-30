@@ -107,6 +107,3 @@ RegisterNUICallback("ChangeResourcesState", function(data, cb)
 	TriggerServerEvent("ps-adminmenu:server:Getresources")
 	cb("ok")
 end)
-
-
-

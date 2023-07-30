@@ -58,7 +58,7 @@ RegisterNetEvent('ps-adminmenu:client:ToggleInvisible', function(data)
 end)
 
 
--- godmode
+-- Godmode
 local Godmode = false
 RegisterNetEvent('ps-adminmenu:client:ToggleGodmode', function(data)
     godmode = not godmode
@@ -100,7 +100,7 @@ RegisterNetEvent('ps-adminmenu:client:specateplayer', function(inputData)
     end
 end)
 
--- set on fire
+-- Set on fire
 RegisterNetEvent('ps-adminmenu:client:SetOnFire', function(inputData)
     local playerId, time = inputData["Player ID"], inputData["Time"]
     local Player = GetPlayerPed(GetPlayerFromServerId(playerId))
@@ -113,7 +113,7 @@ RegisterNetEvent('ps-adminmenu:client:SetOnFire', function(inputData)
     StopEntityFire(Player)
 end)
 
--- explode player
+-- Explode player
 RegisterNetEvent('ps-adminmenu:client:ExplodePlayer', function(inputData)
     local playerId, damage = inputData["Player ID"], inputData["Damage"]
     local Player = GetPlayerPed(GetPlayerFromServerId(playerId))
@@ -137,7 +137,7 @@ RegisterNetEvent('ps-adminmenu:client:ChangeTime', function(inputData)
     end
 end)
 
--- weather
+-- Weather
 RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(inputData)
     local weatherType = inputData["Weather"]
     TriggerServerEvent('qb-weathersync:server:setWeather', weatherType)
@@ -166,7 +166,7 @@ RegisterNetEvent('ps-adminmenu:client:TeleportBack', function(coords)
 end)
 
 
--- Tp to player
+-- Teleport to player
 RegisterNetEvent('ps-adminmenu:client:TeleportToPlayer', function(coords)
     local ped = PlayerPedId()
     lastCoords = GetEntityCoords(ped)
@@ -174,7 +174,7 @@ RegisterNetEvent('ps-adminmenu:client:TeleportToPlayer', function(coords)
 end)
 
 
--- Tp to coords
+-- Teleport to coords
 RegisterNetEvent('ps-adminmenu:client:TeleportToCoords', function(x, y, z, h)
     local ped = PlayerPedId()
     lastCoords = GetEntityCoords(ped)
@@ -211,7 +211,7 @@ RegisterNetEvent('ps-adminmenu:client:CopyCoords', function(inputData, buttonlab
 end)
 
 
--- tp to marker
+-- Teleport to marker
 RegisterNetEvent('ps-adminmenu:client:TeleportToMarker', function()
     local PlayerPedId = PlayerPedId
     local GetEntityCoords = GetEntityCoords
@@ -371,7 +371,7 @@ RegisterNetEvent('ps-adminmenu:client:RefuelVehicle', function()
     end
 end)
 
--- change plate
+-- Change plate
 RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(inputData)
     local ped = PlayerPedId()
     local plate = inputData["Plate"]
@@ -384,12 +384,12 @@ RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(inputData)
     end
 end)
 
--- toggle duty
+-- Toggle duty
 RegisterNetEvent('ps-adminmenu:client:ToggleDuty', function()
     TriggerServerEvent("QBCore:ToggleDuty")
 end)
 
--- cuff/Uncuff
+-- Cuff/Uncuff
 RegisterNetEvent('ps-adminmenu:client:ToggleCuffs', function(inputData)
     local player = inputData["Player ID"]
     if player == nil then return QBCore.Functions.Notify(Lang:t("error.not_online"), 'error', 7500) end
@@ -397,7 +397,7 @@ RegisterNetEvent('ps-adminmenu:client:ToggleCuffs', function(inputData)
     TriggerEvent("police:client:GetCuffed", playerId)
 end)
 
---toggle veh dev menu
+-- Toggle veh dev menu
 local vehicleDevMode = false
 RegisterNetEvent('ps-adminmenu:client:ToggleVehDevMenu', function()
     local x = 0.4
@@ -423,7 +423,7 @@ RegisterNetEvent('ps-adminmenu:client:ToggleVehDevMenu', function()
     end)
 end)
 
---toggle coords
+-- Toggle coords
 local showCoords = false
 RegisterNetEvent('ps-adminmenu:client:ToggleCoords', function()
     local x = 0.4
@@ -444,7 +444,7 @@ RegisterNetEvent('ps-adminmenu:client:ToggleCoords', function()
     end)
 end)
 
--- noclip
+-- Noclip
 
 local IsNoClipping      = false
 local PlayerPed         = nil
@@ -720,7 +720,7 @@ RegisterNetEvent('ps-adminmenu:client:ToggleNoClip', function()
     TriggerEvent("ps-adminmenu:client:CloseUI")
 end)
 
--- toggle names and blips
+-- Toggle names and blips
 
 local ShowBlips = false
 local ShowNames = false
