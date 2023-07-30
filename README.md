@@ -1,4 +1,5 @@
 # ps-adminmenu
+The adminmenu crafted by [OKe1z](https://github.com/OKe1z) and our dedicated team is user-friendly and intuitive. We invite you to contribute by submitting new features through PRs. We're always eager to review and consider new features. 
 
 # Preview
 ![image](https://github.com/Project-Sloth/ps-adminmenu/assets/82112471/4cc38b98-68b2-4238-ba99-6facafe561e0)
