@@ -515,7 +515,6 @@ Config.Actions = {
         event = "ps-adminmenu:client:maxmodVehicle",
         type = "client"
     },
-    -- WE SHOULD CREATE A FUNCTION TO CUFF/UNCUFF PLAYERS BY ID NOT WHEN NEARBY!
     { 
         label = "Toggle Cuffs", 
         perms = "mod", 
