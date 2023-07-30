@@ -29,10 +29,12 @@
 * Give NUI Focus
 * God
 * Invisible
+* Infinite Ammo
 * Kick Player
 * Kill Player
 * Message Player
 * Mute Player
+* Max Vehicle Mods
 * No Clip
 * Open Inventory
 * Open Stash
