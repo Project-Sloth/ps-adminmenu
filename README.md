@@ -60,3 +60,9 @@
 * Toggle Names
 * Vehicle Dev Menu
 * Warn player
+
+# Credits
+* [OK1ez](https://github.com/OK1ez)
+* [Lenzh](https://github.com/Lenzh)
+* [LeSiiN](https://github.com/LeSiiN)
+* Project Sloth Team
