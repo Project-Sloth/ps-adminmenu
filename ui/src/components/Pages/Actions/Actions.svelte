@@ -138,14 +138,16 @@
                                                 event: dropdownItem.event,
                                                 type: dropdownItem.type,
                                                 data: selectedPlayerId,
-                                                button: dropdownItem.label
+                                                button: dropdownItem.label,
+                                                perms: button.perms
                                             });
                                         } else {
                                             SendNUI("normalButton", {
                                                 event: dropdownItem.event,
                                                 type: dropdownItem.type,
                                                 data: inputValues[i],
-                                                button: dropdownItem.label
+                                                button: dropdownItem.label,
+                                                perms: button.perms
                                             });
                                         }
                                     }}
@@ -160,7 +162,7 @@
                 <!-- Normal Buttons -->
                 <button
                     on:click={() => {
-                        SendNUI('normalButton', { event: button.event, type: button.type });
+                        SendNUI('normalButton', { event: button.event, type: button.type, perms: button.perms });
                     }}
                     class="bg-primary flex px-[1.5rem] py-[1.2rem] mt-2 flex-row items-center {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%]')}">
                     <i on:click={() => button.favorited = !button.favorited} class="{(button.favorited ? 'fas text-accent' : 'far hover:text-accent')} fa-star fa-lg "></i>
