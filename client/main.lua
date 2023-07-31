@@ -1,4 +1,5 @@
 QBCore = exports['qb-core']:GetCoreObject()
+local hasPerms = nil
 
 local function toggleUI(bool)
 	SetNuiFocus(bool, bool)
@@ -32,8 +33,6 @@ RegisterNetEvent('ps-adminmenu:client:openmenu', function()
     end)
 end)
 
--- RegisterKeyMapping('admin', 'Open Adminmenu', 'keyboard', 'U') -- https://docs.fivem.net/docs/game-references/controls/
-
 RegisterNUICallback("hideUI", function()
     toggleUI(false)
 end)
@@ -44,15 +43,23 @@ RegisterNUICallback("normalButton", function(data, cb)
     local type = data.type
     local inputData = data.data
     local buttonlable = data.button
-
-    print("Event: "..event.." Type: "..type)
+    local perms = data.perms
+    QBCore.Functions.TriggerCallback('ps-adminmenu:server:hasPerms', function(permission)
+        hasPerms = permission
+    end, perms)
+    Wait(50)
+    print("Event: " .. event .. " Type: " .. type .. " Perms: " .. perms, "Has Perms: ", hasPerms)
     if event and type then
-        if type == "client" then
-            TriggerEvent(event, inputData, buttonlable)
-        elseif type == "server" then
-            TriggerServerEvent(event, inputData, buttonlable)
-        elseif type == "command" then
-            ExecuteCommand(event, inputData,buttonlable)
+        if hasPerms then
+            if type == "client" then
+                TriggerEvent(event, inputData, buttonlable)
+            elseif type == "server" then
+                TriggerServerEvent(event, inputData, buttonlable)
+            elseif type == "command" then
+                ExecuteCommand(event, inputData, buttonlable)
+            end
+        else
+            print("no perms")
         end
     end
     cb("ok")
@@ -61,7 +68,7 @@ end)
 
 RegisterNetEvent('ps-adminmenu:client:UpdateResources', function(data)
     SendNUIMessage({
-        action = "setResourceData", 
+        action = "setResourceData",
         data = data
     })
 end)
