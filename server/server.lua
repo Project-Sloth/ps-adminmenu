@@ -11,14 +11,14 @@ end, 'mod')
 RegisterNetEvent('ps-adminmenu:server:Getresources', function(data)
     local totalResources = GetNumResources()
     -- print("total " .. totalResources)
-    local resources = {} 
+    local resources = {}
     for i = 0, totalResources - 1 do
         local resourceName = GetResourceByFindIndex(i)
         local author = GetResourceMetadata(resourceName, "author")
         local version = GetResourceMetadata(resourceName, "version")
         local description = GetResourceMetadata(resourceName, "description")
         local resourceState = GetResourceState(resourceName)
-        
+
         table.insert(resources, {
             name = resourceName,
             author = author,
@@ -31,7 +31,7 @@ RegisterNetEvent('ps-adminmenu:server:Getresources', function(data)
     TriggerClientEvent('ps-adminmenu:client:UpdateResources', -1, resources)
     --print("sendt resources")
 end)
-    
+
 RegisterNetEvent('ps-adminmenu:server:changeResourceState', function(name, state)
 	local src = source
     if state == "started" then
@@ -155,7 +155,7 @@ RegisterNetEvent('ps-adminmenu:server:BringPlayer', function(inputData)
 
 end)
 
--- Warn Player 
+-- Warn Player
 RegisterNetEvent('ps-adminmenu:server:warnplayer', function(inputData)
     local targetPlayer = QBCore.Functions.GetPlayer(inputData["Player ID"])
     local msg = inputData["Reason"]
@@ -177,7 +177,7 @@ end)
 -- Teleport To Player
 RegisterNetEvent('ps-adminmenu:server:TeleportToPlayer', function(inputData)
     local src = source
-    
+
     if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
     local target = GetPlayerPed(tonumber(inputData["Player ID"]))
     if target ~= 0 then
@@ -201,7 +201,7 @@ RegisterNetEvent('ps-adminmenu:server:TeleportToCoords', function(inputData)
         local y = tonumber((ydata:gsub(",",""))) + .0
         local z = tonumber((zdata:gsub(",",""))) + .0
         TriggerClientEvent('ps-adminmenu:client:TeleportToCoords', src, x, y, z)
-        
+
     else
         TriggerClientEvent('QBCore:Notify', src, Lang:t('error.missing_args'), 'error')
     end
@@ -248,7 +248,7 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(inputData)
     local Player = QBCore.Functions.GetPlayer(playerId)
     local inv = Config.InventoryUsage
 
-    if not (inv == "qb" or inv == "ox" or inv == "lj" or inv == "ps") then 
+    if not (inv == "qb" or inv == "ox" or inv == "lj" or inv == "ps") then
         ConfigInvInvalid()
         return;
     end
@@ -318,7 +318,7 @@ RegisterNetEvent('ps-adminmenu:server:GiveMoney', function(inputData)
     if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
     Player.Functions.AddMoney(tostring(moneyType), tonumber(amount))
-    if moneyType == "crypto" then 
+    if moneyType == "crypto" then
         QBCore.Functions.Notify(src, Lang:t("success.give_money_crypto", {info = tonumber(amount), player = Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname}), "success")
     else
         QBCore.Functions.Notify(src, Lang:t("success.give_money", {info = tonumber(amount).. "$", player = Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname}), "success")
@@ -333,7 +333,7 @@ RegisterNetEvent('ps-adminmenu:server:GiveMoneyAll', function(inputData)
     for _, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         Player.Functions.AddMoney(tostring(moneyType), tonumber(amount))
-        if moneyType == "crypto" then 
+        if moneyType == "crypto" then
             QBCore.Functions.Notify(src, Lang:t("success.give_money_all_crypto", {info = tonumber(amount)}), "success")
         else
             QBCore.Functions.Notify(src, Lang:t("success.give_money_all", {info = tonumber(amount).. "$", moneyType = moneyType}), "success")
@@ -490,7 +490,7 @@ RegisterNetEvent('ps-adminmenu:server:SetPerms', function(inputData)
     local playerId, permissions = inputData["Player ID"], inputData["Permissions"]
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
     --if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
-    if permissions == nil then return QBCore.Functions.Notify(src, Lang:t("error.empty_input"), 'error', 15000) end 
+    if permissions == nil then return QBCore.Functions.Notify(src, Lang:t("error.empty_input"), 'error', 15000) end
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 15000) end
     QBCore.Functions.AddPermission(Player.PlayerData.source, permissions)
     QBCore.Functions.Notify(src, Player.PlayerData.charinfo.firstname.. " " ..Player.PlayerData.charinfo.lastname.. " got added " ..permissions.. " Permissions.", "primary", 7500)
@@ -585,4 +585,11 @@ QBCore.Functions.CreateCallback("ps-adminmenu:server:GetVehicleByPlate", functio
         veh = result[1].vehicle
     end
     cb(veh)
+end)
+
+
+QBCore.Functions.CreateCallback('ps-adminmenu:server:hasPerms', function(source, cb, perms)
+    local hasPerms = QBCore.Functions.HasPermission(source, perms)
+    if not hasPerms then return NoPerms(source) end
+    cb(true)
 end)
