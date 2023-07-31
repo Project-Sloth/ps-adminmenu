@@ -526,6 +526,19 @@ RegisterNetEvent('ps-adminmenu:server:GetPlayersForBlips', function()
     TriggerClientEvent('ps-adminmenu:client:Show', src, players)
 end)
 
+-- Fix Vehicle for player
+RegisterNetEvent('ps-adminmenu:server:FixVehFor', function(inputData)
+    local src = source
+    local playerId = inputData['Player ID']
+    local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
+    if Player then
+        TriggerClientEvent('iens:repaira', Player.PlayerData.source)
+        TriggerClientEvent('vehiclemod:client:fixEverything', Player.PlayerData.source)
+    else
+        TriggerClientEvent('QBCore:Notify', src, "player not online", "error")
+    end
+end)
+
 CreateThread(function()
     while true do
         local tempPlayers = {}
