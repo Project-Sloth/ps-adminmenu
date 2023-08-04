@@ -74,29 +74,51 @@ RegisterNetEvent('ps-adminmenu:client:ToggleGodmode', function(data)
     end
 end)
 
--- Spectate Player
-RegisterNetEvent('ps-adminmenu:client:specateplayer', function(inputData)
-    local playerId = inputData["Player ID"]
-    local myPed = PlayerPedId()
-    local targetplayer = GetPlayerFromServerId(playerId)
-    local target = GetPlayerPed(targetplayer)
-    if not isSpectating then
-        isSpectating = true
-        SetEntityVisible(myPed, false) -- Set invisible
-        SetEntityCollision(myPed, false, false) -- Set collision
-        SetEntityInvincible(myPed, true) -- Set invincible
-        NetworkSetEntityInvisibleToNetwork(myPed, true) -- Set invisibility
-        lastSpectateCoord = GetEntityCoords(myPed) -- save my last coords
-        NetworkSetInSpectatorMode(true, target) -- Enter Spectate Mode
-    else
-        isSpectating = false
-        NetworkSetInSpectatorMode(false, target) -- Remove From Spectate Mode
-        NetworkSetEntityInvisibleToNetwork(myPed, false) -- Set Visible
-        SetEntityCollision(myPed, true, true) -- Set collision
-        SetEntityCoords(myPed, lastSpectateCoord) -- Return Me To My Coords
-        SetEntityVisible(myPed, true) -- Remove invisible
-        SetEntityInvincible(myPed, false) -- Remove godmode
-        lastSpectateCoord = nil -- Reset Last Saved Coords
+-- Spectate
+local oldPos = nil
+local spectateInfo = { toggled = false, target = 0, targetPed = 0 }
+
+RegisterNetEvent('ps-adminmenu:requestSpectate', function(targetPed, target, name)
+    oldPos = GetEntityCoords(PlayerPedId())
+    spectateInfo = {
+        toggled = true,
+        target = target,
+        targetPed = targetPed
+    }
+end)
+
+RegisterNetEvent('ps-adminmenu:cancelSpectate', function()
+    if NetworkIsInSpectatorMode() then
+        NetworkSetInSpectatorMode(false, spectateInfo['targetPed'])
+    end
+    if not Cloack and not yayeetActive then
+        SetEntityVisible(PlayerPedId(), true, 0)
+    end
+    spectateInfo = { toggled = false, target = 0, targetPed = 0 }
+    RequestCollisionAtCoord(oldPos)
+    SetEntityCoords(PlayerPedId(), oldPos)
+    oldPos = nil;
+end)
+
+CreateThread(function()
+    while true do
+        Wait(0)
+        if spectateInfo['toggled'] then
+            local text = {}
+            local targetPed = NetworkGetEntityFromNetworkId(spectateInfo.targetPed)
+            if DoesEntityExist(targetPed) then
+                SetEntityVisible(PlayerPedId(), false, 0)
+                if not NetworkIsInSpectatorMode() then
+                    RequestCollisionAtCoord(GetEntityCoords(targetPed))
+                    NetworkSetInSpectatorMode(true, targetPed)
+                end
+            else
+                TriggerServerEvent('ps-adminmenu:spectate:teleport', spectateInfo['target'])
+                while not DoesEntityExist(NetworkGetEntityFromNetworkId(spectateInfo.targetPed)) do Wait(100) end
+            end
+        else
+            Wait(500)
+        end
     end
 end)
 
