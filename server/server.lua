@@ -565,6 +565,43 @@ CreateThread(function()
     end
 end)
 
+-- Spectate
+
+local spectating = {}
+RegisterNetEvent('ps-adminmenu:server:SpectateTarget', function(inputData)
+	local target = inputData['Player ID']
+	local type = "1"
+	if spectating[source] then type = "0" end
+	TriggerEvent('ps-adminmenu:spectate', target, type == "1", source)
+end)
+
+AddEventHandler('ps-adminmenu:spectate', function(target, on, source)
+    local tPed = GetPlayerPed(target)
+    if DoesEntityExist(tPed) then
+        if not on then
+            TriggerClientEvent('ps-adminmenu:cancelSpectate', source)
+            spectating[source] = false
+            FreezeEntityPosition(GetPlayerPed(source), false)
+            TriggerClientEvent('ps-adminmenu:client:toggleNames', source)
+        elseif on then
+            TriggerClientEvent('ps-adminmenu:requestSpectate', source, NetworkGetNetworkIdFromEntity(tPed), target, GetPlayerName(target))
+            spectating[source] = true
+            TriggerClientEvent('ps-adminmenu:client:toggleNames', source)
+
+        end
+    end
+end)
+
+RegisterNetEvent('ps-adminmenu:spectate:teleport', function(target)
+	local source = source
+    local ped = GetPlayerPed(target)
+    if DoesEntityExist(ped) then
+        local targetCoords = GetEntityCoords(ped)
+        SetEntityCoords(GetPlayerPed(source), targetCoords.x, targetCoords.y, targetCoords.z - 10)
+        FreezeEntityPosition(GetPlayerPed(source), true)
+    end
+end)
+
 QBCore.Functions.CreateCallback('ps-adminmenu:server:GetPersonalVehicles', function(source, cb)
     local Player = QBCore.Functions.GetPlayer(source)
     local Vehicles = {}
