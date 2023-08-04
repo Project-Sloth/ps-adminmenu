@@ -602,6 +602,21 @@ RegisterNetEvent('ps-adminmenu:spectate:teleport', function(target)
     end
 end)
 
+-- Set on fire
+RegisterNetEvent('ps-adminmenu:server:SetOnFire', function(inputData)
+    local playerId, time = inputData["Player ID"], inputData["Time"]
+    TriggerClientEvent('ps-adminmenu:client:SetOnFire', playerId, time)
+    QBCore.Functions.Notify(source, Lang:t("success.set_on_fire"), 'success')
+
+end)
+-- Explode Player
+RegisterNetEvent('ps-adminmenu:server:ExplodePlayer', function(inputData)
+    local playerId, damage = inputData["Player ID"], inputData["Damage"]
+
+    TriggerClientEvent('ps-adminmenu:client:ExplodePlayer', playerId, damage)
+    QBCore.Functions.Notify(source, Lang:t("success.explode_player"), 'success')
+end)
+
 QBCore.Functions.CreateCallback('ps-adminmenu:server:GetPersonalVehicles', function(source, cb)
     local Player = QBCore.Functions.GetPlayer(source)
     local Vehicles = {}
