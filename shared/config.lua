@@ -292,7 +292,7 @@ Config.Actions = {
         dropdown = {
             { label = "Player ID", InputType = "players" },
             { label = "Time", InputType = "input" },
-            { label = "Let him Burn", InputType = "button", type = "client", event = "ps-adminmenu:client:SetOnFire" },
+            { label = "Let him Burn", InputType = "button", type = "server", event = "ps-adminmenu:server:SetOnFire" },
         },
     },
     {
@@ -306,7 +306,7 @@ Config.Actions = {
                     { label = "Damage", value = "damage"},
                 },
             },
-            { label = "BOOOM", InputType = "button", type = "client", event = "ps-adminmenu:client:ExplodePlayer" },
+            { label = "BOOOM", InputType = "button", type = "server", event = "ps-adminmenu:server:ExplodePlayer" },
         },
     },
     {
