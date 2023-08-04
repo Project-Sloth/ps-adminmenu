@@ -474,7 +474,7 @@ Config.Actions = {
         perms = "mod",
         dropdown = {
             { label = "Player ID", InputType = "players" },
-            { label = "Spectate", InputType = "button", type = "client", event = "ps-adminmenu:client:specateplayer" },
+            { label = "Spectate", InputType = "button", type = "server", event = "ps-adminmenu:server:SpectateTarget" },
         },
     },
     {
