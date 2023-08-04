@@ -123,30 +123,23 @@ CreateThread(function()
 end)
 
 -- Set on fire
-RegisterNetEvent('ps-adminmenu:client:SetOnFire', function(inputData)
-    local playerId, time = inputData["Player ID"], inputData["Time"]
-    local Player = GetPlayerPed(GetPlayerFromServerId(playerId))
-    if playerId == nil then return QBCore.Functions.Notify(Lang:t("error.not_online"), 'error', 7500) end
+RegisterNetEvent('ps-adminmenu:client:SetOnFire', function(time)
+    local playerPed = PlayerPedId()
     if time == nil then time = 10 end
     local timer = time * 1000
-    QBCore.Functions.Notify(Lang:t("success.set_on_fire"), 'success')
-    StartEntityFire(Player)
+    StartEntityFire(playerPed)
     Wait(timer)
-    StopEntityFire(Player)
+    StopEntityFire(playerPed)
 end)
 
 -- Explode player
-RegisterNetEvent('ps-adminmenu:client:ExplodePlayer', function(inputData)
-    local playerId, damage = inputData["Player ID"], inputData["Damage"]
-    local Player = GetPlayerPed(GetPlayerFromServerId(playerId))
-    local playerCoords = GetEntityCoords(Player)
-    if playerId == nil then return QBCore.Functions.Notify(Lang:t("error.not_online"), 'error', 7500) end
+RegisterNetEvent('ps-adminmenu:client:ExplodePlayer', function(damage)
+    local playerPed = PlayerPedId()
+    local playerCoords = GetEntityCoords(playerPed)
     if damage == nil then damage = "nodamage" end
     if damage == "nodamage" then
-        QBCore.Functions.Notify(Lang:t("success.explode_player"), 'success')
         AddExplosion(playerCoords.x, playerCoords.y, playerCoords.z, 'EXPLOSION_TANKER', 2.0, true, false, 2.0)
-    else   
-        QBCore.Functions.Notify(Lang:t("success.explode_player"), 'success')
+    else
         AddExplosion(playerCoords.x, playerCoords.y, playerCoords.z, 2, 0.9, 1, 0, 1065353216, 0)
     end
 end)
