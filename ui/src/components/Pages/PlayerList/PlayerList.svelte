@@ -16,13 +16,12 @@
         }
     }
 
-
 </script>
 
 <div class="w-full h-full flex flex-row ">
     <div>
         <!-- Search Bar -->
-        <div class="h-[7.5rem] w-full border-b-2 border-tertiary flex items-center justify-center"> 
+        <div class="h-[7.5rem] w-full border-b-2 border-tertiary flex items-center justify-center">
             <input class="ml-8 mt-2 w-full h-[95%] bg-transparent font-medium text-[2.1rem]" type="text" placeholder="Search" bind:value={searchTerm}>
             <button on:click={ () => { SendNUI("RefreshResources") }} class="fa-solid fa-arrows-rotate fa-xl hover:bg-tertiary h-full w-40"></button>
         </div>
@@ -48,15 +47,59 @@
 
     {#if $menuWideStore.isMenuWide && selectedPlayer}
         <div class="w-[80rem] h-full border-l-2 border-tertiary flex flex-col">
-            <!-- Report Chat Header  -->
-            <div class="w-full h-[7.5rem] border-b-2 border-tertiary p-8 px-8 font-medium text-[2.2rem]">
-                {selectedPlayer.id} - {selectedPlayer.name} - {selectedPlayer.license}
-            </div>
+            <p class="font-medium text-[1.4rem] ml-3 mt-1">Citizen ID: {selectedPlayer.cid ?? 'none'}</p>
 
+            <div class="w-full h-[7.5rem] border-b-2 border-tertiary p-8 px-8 font-medium text-[3.2rem]">
+                {selectedPlayer.id} - {selectedPlayer.name}
+            </div>
+            <div class="font-medium text-[3.0rem] ml-3 mt-1">Licenses:
+                <p class="font-medium text-[2.0rem] ml-3 mt-1">license: {selectedPlayer.license ?? 'none'}</p>
+                <p class="font-medium text-[2.0rem] ml-3 mt-1">discord: {selectedPlayer.discord ?? 'none'}</p>
+                <p class="font-medium text-[2.0rem] ml-3 mt-1">steam: {selectedPlayer.steam ?? 'none'}</p>
+            </div>
+            <div class="flex ..." >
+                <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
+                    on:click={() => {
+                        SendNUI("normalButton", {
+                            event: 'ps-adminmenu:server:KickPlayer',
+                            type: 'server',
+                            data: {["Player ID"]: selectedPlayer.id},
+                            perms: 'admin'
+                        });
+                    }}
+                    >
+                    Kick Player
+                </button>
+
+                <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
+                    on:click={() => {
+                        SendNUI("normalButton", {
+                            event: 'ps-adminmenu:server:TeleportToPlayer',
+                            type: 'server',
+                            data: {["Player ID"]: selectedPlayer.id},
+                            perms: 'admin'
+                        });
+                    }}
+                    >
+                    Go to Player
+                </button>
+
+                <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
+                    on:click={() => {
+                        SendNUI("normalButton", {
+                            event: 'ps-adminmenu:server:Revive',
+                            type: 'server',
+                            data: {["Player ID"]: selectedPlayer.id},
+                            perms: 'admin'
+                        });
+                    }}
+                    >
+                    Revive Player
+                </button>
+            </div>
         </div>
     {:else if $menuWideStore.isMenuWide}
         <div class="w-[80rem] h-full border-l-2 border-tertiary flex flex-col">
-            <!-- Report Chat Header  -->
             <div class="w-full h-[7.5rem] border-b-2 border-tertiary p-8 px-8 font-medium text-[2.2rem]">
                 Select a player
             </div>
