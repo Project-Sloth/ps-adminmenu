@@ -110,7 +110,7 @@
                                     on:input={(event) => updateInputValue(i, dropdownItem.label, event.currentTarget.value)}
                                     >
                                     {#if $PLAYERSBUTTONS && $PLAYERS}
-                                        {#each $PLAYERS.filter(button => button.name.toLowerCase().includes(searchTerm.toLowerCase())) as button, i}
+                                        {#each $PLAYERS.filter(button => button.name.toLowerCase().includes(searchQuery.toLowerCase())) as button, i}
                                             <div class=" hover:bg-primary p-3" on:click={() => selectOption(button.name)}>{button.name}</div>
                                             <option value={button.id}>{button.name}</option>
                                             {/each}
