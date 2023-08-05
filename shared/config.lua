@@ -470,7 +470,7 @@ Config.Actions = {
         perms = "mod",
     },
     {
-        label = "Specate Player",
+        label = "Spectate Player",
         perms = "mod",
         dropdown = {
             { label = "Player ID", InputType = "players" },
