@@ -234,6 +234,12 @@ Config.Actions = {
         type = "client"
     },
     {
+        label = "Toggle Delete Laser",
+        event = "ps-adminmenu:client:ToggleDeleteLaser",
+        perms = "mod",
+        type = "client"
+    },
+    {
         label = "Kill Player",
         perms = "mod",
         dropdown = {
