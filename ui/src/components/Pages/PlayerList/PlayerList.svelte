@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {toggleWideMenu, menuWideStore, PLAYERSBUTTONS, PLAYERS} from '@store/stores';
+    import {toggleWideMenu, menuWideStore, PLAYERSBUTTONS, PLAYERS, VEHICLES} from '@store/stores';
 	import { SendNUI } from '@utils/SendNUI'
     import { fade } from 'svelte/transition';
     let visible = false;
@@ -71,6 +71,9 @@
                 <p class="font-medium text-[1.8rem] ml-3 mt-1"><i class="fas fa-money-bill-1 fa-lg"></i> Cash: </p> <i class=" flex ... font-light text-[1.8rem] ml-3 mt-1">{selectedPlayer.cash ?? 'none'} $</i>
                 <p class="font-medium text-[1.8rem] ml-3 mt-1"><i class="fas fa-money-check-dollar fa-lg"></i> Bank: </p> <i class=" flex ... font-light text-[1.8rem] ml-3 mt-1">{selectedPlayer.bank ?? 'none'} $</i>
                 <p class="font-medium text-[1.8rem] ml-3 mt-1"><i class="fas fa-phone fa-lg"></i> Phone:</p> <i class=" flex ... font-light text-[1.8rem] ml-3 mt-1">{selectedPlayer.phone ?? 'none'}</i>
+                {#each $VEHICLES.filter(vehicle => vehicle.cid === selectedPlayer.cid) as vehicle}
+                <p class="font-medium text-[1.8rem] ml-3 mt-1"><i class="fas fa-car fa-lg"></i> Owned Vehicles:</p> <i class=" flex ... font-light text-[1.8rem] ml-3 mt-1">{vehicle.label ?? 'none'}</i>
+                {/each}
             </div>
 
             <div class="flex ...">

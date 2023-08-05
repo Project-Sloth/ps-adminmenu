@@ -62,7 +62,7 @@
 		copyToClipboard(data);
 	})
 
-	ReceiveNUI('setPersonalVehicles', (data: any) => {
+	ReceiveNUI('setVehicles', (data: any) => {
 		VEHICLES.set(data)
 	})
 

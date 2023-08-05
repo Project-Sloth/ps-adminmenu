@@ -85,6 +85,7 @@ export const PLAYERSBUTTONS = writable<PlayerData>(null);
 
 interface PersonalVehicles {
   id?: string;
+  cid?: string;
   label?: string;
   brand?: string;
   model?: string;

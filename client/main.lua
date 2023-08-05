@@ -24,9 +24,9 @@ RegisterNetEvent('ps-adminmenu:client:openmenu', function()
         })
 
     end)
-    QBCore.Functions.TriggerCallback('ps-adminmenu:server:GetPersonalVehicles', function(Vehicles)
+    QBCore.Functions.TriggerCallback('ps-adminmenu:server:GetVehicles', function(Vehicles)
         SendNUIMessage({
-            action = "setPersonalVehicles",
+            action = "setVehicles",
             data = Vehicles
         })
 

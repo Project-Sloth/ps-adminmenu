@@ -624,23 +624,25 @@ RegisterNetEvent('ps-adminmenu:server:ExplodePlayer', function(inputData)
     QBCore.Functions.Notify(source, Lang:t("success.explode_player"), 'success')
 end)
 
-QBCore.Functions.CreateCallback('ps-adminmenu:server:GetPersonalVehicles', function(source, cb)
+QBCore.Functions.CreateCallback('ps-adminmenu:server:GetVehicles', function(source, cb)
     local Player = QBCore.Functions.GetPlayer(source)
     local Vehicles = {}
-    -- MySQL.query('SELECT * FROM player_vehicles WHERE citizenid = ?', {Player.PlayerData.citizenid}, function(result)
     MySQL.query('SELECT * FROM player_vehicles', function(result)
         for k, v in pairs(result) do
-            local VehicleData = QBCore.Shared.Vehicles[v.vehicle]
-            Vehicles[#Vehicles+1] = {
-                id = k,
-                label = v.citizenid .." | ".. VehicleData["name"] .. " | " .. v.plate,
-                brand = VehicleData["brand"],
-                model = VehicleData["model"],
-                plate = v.plate,
-                fuel = v.fuel,
-                engine = v.engine,
-                body = v.body
-            }
+            local vehicleData = QBCore.Shared.Vehicles[v.vehicle]
+            if vehicleData then
+                Vehicles[#Vehicles+1] = {
+                    id = k,
+                    cid = v.citizenid,
+                    label = vehicleData["brand"] .." | ".. vehicleData["name"] .. " | " .. v.plate,
+                    brand = vehicleData["brand"],
+                    model = vehicleData["model"],
+                    plate = v.plate,
+                    fuel = v.fuel,
+                    engine = v.engine,
+                    body = v.body
+                }
+            end
         end
         table.sort(Vehicles, function(a, b)
             return a.label < b.label

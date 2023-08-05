@@ -124,12 +124,12 @@
                                     value={inputValues[dropdownItem.label]}
                                     on:input={(event) => updateInputValue(i, dropdownItem.label, event.currentTarget.value)}
                                     >
-                                        {#each $VEHICLES.filter(button => button.label) as button}
-                                            <div class=" hover:bg-primary p-3" on:click={() => selectOption(button.label)}>{button.label}</div>
-                                            <option value={button.plate}>{button.label}</option>
-                                        {/each}
-                                    </select>
-                                {/if}
+                                    {#each $VEHICLES.filter(button => button.cid === $PLAYERSBUTTONS.cid) as button}
+                                        <div class=" hover:bg-primary p-3" on:click={() => selectOption(button.label)}>{button.label}</div>
+                                        <option value={button.plate}>{button.label}</option>
+                                    {/each}
+                            </select>
+                            {/if}
                             {:else if dropdownItem.InputType === 'button'}
                                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary"
                                     on:click={() => {
