@@ -60,6 +60,8 @@ QBCore.Functions.CreateCallback('ps-adminmenu:server:GetPlayers', function(_, cb
             name = playerData.charinfo.firstname .. ' ' .. playerData.charinfo.lastname,
             cid = playerData.citizenid,
             license = QBCore.Functions.GetIdentifier(k, 'license'),
+            discord = QBCore.Functions.GetIdentifier(k, 'discord'),
+            steam = QBCore.Functions.GetIdentifier(k, 'steam'),
         }
     end
     table.sort(Players, function(a, b) return a.id < b.id end)
