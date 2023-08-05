@@ -1007,9 +1007,18 @@ function PerformanceUpgradeVehicle(vehicle, customWheels)
 end
 
 RegisterNetEvent('ps-adminmenu:client:maxmodVehicle', function()
-    local vehicle = GetVehiclePedIsIn(PlayerPedId())
-    PerformanceUpgradeVehicle(vehicle)
-    QBCore.Functions.Notify('Vehicle max modded', 'success', 7500)
+    local ped = PlayerPedId()
+    local vehicle = GetVehiclePedIsIn(ped)
+    if IsPedSittingInVehicle(ped, vehicle) then
+        if GetPedInVehicleSeat(GetVehiclePedIsIn(ped), -1) == ped then
+            PerformanceUpgradeVehicle(vehicle)
+            QBCore.Functions.Notify('Vehicle max modded', 'success', 7500)
+        else
+            QBCore.Functions.Notify('Not the driver of the vehicle', 'error', 7500)
+        end
+    else
+        QBCore.Functions.Notify('Not sitting in vehicle', 'error', 7500)
+    end
 end)
 
 -- Infinite Ammo
