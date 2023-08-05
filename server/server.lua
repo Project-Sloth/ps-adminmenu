@@ -62,12 +62,17 @@ QBCore.Functions.CreateCallback('ps-adminmenu:server:GetPlayers', function(_, cb
             license = QBCore.Functions.GetIdentifier(k, 'license'),
             discord = QBCore.Functions.GetIdentifier(k, 'discord'),
             steam = QBCore.Functions.GetIdentifier(k, 'steam'),
+            job = playerData.job.label .. ' - ' .. playerData.job.grade.name,
+            dob = playerData.charinfo.birthdate,
+            cash = playerData.money.cash,
+            bank = playerData.money.bank,
+            phone = playerData.charinfo.phone,
+
         }
     end
     table.sort(Players, function(a, b) return a.id < b.id end)
     cb(Players)
 end)
-
 -- Admin Car
 RegisterNetEvent('ps-adminmenu:server:SaveCar', function(mods, vehicle, _, plate)
     local src = source
