@@ -75,7 +75,7 @@
                                 class="bg-secondary p-3 w-[25rem] mt-1 font-medium hover:bg-tertiary"
                                 type="text"
                                 placeholder="{dropdownItem.label}"
-                                value={inputValues[dropdownItem.label]}
+                                value={inputValues[dropdownItem.label] || ''}
                                 on:input={(event) => updateInputValue(i, dropdownItem.label, event.currentTarget.value)}
                                 >
                             {:else if dropdownItem.InputType === 'options'}
