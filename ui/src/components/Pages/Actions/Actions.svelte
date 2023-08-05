@@ -75,14 +75,14 @@
                                 class="bg-secondary p-3 w-[25rem] mt-1 font-medium hover:bg-tertiary"
                                 type="text"
                                 placeholder="{dropdownItem.label}"
-                                value={inputValues[dropdownItem.label] || ''}
+                                value={inputValues[dropdownItem.label]}
                                 on:input={(event) => updateInputValue(i, dropdownItem.label, event.currentTarget.value)}
                                 >
                             {:else if dropdownItem.InputType === 'options'}
                                 <p class="font-medium mt-2">{dropdownItem.label}:</p>
                                 <select
                                     class="bg-secondary p-3 w-[25rem] mt-1 font-medium hover:bg-tertiary"
-                                    value={inputValues[dropdownItem.label] || ''}
+                                    value={inputValues[dropdownItem.label]}
                                     on:input={(event) => updateInputValue(i, dropdownItem.label, event.currentTarget.value)}
                                     >
                                     {#each dropdownItem.options as option}
@@ -106,7 +106,7 @@
                                 <p class="font-medium mt-2">{dropdownItem.label}:</p>
                                 <select
                                     class="bg-secondary p-3 w-[25rem] mt-1 font-medium hover:bg-tertiary"
-                                    value={inputValues[dropdownItem.label] || ''}
+                                    value={inputValues[dropdownItem.label]}
                                     on:input={(event) => updateInputValue(i, dropdownItem.label, event.currentTarget.value)}
                                     >
                                     {#if $PLAYERSBUTTONS && $PLAYERS}
@@ -121,7 +121,7 @@
                             <p class="font-medium mt-2">{dropdownItem.label}:</p>
                             <select
                                     class="bg-secondary p-3 w-[25rem] mt-1 font-medium hover:bg-tertiary"
-                                    value={inputValues[dropdownItem.label] || ''}
+                                    value={inputValues[dropdownItem.label]}
                                     on:input={(event) => updateInputValue(i, dropdownItem.label, event.currentTarget.value)}
                                     >
                                         {#each $VEHICLES.filter(button => button.label) as button}
