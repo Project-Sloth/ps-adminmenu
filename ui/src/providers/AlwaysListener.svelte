@@ -48,6 +48,7 @@
 	})
 
 	ReceiveNUI('setResourceData', (data: any) => {
+		data.sort((a, b) => a.name.localeCompare(b.name))
 		RESOURCES.set(data)
 		RESOURCESBUTTONS.set($RESOURCES[0])
 	})
