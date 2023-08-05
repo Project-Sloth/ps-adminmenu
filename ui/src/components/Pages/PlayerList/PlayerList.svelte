@@ -60,11 +60,19 @@
             <div class="w-full h-[7.5rem] border-b-2 border-tertiary p-8 px-8 font-medium text-[3.2rem]">
                 {selectedPlayer.id} - {selectedPlayer.name}
             </div>
-            <div class="font-medium text-[3.0rem] ml-3 mt-1">Licenses:
-                <p class="font-medium text-[2.0rem] ml-3 mt-1">license: {selectedPlayer.license ?? 'none'}</p>
-                <p class="font-medium text-[2.0rem] ml-3 mt-1">discord: {selectedPlayer.discord ?? 'none'}</p>
-                <p class="font-medium text-[2.0rem] ml-3 mt-1">steam: {selectedPlayer.steam ?? 'none'}</p>
+            <div class="font-medium text-[2.8rem] ml-3 mt-1">Licenses:
+                <p class="font-medium text-[1.8rem] ml-3 mt-1">License: {selectedPlayer.license ?? 'none'}</p>
+                <p class="font-medium text-[1.8rem] ml-3 mt-1">Discord: {selectedPlayer.discord ?? 'none'}</p>
+                <p class="font-medium text-[1.8rem] ml-3 mt-1">Steam: {selectedPlayer.steam ?? 'none'}</p>
             </div>
+            <div class="font-medium text-[2.8rem] ml-3 mt-1">Player Information:
+                <p class="font-medium text-[1.8rem] ml-3 mt-1"><i class="fas fa-suitcase fa-lg"></i> Job: </p> <i class=" flex ... font-light text-[1.8rem] ml-3 mt-1">{selectedPlayer.job ?? 'none'}</i>
+                <p class="font-medium text-[1.8rem] ml-3 mt-1"><i class="fas fa-calendar-day fa-lg"></i> Date of birth: </p> <i class=" flex ... font-light text-[1.8rem] ml-3 mt-1">{selectedPlayer.dob ?? 'none'}</i>
+                <p class="font-medium text-[1.8rem] ml-3 mt-1"><i class="fas fa-money-bill-1 fa-lg"></i> Cash: </p> <i class=" flex ... font-light text-[1.8rem] ml-3 mt-1">{selectedPlayer.cash ?? 'none'} $</i>
+                <p class="font-medium text-[1.8rem] ml-3 mt-1"><i class="fas fa-money-check-dollar fa-lg"></i> Bank: </p> <i class=" flex ... font-light text-[1.8rem] ml-3 mt-1">{selectedPlayer.bank ?? 'none'} $</i>
+                <p class="font-medium text-[1.8rem] ml-3 mt-1"><i class="fas fa-phone fa-lg"></i> Phone:</p> <i class=" flex ... font-light text-[1.8rem] ml-3 mt-1">{selectedPlayer.phone ?? 'none'}</i>
+            </div>
+
             <div class="flex ...">
                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
                     on:click={() => {
@@ -82,9 +90,8 @@
                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
                     on:click={clickHandler}>Ban Player</button>
                 {#if visible}
-                    <div class="dropdown-content">
-                        <input class="bg-secondary p-3 w-[12rem] mt-1 font-medium" transition:fade type="number" placeholder="Time" bind:value={time}/>
-                        <input class="bg-secondary p-3 w-[12rem] mt-1 font-medium border-l-2 border-tertiary" transition:fade placeholder="Reason" bind:value={reason}/>
+                        <input class="dropdown-content bg-secondary p-3 w-[12rem] mt-1 font-medium" transition:fade type="number" placeholder="Time" bind:value={time}/>
+                        <input class="dropdown-content bg-secondary p-3 w-[12rem] mt-1 font-medium border-l-2 border-tertiary" transition:fade placeholder="Reason" bind:value={reason}/>
                         <button transition:fade class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary"
                             on:click={() => {
                                 SendNUI("normalButton", {
@@ -97,7 +104,6 @@
                             >
                             BAN!
                         </button>
-                    </div>
                 {/if}
 
                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
@@ -124,6 +130,18 @@
                     }}
                     >
                     Revive Player
+                </button>
+                <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
+                    on:click={() => {
+                        SendNUI("normalButton", {
+                            event: 'ps-adminmenu:server:SpectateTarget',
+                            type: 'server',
+                            data: {["Player ID"]: selectedPlayer.id},
+                            perms: 'admin'
+                        });
+                    }}
+                    >
+                    Spectate Player
                 </button>
             </div>
         </div>
