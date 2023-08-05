@@ -1,6 +1,8 @@
 <script lang="ts">
     import {toggleWideMenu, menuWideStore, PLAYERSBUTTONS, PLAYERS} from '@store/stores';
 	import { SendNUI } from '@utils/SendNUI'
+    import { fade } from 'svelte/transition';
+    let visible = false;
 
     const started = Array().fill(false);
 
@@ -15,6 +17,12 @@
             toggleWideMenu();
         }
     }
+
+    function clickHandler() {
+		visible = !visible
+	}
+    let time = null
+    let reason = ''
 
 </script>
 
@@ -57,7 +65,7 @@
                 <p class="font-medium text-[2.0rem] ml-3 mt-1">discord: {selectedPlayer.discord ?? 'none'}</p>
                 <p class="font-medium text-[2.0rem] ml-3 mt-1">steam: {selectedPlayer.steam ?? 'none'}</p>
             </div>
-            <div class="flex ..." >
+            <div class="flex ...">
                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
                     on:click={() => {
                         SendNUI("normalButton", {
@@ -70,6 +78,27 @@
                     >
                     Kick Player
                 </button>
+
+                <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
+                    on:click={clickHandler}>Ban Player</button>
+                {#if visible}
+                    <div class="dropdown-content">
+                        <input class="bg-secondary p-3 w-[12rem] mt-1 font-medium" transition:fade type="number" placeholder="Time" bind:value={time}/>
+                        <input class="bg-secondary p-3 w-[12rem] mt-1 font-medium border-l-2 border-tertiary" transition:fade placeholder="Reason" bind:value={reason}/>
+                        <button transition:fade class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary"
+                            on:click={() => {
+                                SendNUI("normalButton", {
+                                    event: 'ps-adminmenu:server:BanPlayer',
+                                    type: 'server',
+                                    data: {["Player ID"]: selectedPlayer.id, ["Time"]: time, ["Reason"]: reason},
+                                    perms: 'admin'
+                                });
+                            }}
+                            >
+                            BAN!
+                        </button>
+                    </div>
+                {/if}
 
                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
                     on:click={() => {
