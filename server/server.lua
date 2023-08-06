@@ -73,6 +73,7 @@ QBCore.Functions.CreateCallback('ps-adminmenu:server:GetPlayers', function(_, cb
     table.sort(Players, function(a, b) return a.id < b.id end)
     cb(Players)
 end)
+
 -- Admin Car
 RegisterNetEvent('ps-adminmenu:server:SaveCar', function(mods, vehicle, _, plate)
     local src = source
@@ -616,6 +617,7 @@ RegisterNetEvent('ps-adminmenu:server:SetOnFire', function(inputData)
     QBCore.Functions.Notify(source, Lang:t("success.set_on_fire"), 'success')
 
 end)
+
 -- Explode Player
 RegisterNetEvent('ps-adminmenu:server:ExplodePlayer', function(inputData)
     local playerId, damage = inputData["Player ID"], inputData["Damage"]
@@ -625,9 +627,8 @@ RegisterNetEvent('ps-adminmenu:server:ExplodePlayer', function(inputData)
 end)
 
 QBCore.Functions.CreateCallback('ps-adminmenu:server:GetVehicles', function(source, cb)
-    local Player = QBCore.Functions.GetPlayer(source)
-    local Vehicles = {}
-    MySQL.query('SELECT * FROM player_vehicles', function(result)
+    MySQL.Async.fetchAll('SELECT citizenid, vehicle, plate, fuel, engine, body FROM player_vehicles', {}, function(result)
+        local Vehicles = {}
         for k, v in pairs(result) do
             local vehicleData = QBCore.Shared.Vehicles[v.vehicle]
             if vehicleData then
@@ -644,9 +645,11 @@ QBCore.Functions.CreateCallback('ps-adminmenu:server:GetVehicles', function(sour
                 }
             end
         end
+
         table.sort(Vehicles, function(a, b)
             return a.label < b.label
         end)
+
         cb(Vehicles)
     end)
 end)
