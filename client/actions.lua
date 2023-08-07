@@ -1100,10 +1100,21 @@ RegisterNetEvent('ps-adminmenu:client:Show', function(players)
     end
 end)
 
+RegisterNetEvent('ps-adminmenu:client:GetVehicles', function(cid)
+    QBCore.Functions.TriggerCallback('ps-adminmenu:server:GetVehicles', function(Vehicles)
+        SendNUIMessage({
+            action = "setVehicles",
+            data = Vehicles
+        })
+    end, cid)
+end)
+
 RegisterNetEvent("ps-adminmenu:client:SpawnPersonalvehicle", function(inputData)
     local plate = inputData['Personal Vehicle']
     local ped = PlayerPedId()
     local coords = QBCore.Functions.GetCoords(ped)
+    local cid = QBCore.Functions.GetPlayerData().citizenid
+
     QBCore.Functions.TriggerCallback("qb-garage:server:GetVehicleProperties", function(properties, plate)
         props = properties
     end, plate)
