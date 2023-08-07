@@ -1,6 +1,6 @@
 Config = {}
 
-Config.InventoryUsage =  "ox" -- qb(for qb-inventory) lj(for lj-inventory) or ox(for ox_inventory) [Inventory system]
+Config.InventoryUsage =  "qb" -- qb(for qb-inventory) lj(for lj-inventory) or ox(for ox_inventory) [Inventory system]
 
 Config.FuelScript =  "ps-fuel" -- LegacyFuel / qb-fuel / ps-fuel / lj-fuel [Car spawning/fixing]
 
