@@ -116,7 +116,7 @@
                                             {/each}
                                     {/if}
                                 </select>
-                            {:else if dropdownItem.InputType === 'personalveh'}
+                            <!--{:else if dropdownItem.InputType === 'personalveh'}
                             {#if $VEHICLES}
                             <p class="font-medium mt-2">{dropdownItem.label}:</p>
                             <select
@@ -129,7 +129,7 @@
                                         <option value={button.plate}>{button.label}</option>
                                     {/each}
                             </select>
-                            {/if}
+                            {/if} -->
                             {:else if dropdownItem.InputType === 'button'}
                                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary"
                                     on:click={() => {
