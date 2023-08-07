@@ -2,7 +2,10 @@
     import {toggleWideMenu, menuWideStore, PLAYERSBUTTONS, PLAYERS, VEHICLES} from '@store/stores';
 	import { SendNUI } from '@utils/SendNUI'
     import { fade } from 'svelte/transition';
+    import { createEventDispatcher } from 'svelte';
     let visible = false;
+    const dispatch = createEventDispatcher();
+
 
     const started = Array().fill(false);
 
@@ -24,6 +27,11 @@
     let time = null
     let reason = ''
 
+    let selected;
+    function selectOption(option) {
+        selected = option;
+    dispatch('optionSelected', option);
+    }
 </script>
 
 <div class="w-full h-full flex flex-row ">
@@ -38,7 +46,15 @@
             <!-- Players -->
             {#if $PLAYERSBUTTONS && $PLAYERS}
                 {#each $PLAYERS.filter(button => button.name.toLowerCase().includes(searchTerm.toLowerCase()) || (button.author && button.author.toLowerCase().includes(searchTerm.toLowerCase()))) as button, i}
-                    <button on:click={() => SelectPlayer(button)} class=" mt-2 w-[94%] min-h-[10rem] bg-primary text-start px-4 flex items-center hover:bg-tertiary">
+                    <button on:click={() => {
+                    SelectPlayer(button)
+                    SendNUI("normalButton", {
+                            event: 'ps-adminmenu:client:GetVehicles',
+                            type: 'client',
+                            data: button.cid,
+                            perms: 'admin'
+                        });
+                    }} class=" mt-2 w-[94%] min-h-[10rem] bg-primary text-start px-4 flex items-center hover:bg-tertiary">
                         <div>
                             <p class="font-medium text-[2.5rem] ml-3">{button.id} - {button.name}</p>
 
@@ -71,13 +87,35 @@
                 <p class="font-medium text-[1.8rem] ml-3 mt-1"><i class="fas fa-money-bill-1 fa-lg"></i> Cash: </p> <i class=" flex ... font-light text-[1.8rem] ml-3 mt-1">{selectedPlayer.cash ?? 'none'} $</i>
                 <p class="font-medium text-[1.8rem] ml-3 mt-1"><i class="fas fa-money-check-dollar fa-lg"></i> Bank: </p> <i class=" flex ... font-light text-[1.8rem] ml-3 mt-1">{selectedPlayer.bank ?? 'none'} $</i>
                 <p class="font-medium text-[1.8rem] ml-3 mt-1"><i class="fas fa-phone fa-lg"></i> Phone:</p> <i class=" flex ... font-light text-[1.8rem] ml-3 mt-1">{selectedPlayer.phone ?? 'none'}</i>
-                {#each $VEHICLES.filter(vehicle => vehicle.cid === selectedPlayer.cid) as vehicle}
+                <!-- {#each $VEHICLES.filter(vehicle => vehicle.cid === selectedPlayer.cid) as vehicle}
                 <p class="font-medium text-[1.8rem] ml-3 mt-1"><i class="fas fa-car fa-lg"></i> Owned Vehicles:</p> <i class=" flex ... font-light text-[1.8rem] ml-3 mt-1">{vehicle.label ?? 'none'}</i>
-                {/each}
+                {/each} -->
             </div>
-
+            <div>
+                {#if $VEHICLES}
+                    <p class="font-medium text-[1.8rem] ml-3 mt-1">Personal Vehicles</p>
+                    <select class='bg-secondary p-3 w-[25rem] mt-1 font-medium hover:bg-tertiary' bind:value={selected}>
+                        {#each $VEHICLES.filter(vehicle => vehicle.cid === selectedPlayer.cid) as vehicle}
+                            <div class=" hover:bg-primary p-3" on:click={() => selectOption(vehicle.label)}>{vehicle.label}</div>
+                            <option value={vehicle.plate}>{vehicle.label}</option>
+                        {/each}
+                    </select>
+                    <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary"
+                    on:click={() => {
+                        SendNUI("normalButton", {
+                            event: 'ps-adminmenu:client:SpawnPersonalvehicle',
+                            type: 'client',
+                            data: {['Personal Vehicle']: selected},
+                            perms: 'admin'
+                        });
+                    }}
+                    >
+                    Spawn Vehicle
+                    </button>
+                {/if}
+            </div>
             <div class="flex ...">
-                <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
+                <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary"
                     on:click={() => {
                         SendNUI("normalButton", {
                             event: 'ps-adminmenu:server:KickPlayer',
@@ -89,7 +127,6 @@
                     >
                     Kick Player
                 </button>
-
                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
                     on:click={clickHandler}>Ban Player</button>
                 {#if visible}
@@ -108,7 +145,6 @@
                             BAN!
                         </button>
                 {/if}
-
                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
                     on:click={() => {
                         SendNUI("normalButton", {
@@ -121,7 +157,6 @@
                     >
                     Go to Player
                 </button>
-
                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
                     on:click={() => {
                         SendNUI("normalButton", {
