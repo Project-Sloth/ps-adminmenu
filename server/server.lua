@@ -626,15 +626,16 @@ RegisterNetEvent('ps-adminmenu:server:ExplodePlayer', function(inputData)
     QBCore.Functions.Notify(source, Lang:t("success.explode_player"), 'success')
 end)
 
-QBCore.Functions.CreateCallback('ps-adminmenu:server:GetVehicles', function(source, cb)
-    MySQL.Async.fetchAll('SELECT citizenid, vehicle, plate, fuel, engine, body FROM player_vehicles', {}, function(result)
+QBCore.Functions.CreateCallback('ps-adminmenu:server:GetVehicles', function(source, cb, cid)
+    MySQL.Async.fetchAll('SELECT vehicle, plate, fuel, engine, body FROM player_vehicles WHERE citizenid = ?', {cid}, function(result)
         local Vehicles = {}
+
         for k, v in pairs(result) do
             local vehicleData = QBCore.Shared.Vehicles[v.vehicle]
             if vehicleData then
                 Vehicles[#Vehicles+1] = {
                     id = k,
-                    cid = v.citizenid,
+                    cid = cid,
                     label = vehicleData["brand"] .." | ".. vehicleData["name"] .. " | " .. v.plate,
                     brand = vehicleData["brand"],
                     model = vehicleData["model"],
@@ -649,19 +650,16 @@ QBCore.Functions.CreateCallback('ps-adminmenu:server:GetVehicles', function(sour
         table.sort(Vehicles, function(a, b)
             return a.label < b.label
         end)
-
         cb(Vehicles)
     end)
 end)
 
 
 QBCore.Functions.CreateCallback("ps-adminmenu:server:GetVehicleByPlate", function(source, cb, plate)
-    local veh = {}
-    local result = MySQL.query.await('SELECT vehicle FROM player_vehicles WHERE plate = ?', {plate})
-    if result[1] then
-        veh = result[1].vehicle
-    end
-    cb(veh)
+    MySQL.Async.fetchAll('SELECT vehicle FROM player_vehicles WHERE plate = ?', {plate}, function(result)
+        local veh = result[1] and result[1].vehicle or {}
+        cb(veh)
+    end)
 end)
 
 
