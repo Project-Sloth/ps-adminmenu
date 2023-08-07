@@ -40,16 +40,16 @@ interface DropdownItem {
   type: string;
   InputType?: string;
   event?: string;
-  options?: OptionsItems[]; 
+  options?: OptionsItems[];
   label: string;
-  inputtype?: string; 
+  inputtype?: string;
 }
 
 interface ConfigItem {
   label: string;
   event?: string;
   type: string;
-  dropdown?: DropdownItem[]; 
+  dropdown?: DropdownItem[];
   perms?: string[];
   favorited?: boolean;
 }
@@ -96,3 +96,13 @@ interface PersonalVehicles {
 }
 
 export const VEHICLES = writable<PersonalVehicles[]>(null);
+
+interface ChatData {
+  message: string,
+  citizenid: string,
+  fullname: string,
+  time: number,
+}
+
+export const Message = writable<ChatData[]>(null);
+export const Messages = writable<ChatData>(null);

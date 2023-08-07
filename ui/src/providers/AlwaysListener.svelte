@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
 	import { debugData } from '@utils/debugData'
-	import { browserMode, visibility, ACTIONS, ACTIONSBUTTONS, RESOURCES, RESOURCESBUTTONS, PLAYERS, PLAYERSBUTTONS, VEHICLES } from '@store/stores'
+	import { browserMode, visibility, ACTIONS, ACTIONSBUTTONS, RESOURCES, RESOURCESBUTTONS, PLAYERS, PLAYERSBUTTONS, VEHICLES, Message, Messages } from '@store/stores'
 
 	function copyToClipboard(str) {
 		const el = document.createElement('textarea');
@@ -11,7 +11,7 @@
 		document.execCommand('copy');
 		document.body.removeChild(el);
 	}
-	
+
 	debugData([
 		{
 			action: 'setVisible',
@@ -65,6 +65,8 @@
 	ReceiveNUI('setVehicles', (data: any) => {
 		VEHICLES.set(data)
 	})
-
-
+	ReceiveNUI('setMessages', (data: any) => {
+		Message.set(data)
+		Messages.set($Message[0])
+	});
 </script>

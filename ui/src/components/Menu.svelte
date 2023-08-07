@@ -7,11 +7,12 @@
 	import Reports from './Pages/Report/Reports.svelte'
 	import Server from './Pages/Server/Server.svelte'
 	import PlayerList from './Pages/PlayerList/PlayerList.svelte'
+	import StaffChat from './Pages/StaffChat/StaffChat.svelte'
 
 </script>
-  
+
 <!-- Menu -->
-<div class="h-screen flex items-center transition-all {($menuWideStore.isMenuWide ? 'w-[125rem] mx-auto' : 'w-[45rem]  float-right')}" 
+<div class="h-screen flex items-center transition-all {($menuWideStore.isMenuWide ? 'w-[125rem] mx-auto' : 'w-[45rem]  float-right')}"
 transition:fly="{{delay: 250, duration: 300, x: 500}}">
   <!-- Sidebar -->
   <Sidebar />
@@ -27,6 +28,8 @@ transition:fly="{{delay: 250, duration: 300, x: 500}}">
       <Server />
     {:else if $currentPage === "players"}
       <PlayerList />
+    {:else if $currentPage === "staffchat"}
+      <StaffChat />
     {/if}
   </div>
 </div>

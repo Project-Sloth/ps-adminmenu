@@ -117,7 +117,7 @@ RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(inputData)
     local playerid = inputData["Player ID"]
     local reason = inputData["Reason"]
     local time = inputData["Time"]
-	if reason == nil then reason = "" end
+		if reason == nil then reason = "" end
     time = tonumber(time)
     local banTime = tonumber(os.time() + time)
     if banTime > 2147483647 then
@@ -649,7 +649,6 @@ QBCore.Functions.CreateCallback('ps-adminmenu:server:GetVehicles', function(sour
     end)
 end)
 
-
 QBCore.Functions.CreateCallback("ps-adminmenu:server:GetVehicleByPlate", function(source, cb, plate)
     MySQL.Async.fetchAll('SELECT vehicle FROM player_vehicles WHERE plate = ?', {plate}, function(result)
         local veh = result[1] and result[1].vehicle or {}
@@ -657,9 +656,21 @@ QBCore.Functions.CreateCallback("ps-adminmenu:server:GetVehicleByPlate", functio
     end)
 end)
 
-
 QBCore.Functions.CreateCallback('ps-adminmenu:server:hasPerms', function(source, cb, perms)
     local hasPerms = QBCore.Functions.HasPermission(source, perms)
     if not hasPerms then return NoPerms(source) end
     cb(true)
+end)
+
+-- Chat Backend
+
+local messages = {}
+
+RegisterNetEvent('ps-adminmenu:server:sendMessageServer', function(message, citizenid, fullname)
+    local time = os.time() * 1000
+    table.insert(messages, {message = message, citizenid = citizenid, fullname = fullname, time = time})
+end)
+
+lib.callback.register('ps-adminmenu:callback:GetMessages', function(source)
+    return messages
 end)

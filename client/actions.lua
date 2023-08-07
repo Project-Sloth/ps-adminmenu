@@ -35,7 +35,7 @@ RegisterNetEvent('ps-adminmenu:client:Admincar', function(data)
             TriggerServerEvent('ps-adminmenu:server:SaveCar', props, QBCore.Shared.Vehicles[vehname], GetHashKey(veh), plate)
         else
             QBCore.Functions.Notify(Lang:t("error.cannot_store_veh"), 'error')
-           
+
         end
     else
         QBCore.Functions.Notify(Lang:t("error.not_in_veh"), 'error')
@@ -164,7 +164,7 @@ local function teleport(vehicle, x, y, z)
     local ped = PlayerPedId()
     if vehicle then
         return SetPedCoordsKeepVehicle(ped, x, y, z)
-    end    
+    end
     SetEntityCoords(ped, x, y, z, false, false, false, false)
 end
 
@@ -203,7 +203,7 @@ RegisterNetEvent('ps-adminmenu:client:CopyCoords', function(inputData, buttonlab
     local ped = PlayerPedId()
     local coords = GetEntityCoords(ped)
     local x, y, z, h = QBCore.Shared.Round(coords.x, 2), QBCore.Shared.Round(coords.y, 2), QBCore.Shared.Round(coords.z, 2), QBCore.Shared.Round(GetEntityHeading(ped), 2)
-    
+
     local data = ""
     if buttonlable == "Copy Vector2" then
         data = string.format('vector2(%s, %s)', x, y)
@@ -324,7 +324,7 @@ end)
 RegisterNetEvent('ps-adminmenu:client:openStash', function(inputData)
     local stash = inputData["Stash"]
     local inv = Config.InventoryUsage
-    if not (inv == "qb" or inv == "ox" or inv == "lj" or inv == "ps") then 
+    if not (inv == "qb" or inv == "ox" or inv == "lj" or inv == "ps") then
         ConfigInvInvalid()
         return;
     end
@@ -340,7 +340,7 @@ end)
 RegisterNetEvent('ps-adminmenu:client:openInventory', function(inputData)
     local playerid = inputData["Player ID"]
     local inv = Config.InventoryUsage
-    if not (inv == "qb" or inv == "ox" or inv == "lj" or inv == "ps") then 
+    if not (inv == "qb" or inv == "ox" or inv == "lj" or inv == "ps") then
         ConfigInvInvalid()
         return;
     end
@@ -1099,7 +1099,6 @@ RegisterNetEvent('ps-adminmenu:client:Show', function(players)
         end
     end
 end)
-
 RegisterNetEvent('ps-adminmenu:client:GetVehicles', function(cid)
     QBCore.Functions.TriggerCallback('ps-adminmenu:server:GetVehicles', function(Vehicles)
         SendNUIMessage({

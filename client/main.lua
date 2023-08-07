@@ -24,6 +24,7 @@ RegisterNetEvent('ps-adminmenu:client:openmenu', function()
         })
 
     end)
+
 end)
 
 RegisterNUICallback("hideUI", function()
@@ -84,4 +85,27 @@ RegisterNUICallback("ChangeResourcesState", function(data, cb)
 	Wait(500)
 	TriggerServerEvent("ps-adminmenu:server:Getresources")
 	cb("ok")
+end)
+
+-- Chat Backend
+RegisterNUICallback("GetMessages", function(data, cb)
+	local data = lib.callback.await('ps-adminmenu:callback:GetMessages', false)
+	SendNUIMessage({
+		action = "setMessages",
+		data = data
+	})
+end)
+
+RegisterNUICallback("SendMessage", function(data, cb)
+	local Player = QBCore.Functions.GetPlayerData()
+	local message = data.message
+	print(message, Player.citizenid, Player.charinfo.firstname .. " " .. Player.charinfo.lastname )
+	-- print(dump(Player))
+	TriggerServerEvent("ps-adminmenu:server:sendMessageServer", message, Player.citizenid, Player.charinfo.firstname .. " " .. Player.charinfo.lastname)
+
+	local data = lib.callback.await('ps-adminmenu:callback:GetMessages', false)
+	SendNUIMessage({
+		action = "setMessages",
+		data = data
+	})
 end)
