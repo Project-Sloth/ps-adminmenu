@@ -157,6 +157,18 @@
                     >
                     Go to Player
                 </button>
+		<button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
+                    on:click={() => {
+                        SendNUI("normalButton", {
+                            event: 'ps-adminmenu:server:BringPlayer',
+                            type: 'server',
+                            data: {["Player ID"]: selectedPlayer.id},
+                            perms: 'admin'
+                        });
+                    }}
+                    >
+                    Bring Player
+                </button>
                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary border-l-2 border-tertiary"
                     on:click={() => {
                         SendNUI("normalButton", {
