@@ -10,7 +10,6 @@ end, 'mod')
 
 RegisterNetEvent('ps-adminmenu:server:Getresources', function(data)
     local totalResources = GetNumResources()
-    -- print("total " .. totalResources)
     local resources = {}
     for i = 0, totalResources - 1 do
         local resourceName = GetResourceByFindIndex(i)
@@ -26,10 +25,8 @@ RegisterNetEvent('ps-adminmenu:server:Getresources', function(data)
             description = description,
             resourceState = resourceState,
         })
-        -- print("Status: " .. resourceState .. " Name: " .. resourceName .. " Author: " .. (author or "N/A") .. " Version: " .. (version or "N/A") .. " Description: " .. (description or "N/A"))
     end
     TriggerClientEvent('ps-adminmenu:client:UpdateResources', -1, resources)
-    --print("sendt resources")
 end)
 
 RegisterNetEvent('ps-adminmenu:server:changeResourceState', function(name, state)
@@ -120,8 +117,7 @@ RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(inputData)
     local playerid = inputData["Player ID"]
     local reason = inputData["Reason"]
     local time = inputData["Time"]
-    print(playerid)
-		if reason == nil then reason = "" end
+	if reason == nil then reason = "" end
     time = tonumber(time)
     local banTime = tonumber(os.time() + time)
     if banTime > 2147483647 then
@@ -219,7 +215,6 @@ end)
 -- Revive Player
 RegisterNetEvent('ps-adminmenu:server:Revive', function(inputData)
     local src = source
-    print(inputData)
     local id = inputData["Player ID"]
     if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
     if type(id) ~= 'string' and type(id) ~= 'number' then
