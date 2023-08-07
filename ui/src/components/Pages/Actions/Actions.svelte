@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import { ACTIONSBUTTONS, ACTIONS, menuWideStore, PLAYERSBUTTONS, PLAYERS, VEHICLES } from '@store/stores'
+    import { ACTIONSBUTTONS, ACTIONS, menuWideStore, PLAYERSBUTTONS, PLAYERS } from '@store/stores'
     import { SendNUI } from '@utils/SendNUI'
     import { fly } from 'svelte/transition';
 
