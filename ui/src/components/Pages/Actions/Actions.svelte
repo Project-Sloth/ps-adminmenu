@@ -58,14 +58,15 @@
         {#if $ACTIONSBUTTONS && $ACTIONS}
         {#each $ACTIONS.filter(button => button.label.toLowerCase().includes(searchTerm.toLowerCase()) && (button.favorited || !showFavorites)).sort((a, b) => a.label.localeCompare(b.label)) as button, i}
                 {#if button.dropdown}
+                    <div class="bg-primary flex px-[1.5rem] py-[1.2rem] mt-2 flex-row items-center {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%]')}">
+
                     <!-- Dropdown Buttons -->
-                    <button
-                        on:click={() => ToggleDropdown(i)}
-                        class="bg-primary flex px-[1.5rem] py-[1.2rem] mt-2 flex-row items-center {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%]')}">
-                        <i on:click={() => button.favorited = !button.favorited} class="{(button.favorited ? 'fas text-accent' : 'far hover:text-accent')} fa-star fa-lg "></i>
+                    <i on:click={() => button.favorited = !button.favorited} class="{(button.favorited ? 'fas text-accent' : 'far hover:text-accent')} fa-star fa-lg "></i>
+                    <button on:click={() => ToggleDropdown(i)}>
                         <p class="ml-6 text-[2rem] font-medium">{button.label}</p>
-                        <i class="fa fa-{(dropdownActive[i] ? 'angle-down' : 'angle-right')} fa-lg ml-auto"></i>
                     </button>
+                    <i on:click={() => ToggleDropdown(i)} class="fa fa-{(dropdownActive[i] ? 'angle-down' : 'angle-right')} fa-lg ml-auto mr-1"></i>
+                    </div>
                     {#if dropdownActive[i]}
                     <div transition:fly="{{ y: -5, duration: 150 }}" class="-mt-6 bg-primary flex flex-col flex-wrap p-4 {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%] t')}">
                         {#each button.dropdown as dropdownItem}
@@ -93,15 +94,15 @@
                                 <div class="bg-secondary w-[25rem] mt-1 font-medium ">
                                     <input type="text" value={searchQuery} on:input={handleInputChange} on:input={(event) => updateInputValue(i, dropdownItem.label, searchQuery)} placeholder="Search..." class=" bg-transparent py-3 ml-2" />
                                     {#if searchQuery}
-                                      <div class="">
-                                        {#if $PLAYERSBUTTONS && $PLAYERS}
-                                        {#each $PLAYERS.filter(button => button.name.toLowerCase().includes(searchQuery.toLowerCase())) as button, i}
-                                            <div class="p-3" on:click={() => selectOption(button.id)}>{button.name}</div>
-                                            {/each}
-                                        {/if}
-                                      </div>
+                                        <div class="">
+                                            {#if $PLAYERSBUTTONS && $PLAYERS}
+                                            {#each $PLAYERS.filter(button => button.name.toLowerCase().includes(searchQuery.toLowerCase())) as button, i}
+                                                <div class="p-3" on:click={() => selectOption(button.id)}>{button.name}</div>
+                                                {/each}
+                                            {/if}
+                                        </div>
                                     {/if}
-                                  </div>
+                                </div>
                             {:else if dropdownItem.InputType === 'players'}
                                 <p class="font-medium mt-2">{dropdownItem.label}:</p>
                                 <select
@@ -116,20 +117,6 @@
                                             {/each}
                                     {/if}
                                 </select>
-                            <!--{:else if dropdownItem.InputType === 'personalveh'}
-                            {#if $VEHICLES}
-                            <p class="font-medium mt-2">{dropdownItem.label}:</p>
-                            <select
-                                    class="bg-secondary p-3 w-[25rem] mt-1 font-medium hover:bg-tertiary"
-                                    value={inputValues[dropdownItem.label]}
-                                    on:input={(event) => updateInputValue(i, dropdownItem.label, event.currentTarget.value)}
-                                    >
-                                    {#each $VEHICLES.filter(button => button.cid === $PLAYERSBUTTONS.cid) as button}
-                                        <div class=" hover:bg-primary p-3" on:click={() => selectOption(button.label)}>{button.label}</div>
-                                        <option value={button.plate}>{button.label}</option>
-                                    {/each}
-                            </select>
-                            {/if} -->
                             {:else if dropdownItem.InputType === 'button'}
                                 <button class="bg-secondary p-3 w-[12rem] mt-1 font-medium hover:bg-tertiary"
                                     on:click={() => {
@@ -160,14 +147,14 @@
                   {/if}
                 {:else}
                 <!-- Normal Buttons -->
-                <button
-                    on:click={() => {
-                        SendNUI('normalButton', { event: button.event, type: button.type, perms: button.perms });
-                    }}
-                    class="bg-primary flex px-[1.5rem] py-[1.2rem] mt-2 flex-row items-center {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%]')}">
+                <div class="bg-primary flex px-[1.5rem] py-[1.2rem] mt-2 flex-row items-center {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%]')}">
                     <i on:click={() => button.favorited = !button.favorited} class="{(button.favorited ? 'fas text-accent' : 'far hover:text-accent')} fa-star fa-lg "></i>
-                    <p class="ml-6 text-[2rem] font-medium">{button.label}</p>
-                </button>
+                    <button
+                    on:click={() => {SendNUI('normalButton', { event: button.event, type: button.type, perms: button.perms })}}>
+                        <p class="ml-6 text-[2rem] font-medium">{button.label}</p>
+                    </button>
+                </div>
+
                 {/if}
             {/each}
         {/if}
