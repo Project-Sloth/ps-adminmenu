@@ -82,6 +82,7 @@ interface PlayerData {
 
 export const PLAYERS = writable<PlayerData[]>(null);
 export const PLAYERSBUTTONS = writable<PlayerData>(null);
+export const selectedPlayer = writable(null);
 
 interface PersonalVehicles {
   id?: string;

@@ -28,7 +28,7 @@ import {toggleWideMenu, menuWideStore, PLAYERS, PLAYERSBUTTONS, Message, Message
     <div class="flex items-center p-[1.8vh] text-[1.8vh] w-full h-[5.5vh] border-b-[0.3vh] border-tertiary">
         <p>Staff Chat</p>
     </div>
-    <div class="h-[76vh] mt-[1vh] text-[1.8vh] flex flex-col-reverse overflow-auto {$menuWideStore.isMenuWide ? "w-[98%]" : "w-[95%]"}">
+    <div class="h-[75vh] my-[1vh] text-[1.8vh] flex flex-col-reverse overflow-auto {$menuWideStore.isMenuWide ? "w-[98%]" : "w-[95%]"}">
         {#if $Message && $Messages}
             {#each $Message.slice().reverse() as message}
                 <div class="w-full flex flex-col mb-[0.5vh] {$PLAYERS && $PLAYERSBUTTONS.cid === message.citizenid ? "text-right items-end -ml-[0.5vh]" : ""}">
