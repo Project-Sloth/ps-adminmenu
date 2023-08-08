@@ -20,6 +20,8 @@ export default defineConfig({
       "@store": resolve("./src/store"),
       "@utils": resolve("./src/utils"),
       "@typings": resolve("./src/typings"),
+      "@layout": resolve("./src/layout"),
+      "@pages": resolve("./src/pages"),
     },
   },
   build: {

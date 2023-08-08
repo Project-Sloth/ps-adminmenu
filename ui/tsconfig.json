@@ -14,6 +14,8 @@
       "@store/*": ["src/store/*"],
       "@utils/*": ["src/utils/*"],
       "@typings/*": ["src/typings/*"],
+      "@layout/*": ["src/layout/*"],
+      "@pages/*": ["src/pages/*"],
     },
     /**
      * Typecheck JS in `.svelte` and `.js` files by default.

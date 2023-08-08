@@ -115,4 +115,5 @@ RegisterNUICallback("GetMetrics", function(data, cb)
         action = "setMetrics",
         data = data
     }) 
+    print(json.encode(data))
 end)

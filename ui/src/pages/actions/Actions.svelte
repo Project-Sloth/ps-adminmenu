@@ -24,49 +24,54 @@
         }
     }
 
-  let searchQuery = '';
-  let selectedOption = '';
+    let searchQuery = '';
+    let selectedOption = '';
 
-  const dispatch = createEventDispatcher();
+    const dispatch = createEventDispatcher();
 
-  function handleInputChange(event) {
-    searchQuery = event.target.value;
-  }
-
-  function selectOption(option) {
-    if (searchQuery !== selectedPlayerId) {
-      searchQuery = option;
+    function handleInputChange(event) {
+        searchQuery = event.target.value;
     }
-    selectedOption = option;
-    dispatch('optionSelected', option);
-  }
 
+    function selectOption(option) {
+        if (searchQuery !== selectedPlayerId) {
+        searchQuery = option;
+        }
+        selectedOption = option;
+        dispatch('optionSelected', option);
+    }
 </script>
 
-<div class="w-full h-full flex flex-col">
-    <!-- Tabs -->
-    <div class="w-full h-[5.5rem] flex border-b-2 border-tertiary">
-        <button class="w-full h-full hover:bg-tertiary font-medium {(!showFavorites ? 'bg-tertiary' : '')}" on:click={() => (showFavorites = !showFavorites)} >All</button>
-        <button class="w-full h-full hover:bg-tertiary font-medium {(showFavorites ? 'bg-tertiary' : '')}" on:click={() => (showFavorites = !showFavorites)} >Favorites</button>
+<div class="h-full font-medium {$menuWideStore.isMenuWide ? "w-[114vh] " : "w-[39vh]" }">
+    <!-- TABS -->
+    <div class="flex items-center text-[1.8vh] w-full h-[5.5vh] border-b-[0.3vh] border-tertiary">
+        <button class="w-full h-full hover:bg-tertiary {!showFavorites ? 'bg-tertiary' : ''}"
+            on:click={() => (showFavorites = !showFavorites)}>
+            All
+        </button>
+        <button class="w-full h-full hover:bg-tertiary {showFavorites ? 'bg-tertiary' : ''}"
+            on:click={() => (showFavorites = !showFavorites)}>
+            Favorites
+        </button>
     </div>
-    <!-- SearchBar -->
-    <div class="h-[5.5rem] w-full border-b-2 border-tertiary flex items-center justify-center">
-        <input class="ml-8 w-full h-[95%] bg-transparent font-medium text-[2.1rem]" type="text" placeholder="Search" bind:value={searchTerm}>
+    <!-- SEARCH -->
+    <div class="flex items-center gap-[1vh] text-[1.8vh] w-full h-[5.5vh] border-b-[0.3vh] border-tertiary">
+        <i class="fas fa-magnifying-glass ml-[1.5vh]"></i>
+        <input type="text" placeholder="Search" class="w-[85%] h-full bg-transparent">
     </div>
-    <!-- Button List -->
-    <div class="w-full h-[88.5%] flex items-center flex-col overflow-auto ">
+    <!-- ACTIONS -->
+    <div class="h-[78vh] flex flex-col items-center overflow-auto">
         {#if $ACTIONSBUTTONS && $ACTIONS}
-        {#each $ACTIONS.filter(button => button.label.toLowerCase().includes(searchTerm.toLowerCase()) && (button.favorited || !showFavorites)).sort((a, b) => a.label.localeCompare(b.label)) as button, i}
+            {#each $ACTIONS.filter(button => button.label.toLowerCase().includes(searchTerm.toLowerCase()) && (button.favorited || !showFavorites)).sort((a, b) => a.label.localeCompare(b.label)) as button, i}
                 {#if button.dropdown}
-                    <div class="bg-primary flex px-[1.5rem] py-[1.2rem] mt-2 flex-row items-center {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%]')}">
-
+                <div class="bg-primary flex px-[1.5rem] py-[1.2rem] mt-2 flex-row items-center {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%]')}">
                     <!-- Dropdown Buttons -->
                     <i on:click={() => button.favorited = !button.favorited} class="{(button.favorited ? 'fas text-accent' : 'far hover:text-accent')} fa-star fa-lg "></i>
                     <button on:click={() => ToggleDropdown(i)}>
                         <p class="ml-6 text-[2rem] font-medium">{button.label}</p>
                     </button>
                     <i on:click={() => ToggleDropdown(i)} class="fa fa-{(dropdownActive[i] ? 'angle-down' : 'angle-right')} fa-lg ml-auto mr-1"></i>
-                    </div>
+                </div>
                     {#if dropdownActive[i]}
                     <div transition:fly="{{ y: -5, duration: 150 }}" class="-mt-6 bg-primary flex flex-col flex-wrap p-4 {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%] t')}">
                         {#each button.dropdown as dropdownItem}
@@ -143,8 +148,8 @@
                                 </button>
                             {/if}
                         {/each}
-                      </div>
-                  {/if}
+                    </div>
+                {/if}
                 {:else}
                 <!-- Normal Buttons -->
                 <div class="bg-primary flex px-[1.5rem] py-[1.2rem] mt-2 flex-row items-center {($menuWideStore.isMenuWide ? 'w-[98%] ' : 'w-[94%]')}">
@@ -159,5 +164,4 @@
             {/each}
         {/if}
     </div>
-
 </div>

@@ -3,22 +3,14 @@
 	import { browserMode, resName } from '@store/stores'
 	import DebugBrowser from '@providers/DebugBrowser.svelte'
 	import AlwaysListener from '@providers/AlwaysListener.svelte'
-	import Menu from '@components/Menu.svelte'
-	import UserReport from '@components/Pages/Report/UserReport.svelte'
+	import Main from './layout/Main.svelte'
 
-	$resName = 'ps-adminmenu-tailwind' // Change this to your resource name (case sensitive)
+	$resName = 'ps-adminmenu' // Change this to your resource name (case sensitive)
 </script>
 
 <VisibilityProvider>
-	<Menu />
+	<Main />
 </VisibilityProvider>
-
-
-<style>
-
-
-</style>
-
 
 <AlwaysListener />
 {#if $browserMode}
