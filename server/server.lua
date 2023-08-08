@@ -674,3 +674,48 @@ end)
 lib.callback.register('ps-adminmenu:callback:GetMessages', function(source)
     return messages
 end)
+
+-- Metrics Backend
+
+QBCore.Functions.CreateCallback('ps-adminmenu:server:getServerMetrics', function(source, cb)
+    local src = source
+    local ServerMetrics = {}
+    
+    results = MySQL.query.await("SELECT money, inventory FROM `players`", {})
+    ServerMetrics.CharacterCount = #results
+    ServerMetrics.TotalCash = 0
+    ServerMetrics.TotalBank = 0
+    ServerMetrics.TotalItems = 0
+
+    for k,v in pairs(results) do
+        if v.money then
+            local money = json.decode(v.money)
+            if money then
+                ServerMetrics.TotalCash = ServerMetrics.TotalCash + math.floor(money.cash)
+                ServerMetrics.TotalBank = ServerMetrics.TotalBank + math.floor(money.bank)
+            end
+        end
+
+        if v.inventory then
+            local inv = json.decode(v.inventory)
+            if inv then
+                for k,v in pairs(inv) do
+                    ServerMetrics.TotalItems = ServerMetrics.TotalItems + 1
+                end
+            end
+        end
+    end
+
+    results = MySQL.query.await("SELECT * FROM `player_vehicles`", {})
+    ServerMetrics.VehicleCount = #results
+
+    results = MySQL.query.await("SELECT * FROM `bans`", {})
+    ServerMetrics.BansCount = #results
+
+    results = MySQL.query.await("SELECT DISTINCT `license` FROM `players`", {})
+    ServerMetrics.UniquePlayers = #results
+
+    local metricsArray = {} -- Create an array to store the metrics data
+    table.insert(metricsArray, ServerMetrics) -- Add the ServerMetrics table to the array
+    cb(metricsArray) -- Send the metrics array back to the client
+end)

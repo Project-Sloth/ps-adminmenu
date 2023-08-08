@@ -8,6 +8,7 @@
 	import Server from './Pages/Server/Server.svelte'
 	import PlayerList from './Pages/PlayerList/PlayerList.svelte'
 	import StaffChat from './Pages/StaffChat/StaffChat.svelte'
+  import Metrics from './Pages/Metrics/Metrics.svelte'
 
 </script>
 
@@ -30,6 +31,8 @@ transition:fly="{{delay: 250, duration: 300, x: 500}}">
       <PlayerList />
     {:else if $currentPage === "staffchat"}
       <StaffChat />
+    {:else if $currentPage === "metrics"}
+      <Metrics />
     {/if}
   </div>
 </div>

@@ -25,6 +25,13 @@ RegisterNetEvent('ps-adminmenu:client:openmenu', function()
 
     end)
 
+    QBCore.Functions.TriggerCallback('ps-adminmenu:server:getServerMetrics', function(ServerMetrics)
+        SendNUIMessage({
+            action = "setMetrics",
+            data = ServerMetrics
+        })
+    end)
+
 end)
 
 RegisterNUICallback("hideUI", function()

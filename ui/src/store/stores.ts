@@ -106,3 +106,15 @@ interface ChatData {
 
 export const Message = writable<ChatData[]>(null);
 export const Messages = writable<ChatData>(null);
+
+interface Metrics {
+  TotalCash?: string;
+  TotalBank?: string;
+  TotalItems?: string;
+  CharacterCount?: string;
+  VehicleCount?: string;
+  BansCount?: string;
+  UniquePlayers?: string;
+}
+
+export const SERVERMETRICS = writable<Metrics[]>(null);
