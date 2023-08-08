@@ -1,13 +1,19 @@
 <script lang="ts">
     import { toggleWideMenu, menuWideStore, SERVERMETRICS } from '@store/stores';
 	import { SendNUI } from '@utils/SendNUI'
-    import { fade } from 'svelte/transition';
-    import { createEventDispatcher } from 'svelte';
+    import { onMount } from 'svelte';
 
     if (!$menuWideStore.isMenuWide) {
         toggleWideMenu();
     }
 
+    function getMetrics() {
+        SendNUI("GetMetrics");
+    }
+
+    onMount(() => {
+        getMetrics();
+    });
 </script>
 
 <div class="w-full h-full flex flex-col">

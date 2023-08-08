@@ -17,21 +17,12 @@ RegisterNetEvent('ps-adminmenu:client:openmenu', function()
 	})
 	TriggerServerEvent("ps-adminmenu:server:Getresources")
 
-    QBCore.Functions.TriggerCallback('ps-adminmenu:server:GetPlayers', function(Players)
+    lib.callback('ps-adminmenu:server:GetPlayers', false, function(Players)
         SendNUIMessage({
             action = "setPlayersData",
             data = Players
-        })
-
+        }) 
     end)
-
-    QBCore.Functions.TriggerCallback('ps-adminmenu:server:getServerMetrics', function(ServerMetrics)
-        SendNUIMessage({
-            action = "setMetrics",
-            data = ServerMetrics
-        })
-    end)
-
 end)
 
 RegisterNUICallback("hideUI", function()
@@ -45,7 +36,7 @@ RegisterNUICallback("normalButton", function(data, cb)
     local inputData = data.data
     local buttonlable = data.button
     local perms = data.perms
-    QBCore.Functions.TriggerCallback('ps-adminmenu:server:hasPerms', function(permission)
+    lib.callback('ps-adminmenu:server:hasPerms', false, function(permission)
         hasPerms = permission
     end, perms)
     Wait(50)
@@ -115,4 +106,13 @@ RegisterNUICallback("SendMessage", function(data, cb)
 		action = "setMessages",
 		data = data
 	})
+end)
+
+-- Metrics Backend
+RegisterNUICallback("GetMetrics", function(data, cb)
+    local data = lib.callback('ps-adminmenu:server:getServerMetrics', false)
+    SendNUIMessage({
+        action = "setMetrics",
+        data = data
+    }) 
 end)

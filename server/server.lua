@@ -46,7 +46,7 @@ RegisterNetEvent('ps-adminmenu:server:changeResourceState', function(name, state
 end)
 
 -- Get Players
-QBCore.Functions.CreateCallback('ps-adminmenu:server:GetPlayers', function(_, cb)
+lib.callback.register('ps-adminmenu:server:GetPlayers', function(source)
     local Players = {}
     local GetPlayers = QBCore.Functions.GetQBPlayers()
     for k, v in pairs(GetPlayers) do
@@ -68,7 +68,7 @@ QBCore.Functions.CreateCallback('ps-adminmenu:server:GetPlayers', function(_, cb
         }
     end
     table.sort(Players, function(a, b) return a.id < b.id end)
-    cb(Players)
+    return Players
 end)
 
 -- Admin Car
@@ -621,45 +621,44 @@ RegisterNetEvent('ps-adminmenu:server:ExplodePlayer', function(inputData)
     QBCore.Functions.Notify(source, Lang:t("success.explode_player"), 'success')
 end)
 
-QBCore.Functions.CreateCallback('ps-adminmenu:server:GetVehicles', function(source, cb, cid)
-    MySQL.Async.fetchAll('SELECT vehicle, plate, fuel, engine, body FROM player_vehicles WHERE citizenid = ?', {cid}, function(result)
-        local Vehicles = {}
-
-        for k, v in pairs(result) do
-            local vehicleData = QBCore.Shared.Vehicles[v.vehicle]
-            if vehicleData then
-                Vehicles[#Vehicles+1] = {
-                    id = k,
-                    cid = cid,
-                    label = vehicleData["brand"] .." | ".. vehicleData["name"] .. " | " .. v.plate,
-                    brand = vehicleData["brand"],
-                    model = vehicleData["model"],
-                    plate = v.plate,
-                    fuel = v.fuel,
-                    engine = v.engine,
-                    body = v.body
-                }
-            end
+lib.callback.register('ps-adminmenu:server:GetVehicles', function(source, cid)
+    local result = MySQL.query.await('SELECT vehicle, plate, fuel, engine, body FROM player_vehicles WHERE citizenid = ?', {cid})
+    local Vehicles = {}
+ 
+    for k, v in pairs(result) do
+        local vehicleData = QBCore.Shared.Vehicles[v.vehicle]
+        if vehicleData then
+            Vehicles[#Vehicles+1] = {
+                id = k,
+                cid = cid,
+                label = vehicleData["brand"] .." | ".. vehicleData["name"] .. " | " .. v.plate,
+                brand = vehicleData["brand"],
+                model = vehicleData["model"],
+                plate = v.plate,
+                fuel = v.fuel,
+                engine = v.engine,
+                body = v.body
+            }
         end
+    end
 
-        table.sort(Vehicles, function(a, b)
-            return a.label < b.label
-        end)
-        cb(Vehicles)
+    table.sort(Vehicles, function(a, b)
+        return a.label < b.label
     end)
+    
+    return Vehicles
 end)
 
-QBCore.Functions.CreateCallback("ps-adminmenu:server:GetVehicleByPlate", function(source, cb, plate)
-    MySQL.Async.fetchAll('SELECT vehicle FROM player_vehicles WHERE plate = ?', {plate}, function(result)
-        local veh = result[1] and result[1].vehicle or {}
-        cb(veh)
-    end)
+lib.callback.register('ps-adminmenu:server:GetVehicleByPlate', function(source, plate)
+    local result = MySQL.query.await('SELECT vehicle FROM player_vehicles WHERE plate = ?', {plate})
+    local veh = result[1] and result[1].vehicle or {}
+    return veh
 end)
 
-QBCore.Functions.CreateCallback('ps-adminmenu:server:hasPerms', function(source, cb, perms)
+lib.callback.register('ps-adminmenu:server:hasPerms', function(source, perms)
     local hasPerms = QBCore.Functions.HasPermission(source, perms)
     if not hasPerms then return NoPerms(source) end
-    cb(true)
+    return true
 end)
 
 -- Chat Backend
@@ -676,46 +675,33 @@ lib.callback.register('ps-adminmenu:callback:GetMessages', function(source)
 end)
 
 -- Metrics Backend
-
-QBCore.Functions.CreateCallback('ps-adminmenu:server:getServerMetrics', function(source, cb)
+lib.callback.register('ps-adminmenu:server:getServerMetrics', function(source)
     local src = source
-    local ServerMetrics = {}
+    local ServerMetrics = {
+        TotalCash = 0,
+        TotalBank = 0,
+        TotalItems = 0
+    }
     
-    results = MySQL.query.await("SELECT money, inventory FROM `players`", {})
+    local results = MySQL.query.await("SELECT money, inventory FROM `players`", {})
     ServerMetrics.CharacterCount = #results
-    ServerMetrics.TotalCash = 0
-    ServerMetrics.TotalBank = 0
-    ServerMetrics.TotalItems = 0
-
-    for k,v in pairs(results) do
-        if v.money then
-            local money = json.decode(v.money)
-            if money then
-                ServerMetrics.TotalCash = ServerMetrics.TotalCash + math.floor(money.cash)
-                ServerMetrics.TotalBank = ServerMetrics.TotalBank + math.floor(money.bank)
-            end
+    
+    for _, v in ipairs(results) do
+        local money = json.decode(v.money)
+        if money then
+            ServerMetrics.TotalCash = ServerMetrics.TotalCash + math.floor(money.cash)
+            ServerMetrics.TotalBank = ServerMetrics.TotalBank + math.floor(money.bank)
         end
 
-        if v.inventory then
-            local inv = json.decode(v.inventory)
-            if inv then
-                for k,v in pairs(inv) do
-                    ServerMetrics.TotalItems = ServerMetrics.TotalItems + 1
-                end
-            end
+        local inv = json.decode(v.inventory)
+        if inv then
+            ServerMetrics.TotalItems = ServerMetrics.TotalItems + #inv
         end
     end
 
-    results = MySQL.query.await("SELECT * FROM `player_vehicles`", {})
-    ServerMetrics.VehicleCount = #results
-
-    results = MySQL.query.await("SELECT * FROM `bans`", {})
-    ServerMetrics.BansCount = #results
-
-    results = MySQL.query.await("SELECT DISTINCT `license` FROM `players`", {})
-    ServerMetrics.UniquePlayers = #results
-
-    local metricsArray = {} -- Create an array to store the metrics data
-    table.insert(metricsArray, ServerMetrics) -- Add the ServerMetrics table to the array
-    cb(metricsArray) -- Send the metrics array back to the client
+    ServerMetrics.VehicleCount = #MySQL.query.await("SELECT vehicle FROM `player_vehicles`", {})
+    ServerMetrics.BansCount = #MySQL.query.await("SELECT name FROM `bans`", {})
+    ServerMetrics.UniquePlayers = #MySQL.query.await("SELECT DISTINCT `license` FROM `players`", {})
+    
+    return {ServerMetrics}
 end)
