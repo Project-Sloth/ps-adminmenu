@@ -713,7 +713,7 @@ end)
 function CheckRoutingbucket(source, target)
     local sourceBucket = GetPlayerRoutingBucket(source)
     local targetBucket = GetPlayerRoutingBucket(target)
-    if sourceBucket ~= targetBucket then SetPlayerRoutingBucket(source, targetBucket)QBCore.Functions.Notify(source, 'Routing Bucket set to: %s', 'error', 7500):format(targetBucket) end
+    if sourceBucket ~= targetBucket then SetPlayerRoutingBucket(source, targetBucket) QBCore.Functions.Notify(source, 'Routing Bucket set to: %s', 'error', 7500):format(targetBucket) end
 end
 
 -- Set Routing bucket
