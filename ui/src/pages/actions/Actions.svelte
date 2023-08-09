@@ -57,7 +57,7 @@
     <!-- SEARCH -->
     <div class="flex items-center gap-[1vh] text-[1.8vh] w-full h-[5.5vh] border-b-[0.3vh] border-tertiary">
         <i class="fas fa-magnifying-glass ml-[1.5vh]"></i>
-        <input type="text" placeholder="Search" class="w-[85%] h-full bg-transparent">
+        <input type="text" placeholder="Search" class="w-[85%] h-full bg-transparent" bind:value={searchTerm}>
     </div>
     <!-- ACTIONS -->
     <div class="h-[78vh] flex flex-col items-center overflow-auto">
