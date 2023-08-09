@@ -39,7 +39,7 @@ RegisterNUICallback("normalButton", function(data, cb)
     lib.callback('ps-adminmenu:server:hasPerms', false, function(permission)
         hasPerms = permission
     end, perms)
-    Wait(50)
+    Wait(100)
     print("Event: " .. event .. " Type: " .. type .. " Perms: " .. perms, "Has Perms: ", hasPerms)
     if event and type then
         if hasPerms then
