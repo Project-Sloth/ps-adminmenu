@@ -705,3 +705,23 @@ lib.callback.register('ps-adminmenu:server:getServerMetrics', function(source)
     
     return {ServerMetrics}
 end)
+
+--- Checks if the source is inside of the target's routingbucket
+--- if not set the source's routingbucket to the target's
+--- @param source string - The player's ID
+--- @param target string - The player's ID
+function CheckRoutingbucket(source, target)
+    local sourceBucket = GetPlayerRoutingBucket(source)
+    local targetBucket = GetPlayerRoutingBucket(target)
+    if sourceBucket ~= targetBucket then SetPlayerRoutingBucket(source, targetBucket) QBCore.Functions.Notify(source, 'Routing Bucket set to: %s', 'error', 7500):format(targetBucket) end
+end
+
+-- Set Routing bucket
+RegisterNetEvent('ps-adminmenu:server:SetRouting', function(inputData)
+    local target, bucket = inputData['Player ID'], inputData['Bucket']
+
+    local currentBucket = GetPlayerRoutingBucket(target)
+    if bucket == currentBucket then return QBCore.Functions.Notify(source, 'Tried to place %s in the same bucket', 'error', 7500):format(target) end
+    SetPlayerRoutingBucket(target, bucket)
+    QBCore.Functions.Notify(source, 'Routing bucket set for: %s to bucket: %s', 'success', 7500):format(target, bucket)
+end)
