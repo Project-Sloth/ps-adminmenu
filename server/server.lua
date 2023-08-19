@@ -622,6 +622,14 @@ RegisterNetEvent('ps-adminmenu:server:ExplodePlayer', function(inputData)
     QBCore.Functions.Notify(source, Lang:t("success.explode_player"), 'success')
 end)
 
+-- ToggleCuffs
+RegisterNetEvent('ps-adminmenu:server:CuffPlayer', function(inputData)
+    local playerId = inputData["Player ID"]
+
+    TriggerClientEvent('ps-adminmenu:client:ToggleCuffs', playerId)
+    QBCore.Functions.Notify(source, 'Toggled cuffs', 'success')
+end)
+
 lib.callback.register('ps-adminmenu:server:GetVehicles', function(source, cid)
     local result = MySQL.query.await('SELECT vehicle, plate, fuel, engine, body FROM player_vehicles WHERE citizenid = ?', {cid})
     local Vehicles = {}
