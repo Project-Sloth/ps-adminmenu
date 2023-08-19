@@ -574,7 +574,7 @@ Config.Actions = {
         perms = "mod",
         dropdown = {
             { label = "Player ID", InputType = "players" },
-            { label = "Confirm",   InputType = "button", type = "client", event = "ps-adminmenu:client:ToggleCuffs" },
+            { label = "Confirm",   InputType = "button", type = "server", event = "ps-adminmenu:server:CuffPlayer" },
         },
     },
     {
