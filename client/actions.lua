@@ -405,9 +405,7 @@ RegisterNetEvent('ps-adminmenu:client:ToggleDuty', function()
 end)
 
 -- Cuff/Uncuff
-RegisterNetEvent('ps-adminmenu:client:ToggleCuffs', function(inputData)
-    local player = inputData["Player ID"]
-    if player == nil then return QBCore.Functions.Notify(Lang:t("error.not_online"), 'error', 7500) end
+RegisterNetEvent('ps-adminmenu:client:ToggleCuffs', function(player)
     local playerId = GetPlayerServerId(player)
     TriggerEvent("police:client:GetCuffed", playerId)
 end)
