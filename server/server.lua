@@ -17,7 +17,7 @@ RegisterNetEvent('ps-adminmenu:server:Getresources', function(data)
         local version = GetResourceMetadata(resourceName, "version")
         local description = GetResourceMetadata(resourceName, "description")
         local resourceState = GetResourceState(resourceName)
-        
+
         table.insert(resources, {
             name = resourceName,
             author = author,
@@ -29,7 +29,9 @@ RegisterNetEvent('ps-adminmenu:server:Getresources', function(data)
     TriggerClientEvent('ps-adminmenu:client:UpdateResources', -1, resources)
 end)
 
-RegisterNetEvent('ps-adminmenu:server:changeResourceState', function(name, state)
+RegisterNetEvent('ps-adminmenu:server:changeResourceState', function(name, state, perms)
+    if not PermsCheck(perms) then return end
+
     local src = source
     if state == "started" then
         StartResource(name)
@@ -51,7 +53,7 @@ lib.callback.register('ps-adminmenu:server:GetPlayers', function(source)
     local GetPlayers = QBCore.Functions.GetQBPlayers()
     for k, v in pairs(GetPlayers) do
         local playerData = v.PlayerData
-        
+
         Players[#Players + 1] = {
             id = k,
             name = playerData.charinfo.firstname .. ' ' .. playerData.charinfo.lastname,
@@ -64,7 +66,7 @@ lib.callback.register('ps-adminmenu:server:GetPlayers', function(source)
             cash = playerData.money.cash,
             bank = playerData.money.bank,
             phone = playerData.charinfo.phone,
-        
+
         }
     end
     table.sort(Players, function(a, b) return a.id < b.id end)
@@ -74,7 +76,7 @@ end)
 -- Admin Car
 RegisterNetEvent('ps-adminmenu:server:SaveCar', function(mods, vehicle, _, plate)
     local src = source
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
     local Player = QBCore.Functions.GetPlayer(src)
     local result = MySQL.query.await('SELECT plate FROM player_vehicles WHERE plate = ?', {plate})
     if result[1] == nil then
@@ -96,10 +98,12 @@ end)
 
 -- blackout
 local Blackout = false
-RegisterNetEvent('ps-adminmenu:server:ToggleBlackout', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:ToggleBlackout', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local src = source
     Blackout = not Blackout
-    
+
     if Blackout then
         TriggerClientEvent('QBCore:Notify', src, Lang:t("info.blackout", {value = "enabled"}), 'primary')
         while Blackout do
@@ -112,7 +116,9 @@ RegisterNetEvent('ps-adminmenu:server:ToggleBlackout', function(inputData)
 end)
 
 -- Ban Player
-RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local src = source
     local playerid = inputData["Player ID"]
     local reason = inputData["Reason"]
@@ -141,17 +147,21 @@ RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(inputData)
 end)
 
 -- Kill Player
-RegisterNetEvent('ps-adminmenu:server:KillPlayer', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:KillPlayer', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local playerId = inputData["Player ID"]
     TriggerClientEvent('hospital:client:KillPlayer', playerId)
 end)
 
 -- Bring Player
-RegisterNetEvent('ps-adminmenu:server:BringPlayer', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:BringPlayer', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local src = source
     local targetPed = inputData["Player ID"]
-    
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
+
     local admin = GetPlayerPed(src)
     local coords = GetEntityCoords(admin)
     local target = GetPlayerPed(targetPed)
@@ -160,7 +170,9 @@ RegisterNetEvent('ps-adminmenu:server:BringPlayer', function(inputData)
 end)
 
 -- Warn Player
-RegisterNetEvent('ps-adminmenu:server:warnplayer', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:warnplayer', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local targetPlayer = QBCore.Functions.GetPlayer(inputData["Player ID"])
     local msg = inputData["Reason"]
     local senderPlayer = QBCore.Functions.GetPlayer(source)
@@ -179,10 +191,10 @@ RegisterNetEvent('ps-adminmenu:server:warnplayer', function(inputData)
     end
 end)
 -- Teleport To Player
-RegisterNetEvent('ps-adminmenu:server:TeleportToPlayer', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:TeleportToPlayer', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local src = source
-    
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
     local target = GetPlayerPed(tonumber(inputData["Player ID"]))
     if target ~= 0 then
         local coords = GetEntityCoords(target)
@@ -194,19 +206,21 @@ RegisterNetEvent('ps-adminmenu:server:TeleportToPlayer', function(inputData)
 end)
 
 -- Teleport To Coords
-RegisterNetEvent('ps-adminmenu:server:TeleportToCoords', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:TeleportToCoords', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local src = source
     local xdata = inputData["X"]
     local ydata = inputData["Y"]
     local zdata = inputData["Z"]
-    
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
+
     if xdata and ydata and zdata then
         local x = tonumber((xdata:gsub(",", ""))) + .0
         local y = tonumber((ydata:gsub(",", ""))) + .0
         local z = tonumber((zdata:gsub(",", ""))) + .0
         TriggerClientEvent('ps-adminmenu:client:TeleportToCoords', src, x, y, z)
-    
+
     else
         TriggerClientEvent('QBCore:Notify', src, Lang:t('error.missing_args'), 'error')
     end
@@ -214,44 +228,51 @@ RegisterNetEvent('ps-adminmenu:server:TeleportToCoords', function(inputData)
 end)
 
 -- Revive Player
-RegisterNetEvent('ps-adminmenu:server:Revive', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:Revive', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local src = source
     local id = inputData["Player ID"]
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
     if type(id) ~= 'string' and type(id) ~= 'number' then
         return
     end
     id = tonumber(id)
-    
+
     TriggerClientEvent('hospital:client:Revive', id)
 end)
 
 -- Revive All
-RegisterNetEvent('ps-adminmenu:server:ReviveAll', function()
+RegisterNetEvent('ps-adminmenu:server:ReviveAll', function(_, _, perms)
+    if not PermsCheck(perms) then return end
     local src = source
-    if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
+
     TriggerClientEvent('hospital:client:Revive', -1)
 end)
 
 
 -- Kick Player
-RegisterNetEvent('ps-adminmenu:server:KickPlayer', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:KickPlayer', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local src = source
     local playerId = inputData["Player ID"]
     local reason = inputData["Reason"]
-    if not QBCore.Functions.HasPermission(src, "admin") then NoPerms(src) return end
+
     if playerId == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
     if reason == nil then reason = "NONE" end
     DropPlayer(playerId, Lang:t("info.kicked") .. '\n' .. Lang:t("info.reason") .. reason)
 end)
 
 -- Clear Inventory
-RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local src = source
     local playerId = tonumber(inputData["Player ID"])
     local Player = QBCore.Functions.GetPlayer(playerId)
     local inv = Config.InventoryUsage
-    
+
     if not (inv == "qb" or inv == "ox" or inv == "lj" or inv == "ps") then
         ConfigInvInvalid()
         return;
@@ -266,10 +287,12 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(inputData)
 end)
 
 -- Clothing Menu
-RegisterNetEvent('ps-adminmenu:server:ClothingMenu', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:ClothingMenu', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local src = source
     local playerId = tonumber(inputData["Player ID"])
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
     if playerId == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
     TriggerClientEvent('qb-clothing:client:openMenu', playerId)
     if playerId == src then
@@ -279,13 +302,15 @@ end)
 
 -- Freeze Player
 local frozen = false
-RegisterNetEvent('ps-adminmenu:server:FreezePlayer', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:FreezePlayer', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local src = source
     local playerId = tonumber(inputData["Player ID"])
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
     local target = GetPlayerPed(playerId)
     local Player = QBCore.Functions.GetPlayer(playerId)
-    
+
     if not frozen then
         frozen = true
         FreezeEntityPosition(target, true)
@@ -294,7 +319,7 @@ RegisterNetEvent('ps-adminmenu:server:FreezePlayer', function(inputData)
         frozen = false
         FreezeEntityPosition(target, false)
         QBCore.Functions.Notify(src, Lang:t("success.deFrozen", {player = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname .. " | " .. Player.PlayerData.citizenid}), 'Success', 7500)
-    
+
     end
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
 
@@ -315,11 +340,13 @@ RegisterNetEvent('ps-adminmenu:server:OpenStash', function(data)
 end)
 
 -- Give Money
-RegisterNetEvent('ps-adminmenu:server:GiveMoney', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:GiveMoney', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local src = source
     local playerId, amount, moneyType = inputData["Player ID"], inputData["Amount"], inputData["Type"]
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
     Player.Functions.AddMoney(tostring(moneyType), tonumber(amount))
     if moneyType == "crypto" then
@@ -330,10 +357,12 @@ RegisterNetEvent('ps-adminmenu:server:GiveMoney', function(inputData)
 end)
 
 -- Give Money to all
-RegisterNetEvent('ps-adminmenu:server:GiveMoneyAll', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:GiveMoneyAll', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local src = source
     local amount, moneyType = inputData["Amount"], inputData["Type"]
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
     for _, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         Player.Functions.AddMoney(tostring(moneyType), tonumber(amount))
@@ -346,11 +375,12 @@ RegisterNetEvent('ps-adminmenu:server:GiveMoneyAll', function(inputData)
 end)
 
 -- Take Money
-RegisterNetEvent('ps-adminmenu:server:TakeMoney', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:TakeMoney', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
     local src = source
     local playerId, amount, moneyType = inputData["Player ID"], inputData["Amount"], inputData["Type"]
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
     if string.len(amount) > 6 then return QBCore.Functions.Notify(src, Lang:t("error.amount_max"), "error", 5000) end
     if moneyType == "bank" then
@@ -378,10 +408,11 @@ RegisterNetEvent('ps-adminmenu:server:TakeMoney', function(inputData)
 end)
 
 -- sit in vehicle
-RegisterNetEvent('ps-adminmenu:server:SitInVehicle', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:SitInVehicle', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
     local src = source
     local playerId = inputData["Player ID"]
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
     local admin = GetPlayerPed(src)
     local targetPed = GetPlayerPed(playerId)
     local vehicle = GetVehiclePedIsIn(targetPed, false)
@@ -389,7 +420,7 @@ RegisterNetEvent('ps-adminmenu:server:SitInVehicle', function(inputData)
     if vehicle ~= 0 then
         local coords = GetEntityCoords(targetPed)
         SetEntityCoords(admin, coords)
-        
+
         for i = 0, 8, 1 do
             if GetPedInVehicleSeat(vehicle, i) == 0 then
                 seat = i
@@ -405,16 +436,17 @@ RegisterNetEvent('ps-adminmenu:server:SitInVehicle', function(inputData)
         end
     else
         TriggerClientEvent('QBCore:Notify', src, "Player not inside a vehicle", 'danger', 5000)
-    
+
     end
 end)
 
 -- Give Item
-RegisterNetEvent('ps-adminmenu:server:GiveItem', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:GiveItem', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
     local src = source
     local playerId, item, amount = inputData["Player ID"], inputData["Item"], inputData["Amount"]
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
     if amount == nil then amount = 1 end
     if Config.Inventory == "ox" then
@@ -426,10 +458,11 @@ RegisterNetEvent('ps-adminmenu:server:GiveItem', function(inputData)
 end)
 
 -- Give Item to All
-RegisterNetEvent('ps-adminmenu:server:GiveItemAll', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:GiveItemAll', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
     local src = source
     local item, amount = inputData["Item"], inputData["Amount"]
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
     if amount == nil then amount = 1 end
     for _, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
@@ -443,10 +476,11 @@ RegisterNetEvent('ps-adminmenu:server:GiveItemAll', function(inputData)
 end)
 
 -- Server Announcement
-RegisterNetEvent('ps-adminmenu:server:ServerAnnouncement', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:ServerAnnouncement', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
     local src = source
     local message, length = inputData["Message"], inputData["Length"]
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
     if message == nil then QBCore.Functions.Notify(src, Lang:t("error.empty_input"), "error", 7500) return end
     if length == nil then length = 15 end
     QBCore.Functions.Notify(-1, "SERVER ANNOUNCEMENT: " .. message, "primary", length)
@@ -454,10 +488,11 @@ RegisterNetEvent('ps-adminmenu:server:ServerAnnouncement', function(inputData)
 end)
 
 -- Message Player
-RegisterNetEvent('ps-adminmenu:server:MessagePlayer', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:MessagePlayer', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
     local src = source
     local playerID, message, length = inputData["Player ID"], inputData["Message"], inputData["Length"]
-    if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
     if playerID == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
     if message == nil then QBCore.Functions.Notify(src, Lang:t("error.empty_input"), "error", 7500) return end
     if length == nil then length = 15 end
@@ -476,24 +511,26 @@ function permsToString(perms)
 end
 
 -- Check Perms
-RegisterNetEvent('ps-adminmenu:server:CheckPerms', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:CheckPerms', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
     local src = source
     local playerId = inputData["Player ID"]
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 15000) end
     local perms = QBCore.Functions.GetPermission(Player.PlayerData.source)
     local permsStr = permsToString(perms)
-    --if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
     if permsStr == "" then permsStr = "NONE" end
     QBCore.Functions.Notify(src, Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname .. " got [ " .. permsStr .. " ] Permissions.", "primary", 7500)
 end)
 
 -- Set Perms
-RegisterNetEvent('ps-adminmenu:server:SetPerms', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:SetPerms', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
     local src = source
     local playerId, permissions = inputData["Player ID"], inputData["Permissions"]
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
-    --if not QBCore.Functions.HasPermission(src, "mod") then NoPerms(src) return end
+
     if permissions == nil then return QBCore.Functions.Notify(src, Lang:t("error.empty_input"), 'error', 15000) end
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 15000) end
     QBCore.Functions.AddPermission(Player.PlayerData.source, permissions)
@@ -502,22 +539,24 @@ RegisterNetEvent('ps-adminmenu:server:SetPerms', function(inputData)
 end)
 
 -- Set Job
-RegisterNetEvent('ps-adminmenu:server:SetJob', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:SetJob', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
     local src = source
     local playerId, Job, grade = inputData["Player ID"], inputData["Job"], inputData["Grade"]
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
-    
+
     Player.Functions.SetJob(tostring(Job), tonumber(grade))
 end)
 
 -- Set Gang
-RegisterNetEvent('ps-adminmenu:server:SetGang', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:SetGang', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
     local src = source
     local playerId, Gang, grade = inputData["Player ID"], inputData["Gang"], inputData["Grade"]
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
-    
+
     Player.Functions.SetGang(tostring(Gang), tonumber(grade))
 end)
 
@@ -530,7 +569,8 @@ RegisterNetEvent('ps-adminmenu:server:GetPlayersForBlips', function()
 end)
 
 -- Fix Vehicle for player
-RegisterNetEvent('ps-adminmenu:server:FixVehFor', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:FixVehFor', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
     local src = source
     local playerId = inputData['Player ID']
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
@@ -556,7 +596,7 @@ CreateThread(function()
                 citizenid = ped.PlayerData.citizenid,
                 sources = GetPlayerPed(ped.PlayerData.source),
                 sourceplayer = ped.PlayerData.source
-            
+
             }
         end
         -- Sort players list by source ID (1,2,3,4,5, etc) --
@@ -570,7 +610,8 @@ end)
 
 -- Spectate
 local spectating = {}
-RegisterNetEvent('ps-adminmenu:server:SpectateTarget', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:SpectateTarget', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
     local target = inputData['Player ID']
     local type = "1"
     if target == source then return QBCore.Functions.Notify(source, 'Cannot Spectate yourself!', 'error', 7500) end
@@ -591,7 +632,7 @@ AddEventHandler('ps-adminmenu:spectate', function(target, on, source)
             TriggerClientEvent('ps-adminmenu:requestSpectate', source, NetworkGetNetworkIdFromEntity(tPed), target, GetPlayerName(target))
             spectating[source] = true
             TriggerClientEvent('ps-adminmenu:client:toggleNames', source)
-        
+
         end
     end
 end)
@@ -607,7 +648,8 @@ RegisterNetEvent('ps-adminmenu:spectate:teleport', function(target)
 end)
 
 -- Set on fire
-RegisterNetEvent('ps-adminmenu:server:SetOnFire', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:SetOnFire', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
     local playerId, time = inputData["Player ID"], inputData["Time"]
     TriggerClientEvent('ps-adminmenu:client:SetOnFire', playerId, time)
     QBCore.Functions.Notify(source, Lang:t("success.set_on_fire"), 'success')
@@ -615,15 +657,17 @@ RegisterNetEvent('ps-adminmenu:server:SetOnFire', function(inputData)
 end)
 
 -- Explode Player
-RegisterNetEvent('ps-adminmenu:server:ExplodePlayer', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:ExplodePlayer', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
     local playerId, damage = inputData["Player ID"], inputData["Damage"]
-    
+
     TriggerClientEvent('ps-adminmenu:client:ExplodePlayer', playerId, damage)
     QBCore.Functions.Notify(source, Lang:t("success.explode_player"), 'success')
 end)
 
 -- ToggleCuffs
-RegisterNetEvent('ps-adminmenu:server:CuffPlayer', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:CuffPlayer', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
     local playerId = inputData["Player ID"]
 
     TriggerClientEvent('ps-adminmenu:client:ToggleCuffs', playerId)
@@ -633,7 +677,7 @@ end)
 lib.callback.register('ps-adminmenu:server:GetVehicles', function(source, cid)
     local result = MySQL.query.await('SELECT vehicle, plate, fuel, engine, body FROM player_vehicles WHERE citizenid = ?', {cid})
     local Vehicles = {}
-    
+
     for k, v in pairs(result) do
         local vehicleData = QBCore.Shared.Vehicles[v.vehicle]
         if vehicleData then
@@ -650,11 +694,11 @@ lib.callback.register('ps-adminmenu:server:GetVehicles', function(source, cid)
             }
         end
     end
-    
+
     table.sort(Vehicles, function(a, b)
         return a.label < b.label
     end)
-    
+
     return Vehicles
 end)
 
@@ -667,8 +711,13 @@ end)
 lib.callback.register('ps-adminmenu:server:hasPerms', function(source, perms)
     local hasPerms = QBCore.Functions.HasPermission(source, perms)
     if not hasPerms then return NoPerms(source) end
-    return true
+    return hasPerms
 end)
+function PermsCheck(perms)
+    local hasPerms = QBCore.Functions.HasPermission(source, perms)
+    if not hasPerms then return NoPerms(source) end
+    return hasPerms
+end
 
 -- Chat Backend
 local messages = {}
@@ -690,27 +739,27 @@ lib.callback.register('ps-adminmenu:server:getServerMetrics', function(source)
         TotalBank = 0,
         TotalItems = 0
     }
-    
+
     local results = MySQL.query.await("SELECT money, inventory FROM `players`", {})
     ServerMetrics.CharacterCount = #results
-    
+
     for _, v in ipairs(results) do
         local money = json.decode(v.money)
         if money then
             ServerMetrics.TotalCash = ServerMetrics.TotalCash + math.floor(money.cash)
             ServerMetrics.TotalBank = ServerMetrics.TotalBank + math.floor(money.bank)
         end
-        
+
         local inv = json.decode(v.inventory)
         if inv then
             ServerMetrics.TotalItems = ServerMetrics.TotalItems + #inv
         end
     end
-    
+
     ServerMetrics.VehicleCount = #MySQL.query.await("SELECT vehicle FROM `player_vehicles`", {})
     ServerMetrics.BansCount = #MySQL.query.await("SELECT name FROM `bans`", {})
     ServerMetrics.UniquePlayers = #MySQL.query.await("SELECT DISTINCT `license` FROM `players`", {})
-    
+
     return {ServerMetrics}
 end)
 
@@ -721,15 +770,18 @@ end)
 function CheckRoutingbucket(source, target)
     local sourceBucket = GetPlayerRoutingBucket(source)
     local targetBucket = GetPlayerRoutingBucket(target)
-    if sourceBucket ~= targetBucket then SetPlayerRoutingBucket(source, targetBucket) QBCore.Functions.Notify(source, 'Routing Bucket set to: %s', 'error', 7500):format(targetBucket) end
+    if sourceBucket ~= targetBucket then SetPlayerRoutingBucket(source, targetBucket) QBCore.Functions.Notify(source, 'Routing Bucket set to: '.. targetBucket, 'error', 7500) end
 end
 
 -- Set Routing bucket
-RegisterNetEvent('ps-adminmenu:server:SetRouting', function(inputData)
+RegisterNetEvent('ps-adminmenu:server:SetRouting', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local target, bucket = inputData['Player ID'], inputData['Bucket']
-    
+
     local currentBucket = GetPlayerRoutingBucket(target)
-    if bucket == currentBucket then return QBCore.Functions.Notify(source, 'Tried to place %s in the same bucket', 'error', 7500):format(target) end
+    if bucket == currentBucket then return QBCore.Functions.Notify(source, 'Tried to place ' .. target .. ' in the same bucket', 'error', 7500) end
     SetPlayerRoutingBucket(target, bucket)
-    QBCore.Functions.Notify(source, 'Routing bucket set for: %s to bucket: %s', 'success', 7500):format(target, bucket)
+    print(bucket, target)
+    QBCore.Functions.Notify(source, 'Routing bucket set for: ' .. target .. ' to bucket: '.. bucket, 'success', 7500)
 end)
