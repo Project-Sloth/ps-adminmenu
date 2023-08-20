@@ -1,4 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
+local hasPerms = nil
 
 -- Admin Car
 local function getVehicleFromVehList(hash)
@@ -21,8 +22,17 @@ local function Draw2DText(content, font, colour, scale, x, y)
     AddTextComponentString(content)
     DrawText(x, y)
 end
+function PermsCheck(perms)
+    lib.callback('ps-adminmenu:server:hasPerms', false, function(permission)
+        hasPerms = permission
+    end, perms)
+    Wait(100)
+    return hasPerms
+end
 
-RegisterNetEvent('ps-adminmenu:client:Admincar', function(data)
+RegisterNetEvent('ps-adminmenu:client:Admincar', function(_, _,perms)
+    if not PermsCheck(perms) then return end
+
     local ped = PlayerPedId()
     local veh = GetVehiclePedIsIn(ped)
 
@@ -44,7 +54,8 @@ end)
 
 
 -- Invisible
-RegisterNetEvent('ps-adminmenu:client:ToggleInvisible', function(data)
+RegisterNetEvent('ps-adminmenu:client:ToggleInvisible', function(_, _,perms)
+    if not PermsCheck(perms) then return end
     local ped = PlayerPedId()
     if not invisible then
         invisible = true
@@ -60,7 +71,9 @@ end)
 
 -- Godmode
 local Godmode = false
-RegisterNetEvent('ps-adminmenu:client:ToggleGodmode', function(data)
+RegisterNetEvent('ps-adminmenu:client:ToggleGodmode', function(_,_,perms)
+    if not PermsCheck(perms) then return end
+
     godmode = not godmode
 
     if godmode then
@@ -145,7 +158,9 @@ RegisterNetEvent('ps-adminmenu:client:ExplodePlayer', function(damage)
 end)
 
 -- Time
-RegisterNetEvent('ps-adminmenu:client:ChangeTime', function(inputData)
+RegisterNetEvent('ps-adminmenu:client:ChangeTime', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local time = inputData["Timestamp"] == "clear" and nil or inputData["Timestamp"] or inputData["Time Events"]
     if time then
     TriggerServerEvent('qb-weathersync:server:setTime', time, 00)
@@ -153,7 +168,9 @@ RegisterNetEvent('ps-adminmenu:client:ChangeTime', function(inputData)
 end)
 
 -- Weather
-RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(inputData)
+RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local weatherType = inputData["Weather"]
     TriggerServerEvent('qb-weathersync:server:setWeather', weatherType)
     QBCore.Functions.Notify(Lang:t("info.weatherType", {value = weatherType}))
@@ -170,7 +187,9 @@ end
 
 
 local lastCoords
-RegisterNetEvent('ps-adminmenu:client:TeleportBack', function(coords)
+RegisterNetEvent('ps-adminmenu:client:TeleportBack', function(coords, _,perms)
+    if not PermsCheck(perms) then return end
+
     local ped = PlayerPedId()
     local vehicle = GetVehiclePedIsIn(ped, false)
     if lastCoords then
@@ -199,7 +218,9 @@ end)
 
 
 -- Copy Coords
-RegisterNetEvent('ps-adminmenu:client:CopyCoords', function(inputData, buttonlable)
+RegisterNetEvent('ps-adminmenu:client:CopyCoords', function(inputData, buttonlable, perms)
+    if not PermsCheck(perms) then return end
+
     local ped = PlayerPedId()
     local coords = GetEntityCoords(ped)
     local x, y, z, h = QBCore.Shared.Round(coords.x, 2), QBCore.Shared.Round(coords.y, 2), QBCore.Shared.Round(coords.z, 2), QBCore.Shared.Round(GetEntityHeading(ped), 2)
@@ -227,7 +248,9 @@ end)
 
 
 -- Teleport to marker
-RegisterNetEvent('ps-adminmenu:client:TeleportToMarker', function()
+RegisterNetEvent('ps-adminmenu:client:TeleportToMarker', function(_,_,perms)
+    if not PermsCheck(perms) then return end
+
     local PlayerPedId = PlayerPedId
     local GetEntityCoords = GetEntityCoords
     local GetGroundZFor_3dCoord = GetGroundZFor_3dCoord
@@ -315,13 +338,17 @@ RegisterNetEvent('ps-adminmenu:client:TeleportToMarker', function()
 end)
 
 -- Mute Player
-RegisterNetEvent('ps-adminmenu:client:MutePlayer', function(inputData)
+RegisterNetEvent('ps-adminmenu:client:MutePlayer', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local playerid = inputData["Player ID"]
     exports['pma-voice']:toggleMutePlayer(playerid)
 end)
 
 -- Open Stash
-RegisterNetEvent('ps-adminmenu:client:openStash', function(inputData)
+RegisterNetEvent('ps-adminmenu:client:openStash', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local stash = inputData["Stash"]
     local inv = Config.InventoryUsage
     if not (inv == "qb" or inv == "ox" or inv == "lj" or inv == "ps") then
@@ -337,7 +364,9 @@ RegisterNetEvent('ps-adminmenu:client:openStash', function(inputData)
 end)
 
 -- Open Inventory
-RegisterNetEvent('ps-adminmenu:client:openInventory', function(inputData)
+RegisterNetEvent('ps-adminmenu:client:openInventory', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local playerid = inputData["Player ID"]
     local inv = Config.InventoryUsage
     if not (inv == "qb" or inv == "ox" or inv == "lj" or inv == "ps") then
@@ -352,7 +381,9 @@ RegisterNetEvent('ps-adminmenu:client:openInventory', function(inputData)
 end)
 
 -- Spawn Vehicle
-RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(inputData)
+RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local ped = PlayerPedId()
     local hash = GetHashKey(inputData["Vehicle"])
     local veh = GetVehiclePedIsUsing(ped)
@@ -375,7 +406,9 @@ RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(inputData)
 end)
 
 -- Refuel Vehicle
-RegisterNetEvent('ps-adminmenu:client:RefuelVehicle', function()
+RegisterNetEvent('ps-adminmenu:client:RefuelVehicle', function(_, _, perms)
+    if not PermsCheck(perms) then return end
+
     local ped = PlayerPedId()
     if IsPedInAnyVehicle(ped) then
         local veh = GetVehiclePedIsUsing(ped)
@@ -387,7 +420,9 @@ RegisterNetEvent('ps-adminmenu:client:RefuelVehicle', function()
 end)
 
 -- Change plate
-RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(inputData)
+RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local ped = PlayerPedId()
     local plate = inputData["Plate"]
     if string.len(plate) > 8 then return QBCore.Functions.Notify(Lang:t("error.plate_max"), "error", 5000) end
@@ -400,7 +435,9 @@ RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(inputData)
 end)
 
 -- Toggle duty
-RegisterNetEvent('ps-adminmenu:client:ToggleDuty', function()
+RegisterNetEvent('ps-adminmenu:client:ToggleDuty', function(_, _, perms)
+    if not PermsCheck(perms) then return end
+
     TriggerServerEvent("QBCore:ToggleDuty")
 end)
 
@@ -510,7 +547,9 @@ end
 
 -- Toggle Delete Laser
 local deleteLaser = false
-RegisterNetEvent('ps-adminmenu:client:ToggleDeleteLaser', function()
+RegisterNetEvent('ps-adminmenu:client:ToggleDeleteLaser', function(_, _, perms)
+    if not PermsCheck(perms) then return end
+
     local x = 0.4
     local y = 0.025
     deleteLaser = not deleteLaser
@@ -546,7 +585,9 @@ end)
 
 -- Toggle veh dev menu
 local vehicleDevMode = false
-RegisterNetEvent('ps-adminmenu:client:ToggleVehDevMenu', function()
+RegisterNetEvent('ps-adminmenu:client:ToggleVehDevMenu', function(_, _, perms)
+    if not PermsCheck(perms) then return end
+
     local x = 0.4
     local y = 0.888
     vehicleDevMode = not vehicleDevMode
@@ -572,7 +613,9 @@ end)
 
 -- Toggle coords
 local showCoords = false
-RegisterNetEvent('ps-adminmenu:client:ToggleCoords', function()
+RegisterNetEvent('ps-adminmenu:client:ToggleCoords', function(_, _, perms)
+    if not PermsCheck(perms) then return end
+
     local x = 0.4
     local y = 0.025
     showCoords = not showCoords
@@ -862,7 +905,9 @@ ToggleNoClip = function(state)
     end
 end
 
-RegisterNetEvent('ps-adminmenu:client:ToggleNoClip', function()
+RegisterNetEvent('ps-adminmenu:client:ToggleNoClip', function(_, _, perms)
+    if not PermsCheck(perms) then return end
+
     ToggleNoClip(not IsNoClipping)
     TriggerEvent("ps-adminmenu:client:CloseUI")
 end)
@@ -883,7 +928,9 @@ CreateThread(function()
     end
 end)
 
-RegisterNetEvent('ps-adminmenu:client:toggleBlips', function()
+RegisterNetEvent('ps-adminmenu:client:toggleBlips', function(_, _, perms)
+    if not PermsCheck(perms) then return end
+
     if not ShowBlips then
         ShowBlips = true
         NetCheck1 = true
@@ -894,7 +941,9 @@ RegisterNetEvent('ps-adminmenu:client:toggleBlips', function()
     end
 end)
 
-RegisterNetEvent('ps-adminmenu:client:toggleNames', function()
+RegisterNetEvent('ps-adminmenu:client:toggleNames', function(_, _, perms)
+    if not PermsCheck(perms) then return end
+
     if not ShowNames then
         ShowNames = true
         NetCheck2 = true
@@ -1106,7 +1155,9 @@ RegisterNetEvent('ps-adminmenu:client:GetVehicles', function(cid)
     })
 end)
 
-RegisterNetEvent("ps-adminmenu:client:SpawnPersonalvehicle", function(inputData)
+RegisterNetEvent("ps-adminmenu:client:SpawnPersonalvehicle", function(inputData, _, perms)
+    if not PermsCheck(perms) then return end
+
     local plate = inputData['Personal Vehicle']
     local ped = PlayerPedId()
     local coords = QBCore.Functions.GetCoords(ped)
@@ -1148,7 +1199,9 @@ function PerformanceUpgradeVehicle(vehicle, customWheels)
     end
 end
 
-RegisterNetEvent('ps-adminmenu:client:maxmodVehicle', function()
+RegisterNetEvent('ps-adminmenu:client:maxmodVehicle', function(_, _, perms)
+    if not PermsCheck(perms) then return end
+
     local ped = PlayerPedId()
     local vehicle = GetVehiclePedIsIn(ped)
     if IsPedSittingInVehicle(ped, vehicle) then
@@ -1164,7 +1217,9 @@ RegisterNetEvent('ps-adminmenu:client:maxmodVehicle', function()
 end)
 
 -- Infinite Ammo
-RegisterNetEvent('ps-adminmenu:client:setInfiniteAmmo', function()
+RegisterNetEvent('ps-adminmenu:client:setInfiniteAmmo', function(_, _, perms)
+    if not PermsCheck(perms) then return end
+
     local ped = PlayerPedId()
     InfiniteAmmo = not InfiniteAmmo
         local weapon = GetSelectedPedWeapon(ped)
