@@ -34,24 +34,18 @@ RegisterNUICallback("normalButton", function(data, cb)
     local event = data.event
     local type = data.type
     local inputData = data.data
-    local buttonlable = data.button
-    local perms = data.perms
-    lib.callback('ps-adminmenu:server:hasPerms', false, function(permission)
-        hasPerms = permission
-    end, perms)
-    Wait(100)
-    print("Event: " .. event .. " Type: " .. type .. " Perms: " .. perms, "Has Perms: ", hasPerms)
+    local buttonlabel = data.button
+    local permissions = data.perms
+    print("Event: " .. event .. " Type: " .. type .. " Perms: " .. permissions)
     if event and type then
-        if hasPerms then
-            if type == "client" then
-                TriggerEvent(event, inputData, buttonlable)
-            elseif type == "server" then
-                TriggerServerEvent(event, inputData, buttonlable)
-            elseif type == "command" then
-                ExecuteCommand(event, inputData, buttonlable)
+        if type == "client" then
+            TriggerEvent(event, inputData, buttonlabel, permissions)
+        elseif type == "server" then
+            TriggerServerEvent(event, inputData, buttonlabel, permissions)
+        elseif type == "command" then
+            if PermsCheck(permissions) then
+                ExecuteCommand(event, inputData, buttonlabel)
             end
-        else
-            print("no perms")
         end
     end
     cb("ok")
