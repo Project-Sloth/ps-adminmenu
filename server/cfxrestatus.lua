@@ -1,5 +1,5 @@
 local interval = 10 -- In Min
-local discordWebhook = "" -- Webhook
+local discordWebhook = "" -- CFX.RE Status Discord webhook
 local embedColor = 2829617 -- HEX INT COLORS https://gist.github.com/thomasbnt/b6f455e2c7d743b796917fa3c205f812
 ----------------------------------------------------------
 local colorful = { operational = "🟢", degraded_performance = "🟡", partial_outage = "🔴", major_outage = "🔴" }
