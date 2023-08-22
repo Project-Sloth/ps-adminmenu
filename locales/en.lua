@@ -77,6 +77,7 @@ local Translations = {
         ["stopped_resource"] = "Stopped Resource",
         ["restarted_resource"] = "Restarted Resource",
         ["status_title"] = "CFX Status",
+        ["new_staffchat"] = "New Staff Message",
     },
 }
 
