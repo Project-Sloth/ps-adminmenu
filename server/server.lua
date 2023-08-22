@@ -432,11 +432,10 @@ RegisterNetEvent('ps-adminmenu:server:SitInVehicle', function(inputData, _, perm
             SetPedIntoVehicle(admin, vehicle, seat)
             TriggerClientEvent('QBCore:Notify', src, Lang:t("success.entered_vehicle"), 'success', 5000)
         else
-            TriggerClientEvent('QBCore:Notify', src, Lang:t("error.no_free_seats"), 'danger', 5000)
+            TriggerClientEvent('QBCore:Notify', src, Lang:t("error.no_free_seats"), 'error', 5000)
         end
     else
-        TriggerClientEvent('QBCore:Notify', src, "Player not inside a vehicle", 'danger', 5000)
-
+        TriggerClientEvent('QBCore:Notify', src, Lang:t("error.player_not_in_veh"), 'error', 5000)
     end
 end)
 
@@ -578,7 +577,7 @@ RegisterNetEvent('ps-adminmenu:server:FixVehFor', function(inputData, _, perms)
         TriggerClientEvent('iens:repaira', Player.PlayerData.source)
         TriggerClientEvent('vehiclemod:client:fixEverything', Player.PlayerData.source)
     else
-        TriggerClientEvent('QBCore:Notify', src, "player not online", "error")
+        TriggerClientEvent('QBCore:Notify', src, Lang:t("error.not_online"), "error")
     end
 end)
 
@@ -614,7 +613,7 @@ RegisterNetEvent('ps-adminmenu:server:SpectateTarget', function(inputData, _, pe
     if not PermsCheck(perms) then return end
     local target = inputData['Player ID']
     local type = "1"
-    if target == source then return QBCore.Functions.Notify(source, 'Cannot Spectate yourself!', 'error', 7500) end
+    if target == source then return QBCore.Functions.Notify(source, Lang:t("error.cant_spectate_yourself"), 'error', 7500) end
     if spectating[source] then type = "0" end
     TriggerEvent('ps-adminmenu:spectate', target, type == "1", source)
     CheckRoutingbucket(source, target)
@@ -671,7 +670,7 @@ RegisterNetEvent('ps-adminmenu:server:CuffPlayer', function(inputData, _, perms)
     local playerId = inputData["Player ID"]
 
     TriggerClientEvent('ps-adminmenu:client:ToggleCuffs', playerId)
-    QBCore.Functions.Notify(source, 'Toggled cuffs', 'success')
+    QBCore.Functions.Notify(source, Lang:t("success.toggled_cuffs"), 'success')
 end)
 
 lib.callback.register('ps-adminmenu:server:GetVehicles', function(source, cid)
@@ -770,7 +769,7 @@ end)
 function CheckRoutingbucket(source, target)
     local sourceBucket = GetPlayerRoutingBucket(source)
     local targetBucket = GetPlayerRoutingBucket(target)
-    if sourceBucket ~= targetBucket then SetPlayerRoutingBucket(source, targetBucket) QBCore.Functions.Notify(source, 'Routing Bucket set to: '.. targetBucket, 'error', 7500) end
+    if sourceBucket ~= targetBucket then SetPlayerRoutingBucket(source, targetBucket) QBCore.Functions.Notify(source, Lang:t("success.bucket_set", {bucket = targetBucket}), 'error', 7500) end
 end
 
 -- Set Routing bucket
@@ -780,8 +779,7 @@ RegisterNetEvent('ps-adminmenu:server:SetRouting', function(inputData, _, perms)
     local target, bucket = inputData['Player ID'], inputData['Bucket']
 
     local currentBucket = GetPlayerRoutingBucket(target)
-    if bucket == currentBucket then return QBCore.Functions.Notify(source, 'Tried to place ' .. target .. ' in the same bucket', 'error', 7500) end
+    if bucket == currentBucket then return QBCore.Functions.Notify(source, Lang:t("error.target_same_bucket", {target = target}), 'error', 7500) end
     SetPlayerRoutingBucket(target, bucket)
-    print(bucket, target)
-    QBCore.Functions.Notify(source, 'Routing bucket set for: ' .. target .. ' to bucket: '.. bucket, 'success', 7500)
+    QBCore.Functions.Notify(source, Lang:t("success.bucket_set_for_target", {target = target, bucket = bucket}), 'success', 7500)
 end)

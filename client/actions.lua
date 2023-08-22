@@ -1207,12 +1207,12 @@ RegisterNetEvent('ps-adminmenu:client:maxmodVehicle', function(_, _, perms)
     if IsPedSittingInVehicle(ped, vehicle) then
         if GetPedInVehicleSeat(GetVehiclePedIsIn(ped), -1) == ped then
             PerformanceUpgradeVehicle(vehicle)
-            QBCore.Functions.Notify('Vehicle max modded', 'success', 7500)
+            QBCore.Functions.Notify(Lang:t("success.vehicle_max_modded"), 'success', 7500)
         else
-            QBCore.Functions.Notify('Not the driver of the vehicle', 'error', 7500)
+            QBCore.Functions.Notify(Lang:t("error.vehicle_not_driver"), 'error', 7500)
         end
     else
-        QBCore.Functions.Notify('Not sitting in vehicle', 'error', 7500)
+        QBCore.Functions.Notify(Lang:t("error.not_in_veh"), 'error', 7500)
     end
 end)
 
@@ -1234,7 +1234,7 @@ RegisterNetEvent('ps-adminmenu:client:setInfiniteAmmo', function(_, _, perms)
         else
             SetPedInfiniteAmmo(ped, false, weapon)
         end
-    QBCore.Functions.Notify('InfiniteAmmo Toggled', 'success', 7500)
+    QBCore.Functions.Notify(Lang:t("success.inf_ammo_toggled"), 'success', 7500)
 end)
 
 AddEventHandler('onResourceStop', function(resourceName)

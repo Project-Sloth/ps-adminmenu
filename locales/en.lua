@@ -3,6 +3,8 @@ local Translations = {
         ["u_veh_owner"] = "This vehicle is already yours..",
         ['cannot_store_veh'] = "Cannot store this car in your garage",
         ["not_in_veh"] = "You are not in a vehicle..",
+        ["vehicle_not_driver"] = "Not in the drivers seat",
+        ["player_not_in_veh"] = "You are not in a vehicle..",
         ["no_perms"] = "You do not have permission to do this",
         ["missing_args"] = 'Not every argument has been entered (x, y, z)',
         ["not_online"] = 'Player not online',
@@ -15,6 +17,8 @@ local Translations = {
         ["no_free_seats"] = "The vehicle has no free seats!",
         ["blips_deactivated"] = "Blips deactivated",
         ["names_deactivated"] = "Names deactivated",
+        ["cant_spectate_yourself"] = "You cant spectate yourself",
+        ["target_same_bucket"] = "Tried to place %{target} in the same bucket",
     },
     success = {
         ["veh_owner"] = "The vehicle is now yours!",
@@ -42,6 +46,11 @@ local Translations = {
         ["explode_player"] = "Person was exploded :P",
         ["blips_activated"] = "Blips activated",
         ["names_activated"] = "Names activated",
+        ["toggled_cuffs"] = "Toggled Cuffs",
+        ["vehicle_max_modded"] = "Vehicle has been max modded",
+        ["bucket_set_for_target"] = "Routing bucket set for: %{target} to bucket: %{bucket}",
+        ["bucket_set"] = "Routing set to bucket: %{bucket}",
+        ["inf_ammo_toggled"] = "Infinite Ammo Toggled",
     },
     info = {
         ["godmode"] = "Godmode is %{value}",
@@ -67,9 +76,8 @@ local Translations = {
         ["started_resource"] = "Started Resource",
         ["stopped_resource"] = "Stopped Resource",
         ["restarted_resource"] = "Restarted Resource",
+        ["status_title"] = "CFX Status",
     },
-
-
 }
 
 Lang = Locale:new({
