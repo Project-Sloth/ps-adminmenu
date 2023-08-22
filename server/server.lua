@@ -723,6 +723,16 @@ local messages = {}
 
 RegisterNetEvent('ps-adminmenu:server:sendMessageServer', function(message, citizenid, fullname)
     local time = os.time() * 1000
+    local plrs = QBCore.Functions.GetPlayers()
+
+    for i = 1, #plrs, 1 do
+        local plr = plrs[i]
+        if QBCore.Functions.HasPermission(plr, 'mod') or IsPlayerAceAllowed(plr, 'command') then
+            if QBCore.Functions.IsOptin(plr) then
+                QBCore.Functions.Notify(plr, Lang:t("inform.new_staffchat", 'inform', 7500)
+            end
+        end
+    end
     table.insert(messages, {message = message, citizenid = citizenid, fullname = fullname, time = time})
 end)
 
