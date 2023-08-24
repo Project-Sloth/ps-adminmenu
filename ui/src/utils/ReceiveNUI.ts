@@ -11,7 +11,7 @@ interface NuiMessage<T = unknown> {
  * @param handler The callback function that will handle data relayed by this function
  *
  * @example
- * useNuiEvent<{visibility: true, wasVisible: 'something'}>('setVisible', (data) => {
+ * useNuiEvent<{VISIBILITY: true, wasVisible: 'something'}>('setVisible', (data) => {
  *   // whatever logic you want
  * })
  *

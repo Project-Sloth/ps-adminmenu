@@ -1,11 +1,11 @@
 <script lang="ts">
 	import VisibilityProvider from '@providers/VisibilityProvider.svelte'
-	import { browserMode, resName } from '@store/stores'
+	import { BROWSER_MODE, RESOURCE_NAME } from '@store/stores'
 	import DebugBrowser from '@providers/DebugBrowser.svelte'
 	import AlwaysListener from '@providers/AlwaysListener.svelte'
 	import Main from './layout/Main.svelte'
 
-	$resName = 'ps-adminmenu' // Change this to your resource name (case sensitive)
+	$RESOURCE_NAME = 'ok1ez-admin'
 </script>
 
 <VisibilityProvider>
@@ -13,7 +13,7 @@
 </VisibilityProvider>
 
 <AlwaysListener />
-{#if $browserMode}
+{#if $BROWSER_MODE}
 	<DebugBrowser />
-	<body style="background-color: rgb(33, 33, 33);"></body>
+	<div class="absolute w-screen h-screen bg-neutral-800" />
 {/if}

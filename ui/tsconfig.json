@@ -6,7 +6,6 @@
     "module": "esnext",
     "resolveJsonModule": true,
     "baseUrl": ".",
-    "types": ["@citizenfx/client", "@types/node"],
     "paths": {
       "@assets/*": ["src/assets/*"],
       "@components/*": ["src/components/*"],

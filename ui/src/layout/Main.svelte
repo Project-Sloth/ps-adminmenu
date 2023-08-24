@@ -1,26 +1,27 @@
 <script>
-    import { menuWideStore, currentPage  } from '@store/stores';
-    import Sidebar from './Sidebar.svelte'
-    import { fly } from 'svelte/transition';
-	import Actions from '@pages/actions/Actions.svelte'
-	import Players from '@pages/players/Players.svelte'
-	import Server from '@pages/server/Server.svelte'
-	import Chat from '@pages/staffchat/Chat.svelte'
+	import { fly } from 'svelte/transition'
+	import { MENU_WIDE, ACTIVE_PAGE } from '@store/stores'
+	import Sidebar from './Sidebar/Sidebar.svelte'
+
+	import Actions from '@pages/Actions/Actions.svelte'
+	import Server from '@pages/Server/Server.svelte'
+	import StaffChat from '@pages/Chat/Chat.svelte'
+	import Players from '@pages/Players/Players.svelte'
 </script>
 
-<div class="w-full h-full flex items-center {$menuWideStore.isMenuWide ? "justify-center" : " justify-end"}" transition:fly={{ x: 200 }}>
-    <div class="bg-secondary mr-[3vh] h-[90vh] flex {$menuWideStore.isMenuWide ? 'w-[120vh]' : 'w-[45vh]'}">
-        <Sidebar />
-        <div class="h-full">
-            {#if $currentPage === "actions"}
-                <Actions />
-            {:else if $currentPage === "players"}
-                <Players />
-            {:else if $currentPage === "server"}
-                <Server />
-            {:else if $currentPage === "staffchat"}
-                <Chat />
-            {/if}
-        </div>
-    </div>
+<div
+	class="h-[85vh] flex rounded-[0.5vh] bg-primary {!$MENU_WIDE ? 'w-[40vh] mr-[5vh] ' : 'w-[106vh]'}" transition:fly={{ x: 100 }}
+>
+	<Sidebar />
+	<div class="h-full flex {!$MENU_WIDE ? 'w-[33vh]' : 'w-[99vh]'}">
+		{#if $ACTIVE_PAGE == 'Actions'}
+			<Actions />
+		{:else if $ACTIVE_PAGE == 'Server'}
+			<Server />
+		{:else if $ACTIVE_PAGE == 'Staffchat'}
+			<StaffChat />
+		{:else if $ACTIVE_PAGE == 'Players'}
+			<Players />
+		{/if}
+	</div>
 </div>

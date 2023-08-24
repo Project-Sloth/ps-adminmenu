@@ -1,62 +1,192 @@
 <script>
-	import { debug } from 'svelte/internal'
     import { debugData } from '../utils/debugData';
 
 	let show = false;
     //EXAMPLE
-    
-    // debugData([
-	// 	{
-	// 		action: 'setVisible',
-	// 		data: true,
-	// 	},
-	// ])
 
 	const debugActions = [
 		{
+			id: "admin_car",
 			label: "Admin Car",
 			type: "client",
 			perms: "mod",
+			event: "ps-adminmenu:client:admincar",
 		},
 		{
+			id: "ban_player",
 			label: "Ban Player",
 			type: "client",
 			perms: "mod",
 			dropdown: [
-				{ label: "Player ID", type: "input", inputtype: "normal" },
-				{ label: "Reason", type: "input", inputtype: "normal" },
-				{ label: "Copy Coords", type: "button", event: "ps-adminmenu:client:banplayer" },
-				{ label: "Time", type: "input", inputtype: "normal" },
-				{ label: "Ban", type: "button", event: "ps-adminmenu:client:banplayer" },
-
+				{ label: "Player", option: "dropdown", data: "players" },
+				{ label: "Reason", option: "text" },
+				{ label: "Time", option: "dropdown", 
+					data: [
+						{ label: "1 time", value: "1000" },
+						{ label: "2 time", value: "2000" },
+						{ label: "3 time", value: "3000" },
+					],
+				},
+				{ label: "Ban", type: "server", option: "button", event: "ps-adminmenu:client:banplayer" },
 			],
 		},
 		{
+			id: "noclip",
 			label: "Noclip",
 			type: "client",
 			perms: "mod",
+			event: "ps-adminmenu:client:noclip",
 		},
 		{
+			id: "invisible",
 			label: "Invisible",
 			type: "client",
 			perms: "mod",
+			event: "ps-adminmenu:client:invisible",
 		},
 		{
+			id: "kick_player",
 			label: "Kick Player",
 			type: "client",
 			perms: "mod",
+			event: "ps-adminmenu:client:kickplayer",
 			dropdown: [
-				{ label: "label", type: "input", inputtype: "normal" },
-				{ label: "Ban", type: "button", event: "ps-adminmenu:client:banplayer" },
+				{ label: "Player", option: "dropdown", data: "players" },
+				{ label: "Reason", option: "text" },
+				{ label: "Time", option: "dropdown", 
+					data: [
+						{ label: "1 time", value: "1000" },
+						{ label: "2 time", value: "2000" },
+						{ label: "3 time", value: "3000" },
+					],
+				},
+				{ label: "Ban", type: "server", option: "button", event: "ps-adminmenu:client:banplayer" },
 			],
 		},
 		{
+			id: "spawn_vehicle",
 			label: "Spawn Vehicle",
 			type: "client",
 			perms: "mod",
 			dropdown: [
-				{ label: "label", type: "input", inputtype: "normal" },
-				{ label: "Ban", type: "button", event: "ps-adminmenu:client:banplayer" },
+				{ label: "Player", option: "dropdown", data: "players" },
+				{ label: "Reason", option: "text" },
+				{ label: "Time", option: "dropdown", 
+					data: [
+						{ label: "1 time", value: "1000" },
+						{ label: "2 time", value: "2000" },
+						{ label: "3 time", value: "3000" },
+					],
+				},
+				{ label: "Ban", type: "server", option: "button", event: "ps-adminmenu:client:banplayer" },
+			],
+		},
+		{
+			id: "spawn_vehicle",
+			label: "Spawn Vehicle",
+			type: "client",
+			perms: "mod",
+			dropdown: [
+				{ label: "Player", option: "dropdown", data: "players" },
+				{ label: "Reason", option: "text" },
+				{ label: "Time", option: "dropdown", 
+					data: [
+						{ label: "1 time", value: "1000" },
+						{ label: "2 time", value: "2000" },
+						{ label: "3 time", value: "3000" },
+					],
+				},
+				{ label: "Ban", type: "server", option: "button", event: "ps-adminmenu:client:banplayer" },
+			],
+		},
+		{
+			id: "spawn_vehicle",
+			label: "Spawn Vehicle",
+			type: "client",
+			perms: "mod",
+			dropdown: [
+				{ label: "Player", option: "dropdown", data: "players" },
+				{ label: "Reason", option: "text" },
+				{ label: "Time", option: "dropdown", 
+					data: [
+						{ label: "1 time", value: "1000" },
+						{ label: "2 time", value: "2000" },
+						{ label: "3 time", value: "3000" },
+					],
+				},
+				{ label: "Ban", type: "server", option: "button", event: "ps-adminmenu:client:banplayer" },
+			],
+		},
+		{
+			id: "spawn_vehicle",
+			label: "Spawn Vehicle",
+			type: "client",
+			perms: "mod",
+			dropdown: [
+				{ label: "Player", option: "dropdown", data: "players" },
+				{ label: "Reason", option: "text" },
+				{ label: "Time", option: "dropdown", 
+					data: [
+						{ label: "1 time", value: "1000" },
+						{ label: "2 time", value: "2000" },
+						{ label: "3 time", value: "3000" },
+					],
+				},
+				{ label: "Ban", type: "server", option: "button", event: "ps-adminmenu:client:banplayer" },
+			],
+		},
+		{
+			id: "spawn_vehicle",
+			label: "Spawn Vehicle",
+			type: "client",
+			perms: "mod",
+			dropdown: [
+				{ label: "Player", option: "dropdown", data: "players" },
+				{ label: "Reason", option: "text" },
+				{ label: "Time", option: "dropdown", 
+					data: [
+						{ label: "1 time", value: "1000" },
+						{ label: "2 time", value: "2000" },
+						{ label: "3 time", value: "3000" },
+					],
+				},
+				{ label: "Ban", type: "server", option: "button", event: "ps-adminmenu:client:banplayer" },
+			],
+		},
+		{
+			id: "spawn_vehicle",
+			label: "Spawn Vehicle",
+			type: "client",
+			perms: "mod",
+			dropdown: [
+				{ label: "Player", option: "dropdown", data: "players" },
+				{ label: "Reason", option: "text" },
+				{ label: "Time", option: "dropdown", 
+					data: [
+						{ label: "1 time", value: "1000" },
+						{ label: "2 time", value: "2000" },
+						{ label: "3 time", value: "3000" },
+					],
+				},
+				{ label: "Ban", type: "server", option: "button", event: "ps-adminmenu:client:banplayer" },
+			],
+		},
+		{
+			id: "spawn_vehicle",
+			label: "Spawn Vehicle",
+			type: "client",
+			perms: "mod",
+			dropdown: [
+				{ label: "Player", option: "dropdown", data: "players" },
+				{ label: "Reason", option: "text" },
+				{ label: "Time", option: "dropdown", 
+					data: [
+						{ label: "1 time", value: "1000" },
+						{ label: "2 time", value: "2000" },
+						{ label: "3 time", value: "3000" },
+					],
+				},
+				{ label: "Ban", type: "server", option: "button", event: "ps-adminmenu:client:banplayer" },
 			],
 		},
 	]
@@ -64,57 +194,63 @@
 	const debugResources = [
 		{
 			name: "ps-adminmenu",
-			version: "1.0.0",
-			desc: "A cool admin menu",
-			author: "Project Sloth",
+			resourceState: "started",
 		},
 		{
 			name: "ps-mdt",
 			version: "1.0.0",
-			desc: "A cool mdt",
+			description: "A cool mdt",
 			author: "Project Sloth",
+			resourceState: "started",
 		},
 		{
 			name: "ps-dispatch",
 			version: "1.0.0",
-			desc: "A cool dispatch",
+			description: "A cool dispatch",
 			author: "Project Sloth",
+			resourceState: "started",
 		},
 		{
 			name: "ps-hosuing",
 			version: "1.0.0",
-			desc: "A cool house",
+			description: "A cool house",
 			author: "Project Sloth",
+			resourceState: "started",
 		},
 		{
 			name: "ps-camera",
 			version: "1.0.0",
-			desc: "A cool camera",
-			author: "Project Sloth",
+			description: "A cool camera",
+			author: "Project Sloth and ok1ez ok1ez",
+			resourceState: "started",
 		},
 		{
 			name: "ps-hud",
 			version: "1.0.0",
-			desc: "A cool hud",
+			description: "A cool hud",
 			author: "Project Sloth",
+			resourceState: "stopped",
 		},
 		{
 			name: "ps-fuel",
 			version: "1.0.0",
-			desc: "A cool gas pump",
+			description: "A cool gas pump",
 			author: "Project Sloth",
+			resourceState: "stopped",
 		},
 		{
 			name: "ps-liveries",
 			version: "1.0.0",
-			desc: "A cool liverie",
+			description: "A cool liverie",
 			author: "Project Sloth",
+			resourceState: "stopped",
 		},
 		{
 			name: "ps-ui",
 			version: "1.0.0",
-			desc: "A cool ui",
+			description: "A cool ui",
 			author: "Project Sloth",
+			resourceState: "stopped",
 		},
 	]
 
@@ -205,21 +341,42 @@
 		},
 	]
 
+	debugData([
+		{
+		action: "setActionData",
+		data: debugActions
+		},
+	])
+
+	debugData([
+		{
+		action: "setResourceData",
+		data: debugResources
+		},
+	])
+
+	debugData([
+		{
+		action: "setPlayersData",
+		data: debugPlayers
+		},
+	])
+
 	let options = [
 		{
-				component: 'Show',
-				actions : [
-					{
-						name: "show",
-						action: "setVisible",
-						data: true,
-					},
-					{
-						name: "hide",
-						action: "setVisible",
-						data: false,
-					},
-				]
+			component: 'Show',
+			actions : [
+				{
+					name: "show",
+					action: "setVisible",
+					data: true,
+				},
+				{
+					name: "hide",
+					action: "setVisible",
+					data: false,
+				},
+			]
 		},
 		{
 			component: 'Actions Data',
@@ -251,42 +408,13 @@
 				},
 			]
 		},
-		// {
-		// 	component: 'Player Data',
-		// 	actions : [
-		// 		{
-		// 			name: "Set Data",
-		// 			action: "setPlayersData",
-		// 			data: debugPlayers,
-		// 		},
-		// 	]
-		// },
-		// {
-		// 	component: 'Example',
-		// 	actions : [
-		// 		{
-		// 			name: "debugLocation",
-		// 			custom: true,
-		// 			customFunction: () => {
-					// CUSTOM LOGIC
-		// 			}
-		// 		},
-		// 		{
-		// 			name: "toggle Show",
-		// 			custom: true,
-		// 			customFunction: () => {
-					// CUSTOM LOGIC
-		// 			}
-		// 		},
-		// 	]
-		// },
-
 	]
 </script>
 
 
-<div class="absolute top-0 z-[1000]">
-	<button class="bg-[#232B33] text-white p-2 font-medium"
+<div class="absolute top-0 z-[1000] font-medium uppercase m-4">
+	<button class="bg-neutral-800 p-3
+	3 font-medium uppercase"
 		on:click={() => {
 			show = !show;
 		}}
@@ -294,12 +422,12 @@
 	Show
 	</button>
 	{#if show}
-	<div class="w-fit h-fit bg-[#25303B] p-2">
+	<div class="w-fit h-fit bg-neutral-800 p-2 ">
 		{#each options as option}
-		<div class="flex flex-row gap-2 items-center">
-			<p class="text-white mr-4">{option.component}</p>
+		<div class="flex flex-row gap-2 items-center m-1">
+			<p class="h-full w-full mr-2">{option.component}</p>
 			{#each option.actions as action}
-			<button class="bg-[#0098A3] text-white p-2"
+			<button class="bg-neutral-600 p-2"
 				on:click={() => {
 
 					if (action.custom == true) {
