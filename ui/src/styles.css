@@ -33,18 +33,16 @@ html, body {
 ::-webkit-scrollbar {
     height: 0px;
     width: 0vh;
-    background-color: #373a4041;
-    border-radius: 50px;
+    background-color: #24272b;
+
 }
 
 .scroll-visble ::-webkit-scrollbar {
-    height: 0px;
-    width: 0.4vh;
-    background-color: #373a4041;
-    border-radius: 50px;
+    width: 0.5vh;
+    background-color: #141517;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #373a40;
+    background-color: #24272b;
     border-radius: 50px;
 }

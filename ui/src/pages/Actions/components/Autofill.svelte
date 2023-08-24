@@ -45,7 +45,7 @@
     ]
 </script>
 
-<div class="w-[22vh] flex flex-col bg-secondary rounded-[0.5vh]">
+<div class="w-[22vh] flex flex-col bg-secondary rounded-[0.5vh] border-[0.1vh] border-primary">
     <div class="w-full h-[3.8vh] pl-[1vh] flex justify-between">
         <input 
             type="text" 
@@ -63,7 +63,7 @@
         >
             {#each data as item}
                 <button class="w-full p-[0.5vh] flex justify-start px-[1vh] hover:bg-tertiary">
-                    <p class="">{item.label}</p>
+                    <p>{item.label}</p>
                 </button>
             {/each}
         </div>

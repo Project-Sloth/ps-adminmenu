@@ -25,6 +25,5 @@
 	<div class="flex items-center gap-[1vh]">
 		<Favorite data={id} />
 		<p>{data.label}</p>
-		<p>{id}</p>
 	</div>
 </button>

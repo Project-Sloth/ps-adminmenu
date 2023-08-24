@@ -24,7 +24,6 @@
 		<div class="flex items-center gap-[1vh]">
 			<Favorite data={id} />
 			<p>{data.label}</p>
-			<p>{id}</p>
 		</div>
 		<i class="fas fa-angle-{dropdownActive ? 'down' : 'right'}" />
 	</button>
@@ -37,7 +36,7 @@
 			{#if data.dropdown}
 				{#each data.dropdown as i}
 					{#if i.option === 'text'}
-					<div class="w-[22vh] flex flex-col bg-secondary rounded-[0.5vh]">
+					<div class="w-[22vh] flex flex-col bg-secondary rounded-[0.5vh] border-[0.1vh] border-primary">
 						<div class="w-full h-[3.8vh] pl-[1vh] flex justify-between">
 							<input 
 								type="text" 
