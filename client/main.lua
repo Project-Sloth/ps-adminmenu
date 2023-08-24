@@ -31,6 +31,7 @@ end
 
 RegisterCommand("admin", function()
 	toggleUI(true)
+	TriggerEvent("ps-adminmenu:client:Admincar")
 end, false)
 
 -- Event Handlers
@@ -61,5 +62,6 @@ end)
 
 RegisterNUICallback("getPlayers", function(data, cb)
 	local players = lib.callback.await('ps-adminmenu:callback:GetPlayers', false)
+
 	cb(players)
 end)

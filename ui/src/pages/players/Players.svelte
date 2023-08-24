@@ -1,23 +1,27 @@
 <script lang="ts">
 	import { MENU_WIDE } from '@store/stores'
-	import { PLAYER, SELECTED_PLAYER } from '@store/players'
+	import { PLAYER, PLAYER_VEHICLES, SELECTED_PLAYER } from '@store/players'
 
 	import Header from '@components/Header.svelte'
 	import Button from './components/Button.svelte'
 	import { onMount } from 'svelte'
 	import { SendNUI } from '@utils/SendNUI'
 	import Spinner from '@components/Spinner.svelte'
+	import Autofill from '@components/Autofill.svelte'
+	import Modal from '@components/Modal.svelte'
 
 	let search = ''
 	let loading = false;
 
 	onMount(async () => {
 		loading = true;
-		const data = await SendNUI("getPlayers");
-		PLAYER.set(data);
+		const players = await SendNUI("getPlayers");
+		PLAYER.set(players);
 		loading = false;
 	});
 </script>
+
+
 
 <div class="h-full w-[33vh] px-[2vh]">
 	<Header 
@@ -30,10 +34,10 @@
 			<Spinner />
 		{:else}
 			{#if $PLAYER}
-				{#if $PLAYER && $PLAYER.filter((player) => player.name.toLowerCase().includes(search.toLowerCase())).length === 0}
+				{#if $PLAYER && $PLAYER.filter((player) => player.player.name.toLowerCase().includes(search.toLowerCase())).length === 0}
 					<div class="text-tertiary text-center text-[1.7vh] font-medium mt-[1vh]">No Player Found.</div>
 				{:else}
-					{#each $PLAYER.filter((player) => player.name.toLowerCase().includes(search.toLowerCase())) as player}
+					{#each $PLAYER.filter((player) => player.player.name.toLowerCase().includes(search.toLowerCase())) as player}
 						<Button player={player} />
 					{/each}
 				{/if}
@@ -49,7 +53,74 @@
 				<div class="text-4xl text-tertiary">No Player Selected.</div>
 			</div>
 		{:else}
-			<p class="text-[2vh] font-medium">ID: {$SELECTED_PLAYER.id} - {$SELECTED_PLAYER.name}</p>
+			<p class="text-[2vh] font-medium">ID: {$SELECTED_PLAYER.player.id} - {$SELECTED_PLAYER.player.name}</p>
+			<div class="w-full h-[96.5%] pt-[2vh] flex flex-col gap-[1vh]">
+				<p class="font-medium text-[1.7vh]">Quick Actions</p>
+				<div class="w-full bg-tertiary flex rounded-[0.5vh]">
+					<button 
+						class="h-[4.5vh] w-full rounded-l-[0.5vh] hover:bg-secondary"
+					>
+						<i class="fas fa-user-minus"></i>
+					</button>
+					<button 
+						class="h-[4.5vh] w-full hover:bg-secondary"
+					>
+						<i class="fas fa-ban"></i>
+					</button>
+					<button 
+						class="h-[4.5vh] w-full hover:bg-secondary"
+					>
+						<i class="fas fa-person-walking-arrow-right"></i>
+					</button>
+					<button 
+						class="h-[4.5vh] w-full hover:bg-secondary"
+					>
+						<i class="fas fa-person-walking-arrow-loop-left"></i>
+					</button>
+					<button 
+						class="h-[4.5vh] w-full hover:bg-secondary"
+					>
+						<i class="fas fa-heart-pulse"></i>
+					</button>
+					<button 
+						class="h-[4.5vh] w-full hover:bg-secondary"
+					>
+						<i class="fas fa-eye"></i>
+					</button>
+				</div>
+				<div class="h-[90%] overflow-auto flex flex-col gap-[1vh]">
+					<p class="font-medium text-[1.7vh]">Licenses</p>
+					<div class="w-full bg-tertiary rounded-[0.5vh] p-[1.5vh]">
+
+						<p>{$SELECTED_PLAYER.player.discord.replace('discord:', 'Discord: ')}</p>
+						<p>{$SELECTED_PLAYER.player.license.replace('license:', 'License: ')}</p>
+						<p>{$SELECTED_PLAYER.player.steam ? $SELECTED_PLAYER.steam : ""}</p>
+					</div>
+					<p class="font-medium text-[1.7vh]">Information</p>
+					<div class="w-full bg-tertiary rounded-[0.5vh] p-[1.5vh]">
+						<p>CID: {$SELECTED_PLAYER.player.cid}</p>
+						<p>Name: {$SELECTED_PLAYER.player.name}</p>
+						<p>Job: {$SELECTED_PLAYER.player.job}</p>
+						<p>Cash: ${$SELECTED_PLAYER.player.cash}</p>
+						<p>Bank: ${$SELECTED_PLAYER.player.bank}</p>
+						<p>Phone: {$SELECTED_PLAYER.player.phone}</p>
+					</div>
+					<p class="font-medium text-[1.7vh]">Vehicles</p>
+					<div class="w-full bg-tertiary rounded-[0.5vh] p-[1.5vh] flex flex-col gap-[1vh]">
+						{#each $SELECTED_PLAYER.vehicles as vehicle}
+						<div class="bg-blue-900 mt-[2vh]">
+							<p>Plate: {vehicle.plate}</p>
+							<p>Name: {vehicle.model}</p>
+						</div>
+					{/each}
+						<Autofill label={"Vehicles"} />
+						<button class="w-[10vh] p-[0.5vh] rounded-[0.5vh] bg-secondary hover:bg-opacity-90">
+							Spawn
+						</button>
+	
+					</div>
+				</div>
+			</div>
 		{/if}
     </div>
 {/if}

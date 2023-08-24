@@ -5,7 +5,7 @@ export const PLAYER_DATA = writable(null);
 
 export const SELECTED_PLAYER = writable(null);
 
-export const PLAYER = writable<PLAYER_DATA[]>(null);
+export const PLAYER = writable<any[]>(null);
 
 export const PLAYER_VEHICLES = writable<PLAYER_VEHICLES[]>(null);
 

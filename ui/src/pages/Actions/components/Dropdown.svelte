@@ -2,7 +2,7 @@
 	import DropdownComponent from '@components/DropdownComponent.svelte'
 	import { SendNUI } from '@utils/SendNUI'
 	import { slide } from 'svelte/transition'
-	import Autofill from './Autofill.svelte'
+	import Autofill from '@components/Autofill.svelte'
 	import Favorite from './Favorite.svelte'
 	import { onMount } from 'svelte'
 

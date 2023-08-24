@@ -15,4 +15,3 @@ function PermsCheck(perms)
 
     return hasPerms
 end
-
