@@ -9,8 +9,8 @@ end
 
 local function GetItems()
     local items = {}
-    for itemName, itemInfo in pairs(QBCore.Shared.Items) do
-        local data = { name = itemName, label = itemInfo.label }
+    for name, v in pairs(QBCore.Shared.Items) do
+        local data = { name = name, label = v.label }
         table.insert(items, data)
     end
     return items
@@ -18,14 +18,14 @@ end
 
 local function GetJobs()
     local jobs = {}
-    for jobName, jobData in pairs(QBCore.Shared.Jobs) do
+    for name, v in pairs(QBCore.Shared.Jobs) do
         local gradeDataList = {}
 
-        for grade, gradeData in pairs(jobData.grades) do
+        for grade, gradeData in pairs(v.grades) do
             local gradeData = { name = gradeData.name, grade = grade, isboss = gradeData.isboss }
             table.insert(gradeDataList, gradeData)
         end
-        local data = { name = jobName, label = jobData.label, grades = gradeDataList }
+        local data = { name = name, label = v.label, grades = gradeDataList }
         table.insert(jobs, data)
     end
     return jobs
@@ -33,14 +33,14 @@ end
 
 local function GetGangs()
     local gangs = {}
-    for gangName, gangData in pairs(QBCore.Shared.Gangs) do
+    for name, v in pairs(QBCore.Shared.Gangs) do
         local gradeDataList = {}
 
-        for grade, gradeData in pairs(gangData.grades) do
+        for grade, gradeData in pairs(v.grades) do
             local gradeData = { name = gradeData.name, grade = grade, isboss = gradeData.isboss }
             table.insert(gradeDataList, gradeData)
         end
-        local data = { name = gangName, label = gangData.label, grades = gradeDataList, }
+        local data = { name = name, label = v.label, grades = gradeDataList, }
         table.insert(gangs, data)
     end
     return gangs
@@ -48,8 +48,8 @@ end
 
 local function GetLocations()
     local locations = {}
-    for locationName, locationInfo in pairs(QBCore.Shared.Locations) do
-        local data = { name = locationName, coords = locationInfo, }
+    for name, v in pairs(QBCore.Shared.Locations) do
+        local data = { name = name, coords = v, }
         table.insert(locations, data)
     end
     return locations
@@ -57,8 +57,8 @@ end
 
 local function GetStash()
     local locations = {}
-    for locationName, locationInfo in pairs(QBCore.Shared.Locations) do
-        local data = { name = locationName, coords = locationInfo, }
+    for name, v in pairs(QBCore.Shared.Locations) do
+        local data = { name = name, coords = v, }
         table.insert(locations, data)
     end
     return locations
