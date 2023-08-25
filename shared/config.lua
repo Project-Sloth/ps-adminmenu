@@ -359,7 +359,7 @@ Config.Actions = {
         label = "Spawn Vehicle",
         perms = "mod",
         dropdown = {
-            { label = "Item",    option = "dropdown", data = "vehicles" },
+            { label = "Vehicle",    option = "dropdown", data = "vehicles" },
             { label = "Confirm", option = "button",   type = "server",  event = "ps-adminmenu:client:SpawnVehicle" },
         },
     },
@@ -381,7 +381,7 @@ Config.Actions = {
     },
 
     ["telport_to_player"] = {
-        label = "TP to Player",
+        label = "Teleport to Player",
         perms = "mod",
         dropdown = {
             { label = "Player",  option = "dropdown", data = "players" },
@@ -390,7 +390,7 @@ Config.Actions = {
     },
 
     ["telport_to_coords"] = {
-        label = "TP to Coords",
+        label = "Teleport to Coords",
         perms = "mod",
         dropdown = {
             { label = "Coords",  option = "text" },
@@ -398,8 +398,17 @@ Config.Actions = {
         },
     },
 
+    ["teleport_to_location"] = {
+        label = "Teleport to Location",
+        perms = "mod",
+        dropdown = {
+            { label = "Location",  option = "dropdown", data = "locations" },
+            { label = "Confirm", option = "button", type = "server", event = "ps-adminmenu:server:TeleportToLocation" },
+        },
+    },
+
     ["teleport_to_marker"] = {
-        label = "TPM",
+        label = "Teleport to Marker",
         type = "command",
         event = "tpm",
         perms = "mod",

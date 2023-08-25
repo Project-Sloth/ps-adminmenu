@@ -21,7 +21,10 @@
 	<Tabs />
 	<div class="w-full h-[77%] flex flex-col gap-[1vh] mt-[1vh] overflow-auto scroll-visble">
 		{#if $ACTION}
-			{#each Object.entries($ACTION).filter(([actionKey, actionValue]) => actionValue.label.toLowerCase().includes(search.toLowerCase())) as [actionKey, actionValue]}
+			{#each Object.entries($ACTION)
+				.filter(([actionKey, actionValue]) => actionValue.label.toLowerCase().includes(search.toLowerCase())) 
+				.sort(([aKey, aValue], [bKey, bValue]) => aValue.label.localeCompare(bValue.label))
+				as [actionKey, actionValue]}
 				{#if actionValue.dropdown}
 				<Dropdown 
 					data={actionValue} 

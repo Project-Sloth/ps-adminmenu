@@ -7,7 +7,7 @@
 		class="w-full h-full hover:bg-tertiary rounded-[0.5vh] border-[0.2vh] border-tertiary {$ALL_ACTIONS ? 'bg-tertiary' : ' '}"
 		on:click={() => {
 			ALL_ACTIONS.set(true)
-			console.log($ALL_ACTIONS)
+			// console.log($ALL_ACTIONS)
 		}}
 	>
 		All Actions
@@ -16,7 +16,7 @@
 		class="w-full h-full hover:bg-tertiary rounded-[0.5vh] border-[0.2vh] border-tertiary {!$ALL_ACTIONS ? 'bg-tertiary' : ' '}"
 		on:click={() => {
 			ALL_ACTIONS.set(false)
-			console.log($ALL_ACTIONS)
+			// console.log($ALL_ACTIONS)
 		}}
 	>
 		Favorites

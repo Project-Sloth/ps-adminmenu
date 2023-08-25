@@ -12,7 +12,7 @@
 	let dropdownActive
 
 	onMount(() => {
-		console.log("dropdown", data)
+		// console.log("dropdown", data)
 	})
 </script>
 
@@ -46,7 +46,7 @@
 						</div>
 					</div>
 					{:else if i.option === 'dropdown'}
-						<Autofill label={i.label} />
+						<Autofill action={i} label={i.label} data={i.data} />
 					{:else if i.option === 'button'}
 						<button class="w-[10vh] p-[0.5vh] rounded-[0.5vh] bg-secondary hover:bg-opacity-90 border-[0.1vh] border-primary">
 							{i.label}

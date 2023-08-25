@@ -1,6 +1,5 @@
 import { writable } from "svelte/store";
 
-//  PLAYER_DATA is used for the player data and the rest under is used for all players in the server
 export const PLAYER_DATA = writable(null);
 
 export const SELECTED_PLAYER = writable(null);

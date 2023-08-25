@@ -27,6 +27,7 @@ local function Setup()
 	print(json.encode(resources))
 
 	print("ADMIN MENU: LOADED")
+	TriggerEvent("ps-adminmenu:client:printData")
 end
 
 RegisterCommand("admin", function()

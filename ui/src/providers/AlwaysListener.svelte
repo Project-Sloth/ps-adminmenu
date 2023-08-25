@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ACTION } from '@store/actions'
+	import { ITEM_DATA, VEHICLE_DATA, JOB_DATA, GANG_DATA, LOCATION_DATA } from '@store/data'
 	import { PLAYER, PLAYER_DATA } from '@store/players'
 	import { RESOURCE, RESOURCES } from '@store/server'
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
@@ -32,6 +33,14 @@
 
 	ReceiveNUI('setPlayersData', (data: any) => {
 		$PLAYER = data
+	})
+
+	ReceiveNUI('data', (data: any) => {
+		$VEHICLE_DATA = data.vehicles
+		$ITEM_DATA = data.items
+		$JOB_DATA = data.jobs
+		$GANG_DATA = data.gangs
+		$LOCATION_DATA = data.locations
 	})
 
 </script>

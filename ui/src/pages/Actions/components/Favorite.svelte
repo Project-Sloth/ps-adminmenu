@@ -9,11 +9,11 @@
         event.stopPropagation();
         favorite = !favorite;
         localStorage.setItem(`favorite_${data}`, favorite);
-        console.log(data, "is now", favorite ? "favorited" : "unfavorited");
+        // console.log(data, "is now", favorite ? "favorited" : "unfavorited");
     };
 
 	onMount(() => {
-		console.log(data)
+		// console.log(data)
 	})
 </script>
 

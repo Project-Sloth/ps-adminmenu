@@ -7,7 +7,7 @@
 	export let id
 
 	onMount(() => {
-		console.log("button", data)
+		// console.log("button", data)
 	})
 </script>
 
