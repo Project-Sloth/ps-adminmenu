@@ -46,7 +46,7 @@
 </script>
 
 <div class="w-[22vh] flex flex-col bg-secondary rounded-[0.5vh] border-[0.1vh] border-primary">
-    <div class="w-full h-[3.8vh] pl-[1vh] flex justify-between">
+    <div class="w-full h-[3.8vh] px-[1vh] flex justify-between items-center">
         <input 
             type="text" 
             placeholder={label} 
@@ -54,6 +54,7 @@
             on:blur={() => (DataDropdownActive = false)}
             class="h-full w-[90%] bg-transparent" 
         />
+        <i class="fas fa-angle-{DataDropdownActive ? "down" : "right"} text-[1.2vh]"></i>
     </div>
 
     {#if DataDropdownActive}
