@@ -31,7 +31,6 @@ end
 
 RegisterCommand("admin", function()
 	toggleUI(true)
-	TriggerEvent("ps-adminmenu:client:Admincar")
 end, false)
 
 -- Event Handlers
@@ -57,7 +56,13 @@ RegisterNUICallback("setResourceState", function(data, cb)
 end)
 
 RegisterNUICallback("clickButton", function(data)
-	print(json.encode(data))
+	if data.type == "client" then
+		TriggerEvent(data.event, data.perms)
+	elseif data.type == "server" then
+		TriggerServerEvent(data.event)
+	elseif data.type == "command" then
+		ExecuteCommand(data.event)
+	end
 end)
 
 RegisterNUICallback("getPlayers", function(data, cb)
