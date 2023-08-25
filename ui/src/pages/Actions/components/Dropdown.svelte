@@ -48,7 +48,7 @@
 					{:else if i.option === 'dropdown'}
 						<Autofill label={i.label} />
 					{:else if i.option === 'button'}
-						<button class="w-[10vh] p-[0.5vh] rounded-[0.5vh] bg-secondary hover:bg-opacity-90">
+						<button class="w-[10vh] p-[0.5vh] rounded-[0.5vh] bg-secondary hover:bg-opacity-90 border-[0.1vh] border-primary">
 							{i.label}
 						</button>
 					{/if}
