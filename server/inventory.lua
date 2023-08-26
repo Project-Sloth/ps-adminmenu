@@ -5,15 +5,10 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(inputData, _, pe
     local src = source
     local playerId = tonumber(inputData["Player ID"])
     local Player = QBCore.Functions.GetPlayer(playerId)
-    local inv = Config.InventoryUsage
 
-    if not (inv == "qb" or inv == "ox" or inv == "lj" or inv == "ps") then
-        ConfigInvInvalid()
-        return;
-    end
-    if inv == "qb" or inv == "lj" or inv == "ps" then
-        exports[inv .. "-inventory"]:ClearInventory(playerId, nil)
-    elseif inv == "ox" then
+    if Config.Inventory ~= 'ox_inventory' then
+        exports[Config.Inventory]:ClearInventory(playerId, nil)
+    else
         exports.ox_inventory:ClearInventory(playerId, nil)
     end
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
@@ -43,11 +38,8 @@ RegisterNetEvent('ps-adminmenu:server:GiveItem', function(inputData, _, perms)
 
     if Player == nil then return QBCore.Functions.Notify(src, Lang:t("error.not_online"), 'error', 7500) end
     if amount == nil then amount = 1 end
-    if Config.Inventory == "ox" then
-        exports.ox_inventory:AddItem(Player, item, tonumber(amount))
-    else
-        Player.Functions.AddItem(item, tonumber(amount))
-    end
+    Player.Functions.AddItem(item, tonumber(amount))
+
     QBCore.Functions.Notify(src, Lang:t("success.give_item", {info = tonumber(amount) .. " " .. item, player = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname}), "success", 7500)
 end)
 
@@ -60,11 +52,7 @@ RegisterNetEvent('ps-adminmenu:server:GiveItemAll', function(inputData, _, perms
     if amount == nil then amount = 1 end
     for _, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
-        if Config.Inventory == "ox" then
-            exports.ox_inventory:AddItem(Player, item, tonumber(amount))
-        else
-            Player.Functions.AddItem(item, tonumber(amount))
-        end
+        Player.Functions.AddItem(item, tonumber(amount))
         QBCore.Functions.Notify(src, Lang:t("success.give_item_all", {info = tonumber(amount) .. " " .. item}), "success", 7500)
     end
 end)
