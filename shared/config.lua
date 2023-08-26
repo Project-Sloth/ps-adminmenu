@@ -1,6 +1,5 @@
 Config = Config or {}
 
-Config.Inventory = "ox" -- "ox", "ps", "lj", "qb"
 Config.Fuel = "ps-fuel" -- "ps-fuel", "LegacyFuel"
 
 Config.Actions = {
