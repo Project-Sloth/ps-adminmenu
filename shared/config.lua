@@ -4,6 +4,13 @@ Config.Fuel = "ps-fuel" -- "ps-fuel", "LegacyFuel"
 
 Config.Actions = {
 
+    ["admin_car"] = {
+        label = "Admin Car",
+        type = "client",
+        event = "ps-adminmenu:client:Admincar",
+        perms = "mod",
+    },
+
     ["ban_player"] = {
         label = "Ban Player",
         perms = "mod",
@@ -216,7 +223,7 @@ Config.Actions = {
     ["noclip"] = {
         label = "Noclip",
         type = "client",
-        event = "ps-adminmenu:client:ToggleNoClip",
+        event = "ps-adminmenu:client:SpawnVehicle",
         perms = "mod",
     },
 
@@ -258,6 +265,13 @@ Config.Actions = {
         label = "Revive Radius",
         type = "server",
         event = "ps-adminmenu:server:ReviveRadius",
+        perms = "mod",
+    },
+
+    ["refuel_vehicle"] = {
+        label = "Refuel Vehicle",
+        type = "client",
+        event = "ps-adminmenu:client:RefuelVehicle",
         perms = "mod",
     },
 
@@ -452,7 +466,7 @@ Config.Actions = {
     ["toggle_cuffs"] = {
         label = "Toggle Cuffs",
         type = "client",
-        event = "ps-adminmenu:client:maxmodVehicle",
+        event = "ps-adminmenu:client:toggleCuffs",
         perms = "mod",
     },
 

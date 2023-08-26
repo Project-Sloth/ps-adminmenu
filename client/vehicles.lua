@@ -1,4 +1,4 @@
-local function getVehicleFromVehList(hash)
+local function GetVehicleName(hash)
 	for _, v in pairs(QBCore.Shared.Vehicles) do
 		if hash == v.hash then
 			return v.model
@@ -6,83 +6,68 @@ local function getVehicleFromVehList(hash)
 	end
 end
 
-RegisterNetEvent('ps-adminmenu:client:Admincar', function(_, _,perms)
-    if not PermsCheck(perms) then return end
+RegisterNetEvent('ps-adminmenu:client:Admincar', function(perms)
+    if not CheckPerms(perms) then return end
 
     if cache.vehicle then
-        local plate = QBCore.Functions.GetPlate(cache.vehicle)
-        local props = QBCore.Functions.GetVehicleProperties(cache.vehicle)
-        local hash = props.model
-        local vehname = getVehicleFromVehList(hash)
-        if QBCore.Shared.Vehicles[vehname] ~= nil and next(QBCore.Shared.Vehicles[vehname]) ~= nil then
-            TriggerServerEvent('ps-adminmenu:server:SaveCar', props, QBCore.Shared.Vehicles[vehname], GetHashKey(cache.vehicle), plate)
-        else
-            QBCore.Functions.Notify(Lang:t("error.cannot_store_veh"), 'error')
+        local vehicleData = lib.getVehicleProperties(cache.vehicle)
+        local vehName = GetVehicleName(vehicleData.model)
 
+        if QBCore.Shared.Vehicles[vehName] then
+            TriggerServerEvent('ps-adminmenu:server:SaveCar', vehicleData, QBCore.Shared.Vehicles[vehName], GetHashKey(cache.vehicle), vehicleData.plate)
+        else
+            QBCore.Functions.Notify(locale("cannot_store_veh"), 'error')
         end
-    else
-        QBCore.Functions.Notify(Lang:t("error.not_in_veh"), 'error')
     end
 end)
 
 -- Spawn Vehicle
-RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(inputData, _, perms)
-    if not PermsCheck(perms) then return end
+RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(perms)
+    if not CheckPerms(perms) then return end
 
-    local ped = PlayerPedId()
-    local hash = GetHashKey(inputData["Vehicle"])
-    local veh = GetVehiclePedIsUsing(ped)
-    if not IsModelInCdimage(hash) then return end
-    RequestModel(hash)
-    while not HasModelLoaded(hash) do
-        Wait(0)
+    local hash = GetHashKey("t20") --- Change this to inputdata later, this is just for testing
+    lib.requestModel(hash)
+
+    if cache.vehicle then
+        DeleteVehicle(cache.vehicle)
     end
 
-    if IsPedInAnyVehicle(ped) then
-        DeleteVehicle(veh)
-    end
-
-    local vehicle = CreateVehicle(hash, GetEntityCoords(ped), GetEntityHeading(ped), true, false)
-    TaskWarpPedIntoVehicle(ped, vehicle, -1)
-    exports[Config.FuelScript]:SetFuel(vehicle, 100.0)
-    SetVehicleDirtLevel(vehicle, 0.0)
-    SetModelAsNoLongerNeeded(hash)
+    local vehicle = CreateVehicle(hash, GetEntityCoords(cache.ped), GetEntityHeading(cache.ped), true, false)
+    TaskWarpPedIntoVehicle(cache.ped, vehicle, -1)
+    exports[Config.Fuel]:SetFuel(vehicle, 100.0)
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
 end)
 
 -- Refuel Vehicle
-RegisterNetEvent('ps-adminmenu:client:RefuelVehicle', function(_, _, perms)
-    if not PermsCheck(perms) then return end
+RegisterNetEvent('ps-adminmenu:client:RefuelVehicle', function(perms)
+    if not CheckPerms(perms) then return end
 
-    local ped = PlayerPedId()
-    if IsPedInAnyVehicle(ped) then
-        local veh = GetVehiclePedIsUsing(ped)
-        exports[Config.FuelScript]:SetFuel(veh, 100.0)
-        QBCore.Functions.Notify(Lang:t("success.refueled_vehicle"))
+    if cache.vehicle then
+        exports[Config.Fuel]:SetFuel(cache.vehicle, 100.0)
+        QBCore.Functions.Notify(locale("refueled_vehicle"), 'success')
     else
-        QBCore.Functions.Notify(Lang:t("error.not_in_vehicle"))
+        QBCore.Functions.Notify(locale("not_in_vehicle"), 'error')
     end
 end)
 
 -- Change plate
 RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(inputData, _, perms)
-    if not PermsCheck(perms) then return end
+    if not CheckPerms(perms) then return end
 
-    local ped = PlayerPedId()
     local plate = inputData["Plate"]
-    if string.len(plate) > 8 then return QBCore.Functions.Notify(Lang:t("error.plate_max"), "error", 5000) end
-    if IsPedInAnyVehicle(ped) then
-        local veh = GetVehiclePedIsUsing(ped)
-        SetVehicleNumberPlateText(veh, plate)
+    if string.len(plate) > 8 then return QBCore.Functions.Notify(locale("plate_max"), "error", 5000) end
+
+    if cache.vehicle then
+        SetVehicleNumberPlateText(cache.vehicle, plate)
     else
-        QBCore.Functions.Notify(Lang:t("error.not_in_vehicle"))
+        QBCore.Functions.Notify(locale("not_in_vehicle"), 'error')
     end
 end)
 
 -- Toggle Vehicle Dev mode
 local vehicleDevMode = false
 RegisterNetEvent('ps-adminmenu:client:ToggleVehDevMenu', function(_, _, perms)
-    if not PermsCheck(perms) then return end
+    if not CheckPerms(perms) then return end
 
     local x = 0.4
     local y = 0.888
@@ -107,19 +92,31 @@ RegisterNetEvent('ps-adminmenu:client:ToggleVehDevMenu', function(_, _, perms)
     end)
 end)
 
-RegisterNetEvent('ps-adminmenu:client:maxmodVehicle', function(_, _, perms)
-    if not PermsCheck(perms) then return end
-
-    local ped = PlayerPedId()
-    local vehicle = GetVehiclePedIsIn(ped)
-    if IsPedSittingInVehicle(ped, vehicle) then
-        if GetPedInVehicleSeat(GetVehiclePedIsIn(ped), -1) == ped then
-            PerformanceUpgradeVehicle(vehicle)
-            QBCore.Functions.Notify(Lang:t("success.vehicle_max_modded"), 'success', 7500)
-        else
-            QBCore.Functions.Notify(Lang:t("error.vehicle_not_driver"), 'error', 7500)
+-- Max Mods
+local performanceModIndices = { 11, 12, 13, 15, 16 }
+function PerformanceUpgradeVehicle(vehicle, customWheels)
+    customWheels = customWheels or false
+    local max
+    if DoesEntityExist(vehicle) and IsEntityAVehicle(vehicle) then
+        SetVehicleModKit(vehicle, 0)
+        for _, modType in ipairs(performanceModIndices) do
+            max = GetNumVehicleMods(vehicle, tonumber(modType)) - 1
+            SetVehicleMod(vehicle, modType, max, customWheels)
         end
-    else
-        QBCore.Functions.Notify(Lang:t("error.not_in_veh"), 'error', 7500)
+        ToggleVehicleMod(vehicle, 18, true) -- Turbo
+	SetVehicleFixed(vehicle)
+    end
+end
+
+RegisterNetEvent('ps-adminmenu:client:maxmodVehicle', function(perms)
+    if not CheckPerms(perms) then return end
+
+    if IsPedSittingInVehicle(cache.ped, cache.vehicle) then
+        if GetPedInVehicleSeat(cache.vehicle, -1) == cache.ped then
+            PerformanceUpgradeVehicle(cache.vehicle)
+            QBCore.Functions.Notify(locale("vehicle_max_modded"), 'success', 7500)
+        else
+            QBCore.Functions.Notify(locale("vehicle_not_driver"), 'error', 7500)
+        end
     end
 end)
