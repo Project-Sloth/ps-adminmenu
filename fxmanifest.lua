@@ -28,4 +28,7 @@ shared_script {
 
 files {
   'html/**',
+  'locales/*.json',
 }
+
+ox_lib 'locale' -- v3.8.0 or above
