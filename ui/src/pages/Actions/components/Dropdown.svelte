@@ -30,7 +30,7 @@
 
 	{#if dropdownActive}
 		<div
-			class="w-full rounded-b-[1vh] p-[1.5vh] flex flex-col gap-[1vh]"
+			class="w-full rounded-b-[1vh] p-[1.5vh] flex flex-col gap-[1vh] justify-start items-start"
 			transition:slide={{ duration: 150 }}
 		>
 			{#if data.dropdown}
@@ -48,8 +48,8 @@
 					{:else if i.option === 'dropdown'}
 						<Autofill action={i} label={i.label} data={i.data} />
 					{:else if i.option === 'button'}
-						<button class="w-[10vh] p-[0.5vh] rounded-[0.5vh] bg-secondary hover:bg-opacity-90 border-[0.1vh] border-primary">
-							{i.label}
+						<button class="h-[3.8vh] px-[1.5vh] rounded-[0.5vh] bg-secondary hover:bg-opacity-90 border-[0.1vh] border-primary">
+							<p>{i.label}</p>
 						</button>
 					{/if}
 				{/each}

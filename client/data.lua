@@ -1,7 +1,7 @@
 local function GetVehicles()
     local vehicles = {}
     for _, v in pairs(QBCore.Shared.Vehicles) do
-        table.insert(vehicles, { name = v.name, model = v.model })
+        table.insert(vehicles, { label = v.name, value = v.model })
     end
     return vehicles
 end
@@ -16,7 +16,7 @@ local function GetItems()
     end
 
     for name, v in pairs(ItemsData) do
-        table.insert(items, { name = name, label = v.label })
+        table.insert(items, { label = v.label, value = name })
     end
     return items
 end
@@ -30,7 +30,7 @@ local function GetJobs()
             table.insert(gradeDataList, { name = gradeData.name, grade = grade, isboss = gradeData.isboss })
         end
 
-        table.insert(jobs, { name = name, label = v.label, grades = gradeDataList })
+        table.insert(jobs, { label = v.label, value = name, grades = gradeDataList })
     end
     return jobs
 end
@@ -44,7 +44,7 @@ local function GetGangs()
             table.insert(gradeDataList, { name = gradeData.name, grade = grade, isboss = gradeData.isboss })
         end
 
-        table.insert(gangs, { name = name, label = v.label, grades = gradeDataList })
+        table.insert(gangs, { label = v.label, value = name, grades = gradeDataList })
     end
     return gangs
 end
@@ -52,18 +52,11 @@ end
 local function GetLocations()
     local locations = {}
     for name, v in pairs(QBCore.Shared.Locations) do
-        table.insert(locations, { name = name, coords = v, })
+        table.insert(locations, { label = name, value = v, })
     end
     return locations
 end
 
-local function GetStash()
-    local locations = {}
-    for name, v in pairs(QBCore.Shared.Locations) do
-        table.insert(locations, { name = name, coords = v, })
-    end
-    return locations
-end
 
 RegisterNetEvent('ps-adminmenu:client:printData', function()
     local data = GetJobs()

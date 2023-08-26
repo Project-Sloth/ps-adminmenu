@@ -9,6 +9,9 @@
 
     let DataDropdownActive = false
 
+    let search = ""
+
+
 </script>
 
 <div class="w-[22vh] flex flex-col bg-secondary rounded-[0.5vh] border-[0.1vh] border-primary">
@@ -18,6 +21,7 @@
             placeholder={label} 
             on:focus={() => (DataDropdownActive = true)} 
             on:blur={() => (DataDropdownActive = false)}
+            bind:value={search}
             class="h-full w-[90%] bg-transparent" 
         />
         <i class="fas fa-angle-{DataDropdownActive ? "down" : "right"} text-[1.2vh]"></i>
@@ -29,45 +33,52 @@
             transition:slide={{ duration: 150 }}
         >
             {#if data === "players"}
-                {#each $PLAYER as i}
-                    <button class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] hover:bg-tertiary">
-                        <p>{i.player.id} - {i.player.name}</p>
+                {#each $PLAYER.filter(i => i.player.name.toLowerCase().includes(search.toLowerCase())) as i}
+                    <button class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary">
+                        <p>({i.player.id})</p>
+                        <p>{i.player.name}</p>
                     </button>
                 {/each}
             {:else if data === "vehicles"}
-                {#each $VEHICLE_DATA as i}
-                    <button class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] hover:bg-tertiary">
-                        <p>{i.name} - [{i.model}]</p>
+                {#each $VEHICLE_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
+                    <button class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary">
+                        <p>{i.label}</p>
+                        <p>({i.value})</p>
                     </button>
                 {/each}
             {:else if data === "items"}
-                {#each $ITEM_DATA as i}
-                    <button class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] hover:bg-tertiary">
-                        <p>{i.label} - ({i.name})</p>
+                {#each $ITEM_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
+                    <button class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary">
+                        <p>{i.label}</p>
+                        <p>({i.value})</p>
                     </button>
                 {/each}
             {:else if data === "jobs"}
-                {#each $JOB_DATA as i}
-                    <button class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] hover:bg-tertiary">
-                        <p>{i.label} - ({i.name}) - </p>
+                {#each $JOB_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
+                    <button class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary">
+                        <p>{i.label}</p>
+                        <p>({i.value})</p>
                     </button>
                 {/each}
             {:else if data === "gangs"}
-                {#each $GANG_DATA as i}
-                    <button class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] hover:bg-tertiary">
-                        <p>{i.label} - ({i.name}) - </p>
+                {#each $GANG_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
+                    <button class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary">
+                        <p>{i.label}</p>
+                        <p>({i.value})</p>
                     </button>
                 {/each}
             {:else if data === "locations"}
-                {#each $LOCATION_DATA as i}
-                    <button class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] hover:bg-tertiary">
-                        <p>{i.name}</p>
+                {#each $LOCATION_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
+                    <button class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary">
+                        <p>{i.label}</p>
+                        <p>({i.value})</p>
                     </button>
                 {/each}
             {:else}
-                {#each data as i}
-                    <button class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] hover:bg-tertiary">
+                {#each data.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
+                    <button class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary">
                         <p>{i.label}</p>
+                        <p>({i.value})</p>
                     </button>
                 {/each}
             {/if}
