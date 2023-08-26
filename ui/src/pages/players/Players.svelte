@@ -113,11 +113,7 @@
 							<p>Name: {vehicle.model}</p>
 						</div>
 					{/each}
-						<Autofill label={"Vehicles"} />
-						<button class="w-[10vh] p-[0.5vh] rounded-[0.5vh] bg-secondary hover:bg-opacity-90">
-							Spawn
-						</button>
-	
+
 					</div>
 				</div>
 			</div>

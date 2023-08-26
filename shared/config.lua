@@ -15,6 +15,7 @@ Config.Actions = {
                 label = "Duration",
                 option = "dropdown",
                 data = {
+                    { label = "Permanent",  value = "2147483647" },
                     { label = "10 Minutes", value = "600" },
                     { label = "30 Minutes", value = "1800" },
                     { label = "1 Hour",     value = "3600" },
@@ -23,7 +24,7 @@ Config.Actions = {
                     { label = "1 Day",      value = "86400" },
                     { label = "3 Days",     value = "259200" },
                     { label = "1 Week",     value = "604800" },
-                    { label = "Permanent",  value = "2147483647" },
+                    { label = "3 Week",     value = "1814400" },
                 },
             },
             { label = "Confirm", option = "button", type = "server", event = "ps-adminmenu:server:BanPlayer" },

@@ -10,8 +10,6 @@
     let DataDropdownActive = false
 
     let search = ""
-
-
 </script>
 
 <div class="w-[22vh] flex flex-col bg-secondary rounded-[0.5vh] border-[0.1vh] border-primary">
