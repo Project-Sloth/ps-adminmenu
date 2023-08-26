@@ -1,17 +1,22 @@
 local function GetVehicles()
     local vehicles = {}
     for _, v in pairs(QBCore.Shared.Vehicles) do
-        local data = { name = v.name, model = v.model, }
-        table.insert(vehicles, data)
+        table.insert(vehicles, { name = v.name, model = v.model })
     end
     return vehicles
 end
 
 local function GetItems()
     local items = {}
-    for name, v in pairs(QBCore.Shared.Items) do
-        local data = { name = name, label = v.label }
-        table.insert(items, data)
+
+    local ItemsData = QBCore.Shared.Items
+
+    if Config.Inventory == "ox" then
+        ItemsData = exports.ox_inventory:Items()
+    end
+
+    for name, v in pairs(ItemsData) do
+        table.insert(items, { name = name, label = v.label })
     end
     return items
 end
@@ -22,11 +27,10 @@ local function GetJobs()
         local gradeDataList = {}
 
         for grade, gradeData in pairs(v.grades) do
-            local gradeData = { name = gradeData.name, grade = grade, isboss = gradeData.isboss }
-            table.insert(gradeDataList, gradeData)
+            table.insert(gradeDataList, { name = gradeData.name, grade = grade, isboss = gradeData.isboss })
         end
-        local data = { name = name, label = v.label, grades = gradeDataList }
-        table.insert(jobs, data)
+
+        table.insert(jobs, { name = name, label = v.label, grades = gradeDataList })
     end
     return jobs
 end
@@ -37,11 +41,10 @@ local function GetGangs()
         local gradeDataList = {}
 
         for grade, gradeData in pairs(v.grades) do
-            local gradeData = { name = gradeData.name, grade = grade, isboss = gradeData.isboss }
-            table.insert(gradeDataList, gradeData)
+            table.insert(gradeDataList, { name = gradeData.name, grade = grade, isboss = gradeData.isboss })
         end
-        local data = { name = name, label = v.label, grades = gradeDataList, }
-        table.insert(gangs, data)
+
+        table.insert(gangs, { name = name, label = v.label, grades = gradeDataList })
     end
     return gangs
 end
@@ -49,8 +52,7 @@ end
 local function GetLocations()
     local locations = {}
     for name, v in pairs(QBCore.Shared.Locations) do
-        local data = { name = name, coords = v, }
-        table.insert(locations, data)
+        table.insert(locations, { name = name, coords = v, })
     end
     return locations
 end
@@ -58,8 +60,7 @@ end
 local function GetStash()
     local locations = {}
     for name, v in pairs(QBCore.Shared.Locations) do
-        local data = { name = name, coords = v, }
-        table.insert(locations, data)
+        table.insert(locations, { name = name, coords = v, })
     end
     return locations
 end
