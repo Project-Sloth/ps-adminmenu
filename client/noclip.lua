@@ -75,10 +75,32 @@ local function TeleportToGround()
     end
 end
 
+-- Toggles the behavior of visiblty, collision, etc
+local function ToggleBehavior(bool)
+    local coords = GetEntityCoords(ped)
+
+    RequestCollisionAtCoord(coords.x, coords.y, coords.z)
+    FreezeEntityPosition(ped, bool)
+    SetEntityCollision(ped, not bool, not bool)
+    SetEntityVisible(ped, not bool, not bool)
+    SetEntityInvincible(ped, bool)
+    SetEntityAlpha(ped, bool and noclipAlpha or 255, false)
+    SetLocalPlayerVisibleLocally(true)
+    SetEveryoneIgnorePlayer(ped, bool)
+    SetPoliceIgnorePlayer(ped, bool)
+
+    local vehicle = GetVehiclePedIsIn(ped, false)
+    if vehicle ~= 0 then
+        SetEntityAlpha(vehicle, bool and noclipAlpha or 255, false)
+    end
+end
+
+
 -- Stops the noclip
 local function StopNoclip()
     DestoryCam()
     TeleportToGround()
+    ToggleBehavior(false)
     FreezeEntityPosition(ped, false)
     SetEntityCollision(ped, true, true)
     SetEntityVisible(ped, true, false)
@@ -196,29 +218,13 @@ local function ToggleNoclip()
 
     if noclip then
         SetupCam()
+        ToggleBehavior(true)
         while noclip do
             Wait(0)
             UpdateCameraRotation()
             DisabledControls()
             UpdateSpeed()
             UpdateMovement()
-
-            local coords = GetEntityCoords(ped)
-
-            RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-
-            FreezeEntityPosition(ped, true)
-            SetEntityCollision(ped, false, false)
-            SetEntityVisible(ped, false, false)
-            SetEntityInvincible(ped, true)
-            SetLocalPlayerVisibleLocally(true)
-            SetEntityAlpha(ped, noclipAlpha, false)
-            SetEveryoneIgnorePlayer(ped, true)
-            SetPoliceIgnorePlayer(ped, true)
-
-            if cache.vehicle then
-                SetEntityAlpha(cache.ped, noclipAlpha, false)
-            end
         end
     else
         StopNoclip()
