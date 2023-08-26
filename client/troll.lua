@@ -1,6 +1,6 @@
 -- Set on fire
 RegisterNetEvent('ps-adminmenu:client:SetOnFire', function(time)
-    if time == nil then time = 10 end
+    if not time then time = 10 end
     local timer = time * 1000
     StartEntityFire(cache.serverId)
     Wait(timer)

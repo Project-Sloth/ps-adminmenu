@@ -1,3 +1,4 @@
+-- Returns a list of vehicles from QBCore.Shared.Vehicles
 local function GetVehicles()
     local vehicles = {}
     for _, v in pairs(QBCore.Shared.Vehicles) do
@@ -6,6 +7,7 @@ local function GetVehicles()
     return vehicles
 end
 
+-- Returns a list of items from QBCore.Shared.Items
 local function GetItems()
     local items = {}
 
@@ -21,6 +23,7 @@ local function GetItems()
     return items
 end
 
+-- Returns a list of jobs from QBCore.Shared.Jobs
 local function GetJobs()
     local jobs = {}
     for name, v in pairs(QBCore.Shared.Jobs) do
@@ -35,6 +38,7 @@ local function GetJobs()
     return jobs
 end
 
+-- Returns a list of gangs from QBCore.Shared.Gangs
 local function GetGangs()
     local gangs = {}
     for name, v in pairs(QBCore.Shared.Gangs) do
@@ -49,6 +53,7 @@ local function GetGangs()
     return gangs
 end
 
+-- Returns a list of locations from QBCore.Shared.Loactions
 local function GetLocations()
     local locations = {}
     for name, v in pairs(QBCore.Shared.Locations) do
@@ -57,11 +62,8 @@ local function GetLocations()
     return locations
 end
 
-
+-- Sends data to the UI on resource start
 RegisterNetEvent('ps-adminmenu:client:printData', function()
-    local data = GetJobs()
-    print(json.encode(data))
-
     SendNUIMessage({
         action = "data",
         data = {

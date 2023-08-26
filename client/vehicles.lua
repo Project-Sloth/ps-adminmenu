@@ -6,6 +6,7 @@ local function GetVehicleName(hash)
 	end
 end
 
+-- Own Vehicle
 RegisterNetEvent('ps-adminmenu:client:Admincar', function(perms)
     if not CheckPerms(perms) then return end
 

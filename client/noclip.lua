@@ -3,7 +3,7 @@ local cam = 0
 local speed = 1
 local maxSpeed = 16
 
-local ped = nil
+local ped
 
 -- Disable the controls
 local function DisabledControls()
@@ -230,6 +230,7 @@ local function ToggleNoclip()
         StopNoclip()
     end
 end
+
 RegisterNetEvent('ps-adminmenu:client:ToggleNoClip', function(perms)
     if not CheckPerms(perms) then return end
     ToggleNoclip()
