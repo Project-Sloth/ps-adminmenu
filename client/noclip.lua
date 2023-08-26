@@ -1,27 +1,9 @@
 local noclip = false
 local cam = 0
-
 local speed = 1
-local maxSpeed = 16.0
+local maxSpeed = 16
 
-local MinY = -89.0
-local MaxY = 89.0
-
-local noclipAlpha = 0
-
-local MOVE_FORWARDS = 32   -- Default: W (32)
-local MOVE_BACKWARDS = 33  -- Default: S (33)
-local MOVE_LEFT  = 34      -- Default: A (34)
-local MOVE_RIGHT = 35      -- Default: D (35)
-local MOVE_UP = 44         -- Default: Q (44)
-local MOVE_DOWN = 46       -- Default: E (46)
-
-local SPEED_DECREASE = 14        -- Default: Mouse wheel down (14)
-local SPEED_INCREASE = 15        -- Default: Mouse wheel up (15)
-local SPEED_RESET = 348          -- Default: Mouse wheel click (348)
-local SPEED_SLOW_MODIFIER = 36   -- Default: Left Control (36)
-local SPEED_FAST_MODIFIER = 21   -- Default: Left Shift (21)
-local SPEED_FASTER_MODIFIER = 19 -- Default: Left Alt (19)
+local ped = nil
 
 -- Disable the controls
 local function DisabledControls()
@@ -36,18 +18,13 @@ end
 
 -- Setup the camera
 local function SetupCam()
-    local rotation = GetEntityRotation(cache.ped)
-    local coords = GetEntityCoords(cache.ped)
+    local rotation = GetEntityRotation(ped)
+    local coords = GetEntityCoords(ped)
 
     cam = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", coords, vector3(0.0, 0.0, rotation.z), 75.0)
     SetCamActive(cam, true)
     RenderScriptCams(true, true, 1000, false, false)
-
-    if cache.vehicle then
-        AttachCamToEntity(cam, cache.ped, 0.0, -4.5, 2.0, true)
-    else
-        AttachCamToEntity(cam, cache.ped, 0.0, 0.0, 1.0, true)
-    end
+    AttachCamToEntity(cam, ped, 0.0, 0.0, 1.0, true)
 end
 
 -- Destroys the camera
@@ -55,7 +32,7 @@ local function DestoryCam()
     Wait(100)
     SetGameplayCamRelativeHeading(0)
     RenderScriptCams(false, true, 1000, true, true)
-    DetachEntity(cache.ped, true, true)
+    DetachEntity(ped, true, true)
     SetCamActive(cam, false)
     DestroyCam(cam, true)
 end
@@ -74,7 +51,7 @@ local function UpdateCameraRotation()
     local newX
     local newZ = rotation.z + (rightAxisX * -10)
 
-    if (rotation.x + yValue > MinY) and (rotation.x + yValue < MaxY) then
+    if (rotation.x + yValue > -89.0) and (rotation.x + yValue < 89.0) then
         newX = rotation.x + yValue
     end
 
@@ -82,42 +59,55 @@ local function UpdateCameraRotation()
         SetCamRot(cam, vector3(newX, rotation.y, newZ), 2)
     end
 
-    SetEntityHeading(cache.ped, math.max(0, (rotation.z % 360)))
+    SetEntityHeading(ped, math.max(0, (rotation.z % 360)))
+end
+
+-- Gets the ground coords
+local function TeleportToGround()
+    local coords = GetEntityCoords(ped)
+    local rayCast = StartShapeTestRay(coords.x, coords.y, coords.z, coords.x, coords.y, -10000.0, 1, 0)
+    local _, hit, hitCoords = GetShapeTestResult(rayCast)
+
+    if hit == 1 then
+        SetEntityCoords(ped, hitCoords.x, hitCoords.y, hitCoords.z)
+    else
+        SetEntityCoords(ped, coords.x, coords.y, coords.z)
+    end
 end
 
 -- Stops the noclip
 local function StopNoclip()
-    FreezeEntityPosition(cache.ped, false)
-    SetEntityCollision(cache.ped, true, true)
-    SetEntityVisible(cache.ped, true, false)
+    DestoryCam()
+    TeleportToGround()
+    FreezeEntityPosition(ped, false)
+    SetEntityCollision(ped, true, true)
+    SetEntityVisible(ped, true, false)
     SetLocalPlayerVisibleLocally(true)
-    ResetEntityAlpha(cache.ped)
-    ResetEntityAlpha(cache.ped)
-    SetEveryoneIgnorePlayer(cache.ped, false)
-    SetPoliceIgnorePlayer(cache.ped, false)
-    ResetEntityAlpha(cache.ped)
-    SetPoliceIgnorePlayer(cache.ped, true)
+    ResetEntityAlpha(ped)
+    SetEveryoneIgnorePlayer(ped, false)
+    SetPoliceIgnorePlayer(ped, false)
+    SetPoliceIgnorePlayer(ped, true)
 
-    if GetVehiclePedIsIn(cache.ped, false) ~= 0 then
-        while (not IsVehicleOnAllWheels(cache.ped)) and not noclip do
+    if cache.vehicle then
+        while (not IsVehicleOnAllWheels(ped)) and not noclip do
             Wait(0)
         end
         while not noclip do
             Wait(0)
-            if IsVehicleOnAllWheels(cache.ped) then
-                return SetEntityInvincible(cache.ped, false)
+            if IsVehicleOnAllWheels(ped) then
+                return SetEntityInvincible(ped, false)
             end
         end
     else
-        if (IsPedFalling(cache.ped) and math.abs(1 - GetEntityHeightAboveGround(cache.ped)) > 1.00) then
-            while (IsPedStopped(cache.ped) or not IsPedFalling(cache.ped)) and not noclip do
+        if (IsPedFalling(ped) and math.abs(1 - GetEntityHeightAboveGround(ped)) > 1.00) then
+            while (IsPedStopped(ped) or not IsPedFalling(ped)) and not noclip do
                 Wait(0)
             end
         end
         while not noclip do
             Wait(0)
-            if (not IsPedFalling(cache.ped)) and (not IsPedRagdoll(cache.ped)) then
-                return SetEntityInvincible(cache.ped, false)
+            if (not IsPedFalling(ped)) and (not IsPedRagdoll(ped)) then
+                return SetEntityInvincible(ped, false)
             end
         end
     end
@@ -125,17 +115,17 @@ end
 
 -- Handels the speed
 local function UpdateSpeed()
-    if IsControlAlwaysPressed(2, SPEED_DECREASE) then
+    if IsControlAlwaysPressed(2, 14) then
         speed = speed - 0.5
         if speed < 0.5 then
             speed = 0.5
         end
-    elseif IsControlAlwaysPressed(2, SPEED_INCREASE) then
+    elseif IsControlAlwaysPressed(2, 15) then
         speed = speed + 0.5
         if speed > maxSpeed then
             speed = maxSpeed
         end
-    elseif IsDisabledControlJustReleased(0, SPEED_RESET) then
+    elseif IsDisabledControlJustReleased(0, 348) then
         speed = 1
     end
 end
@@ -143,60 +133,69 @@ end
 -- Handels the movement
 local function UpdateMovement()
     local multi = 1.0
-    if IsControlAlwaysPressed(0, SPEED_FAST_MODIFIER) then
+    if IsControlAlwaysPressed(0, 21) then
         multi = 2
-    elseif IsControlAlwaysPressed(0, SPEED_FASTER_MODIFIER) then
+    elseif IsControlAlwaysPressed(0, 19) then
         multi = 4
-    elseif IsControlAlwaysPressed(0, SPEED_SLOW_MODIFIER) then
+    elseif IsControlAlwaysPressed(0, 36) then
         multi = 0.25
     end
 
-    if IsControlAlwaysPressed(0, MOVE_FORWARDS) then
+    if IsControlAlwaysPressed(0, 32) then
         local pitch = GetCamRot(cam, 0)
 
         if pitch.x >= 0 then
-            SetEntityCoordsNoOffset(cache.ped,
-                GetOffsetFromEntityInWorldCoords(cache.ped, 0.0, 0.5 * (speed * multi),
+            SetEntityCoordsNoOffset(ped,
+                GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.5 * (speed * multi),
                     (pitch.x * ((speed / 2) * multi)) / 89))
         else
-            SetEntityCoordsNoOffset(cache.ped,
-                GetOffsetFromEntityInWorldCoords(cache.ped, 0.0, 0.5 * (speed * multi),
+            SetEntityCoordsNoOffset(ped,
+                GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.5 * (speed * multi),
                     -1 * ((math.abs(pitch.x) * ((speed / 2) * multi)) / 89)))
         end
-    elseif IsControlAlwaysPressed(0, MOVE_BACKWARDS) then
+    elseif IsControlAlwaysPressed(0, 33) then
         local pitch = GetCamRot(cam, 2)
 
         if pitch.x >= 0 then
-            SetEntityCoordsNoOffset(cache.ped,
-                GetOffsetFromEntityInWorldCoords(cache.ped, 0.0, -0.5 * (speed * multi),
+            SetEntityCoordsNoOffset(ped,
+                GetOffsetFromEntityInWorldCoords(ped, 0.0, -0.5 * (speed * multi),
                     -1 * (pitch.x * ((speed / 2) * multi)) / 89))
         else
-            SetEntityCoordsNoOffset(cache.ped,
-                GetOffsetFromEntityInWorldCoords(cache.ped, 0.0, -0.5 * (speed * multi),
+            SetEntityCoordsNoOffset(ped,
+                GetOffsetFromEntityInWorldCoords(ped, 0.0, -0.5 * (speed * multi),
                     ((math.abs(pitch.x) * ((speed / 2) * multi)) / 89)))
         end
     end
 
-    if IsControlAlwaysPressed(0, MOVE_LEFT) then
-        SetEntityCoordsNoOffset(cache.ped,
-            GetOffsetFromEntityInWorldCoords(cache.ped, -0.5 * (speed * multi), 0.0, 0.0))
-    elseif IsControlAlwaysPressed(0, MOVE_RIGHT) then
-        SetEntityCoordsNoOffset(cache.ped,
-            GetOffsetFromEntityInWorldCoords(cache.ped, 0.5 * (speed * multi), 0.0, 0.0))
+    if IsControlAlwaysPressed(0, 34) then
+        SetEntityCoordsNoOffset(ped,
+            GetOffsetFromEntityInWorldCoords(ped, -0.5 * (speed * multi), 0.0, 0.0))
+    elseif IsControlAlwaysPressed(0, 35) then
+        SetEntityCoordsNoOffset(ped,
+            GetOffsetFromEntityInWorldCoords(ped, 0.5 * (speed * multi), 0.0, 0.0))
     end
 
-    if IsControlAlwaysPressed(0, MOVE_UP) then
-        SetEntityCoordsNoOffset(cache.ped,
-            GetOffsetFromEntityInWorldCoords(cache.ped, 0.0, 0.0, 0.5 * (speed * multi)))
-    elseif IsControlAlwaysPressed(0, MOVE_DOWN) then
-        SetEntityCoordsNoOffset(cache.ped,
-            GetOffsetFromEntityInWorldCoords(cache.ped, 0.0, 0.0, -0.5 * (speed * multi)))
+    if IsControlAlwaysPressed(0, 44) then
+        SetEntityCoordsNoOffset(ped,
+            GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.0, 0.5 * (speed * multi)))
+    elseif IsControlAlwaysPressed(0, 46) then
+        SetEntityCoordsNoOffset(ped,
+            GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.0, -0.5 * (speed * multi)))
     end
 end
 
-local function Noclip()
-    SetupCam()
-    CreateThread(function()
+-- Toggles the noclip
+local function ToggleNoclip()
+    noclip = not noclip
+
+    if cache.vehicle then
+        ped = GetVehiclePedIsIn(cache.ped, false)
+    else
+        ped = cache.ped
+    end
+
+    if noclip then
+        SetupCam()
         while noclip do
             Wait(0)
             UpdateCameraRotation()
@@ -204,52 +203,29 @@ local function Noclip()
             UpdateSpeed()
             UpdateMovement()
 
-
-            local coords = GetEntityCoords(cache.ped)
+            local coords = GetEntityCoords(ped)
 
             RequestCollisionAtCoord(coords.x, coords.y, coords.z)
 
-            FreezeEntityPosition(cache.ped, true)
-            SetEntityCollision(cache.ped, false, false)
-            SetEntityVisible(cache.ped, false, false)
-            SetEntityInvincible(cache.ped, true)
+            FreezeEntityPosition(ped, true)
+            SetEntityCollision(ped, false, false)
+            SetEntityVisible(ped, false, false)
+            SetEntityInvincible(ped, true)
             SetLocalPlayerVisibleLocally(true)
-            SetEntityAlpha(cache.ped, noclipAlpha, false)
-            SetEveryoneIgnorePlayer(cache.ped, true)
-            SetPoliceIgnorePlayer(cache.ped, true)
+            SetEntityAlpha(ped, noclipAlpha, false)
+            SetEveryoneIgnorePlayer(ped, true)
+            SetPoliceIgnorePlayer(ped, true)
+
             if cache.vehicle then
                 SetEntityAlpha(cache.ped, noclipAlpha, false)
             end
         end
-        StopNoclip()
-    end)
-end
-
-local function GetGroundCoords()
-    local coords = GetEntityCoords(cache.ped)
-    local rayCast = StartShapeTestRay(coords.x, coords.y, coords.z, coords.x, coords.y, -10000.0, 1, 0)
-    local _, hit, hitCoords = GetShapeTestResult(rayCast)
-
-    return (hit == 1 and hitCoords) or coords
-end
-
-local function ToggleNoclip()
-    noclip = not noclip
-
-    if noclip then
-        Noclip()
     else
-        local coords = GetGroundCoords()
-        SetEntityCoords(cache.ped, coords.x, coords.y, coords.z)
-        DestoryCam()
+        StopNoclip()
     end
-
-    print('noclip', noclip)
 end
-
 RegisterNetEvent('ps-adminmenu:client:ToggleNoClip', function(perms)
     if not CheckPerms(perms) then return end
     ToggleNoclip()
-    -- ToggleNoclip(not IsNoClipping)
     -- ToggleUI(false)
 end)
