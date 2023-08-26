@@ -1,8 +1,12 @@
 local oldPos = nil
-local spectateInfo = { toggled = false, target = 0, targetPed = 0 }
+local spectateInfo = {
+    toggled = false,
+    target = 0,
+    targetPed = 0
+}
 
 RegisterNetEvent('ps-adminmenu:requestSpectate', function(targetPed, target, name)
-    oldPos = GetEntityCoords(PlayerPedId())
+    oldPos = GetEntityCoords(cache.ped)
     spectateInfo = {
         toggled = true,
         target = target,
@@ -14,12 +18,10 @@ RegisterNetEvent('ps-adminmenu:cancelSpectate', function()
     if NetworkIsInSpectatorMode() then
         NetworkSetInSpectatorMode(false, spectateInfo['targetPed'])
     end
-    if not Cloack and not yayeetActive then
-        SetEntityVisible(PlayerPedId(), true, 0)
-    end
+    SetEntityVisible(cache.ped, true, 0)
     spectateInfo = { toggled = false, target = 0, targetPed = 0 }
     RequestCollisionAtCoord(oldPos)
-    SetEntityCoords(PlayerPedId(), oldPos)
+    SetEntityCoords(cache.ped, oldPos)
     oldPos = nil;
 end)
 
@@ -27,10 +29,9 @@ CreateThread(function()
     while true do
         Wait(0)
         if spectateInfo['toggled'] then
-            local text = {}
             local targetPed = NetworkGetEntityFromNetworkId(spectateInfo.targetPed)
             if DoesEntityExist(targetPed) then
-                SetEntityVisible(PlayerPedId(), false, 0)
+                SetEntityVisible(cache.ped, false, 0)
                 if not NetworkIsInSpectatorMode() then
                     RequestCollisionAtCoord(GetEntityCoords(targetPed))
                     NetworkSetInSpectatorMode(true, targetPed)
