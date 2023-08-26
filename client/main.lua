@@ -2,14 +2,6 @@ QBCore = exports['qb-core']:GetCoreObject()
 PlayerData = {}
 
 -- Functions
-local function toggleUI(bool)
-	SetNuiFocus(bool, bool)
-	SendNUIMessage({
-		action = "setVisible",
-		data = bool
-	})
-end
-
 local function Setup()
 	Wait(1000)
 	PlayerData = QBCore.Functions.GetPlayerData()
@@ -23,16 +15,9 @@ local function Setup()
 			playerData = PlayerData,
 		}
 	})
-	print(json.encode(Config.Actions))
-	print(json.encode(resources))
 
-	print("ADMIN MENU: LOADED")
 	TriggerEvent("ps-adminmenu:client:printData")
 end
-
-RegisterCommand("admin", function()
-	toggleUI(true)
-end, false)
 
 -- Event Handlers
 AddEventHandler("QBCore:Client:OnPlayerLoaded", function()
@@ -47,13 +32,7 @@ end)
 
 -- NUICallbacks
 RegisterNUICallback("hideUI", function()
-	toggleUI(false)
-end)
-
-RegisterNUICallback("setResourceState", function(data, cb)
-	print(json.encode(data))
-	local resources = lib.callback.await('ps-adminmenu:callback:ChangeResourceState', false, data)
-	cb(resources)
+	ToggleUI(false)
 end)
 
 RegisterNUICallback("clickButton", function(data)
@@ -66,8 +45,17 @@ RegisterNUICallback("clickButton", function(data)
 	end
 end)
 
+RegisterNUICallback("setResourceState", function(data, cb)
+	local resources = lib.callback.await('ps-adminmenu:callback:ChangeResourceState', false, data)
+	cb(resources)
+end)
+
 RegisterNUICallback("getPlayers", function(data, cb)
 	local players = lib.callback.await('ps-adminmenu:callback:GetPlayers', false)
-
 	cb(players)
 end)
+
+-- Commands 
+RegisterCommand("admin", function()
+	ToggleUI(true)
+end, false)

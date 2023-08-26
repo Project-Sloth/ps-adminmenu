@@ -15,3 +15,11 @@ function PermsCheck(perms)
 
     return hasPerms
 end
+
+-- Callbacks
+lib.callback.register('ps-adminmenu:callback:CheckPerms', function(source, perms)
+    local hasPerms = QBCore.Functions.HasPermission(source, perms)
+    if not hasPerms then return NoPerms(source) end
+
+    return json.encode(hasPerms)
+end)
