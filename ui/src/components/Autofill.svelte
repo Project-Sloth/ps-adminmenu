@@ -6,17 +6,24 @@
 	import { slide } from "svelte/transition"
 
     export let action
-    export let label
+    export let label_title
     export let data
+
+    export let selectedData;
 
     let search = ""
     let searchInputFocused = false;
     let DataDropdownActive = false;
 
-    function setSearch(label, value) {
+    function selectData(label, value) {
         search = label;
-        console.log(label, value);
         DataDropdownActive = false;
+
+        selectedData({
+            label: label,
+            value: value,
+            id: label_title
+        });
     }
 
     function handleInputFocus() {
@@ -48,7 +55,7 @@
     <div class="w-full h-[3.8vh] px-[1vh] flex justify-between items-center">
         <input 
             type="text" 
-            placeholder={label} 
+            placeholder={label_title} 
             on:focus={handleInputFocus}
             on:blur={handleInputBlur}
             bind:value={search}
@@ -60,8 +67,8 @@
     {#if DataDropdownActive}
         <button 
             class="w-full rounded-b-[0.5vh] flex flex-col max-h-[15vh] overflow-y-auto border-t border-primary scroll-visible"
-            on:mouseenter={() => { searchInputFocused = true; console.log("focus"); }}
-            on:blur={() => { searchInputFocused = false; console.log("blur"); }}
+            on:mouseenter={() => { searchInputFocused = true }}
+            on:blur={() => { searchInputFocused = false }}
             transition:slide={{ duration: 150 }}
         >
             {#if data === "players"}
@@ -69,7 +76,7 @@
                     <button 
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
                         on:click={() => 
-                            setSearch(i.player.name, i.player.id)
+                            selectData(i.player.name, i.player.id)
                         }
                     >
                         <p>{i.player.name}</p>
@@ -80,7 +87,7 @@
                 {#each $VEHICLE_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
                     <button 
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
-                        on:click={() => setSearch(i.label, i.value)}
+                        on:click={() => selectData(i.label, i.value)}
                     >
                         <p>{i.label}</p>
                         <p>({i.value})</p>
@@ -90,7 +97,7 @@
                 {#each $ITEM_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
                     <button 
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
-                        on:click={() => setSearch(i.label, i.value)}
+                        on:click={() => selectData(i.label, i.value)}
                     >
                         <p>{i.label}</p>
                         <p>({i.value})</p>
@@ -100,7 +107,7 @@
                 {#each $JOB_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
                     <button 
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
-                        on:click={() => setSearch(i.label, i.value)}
+                        on:click={() => selectData(i.label, i.value)}
                     >
                         <p>{i.label}</p>
                         <p>({i.value})</p>
@@ -110,7 +117,7 @@
                 {#each $GANG_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
                     <button 
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
-                        on:click={() => setSearch(i.label, i.value)}
+                        on:click={() => selectData(i.label, i.value)}
                     >
                         <p>{i.label}</p>
                         <p>({i.value})</p>
@@ -120,7 +127,7 @@
                 {#each $LOCATION_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
                     <button 
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
-                        on:click={() => setSearch(i.label, i.value)}
+                        on:click={() => selectData(i.label, i.value)}
                     >
                         <p>{i.label}</p>
                         <p>({i.value})</p>
@@ -130,7 +137,7 @@
                 {#each data.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
                     <button 
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
-                        on:click={() => setSearch(i.label, i.value)}
+                        on:click={() => selectData(i.label, i.value)}
                     >
                         <p>{i.label}</p>
                         <!-- <p>({i.value})</p> -->

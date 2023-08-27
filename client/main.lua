@@ -35,26 +35,6 @@ RegisterNUICallback("hideUI", function()
 	ToggleUI(false)
 end)
 
-RegisterNUICallback("clickButton", function(data)
-	if data.type == "client" then
-		TriggerEvent(data.event, data.perms)
-	elseif data.type == "server" then
-		TriggerServerEvent(data.event)
-	elseif data.type == "command" then
-		ExecuteCommand(data.event)
-	end
-end)
-
-RegisterNUICallback("setResourceState", function(data, cb)
-	local resources = lib.callback.await('ps-adminmenu:callback:ChangeResourceState', false, data)
-	cb(resources)
-end)
-
-RegisterNUICallback("getPlayers", function(data, cb)
-	local players = lib.callback.await('ps-adminmenu:callback:GetPlayers', false)
-	cb(players)
-end)
-
 -- Commands 
 RegisterCommand("admin", function()
 	ToggleUI(true)

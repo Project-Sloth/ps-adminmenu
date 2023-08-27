@@ -77,7 +77,5 @@ end
 lib.callback.register('ps-adminmenu:callback:GetPlayers', function(source)
     local players = GetCombinedData()
 
-    print(json.encode(players))
-
     return players
 end)

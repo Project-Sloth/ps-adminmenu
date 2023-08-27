@@ -26,15 +26,15 @@
 				.sort(([aKey, aValue], [bKey, bValue]) => aValue.label.localeCompare(bValue.label))
 				as [actionKey, actionValue]}
 				{#if actionValue.dropdown}
-				<Dropdown 
-					data={actionValue} 
-					id={actionKey} 
-				/>
+					<Dropdown 
+						data={actionValue} 
+						id={actionKey} 
+					/>
 				{:else}
-				<Button 
-					data={actionValue} 
-					id={actionKey}
-				/>
+					<Button 
+						data={actionValue} 
+						id={actionKey}
+					/>
 				{/if}
 			{/each}
 		{/if}
