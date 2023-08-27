@@ -521,9 +521,16 @@ Config.Actions = {
     },
 }
 
-
-function ConfigInvInvalid()
-    print(
-        '^1[Error] Your Config.InventoryUsage isnt set.. you probably had a typo\nYou have it set as= Config.InventoryUsage = "' ..
-        Config.InventoryUsage .. '"')
-end
+AddEventHandler("onResourceStart", function()
+    Wait(100)
+	if GetResourceState('ox_inventory') == 'started' then
+        Config.Inventory = 'ox_inventory'
+    elseif GetResourceState('ps-inventory') == 'started' then
+        Config.Inventory = 'ps-inventory'
+    elseif GetResourceState('lj-inventory') == 'started' then
+        Config.Inventory = 'lj-inventory'
+    elseif GetResourceState('qb-inventory') == 'started' then
+        Config.Inventory = 'qb-inventory'
+	end
+    print("Inventory: " .. Config.Inventory)
+end)
