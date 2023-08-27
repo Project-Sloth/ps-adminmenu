@@ -511,9 +511,9 @@ Config.Actions = {
                 label = "Sound",
                 option = "dropdown",
                 data = {
-                    { label = "Discord Message",  value = "discordmessage" },
-                    { label = "Wet Fart", value = "wetfart" },
-                    { label = "Bad Chilli Fart", value = "badchillifart" },
+                    { label = "Alert",  value = "alert" },
+                    { label = "Cuff", value = "cuff" },
+                    { label = "Air Wrench", value = "airwrench" },
                 },
             },
             { label = "Play Sound", option = "button", type = "client", event = "ps-adminmenu:client:PlaySound" },
