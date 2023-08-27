@@ -12,10 +12,9 @@ RegisterNetEvent('ps-adminmenu:client:openInventory', function(data, selectedDat
 end)
 
 -- Open Stash
-RegisterNetEvent('ps-adminmenu:client:openStash', function(inputData, _, perms)
-    if not PermsCheck(perms) then return end
-
-    local stash = inputData["Stash"]
+RegisterNetEvent('ps-adminmenu:client:openStash', function(data, selectedData)
+    local stash = selectedData["Stash"].value
+    if not CheckPerms(data.perms) then return end
 
     if Config.Inventory == 'ox_inventory' then
         TriggerServerEvent("ps-adminmenu:server:OpenStash", stash)
