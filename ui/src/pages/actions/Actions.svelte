@@ -22,19 +22,20 @@
 	<div class="w-full h-[77%] flex flex-col gap-[1vh] mt-[1vh] overflow-auto scroll-visble">
 		{#if $ACTION}
 			{#each Object.entries($ACTION)
-				.filter(([actionKey, actionValue]) => actionValue.label.toLowerCase().includes($searchActions.toLowerCase())) 
-				.sort(([aKey, aValue], [bKey, bValue]) => aValue.label.localeCompare(bValue.label))
-				as [actionKey, actionValue]}
+			.filter(([actionKey, actionValue]) => {
+				if ($ALL_ACTIONS) {
+					return actionValue.label.toLowerCase().includes($searchActions.toLowerCase());
+				} else {
+					return localStorage.getItem(`favorite-${actionKey}`) === 'true';
+				}
+			})
+			.sort(([aKey, aValue], [bKey, bValue]) =>
+				aValue.label.localeCompare(bValue.label)
+			) as [actionKey, actionValue]}
 				{#if actionValue.dropdown}
-					<Dropdown 
-						data={actionValue} 
-						id={actionKey} 
-					/>
+					<Dropdown data={actionValue} id={actionKey} />
 				{:else}
-					<Button 
-						data={actionValue} 
-						id={actionKey}
-					/>
+					<Button data={actionValue} id={actionKey} />
 				{/if}
 			{/each}
 		{/if}

@@ -3,7 +3,7 @@ PlayerData = {}
 
 -- Functions
 local function Setup()
-	Wait(1000)
+	Wait(500)
 	PlayerData = QBCore.Functions.GetPlayerData()
 	local resources = lib.callback.await('ps-adminmenu:callback:GetResources', false)
 

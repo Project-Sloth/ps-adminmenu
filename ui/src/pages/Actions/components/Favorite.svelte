@@ -3,12 +3,12 @@
 
     export let data
 
-    let favorite = localStorage.getItem(`favorite_${data}`) === 'true';
+    let favorite = localStorage.getItem(`favorite-${data}`) === 'true';
 
     const toggleFavorite = () => {
         event.stopPropagation();
         favorite = !favorite;
-        localStorage.setItem(`favorite_${data}`, favorite);
+        localStorage.setItem(`favorite-${data}`, favorite);
         // console.log(data, "is now", favorite ? "favorited" : "unfavorited");
     };
 

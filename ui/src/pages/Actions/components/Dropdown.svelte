@@ -74,8 +74,6 @@
 							}}
 						>
 							<p>{i.label}</p>
-							<p>{i.event}</p>
-							<p>{i.type}</p>
 						</button>
 					{/if}
 				{/each}
