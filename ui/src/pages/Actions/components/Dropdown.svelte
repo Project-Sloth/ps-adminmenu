@@ -46,9 +46,16 @@
 						</div>
 					</div>
 					{:else if i.option === 'dropdown'}
-						<Autofill action={i} label={i.label} data={i.data} />
+						<Autofill 
+							action={i} 
+							label={i.label} 
+							data={i.data} 
+						/>
 					{:else if i.option === 'button'}
-						<button class="h-[3.8vh] px-[1.5vh] rounded-[0.5vh] bg-secondary hover:bg-opacity-90 border-[0.1vh] border-primary">
+						<button 
+							class="h-[3.8vh] px-[1.5vh] rounded-[0.5vh] bg-secondary hover:bg-opacity-90 border-[0.1vh] border-primary"
+							
+						>
 							<p>{i.label}</p>
 						</button>
 					{/if}

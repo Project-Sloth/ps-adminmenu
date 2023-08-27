@@ -223,7 +223,7 @@ Config.Actions = {
     ["noclip"] = {
         label = "Noclip",
         type = "client",
-        event = "ps-adminmenu:client:SpawnVehicle",
+        event = "ps-adminmenu:client:ToggleNoClip",
         perms = "mod",
     },
 

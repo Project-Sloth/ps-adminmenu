@@ -1,9 +1,9 @@
 local noclip = false
 local cam = 0
+local ped
 local speed = 1
 local maxSpeed = 16
 
-local ped
 
 -- Disable the controls
 local function DisabledControls()
@@ -101,38 +101,6 @@ local function StopNoclip()
     DestoryCam()
     TeleportToGround()
     ToggleBehavior(false)
-    FreezeEntityPosition(ped, false)
-    SetEntityCollision(ped, true, true)
-    SetEntityVisible(ped, true, false)
-    SetLocalPlayerVisibleLocally(true)
-    ResetEntityAlpha(ped)
-    SetEveryoneIgnorePlayer(ped, false)
-    SetPoliceIgnorePlayer(ped, false)
-    SetPoliceIgnorePlayer(ped, true)
-
-    if cache.vehicle then
-        while (not IsVehicleOnAllWheels(ped)) and not noclip do
-            Wait(0)
-        end
-        while not noclip do
-            Wait(0)
-            if IsVehicleOnAllWheels(ped) then
-                return SetEntityInvincible(ped, false)
-            end
-        end
-    else
-        if (IsPedFalling(ped) and math.abs(1 - GetEntityHeightAboveGround(ped)) > 1.00) then
-            while (IsPedStopped(ped) or not IsPedFalling(ped)) and not noclip do
-                Wait(0)
-            end
-        end
-        while not noclip do
-            Wait(0)
-            if (not IsPedFalling(ped)) and (not IsPedRagdoll(ped)) then
-                return SetEntityInvincible(ped, false)
-            end
-        end
-    end
 end
 
 -- Handels the speed
@@ -211,7 +179,7 @@ local function ToggleNoclip()
     noclip = not noclip
 
     if cache.vehicle then
-        ped = GetVehiclePedIsIn(cache.ped, false)
+        ped = cache.vehicle
     else
         ped = cache.ped
     end

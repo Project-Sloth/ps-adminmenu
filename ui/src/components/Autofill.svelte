@@ -1,6 +1,8 @@
 <script>
 	import { GANG_DATA, ITEM_DATA, JOB_DATA, LOCATION_DATA, VEHICLE_DATA } from "@store/data"
 	import { PLAYER } from "@store/players"
+	import { SendNUI } from "@utils/SendNUI"
+	import { onMount } from "svelte"
 	import { slide } from "svelte/transition"
 
     export let action
@@ -29,6 +31,17 @@
         }
         searchInputFocused = false;
     }
+    
+    async function GetPlayers() {
+        const players = await SendNUI("getPlayers");
+        PLAYER.set(players);
+    }
+
+    onMount(() => {
+        if (data === "players") {
+            GetPlayers();
+        }
+    })
 </script>
 
 <div class="w-[22vh] flex flex-col bg-secondary rounded-[0.5vh] border-[0.1vh] border-primary">
@@ -55,7 +68,9 @@
                 {#each $PLAYER.filter(i => i.player.name.toLowerCase().includes(search.toLowerCase())) as i}
                     <button 
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
-                        on:click={() => setSearch(i.player.name, i.player.id)}
+                        on:click={() => 
+                            setSearch(i.player.name, i.player.id)
+                        }
                     >
                         <p>{i.player.name}</p>
                         <p>({i.player.id})</p>
@@ -118,7 +133,7 @@
                         on:click={() => setSearch(i.label, i.value)}
                     >
                         <p>{i.label}</p>
-                        <p>({i.value})</p>
+                        <!-- <p>({i.value})</p> -->
                     </button>
                 {/each}
             {/if}
