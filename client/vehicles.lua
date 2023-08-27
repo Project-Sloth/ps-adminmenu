@@ -6,9 +6,10 @@ local function GetVehicleName(hash)
 	end
 end
 
+
 -- Own Vehicle
-RegisterNetEvent('ps-adminmenu:client:Admincar', function(perms)
-    if not CheckPerms(perms) then return end
+RegisterNetEvent('ps-adminmenu:client:Admincar', function(data)
+    if not CheckPerms(data.perms) then return end
 
     if cache.vehicle then
         local vehicleData = lib.getVehicleProperties(cache.vehicle)
@@ -23,10 +24,12 @@ RegisterNetEvent('ps-adminmenu:client:Admincar', function(perms)
 end)
 
 -- Spawn Vehicle
-RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(perms)
-    if not CheckPerms(perms) then return end
+RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
 
-    local hash = GetHashKey("t20") --- Change this to inputdata later, this is just for testing
+    local selectedVehicle = selectedData["Vehicle"].value
+
+    local hash = GetHashKey(selectedVehicle)
     lib.requestModel(hash)
 
     if cache.vehicle then
@@ -40,8 +43,8 @@ RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(perms)
 end)
 
 -- Refuel Vehicle
-RegisterNetEvent('ps-adminmenu:client:RefuelVehicle', function(perms)
-    if not CheckPerms(perms) then return end
+RegisterNetEvent('ps-adminmenu:client:RefuelVehicle', function(data)
+    if not CheckPerms(data.perms) then return end
 
     if cache.vehicle then
         exports[Config.Fuel]:SetFuel(cache.vehicle, 100.0)
@@ -52,11 +55,15 @@ RegisterNetEvent('ps-adminmenu:client:RefuelVehicle', function(perms)
 end)
 
 -- Change plate
-RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(inputData, _, perms)
-    if not CheckPerms(perms) then return end
+RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
 
-    local plate = inputData["Plate"]
-    if string.len(plate) > 8 then return QBCore.Functions.Notify(locale("plate_max"), "error", 5000) end
+    local plate = selectedData["Plate"].value
+
+    if string.len(plate) > 8 then 
+        QBCore.Functions.Notify(locale("plate_max"), "error", 5000)
+        return
+    end
 
     if cache.vehicle then
         SetVehicleNumberPlateText(cache.vehicle, plate)
@@ -67,8 +74,8 @@ end)
 
 -- Toggle Vehicle Dev mode
 local vehicleDevMode = false
-RegisterNetEvent('ps-adminmenu:client:ToggleVehDevMenu', function(_, _, perms)
-    if not CheckPerms(perms) then return end
+RegisterNetEvent('ps-adminmenu:client:ToggleVehDevMenu', function(data)
+    if not CheckPerms(data.perms) then return end
 
     local x = 0.4
     local y = 0.888
@@ -105,19 +112,18 @@ function PerformanceUpgradeVehicle(vehicle, customWheels)
             SetVehicleMod(vehicle, modType, max, customWheels)
         end
         ToggleVehicleMod(vehicle, 18, true) -- Turbo
-	SetVehicleFixed(vehicle)
+	    SetVehicleFixed(vehicle)
+        print("Vehicle upgraded to max performance")
     end
 end
 
-RegisterNetEvent('ps-adminmenu:client:maxmodVehicle', function(perms)
-    if not CheckPerms(perms) then return end
+RegisterNetEvent('ps-adminmenu:client:maxmodVehicle', function(data)
+    if not CheckPerms(data.perms) then return end
 
-    if IsPedSittingInVehicle(cache.ped, cache.vehicle) then
-        if GetPedInVehicleSeat(cache.vehicle, -1) == cache.ped then
-            PerformanceUpgradeVehicle(cache.vehicle)
-            QBCore.Functions.Notify(locale("vehicle_max_modded"), 'success', 7500)
-        else
-            QBCore.Functions.Notify(locale("vehicle_not_driver"), 'error', 7500)
-        end
+    if cache.vehicle then
+        PerformanceUpgradeVehicle(cache.vehicle)
+        QBCore.Functions.Notify(locale("vehicle_max_modded"), 'success', 7500)
+    else
+        QBCore.Functions.Notify(locale("vehicle_not_driver"), 'error', 7500)
     end
 end)

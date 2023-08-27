@@ -95,6 +95,15 @@ Config.Actions = {
         },
     },
 
+    ["change_plate"] = {
+        label = "Change Plate",
+        perms = "mod",
+        dropdown = {
+            { label = "Plate", option = "text" },
+            { label = "Confirm", option = "button", type = "client", event = "ps-adminmenu:client:ChangePlate" },
+        },
+    },
+
     ["clear_inventory"] = {
         label = "Clear Inventory",
         perms = "mod",
@@ -207,7 +216,17 @@ Config.Actions = {
                     { label = "God",   value = "god" },
                 },
             },
-            { label = "Confirm", option = "button",   type = "server", event = "ps-adminmenu:server:SetPerms" },
+            { label = "Confirm", option = "button", type = "server", event = "ps-adminmenu:server:SetPerms" },
+        },
+    },
+
+    ["set_bucket"] = {
+        label = "Set Bucket",
+        perms = "mod",
+        dropdown = {
+            { label = "Player",  option = "dropdown", data = "players" },
+            { label = "Bucket", option = "text" },
+            { label = "Confirm", option = "button", type = "client", event = "ps-adminmenu:server:SetBucket" },
         },
     },
 
@@ -374,7 +393,7 @@ Config.Actions = {
         perms = "mod",
         dropdown = {
             { label = "Vehicle",    option = "dropdown", data = "vehicles" },
-            { label = "Confirm", option = "button",   type = "server",  event = "ps-adminmenu:client:SpawnVehicle" },
+            { label = "Confirm", option = "button",   type = "client",  event = "ps-adminmenu:client:SpawnVehicle" },
         },
     },
 
@@ -399,7 +418,7 @@ Config.Actions = {
         perms = "mod",
         dropdown = {
             { label = "Player",  option = "dropdown", data = "players" },
-            { label = "Confirm", option = "button",   type = "server", event = "ps-adminmenu:server:TeleportToPlayer" },
+            { label = "Confirm", option = "button",   type = "client", event = "ps-adminmenu:server:TeleportToPlayer" },
         },
     },
 
@@ -408,7 +427,7 @@ Config.Actions = {
         perms = "mod",
         dropdown = {
             { label = "Coords",  option = "text" },
-            { label = "Confirm", option = "button", type = "server", event = "ps-adminmenu:server:TeleportToPlayer" },
+            { label = "Confirm", option = "button", type = "client", event = "ps-adminmenu:client:TeleportToCoords" },
         },
     },
 
@@ -417,7 +436,7 @@ Config.Actions = {
         perms = "mod",
         dropdown = {
             { label = "Location",  option = "dropdown", data = "locations" },
-            { label = "Confirm", option = "button", type = "server", event = "ps-adminmenu:server:TeleportToLocation" },
+            { label = "Confirm", option = "button", type = "client", event = "ps-adminmenu:client:TeleportToLocation" },
         },
     },
 
