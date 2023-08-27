@@ -63,7 +63,7 @@ local function GetLocations()
 end
 
 -- Sends data to the UI on resource start
-RegisterNetEvent('ps-adminmenu:client:printData', function()
+function GetData()
     SendNUIMessage({
         action = "data",
         data = {
@@ -74,4 +74,4 @@ RegisterNetEvent('ps-adminmenu:client:printData', function()
             locations = GetLocations(),
         },
     })
-end)
+end
