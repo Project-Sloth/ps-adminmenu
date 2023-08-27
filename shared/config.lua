@@ -500,14 +500,6 @@ Config.Actions = {
         dropdown = {
             { label = "Player", option = "dropdown", data = "players" },
             {
-                label = "Type",
-                option = "dropdown",
-                data = {
-                    { label = "Player",  value = "player" },
-                    { label = "Radius", value = "radius" },
-                },
-            },
-            {
                 label = "Sound",
                 option = "dropdown",
                 data = {

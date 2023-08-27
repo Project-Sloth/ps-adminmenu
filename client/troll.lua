@@ -20,17 +20,10 @@ end)
 
 -- Play Sound
 RegisterNetEvent('ps-adminmenu:client:PlaySound', function(data, selectedData)
-
     if not CheckPerms(data.perms) then return end
 
     local player = selectedData["Player"].value
-    local type = selectedData["Type"].value
     local sound = selectedData["Sound"].value
-    print(type)
-    print(sound)
-    if type == "player" then
-        TriggerServerEvent("InteractSound_SV:PlayOnOne", player, sound, 0.30)
-    elseif type == "radius" then
-        TriggerServerEvent("ps-adminmenu:server:PlaySoundRadius", player, sound)
-    end
+
+    TriggerServerEvent("InteractSound_SV:PlayOnOne", player, sound, 0.30)
 end)
