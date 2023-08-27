@@ -494,6 +494,23 @@ Config.Actions = {
         perms = "mod",
     },
 
+    ["play_sound"] = {
+        label = "Play Sound",
+        perms = "mod",
+        dropdown = {
+            { label = "Player", option = "dropdown", data = "players" },
+            {
+                label = "Sound",
+                option = "dropdown",
+                data = {
+                    { label = "Discord Message",  value = "discordmessage" },
+                    { label = "Wet Fart", value = "wetfart" },
+                    { label = "Bad Chilli Fart", value = "badchillifart" },
+                },
+            },
+            { label = "Play Sound", option = "button", type = "client", event = "ps-adminmenu:client:PlaySound" },
+        },
+    },
 }
 
 
