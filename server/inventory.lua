@@ -1,58 +1,66 @@
 -- Clear Inventory
-RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(inputData, _, perms)
-    if not PermsCheck(perms) then return end
+RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(data, selectedData)
+    local id = selectedData["Player"].value
 
-    local src = source
-    local playerId = tonumber(inputData["Player ID"])
-    local Player = QBCore.Functions.GetPlayer(playerId)
+    if not CheckPerms(data.perms) then return end
 
-    if Config.Inventory ~= 'ox_inventory' then
-        exports[Config.Inventory]:ClearInventory(playerId, nil)
+    local Player = QBCore.Functions.GetPlayer(id)
+    if not Player then QBCore.Functions.Notify(source, locale("not_online"), 'error', 7500) return end
+
+    if Config.Inventory == 'ox_inventory' then
+        exports.ox_inventory:ClearInventory(id)
     else
-        exports.ox_inventory:ClearInventory(playerId, nil)
+        exports[Config.Inventory]:ClearInventory(id, nil)
     end
-    if Player == nil then return QBCore.Functions.Notify(src, locale("not_online"), 'error', 7500) end
-    QBCore.Functions.Notify(src, locale("invcleared", {player = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname .. " | " .. Player.PlayerData.citizenid}), 'Success', 7500)
+
+    QBCore.Functions.Notify(source, locale("invcleared"), 'success', 7500)
 end)
 
 -- Open Inv [ox side]
 RegisterNetEvent('ps-adminmenu:server:OpenInv', function(data)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(tonumber(data))
-    exports.ox_inventory:forceOpenInventory(src, 'player', tonumber(data))
-    if Player == nil then return QBCore.Functions.Notify(src, locale("not_online"), 'error', 7500) end
+    local Player = QBCore.Functions.GetPlayer(data)
+
+    if not Player then QBCore.Functions.Notify(source, locale("not_online"), 'error', 7500) return end
+
+    exports.ox_inventory:forceOpenInventory(source, 'player', data)
 end)
 
 -- Open Stash [ox side]
 RegisterNetEvent('ps-adminmenu:server:OpenStash', function(data)
-    local src = source
-    exports.ox_inventory:forceOpenInventory(src, 'stash', data)
+    exports.ox_inventory:forceOpenInventory(source, 'stash', data)
 end)
 
 -- Give Item
-RegisterNetEvent('ps-adminmenu:server:GiveItem', function(inputData, _, perms)
-    if not PermsCheck(perms) then return end
-    local src = source
-    local playerId, item, amount = inputData["Player ID"], inputData["Item"], inputData["Amount"]
-    local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
+RegisterNetEvent('ps-adminmenu:server:GiveItem', function(data, selectedData)
+    local id = selectedData["Player"].value
+    local item = selectedData["Item"].value
+    local amount = selectedData["Amount"].value
 
-    if Player == nil then return QBCore.Functions.Notify(src, locale("not_online"), 'error', 7500) end
-    if amount == nil then amount = 1 end
-    Player.Functions.AddItem(item, tonumber(amount))
+    if not CheckPerms(data.perms) then return end
 
-    QBCore.Functions.Notify(src, locale("give_item", {info = tonumber(amount) .. " " .. item, player = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname}), "success", 7500)
+    local Player = QBCore.Functions.GetPlayer(id)
+    if not Player then QBCore.Functions.Notify(source, locale("not_online"), 'error', 7500) return end
+    if not item or not amount then return end
+
+    Player.Functions.AddItem(item, amount)
+
+    QBCore.Functions.Notify(source, locale("give_item", {info = tonumber(amount) .. " " .. item, player = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname}), "success", 7500)
 end)
 
 -- Give Item to All
-RegisterNetEvent('ps-adminmenu:server:GiveItemAll', function(inputData, _, perms)
-    if not PermsCheck(perms) then return end
-    local src = source
-    local item, amount = inputData["Item"], inputData["Amount"]
+RegisterNetEvent('ps-adminmenu:server:GiveItemAll', function(data, selectedData)
+    local item = selectedData["Item"].value
+    local amount = selectedData["Amount"].value
 
-    if amount == nil then amount = 1 end
-    for _, v in pairs(QBCore.Functions.GetPlayers()) do
-        local Player = QBCore.Functions.GetPlayer(v)
-        Player.Functions.AddItem(item, tonumber(amount))
-        QBCore.Functions.Notify(src, locale("give_item_all", {info = tonumber(amount) .. " " .. item}), "success", 7500)
+    if not CheckPerms(data.perms) then return end
+
+    if not item or not amount then return end
+
+    local players = QBCore.Functions.GetPlayers()
+    for _, id in pairs(players) do
+        local Player = QBCore.Functions.GetPlayer(id)
+        print(Player)
+        Player.Functions.AddItem(item, amount)
+        QBCore.Functions.Notify(source, locale("give_item_all", {info = amount .. " " .. item}), "success", 7500)
     end
 end)

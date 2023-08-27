@@ -26,16 +26,3 @@ function Draw2DText(content, font, colour, scale, x, y)
     AddTextComponentString(content)
     DrawText(x, y)
 end
-
-AddEventHandler("onResourceStart", function()
-    Wait(100)
-	if GetResourceState('ox_inventory') == 'started' then
-        Config.Inventory = 'ox_inventory'
-    elseif GetResourceState('ps-inventory') == 'started' then
-        Config.Inventory = 'ps-inventory'
-    elseif GetResourceState('lj-inventory') == 'started' then
-        Config.Inventory = 'lj-inventory'
-    elseif GetResourceState('qb-inventory') == 'started' then
-        Config.Inventory = 'qb-inventory'
-	end
-end)

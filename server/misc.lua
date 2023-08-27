@@ -1,12 +1,10 @@
 -- Ban Player
 RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(data, selectedData)
-    print("Ban Player")
-
-    if not CheckPerms(data.perms) then return end
-
     local id = selectedData["Player"].value
     local reason = selectedData["Reason"].value
     local time = selectedData["Duration"].value
+
+    if not CheckPerms(data.perms) then return end
 
     if reason == nil then reason = "" end
     time = tonumber(time)

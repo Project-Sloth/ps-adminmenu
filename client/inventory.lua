@@ -1,13 +1,13 @@
 -- Open Inventory
-RegisterNetEvent('ps-adminmenu:client:openInventory', function(inputData, _, perms)
-    if not PermsCheck(perms) then return end
+RegisterNetEvent('ps-adminmenu:client:openInventory', function(data, selectedData)
+    local id = selectedData["Player"].value
 
-    local playerid = inputData["Player ID"]
+    if not CheckPerms(data.perms) then return end
 
     if Config.Inventory == 'ox_inventory' then
-        TriggerServerEvent("ps-adminmenu:server:OpenInv", playerid)
+        TriggerServerEvent("ps-adminmenu:server:OpenInv", id)
     else
-        TriggerServerEvent("inventory:server:OpenInventory", "otherplayer", playerid)
+        TriggerServerEvent("inventory:server:OpenInventory", "otherplayer", id)
     end
 end)
 
