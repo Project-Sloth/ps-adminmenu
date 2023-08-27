@@ -20,9 +20,18 @@ end)
 
 -- Play Sound
 RegisterNetEvent('ps-adminmenu:client:PlaySound', function(data, selectedData)
+
     if not CheckPerms(data.perms) then return end
+
     local player = selectedData["Player"].value
+    local coords = GetEntityCoords(GetPlayerPed(player))
+    local type = selectedData["Type"].value
     local sound = selectedData["Sound"].value
 
-    TriggerServerEvent("InteractSound_SV:PlayOnOne", player, sound, 0.30)
+    print(player, type, sound, coords)
+    if type == "player" or "" or nil then
+        TriggerServerEvent("InteractSound_SV:PlayOnOne", player, sound, 0.30)
+    elseif type == "radius" then
+        TriggerEvent('InteractSound_CL:PlayWithinDistance', coords, 25.0, sound, 0.30)
+    end
 end)
