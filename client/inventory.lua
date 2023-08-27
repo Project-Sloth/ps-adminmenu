@@ -1,8 +1,7 @@
 -- Open Inventory
 RegisterNetEvent('ps-adminmenu:client:openInventory', function(data, selectedData)
-    local player = selectedData["Player"].value
-
     if not CheckPerms(data.perms) then return end
+    local player = selectedData["Player"].value
 
     if Config.Inventory == 'ox_inventory' then
         TriggerServerEvent("ps-adminmenu:server:OpenInv", player )
@@ -13,8 +12,8 @@ end)
 
 -- Open Stash
 RegisterNetEvent('ps-adminmenu:client:openStash', function(data, selectedData)
-    local stash = selectedData["Stash"].value
     if not CheckPerms(data.perms) then return end
+    local stash = selectedData["Stash"].value
 
     if Config.Inventory == 'ox_inventory' then
         TriggerServerEvent("ps-adminmenu:server:OpenStash", stash)

@@ -1,7 +1,6 @@
 -- Ban Player
 RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
-
     local player = selectedData["Player"].value
     local reason = selectedData["Reason"].value
     local time = selectedData["Duration"].value
@@ -35,7 +34,6 @@ end)
 -- Revive Player
 RegisterNetEvent('ps-adminmenu:server:Revive', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
-
     local player = selectedData["Player"].value
 
     TriggerClientEvent('hospital:client:Revive', player)
@@ -58,7 +56,6 @@ end)
 -- Set RoutingBucket
 RegisterNetEvent('ps-adminmenu:server:SetBucket', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
-
     local player = selectedData["Player"].value
     local bucket = selectedData["Bucket"].value
 

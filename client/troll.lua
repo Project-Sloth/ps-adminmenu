@@ -21,7 +21,6 @@ end)
 -- Play Sound
 RegisterNetEvent('ps-adminmenu:client:PlaySound', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
-
     local player = selectedData["Player"].value
     local sound = selectedData["Sound"].value
 

@@ -1,8 +1,7 @@
 -- Clear Inventory
 RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(data, selectedData)
-    local player = selectedData["Player"].value
-
     if not CheckPerms(data.perms) then return end
+    local player = selectedData["Player"].value
 
     local Player = QBCore.Functions.GetPlayer(player)
     if not Player then QBCore.Functions.Notify(source, locale("not_online"), 'error', 7500) return end
@@ -20,7 +19,7 @@ end)
 RegisterNetEvent('ps-adminmenu:server:OpenInv', function(data)
     local Player = QBCore.Functions.GetPlayer(data)
 
-    if not Player then QBCore.Functions.Notify(source, locale("not_online"), 'error', 7500) return end
+    if not Player then return QBCore.Functions.Notify(source, locale("not_online"), 'error', 7500) end
 
     exports.ox_inventory:forceOpenInventory(source, 'player', data)
 end)
@@ -32,14 +31,13 @@ end)
 
 -- Give Item
 RegisterNetEvent('ps-adminmenu:server:GiveItem', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
     local player = selectedData["Player"].value
     local item = selectedData["Item"].value
     local amount = selectedData["Amount"].value
 
-    if not CheckPerms(data.perms) then return end
-
     local Player = QBCore.Functions.GetPlayer(player)
-    if not Player then QBCore.Functions.Notify(source, locale("not_online"), 'error', 7500) return end
+    if not Player then return QBCore.Functions.Notify(source, locale("not_online"), 'error', 7500) end
     if not item or not amount then return end
 
     Player.Functions.AddItem(item, amount)
@@ -49,10 +47,9 @@ end)
 
 -- Give Item to All
 RegisterNetEvent('ps-adminmenu:server:GiveItemAll', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
     local item = selectedData["Item"].value
     local amount = selectedData["Amount"].value
-
-    if not CheckPerms(data.perms) then return end
 
     if not item or not amount then return end
 
