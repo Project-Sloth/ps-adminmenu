@@ -17,3 +17,12 @@ RegisterNetEvent('ps-adminmenu:client:ExplodePlayer', function(damage)
         AddExplosion(coords.x, coords.y, coords.z, 2, 0.9, 1, 0, 1065353216, 0)
     end
 end)
+
+-- Play Sound
+RegisterNetEvent('ps-adminmenu:client:PlaySound', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
+    local player = selectedData["Player"].value
+    local sound = selectedData["Sound"].value
+
+    TriggerServerEvent("InteractSound_SV:PlayOnOne", player, sound, 0.30)
+end)
