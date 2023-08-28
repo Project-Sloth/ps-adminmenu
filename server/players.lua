@@ -72,8 +72,6 @@ local function GetCombinedData()
     return combinedData
 end
 
-
-
 lib.callback.register('ps-adminmenu:callback:GetPlayers', function(source)
     local players = GetCombinedData()
 

@@ -39,3 +39,8 @@ end)
 RegisterCommand("admin", function()
 	ToggleUI(true)
 end, false)
+
+-- Close UI Event 
+RegisterNetEvent('ps-adminmenu:client:CloseUI', function()
+    ToggleUI(false)
+end)
