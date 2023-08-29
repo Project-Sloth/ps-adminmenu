@@ -6,29 +6,35 @@ local function GetVehicleName(hash)
     end
 end
 
-
 -- Own Vehicle
 RegisterNetEvent('ps-adminmenu:client:Admincar', function(data)
     if not CheckPerms(data.perms) then return end
 
-    if cache.vehicle then
-        local vehicleData = lib.getVehicleProperties(cache.vehicle)
-        local vehName = GetVehicleName(vehicleData.model)
+    if cache.vehicle then return end
 
-        if QBCore.Shared.Vehicles[vehName] then
-            TriggerServerEvent('ps-adminmenu:server:SaveCar', vehicleData, QBCore.Shared.Vehicles[vehName],
-                GetHashKey(cache.vehicle), vehicleData.plate)
-        else
-            QBCore.Functions.Notify(locale("cannot_store_veh"), 'error')
-        end
+    local vehicle = lib.getVehicleProperties(cache.vehicle)
+    local name = GetVehicleName(vehicle.model)
+    local sharedVehicles = QBCore.Shared.Vehicles[name]
+
+    if sharedVehicles then
+        local hash = GetHashKey(cache.vehicle)
+
+        TriggerServerEvent('ps-adminmenu:server:SaveCar', vehicle, sharedVehicles, hash, vehicle.plate)
+        QBCore.Functions.Notify(locale("veh_owner"), 'success')
+    else
+        QBCore.Functions.Notify(locale("cannot_store_veh"), 'error')
     end
 end)
 
 -- Spawn Vehicle
 RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
+
     local selectedVehicle = selectedData["Vehicle"].value
     local hash = GetHashKey(selectedVehicle)
+
+    if not IsModelValid(hash) then return end
+
     lib.requestModel(hash)
 
     if cache.vehicle then
@@ -56,6 +62,7 @@ end)
 -- Change plate
 RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
+
     local plate = selectedData["Plate"].value
 
     if string.len(plate) > 8 then
@@ -69,65 +76,65 @@ RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(data, selectedData)
     end
 end)
 
+
 -- Toggle Vehicle Dev mode
-local vehicleDevMode = false
+local VEHICLE_DEV_MODE = false
+local function UpdateVehicleMenu()
+    while VEHICLE_DEV_MODE do
+        Wait(1000)
+
+        local vehicle = lib.getVehicleProperties(cache.vehicle)
+        local name = GetVehicleName(vehicle.model)
+        local netID = VehToNet(cache.vehicle)
+
+        SendNUIMessage({
+            action = "showVehicleMenu",
+            data = {
+                show = VEHICLE_DEV_MODE,
+                name = name,
+                model = vehicle.model,
+                netID = netID,
+                engine_health = 85,
+                body_health = 85,
+                plate = vehicle.plate,
+                fuel = 85,
+            }
+        })
+    end
+end
+
 RegisterNetEvent('ps-adminmenu:client:ToggleVehDevMenu', function(data)
     if not CheckPerms(data.perms) then return end
+    if not cache.vehicle then return end
 
-    local x = 0.4
-    local y = 0.888
-    vehicleDevMode = not vehicleDevMode
-    CreateThread(function()
-        while vehicleDevMode do
-            local ped = PlayerPedId()
-            Wait(1)
-            if IsPedInAnyVehicle(ped, false) then
-                local vehicle = GetVehiclePedIsIn(ped, false)
-                local netID = VehToNet(vehicle)
-                local hash = GetEntityModel(vehicle)
-                local modelName = GetLabelText(GetDisplayNameFromVehicleModel(hash))
-                local eHealth = GetVehicleEngineHealth(vehicle)
-                local bHealth = GetVehicleBodyHealth(vehicle)
-                Draw2DText(Lang:t("info.vehicle_dev_data"), 4, { 66, 182, 245 }, 0.4, x + 0.0, y + 0.0)
-                Draw2DText(
-                string.format(Lang:t("info.ent_id") .. '~b~%s~s~ | ' .. Lang:t("info.net_id") .. '~b~%s~s~', vehicle,
-                    netID), 4, { 255, 255, 255 }, 0.4, x + 0.0, y + 0.025)
-                Draw2DText(
-                string.format(Lang:t("info.model") .. '~b~%s~s~ | ' .. Lang:t("info.hash") .. '~b~%s~s~', modelName, hash),
-                    4, { 255, 255, 255 }, 0.4, x + 0.0, y + 0.050)
-                Draw2DText(
-                string.format(Lang:t("info.eng_health") .. '~b~%s~s~ | ' .. Lang:t("info.body_health") .. '~b~%s~s~',
-                    QBCore.Shared.Round(eHealth, 2), QBCore.Shared.Round(bHealth, 2)), 4, { 255, 255, 255 }, 0.4, x + 0.0,
-                    y + 0.075)
-            end
-        end
-    end)
+    VEHICLE_DEV_MODE = not VEHICLE_DEV_MODE
+
+    if VEHICLE_DEV_MODE then
+        CreateThread(UpdateVehicleMenu)
+    end
 end)
 
 -- Max Mods
-local performanceModIndices = { 11, 12, 13, 15, 16 }
-function PerformanceUpgradeVehicle(vehicle, customWheels)
-    customWheels = customWheels or false
-    local max
-    if vehicle then
-        SetVehicleModKit(vehicle, 0)
-        ToggleVehicleMod(vehicle, 18, true)
-        SetVehicleFixed(vehicle)
+local PERFORMANCE_MOD_INDICES = { 11, 12, 13, 15, 16 }
+local function UpgradePerformance(vehicle)
+    SetVehicleModKit(vehicle, 0)
+    ToggleVehicleMod(vehicle, 18, true)
+    SetVehicleFixed(vehicle)
 
-        for _, modType in ipairs(performanceModIndices) do
-            max = GetNumVehicleMods(vehicle, tonumber(modType)) - 1
-            SetVehicleMod(vehicle, modType, max, customWheels)
-        end
-
-        QBCore.Functions.Notify(locale("vehicle_max_modded"), 'success', 7500)
+    for _, modType in ipairs(PERFORMANCE_MOD_INDICES) do
+        local maxMod = GetNumVehicleMods(vehicle, modType) - 1
+        SetVehicleMod(vehicle, modType, maxMod, customWheels)
     end
+
+    QBCore.Functions.Notify(locale("vehicle_max_modded"), 'success', 7500)
 end
+
 
 RegisterNetEvent('ps-adminmenu:client:maxmodVehicle', function(data)
     if not CheckPerms(data.perms) then return end
 
     if cache.vehicle then
-        PerformanceUpgradeVehicle(cache.vehicle)
+        UpgradePerformance(cache.vehicle)
     else
         QBCore.Functions.Notify(locale("vehicle_not_driver"), 'error', 7500)
     end

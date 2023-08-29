@@ -3,6 +3,7 @@
 	import { ITEM_DATA, VEHICLE_DATA, JOB_DATA, GANG_DATA, LOCATION_DATA } from '@store/data'
 	import { PLAYER, PLAYER_DATA } from '@store/players'
 	import { RESOURCE, RESOURCES } from '@store/server'
+	import { VEHICLE_DEV } from '@store/vehicle_dev'
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
 	import { debugData } from '@utils/debugData'
 
@@ -41,6 +42,10 @@
 		$JOB_DATA = data.jobs
 		$GANG_DATA = data.gangs
 		$LOCATION_DATA = data.locations
+	})
+
+	ReceiveNUI('showVehicleMenu', (data: any) => {
+		$VEHICLE_DEV = data
 	})
 
 </script>
