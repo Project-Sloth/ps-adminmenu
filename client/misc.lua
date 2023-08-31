@@ -1,18 +1,3 @@
--- Recive data from ui and trigger the event and etc
-RegisterNUICallback("clickButton", function(data)
-	local selectedData = data.selectedData
-	local data = data.data
-
-	if not CheckPerms(data.perms) then return end
-
-	if data.type == "client" then
-		TriggerEvent(data.event, data, selectedData)
-	elseif data.type == "server" then
-		TriggerServerEvent(data.event, data, selectedData)
-	elseif data.type == "command" then
-		ExecuteCommand(data.event)
-	end
-end)
 
 -- Change resource state
 RegisterNUICallback("setResourceState", function(data, cb)
@@ -25,3 +10,24 @@ RegisterNUICallback("getPlayers", function(data, cb)
 	local players = lib.callback.await('ps-adminmenu:callback:GetPlayers', false)
 	cb(players)
 end)
+
+-- Toggles Invincibility
+local visible = true
+RegisterNetEvent('ps-adminmenu:client:ToggleInvisible', function(data)
+    if not CheckPerms(data.perms) then return end
+
+	visible = not visible
+
+	SetEntityVisible(cache.ped, visible, 0)
+end)
+
+-- Gode Mode
+local godmode = false
+RegisterNetEvent('ps-adminmenu:client:ToggleGodmode', function(data)
+    if not CheckPerms(data.perms) then return end
+
+	godmode = not godmode
+
+	SetPlayerInvincible(cache.playerId, godmode)
+end)
+
