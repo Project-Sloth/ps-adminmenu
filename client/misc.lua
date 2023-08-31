@@ -65,3 +65,23 @@ end, false)
 RegisterCommand("heading", function()
 	CopyCoords("heading")
 end, false)
+
+-- Infinite Ammo
+local InfiniteAmmo = false
+RegisterNetEvent('ps-adminmenu:client:setInfiniteAmmo', function(data)
+	if not CheckPerms(data.perms) then return end
+    InfiniteAmmo = not InfiniteAmmo
+
+    if GetAmmoInPedWeapon(cache.ped, cache.weapon) < 6 then
+        SetAmmoInClip(cache.ped, cache.weapon, 10)
+        Wait(50)
+    end
+
+    while InfiniteAmmo do
+        SetPedInfiniteAmmo(cache.ped, true, cache.weapon)
+        RefillAmmoInstantly(cache.ped)
+        Wait(250)
+    end
+
+    SetPedInfiniteAmmo(cache.ped, false, weapon)
+end)
