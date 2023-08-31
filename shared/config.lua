@@ -484,9 +484,11 @@ Config.Actions = {
 
     ["toggle_cuffs"] = {
         label = "Toggle Cuffs",
-        type = "client",
-        event = "ps-adminmenu:client:toggleCuffs",
         perms = "mod",
+        dropdown = {
+            { label = "Player", option = "dropdown", data = "players" },
+            { label = "Confirm", option = "button", type = "client", event = "ps-adminmenu:client:ToggleCuffs" },
+        },
     },
 
     ["max_mods"] = {

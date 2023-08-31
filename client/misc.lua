@@ -31,3 +31,11 @@ RegisterNetEvent('ps-adminmenu:client:ToggleGodmode', function(data)
 	SetPlayerInvincible(cache.playerId, godmode)
 end)
 
+-- Toggle Handcuffs
+RegisterNetEvent('ps-adminmenu:client:ToggleCuffs', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
+    local player = selectedData["Player"].value
+	local playerId = GetPlayerServerId(player)
+
+	TriggerEvent("police:client:GetCuffed", playerId)
+end)
