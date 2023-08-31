@@ -10,15 +10,14 @@ end
 RegisterNetEvent('ps-adminmenu:client:Admincar', function(data)
     if not CheckPerms(data.perms) then return end
 
-    if cache.vehicle then return end
+    if not cache.vehicle then return end
 
     local vehicle = lib.getVehicleProperties(cache.vehicle)
     local name = GetVehicleName(vehicle.model)
     local sharedVehicles = QBCore.Shared.Vehicles[name]
+    local hash = GetHashKey(cache.vehicle)
 
     if sharedVehicles then
-        local hash = GetHashKey(cache.vehicle)
-
         TriggerServerEvent('ps-adminmenu:server:SaveCar', vehicle, sharedVehicles, hash, vehicle.plate)
         QBCore.Functions.Notify(locale("veh_owner"), 'success')
     else

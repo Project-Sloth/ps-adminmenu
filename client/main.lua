@@ -35,6 +35,22 @@ RegisterNUICallback("hideUI", function()
 	ToggleUI(false)
 end)
 
+-- Recive data from ui and trigger the event and etc
+RegisterNUICallback("clickButton", function(data)
+	local selectedData = data.selectedData
+	local data = data.data
+
+	if not CheckPerms(data.perms) then return end
+
+	if data.type == "client" then
+		TriggerEvent(data.event, data, selectedData)
+	elseif data.type == "server" then
+		TriggerServerEvent(data.event, data, selectedData)
+	elseif data.type == "command" then
+		ExecuteCommand(data.event)
+	end
+end)
+
 -- Commands 
 RegisterCommand("admin", function()
 	ToggleUI(true)
