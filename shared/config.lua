@@ -181,8 +181,8 @@ Config.Actions = {
 
     ["toggle_duty"] = {
         label = "Toggle Duty",
-        type = "client",
-        event = "ps-adminmenu:client:ToggleDuty",
+        type = "server",
+        event = "QBCore:ToggleDuty",
         perms = "mod",
     },
 
