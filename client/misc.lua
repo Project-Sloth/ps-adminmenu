@@ -39,6 +39,14 @@ RegisterNetEvent('ps-adminmenu:client:ToggleCuffs', function(data, selectedData)
 	TriggerEvent("police:client:GetCuffed", playerId)
 end)
 
+-- Revive Radius
+RegisterNetEvent('ps-adminmenu:client:ReviveRadius', function(data)
+    if not CheckPerms(data.perms) then return end
+	local coords = GetEntityCoords(cache.ped)
+	local radius = lib.getNearbyPlayers(coords, 5.0, true)
+	print(json.encode(radius))
+end)
+
 -- Copy Coordinates
 local function CopyCoords(data)
     local coords = GetEntityCoords(cache.ped)

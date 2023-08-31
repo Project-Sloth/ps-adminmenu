@@ -46,13 +46,6 @@ RegisterNetEvent('ps-adminmenu:server:ReviveAll', function(data)
     TriggerClientEvent('hospital:client:Revive', -1)
 end)
 
--- Revive Radius -- use getClosesPlad [reminder for ok1ez] https://overextended.dev/ox_lib/Modules/GetClosestPed/Client#libgetclosestped
-RegisterNetEvent('ps-adminmenu:server:ReviveAll', function(data)
-    if not CheckPerms(data.perms) then return end
-
-    TriggerClientEvent('hospital:client:Revive', -1)
-end)
-
 -- Set RoutingBucket
 RegisterNetEvent('ps-adminmenu:server:SetBucket', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
