@@ -13,7 +13,7 @@ local function GetItems()
 
     local ItemsData = QBCore.Shared.Items
 
-    if Config.Inventory == "ox" then
+    if Config.Inventory == "ox_inventory" then
         ItemsData = exports.ox_inventory:Items()
     end
 
