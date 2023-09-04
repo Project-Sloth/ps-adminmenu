@@ -114,7 +114,7 @@ end)
 
 -- Take Money
 RegisterNetEvent('ps-adminmenu:server:TakeMoney', function(data, selectedData)
-    if not PermsCheck(perms) then return end
+    if not CheckPerms(data.perms) then return end
     local src = source
     local playerId, amount, moneyType = selectedData["Player"].value, selectedData["Amount"].value, selectedData["Type"].value
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
@@ -142,5 +142,24 @@ RegisterNetEvent('ps-adminmenu:server:TakeMoney', function(data, selectedData)
         else
             QBCore.Functions.Notify(src, locale("not_enough_money"), "primary")
         end
+    end
+end)
+
+-- blackout
+local Blackout = false
+RegisterNetEvent('ps-adminmenu:server:ToggleBlackout', function(data)
+    if not CheckPerms(data.perms) then return end
+
+    local src = source
+    Blackout = not Blackout
+
+    if Blackout then
+        TriggerClientEvent('QBCore:Notify', src, locale("blackout", {value = "enabled"}), 'primary')
+        while Blackout do
+            Wait(0)
+            exports["qb-weathersync"]:setBlackout(true)
+        end
+        exports["qb-weathersync"]:setBlackout(false)
+        TriggerClientEvent('QBCore:Notify', src, locale("blackout", {value = "disabled"}), 'primary')
     end
 end)
