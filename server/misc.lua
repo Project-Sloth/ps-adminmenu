@@ -23,7 +23,9 @@ RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(data, selectedData)
             reason,
             banTime,
             GetPlayerName(source)
-        })
+    })
+
+    QBCore.Functions.Notify(source, locale("playerbanned", {target = player, duration = banTime, reason = reason}), 'success', 7500)
     if banTime >= 2147483647 then
         DropPlayer(player, locale("banned") .. '\n' .. locale("reason") .. reason .. locale("ban_perm"))
     else

@@ -49,7 +49,7 @@
     "bucket_set_for_target": "Routing bucket set for: %{target} to bucket: %{bucket}",
     "bucket_set": "Routing set to bucket: %{bucket}",
     "inf_ammo_toggled": "Infinite Ammo Toggled",
-    
+
     "godmode": "Godmode is %{value}",
     "invisible": "Invisible: %{value}",
     "banreason": "Reason: %{reason}, until %{length}",
@@ -57,6 +57,7 @@
     "ban_perm": "You have been permanently banned!",
     "ban_expires": "Ban expires: ",
     "banned": "You have been banned!",
+    "playerbanned": "You have banned %{target} for %{duration} with reason: %{reason}",
     "reason": "Reason: ",
     "kicked": "You have been kicked!",
     "blackout": "Blackout is %{value}",
