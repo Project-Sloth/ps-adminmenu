@@ -13,6 +13,16 @@ function CheckPerms(perms)
     return hasPerms
 end
 
+function permsToString(perms)
+    local allowedPerms = {}
+    for k, v in pairs(perms) do
+        if v then
+            table.insert(allowedPerms, k)
+        end
+    end
+    return table.concat(allowedPerms, ", ")
+end
+
 lib.callback.register('ps-adminmenu:callback:CheckPerms', function(source, perms)
     return CheckPerms(perms)
 end)

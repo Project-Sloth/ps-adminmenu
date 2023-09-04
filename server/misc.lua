@@ -59,3 +59,20 @@ RegisterNetEvent('ps-adminmenu:server:SetBucket', function(data, selectedData)
     SetPlayerRoutingBucket(player, bucket)
     QBCore.Functions.Notify(source, locale("bucket_set_for_target", {target = player, bucket = bucket}), 'success', 7500)
 end)
+
+-- Check Perms
+RegisterNetEvent('ps-adminmenu:server:CheckPerms', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
+
+    local src = source
+    local playerId = selectedData["Player"].value
+    local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
+
+    if Player == nil then return QBCore.Functions.Notify(src, locale("not_online"), 'error', 15000) end
+    local perms = QBCore.Functions.GetPermission(Player.PlayerData.source)
+    local permsStr = permsToString(perms)
+
+    if permsStr == "" then permsStr = "NONE" end
+    name = Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname
+    QBCore.Functions.Notify(src, locale("player_perms", {name = name, perms = permsStr}), "primary", 7500)
+end)

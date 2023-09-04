@@ -231,7 +231,7 @@ Config.Actions = {
     },
 
     ["mute_player"] = {
-        label = "Check Perms",
+        label = "Mute Player",
         perms = "mod",
         dropdown = {
             { label = "Player",  option = "dropdown", data = "players" },

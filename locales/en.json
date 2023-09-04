@@ -75,5 +75,6 @@
     "stopped_resource": "Stopped Resource",
     "restarted_resource": "Restarted Resource",
     "status_title": "CFX Status",
-    "new_staffchat": "New Staff Message"
+    "new_staffchat": "New Staff Message",
+    "player_perms": "%{name} got [ %{perms} ] Permissions."
 }
