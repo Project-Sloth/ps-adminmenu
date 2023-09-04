@@ -149,14 +149,14 @@ Config.Actions = {
         },
     },
 
-    ["nui_focus"] = {
-        label = "Give NUI Focus",
-        perms = "mod",
-        dropdown = {
-            { label = "Player",  option = "dropdown", data = "players" },
-            { label = "Confirm", option = "button",   type = "client", event = "" },
-        },
-    },
+    -- ["nui_focus"] = {
+    --     label = "Give NUI Focus",
+    --     perms = "mod",
+    --     dropdown = {
+    --         { label = "Player",  option = "dropdown", data = "players" },
+    --         { label = "Confirm", option = "button",   type = "client", event = "" },
+    --     },
+    -- },
 
     ["god_mode"] = {
         label = "God Mode",
