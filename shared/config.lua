@@ -326,6 +326,7 @@ Config.Actions = {
                 data = {
                     { label = "Cash", value = "cash" },
                     { label = "Bank", value = "bank" },
+                    { label = "Crypto", value = "crypto" },
                 },
             },
             { label = "Confirm", option = "button", type = "server", event = "ps-adminmenu:server:GiveMoney" },
@@ -343,6 +344,7 @@ Config.Actions = {
                 data = {
                     { label = "Cash", value = "cash" },
                     { label = "Bank", value = "bank" },
+                    { label = "Crypto", value = "crypto" },
                 },
             },
             { label = "Confirm", option = "button", type = "server", event = "ps-adminmenu:server:GiveMoneyAll" },
