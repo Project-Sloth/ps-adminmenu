@@ -259,7 +259,7 @@ Config.Actions = {
         label = "Open Stash",
         perms = "mod",
         dropdown = {
-            { label = "Player",  option = "dropdown", data = "players" },
+            { label = "Stash",  option = "text" },
             { label = "Confirm", option = "button",   type = "client", event = "ps-adminmenu:client:openStash" },
         },
     },

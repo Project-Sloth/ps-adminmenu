@@ -21,6 +21,9 @@ end)
 
 RegisterNetEvent('ps-adminmenu:server:ChangePlate', function(newPlate, currentPlate)
     local newPlate = newPlate:upper()
+    if Config.Inventory == 'ox_inventory' then
+        exports.ox_inventory:UpdateVehicle(currentPlate, newPlate)
+    end
     MySQL.Sync.execute('UPDATE player_vehicles SET plate = ? WHERE plate = ?', {newPlate, currentPlate})
     MySQL.Sync.execute('UPDATE trunkitems SET plate = ? WHERE plate = ?', {newPlate, currentPlate})
     MySQL.Sync.execute('UPDATE gloveboxitems SET plate = ? WHERE plate = ?', {newPlate, currentPlate})
