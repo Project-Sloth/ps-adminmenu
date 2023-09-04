@@ -12,14 +12,13 @@ RegisterNetEvent('ps-adminmenu:client:Admincar', function(data)
 
     if not cache.vehicle then return end
 
-    local vehicle = lib.getVehicleProperties(cache.vehicle)
-    local name = GetVehicleName(vehicle.model)
+    local props = lib.getVehicleProperties(cache.vehicle)
+    local name = GetVehicleName(props.model)
     local sharedVehicles = QBCore.Shared.Vehicles[name]
     local hash = GetHashKey(cache.vehicle)
 
     if sharedVehicles then
-        TriggerServerEvent('ps-adminmenu:server:SaveCar', vehicle, sharedVehicles, hash, vehicle.plate)
-        QBCore.Functions.Notify(locale("veh_owner"), 'success')
+        TriggerServerEvent('ps-adminmenu:server:SaveCar', props, sharedVehicles, hash, props.plate)
     else
         QBCore.Functions.Notify(locale("cannot_store_veh"), 'error')
     end
