@@ -20,14 +20,22 @@ RegisterNetEvent('ps-adminmenu:client:ToggleInvisible', function(data)
 	SetEntityVisible(cache.ped, visible, 0)
 end)
 
--- Gode Mode
+-- God Mode
 local godmode = false
 RegisterNetEvent('ps-adminmenu:client:ToggleGodmode', function(data)
 	if not CheckPerms(data.perms) then return end
 
 	godmode = not godmode
 
-	SetPlayerInvincible(cache.playerId, godmode)
+    if godmode then
+        QBCore.Functions.Notify(locale("godmode", {value = "enabled"}), 'primary')
+        while godmode do
+            Wait(0)
+            SetPlayerInvincible(cache.playerId, true)
+        end
+        SetPlayerInvincible(cache.playerId, false)
+        QBCore.Functions.Notify(locale("godmode", {value = "disabled"}), 'primary')
+    end
 end)
 
 -- Toggle Handcuffs
@@ -91,5 +99,6 @@ RegisterNetEvent('ps-adminmenu:client:setInfiniteAmmo', function(data)
         Wait(250)
     end
 
-    SetPedInfiniteAmmo(cache.ped, false, weapon)
+    SetPedInfiniteAmmo(cache.ped, false, cache.weapon)
+
 end)
