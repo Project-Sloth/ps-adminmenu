@@ -111,3 +111,36 @@ RegisterNetEvent('ps-adminmenu:server:GiveMoneyAll', function(data, selectedData
         end
     end
 end)
+
+-- Take Money
+RegisterNetEvent('ps-adminmenu:server:TakeMoney', function(data, selectedData)
+    if not PermsCheck(perms) then return end
+    local src = source
+    local playerId, amount, moneyType = selectedData["Player"].value, selectedData["Amount"].value, selectedData["Type"].value
+    local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
+
+    if Player == nil then return QBCore.Functions.Notify(src, locale("not_online"), 'error', 7500) end
+    if string.len(amount) > 6 then return QBCore.Functions.Notify(src, locale("amount_max"), "error", 5000) end
+    if moneyType == "bank" then
+        if Player.PlayerData.money.bank >= tonumber(amount) then
+            Player.Functions.RemoveMoney("bank", tonumber(amount), "state-fees")
+            QBCore.Functions.Notify(src, locale("take_money", {info = tonumber(amount) .. "$", player = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname}), "success")
+        else
+            QBCore.Functions.Notify(src, locale("not_enough_money"), "primary")
+        end
+    elseif moneyType == "cash" then
+        if Player.PlayerData.money.cash >= tonumber(amount) then
+            Player.Functions.RemoveMoney("cash", tonumber(amount), "state-fees")
+            QBCore.Functions.Notify(src, locale("take_money", {info = tonumber(amount) .. "$", player = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname}), "success")
+        else
+            QBCore.Functions.Notify(src, locale("not_enough_money"), "primary")
+        end
+    elseif moneyType == "crypto" then
+        if Player.PlayerData.money.crypto >= tonumber(amount) then
+            Player.Functions.RemoveMoney("crypto", tonumber(amount), "state-fees")
+            QBCore.Functions.Notify(src, locale("take_money_crypto", {info = tonumber(amount), player = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname}), "success")
+        else
+            QBCore.Functions.Notify(src, locale("not_enough_money"), "primary")
+        end
+    end
+end)
