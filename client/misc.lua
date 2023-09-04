@@ -102,3 +102,27 @@ RegisterNetEvent('ps-adminmenu:client:setInfiniteAmmo', function(data)
     SetPedInfiniteAmmo(cache.ped, false, cache.weapon)
 
 end)
+
+-- Toggle coords
+local showCoords = false
+RegisterNetEvent('ps-adminmenu:client:ToggleCoords', function(data)
+	if not CheckPerms(data.perms) then return end
+
+
+    local x = 0.4
+    local y = 0.025
+    showCoords = not showCoords
+    CreateThread(function()
+        while showCoords do
+            local coords = GetEntityCoords(PlayerPedId())
+            local heading = GetEntityHeading(PlayerPedId())
+            local c = {}
+            c.x = QBCore.Shared.Round(coords.x, 2)
+            c.y = QBCore.Shared.Round(coords.y, 2)
+            c.z = QBCore.Shared.Round(coords.z, 2)
+            heading = QBCore.Shared.Round(heading, 2)
+            Wait(1)
+            Draw2DText(string.format('~w~'..locale("ped_coords") .. '~b~ vector4(~w~%s~b~, ~w~%s~b~, ~w~%s~b~, ~w~%s~b~)', c.x, c.y, c.z, heading), 4, {66, 182, 245}, 0.4, x + 0.0, y + 0.0)
+        end
+    end)
+end)

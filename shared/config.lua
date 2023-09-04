@@ -478,7 +478,7 @@ Config.Actions = {
     },
 
     ["toggle_names"] = {
-        label = "Toggle Blips",
+        label = "Toggle Names",
         type = "client",
         event = "ps-adminmenu:client:toggleNames",
         perms = "mod",
