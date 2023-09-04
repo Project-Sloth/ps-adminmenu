@@ -17,5 +17,11 @@ RegisterNetEvent('ps-adminmenu:server:SaveCar', function(mods, vehicle, _, plate
     else
         TriggerClientEvent('QBCore:Notify', src, locale("u_veh_owner"), 'error', 3000)
     end
+end)
 
+RegisterNetEvent('ps-adminmenu:server:ChangePlate', function(newPlate, currentPlate)
+    local newPlate = newPlate:upper()
+    MySQL.Sync.execute('UPDATE player_vehicles SET plate = ? WHERE plate = ?', {newPlate, currentPlate})
+    MySQL.Sync.execute('UPDATE trunkitems SET plate = ? WHERE plate = ?', {newPlate, currentPlate})
+    MySQL.Sync.execute('UPDATE gloveboxitems SET plate = ? WHERE plate = ?', {newPlate, currentPlate})
 end)

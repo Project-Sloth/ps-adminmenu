@@ -68,7 +68,12 @@ RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(data, selectedData)
     end
 
     if cache.vehicle then
+        local currentPlate = GetVehicleNumberPlateText( cache.vehicle )
+        TriggerServerEvent('ps-adminmenu:server:ChangePlate', plate, currentPlate)
+        Wait(100)
         SetVehicleNumberPlateText(cache.vehicle, plate)
+        Wait(100)
+        TriggerServerEvent('qb-vehiclekeys:server:AcquireVehicleKeys', QBCore.Functions.GetPlate(cache.vehicle))
     else
         QBCore.Functions.Notify(locale("not_in_vehicle"), 'error')
     end
