@@ -282,7 +282,7 @@ Config.Actions = {
 
     ["revive_radius"] = {
         label = "Revive Radius",
-        type = "client",
+        type = "server",
         event = "ps-adminmenu:server:ReviveRadius",
         perms = "mod",
     },
