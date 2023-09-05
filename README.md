@@ -79,7 +79,7 @@ We invite you to contribute by submitting new features through PRs. We're always
 3. Ensure `ps-adminmenu` in your server cfg.
 4. Set the config in `shared/config.lua` to your needs.
 
-# Make a log webhook for the 'ps-adminmenu' in qb-smallresources > server > logs.lua:
+Make a log webhook for the 'ps-adminmenu' in qb-smallresources > server > logs.lua:
 ['ps-adminmenu'] = 'discord webhook'
 
 # Credits
