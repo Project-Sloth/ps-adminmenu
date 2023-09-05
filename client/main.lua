@@ -51,12 +51,12 @@ RegisterNUICallback("clickButton", function(data)
 	end
 end)
 
--- Commands 
+-- Commands
 RegisterCommand("admin", function()
 	ToggleUI(true)
 end, false)
 
--- Close UI Event 
+-- Close UI Event
 RegisterNetEvent('ps-adminmenu:client:CloseUI', function()
     ToggleUI(false)
 end)

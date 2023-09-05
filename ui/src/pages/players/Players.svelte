@@ -24,10 +24,10 @@
 
 
 <div class="h-full w-[33vh] px-[2vh]">
-	<Header 
-		title={'Players'} 
-		hasSearch={true} 
-		onSearchInput={event => (search = event.target.value)} 
+	<Header
+		title={'Players'}
+		hasSearch={true}
+		onSearchInput={event => (search = event.target.value)}
 	/>
 	<div class="w-full h-[84%] flex flex-col gap-[1vh] mt-[1vh] overflow-auto">
 		{#if loading}
@@ -57,32 +57,32 @@
 			<div class="w-full h-[96.5%] pt-[2vh] flex flex-col gap-[1vh]">
 				<p class="font-medium text-[1.7vh]">Quick Actions</p>
 				<div class="w-full bg-tertiary flex rounded-[0.5vh]">
-					<button 
+					<button
 						class="h-[4.5vh] w-full rounded-l-[0.5vh] hover:bg-secondary"
 					>
 						<i class="fas fa-user-minus"></i>
 					</button>
-					<button 
+					<button
 						class="h-[4.5vh] w-full hover:bg-secondary"
 					>
 						<i class="fas fa-ban"></i>
 					</button>
-					<button 
+					<button
 						class="h-[4.5vh] w-full hover:bg-secondary"
 					>
 						<i class="fas fa-person-walking-arrow-right"></i>
 					</button>
-					<button 
+					<button
 						class="h-[4.5vh] w-full hover:bg-secondary"
 					>
 						<i class="fas fa-person-walking-arrow-loop-left"></i>
 					</button>
-					<button 
+					<button
 						class="h-[4.5vh] w-full hover:bg-secondary"
 					>
 						<i class="fas fa-heart-pulse"></i>
 					</button>
-					<button 
+					<button
 						class="h-[4.5vh] w-full hover:bg-secondary"
 					>
 						<i class="fas fa-eye"></i>

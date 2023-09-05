@@ -6,7 +6,7 @@
     export let dropdownValues, label, selectedValue, id="array-dd", insideLabel = "";
 
     let isOpen = false;
-    
+
     function toggleDropdown() {
         isOpen = !isOpen;
 
@@ -19,7 +19,7 @@
             selectWrapper.style.borderBottomRightRadius = '0.2vw';
         }
     }
-    
+
     function selectDropdownValue(value) {
         selectedValue = value;
         dispatch('selected-dropdown', value);
@@ -55,8 +55,8 @@
                     {#each dropdownValues as ddValue}
                         <div class="option-child" on:click={() => {selectDropdownValue(ddValue)}}>
                             <p>
-                                {ddValue} 
-                                {#if selectedValue === ddValue} 
+                                {ddValue}
+                                {#if selectedValue === ddValue}
                                     <i class="fas fa-check icon"></i>
                                 {/if}
                             </p>
@@ -79,31 +79,31 @@
 .dropdown-wrapper {
     display: flex;
     flex-direction: column;
-  
+
     min-width: 6vw;
     width: fit-content;
     /* padding: 0 0.2vw; */
-  
+
     background: linear-gradient(0deg, #242424, #242424), linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
     border: 1px solid rgba(255, 255, 255, 0.1);
-    
+
     color: var(--app-name);
     border-radius: 0.2vw;
   }
-  
+
   .select-wrapper {
     width: auto;
     height: 1.7vw;
-    
+
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding-left: 0.2vw;
     padding-right: 0.3vw;
-  
+
     cursor: pointer;
   }
-  
+
   .select-wrapper-selected-value {
     font-size: 0.7vw;
     padding: 0.25vw;
@@ -119,7 +119,7 @@
   .select-wrapper-selected-value > .selected-value-text {
     padding-top: 0.05vw;
   }
-  
+
   .dropdown-chevron {
     text-align: center;
     font-size: 0.5vw;
@@ -127,11 +127,11 @@
 
     color: var(--less-light-border-color);
   }
-  
+
   .options-wrapper {
     width: 100%;
   }
-  
+
   .options-wrapper > .no-items-found {
     font-size: 0.7vw;
     padding: 0.17vw 0.6vw 0.17vw 0.6vw;
@@ -139,13 +139,13 @@
 
   .option-child {
     cursor: pointer;
-    
+
     padding: 0.17vw 0.8vw 0.17vw 0.45vw;
     min-height: 1.7vw;
     border-radius: 0.2vw;
     font-size: 0.7vw;
   }
-  
+
   .option-child > p {
     display: flex;
     flex-direction: row;
@@ -155,7 +155,7 @@
     padding-top: 0.35vw;
     margin-left: 0.5vw;
   }
-  
+
   .option-child:hover {
     background-color: var(--black-two-opaque-color);
   }

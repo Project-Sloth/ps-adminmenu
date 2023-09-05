@@ -48,6 +48,24 @@ RegisterNetEvent('ps-adminmenu:server:ReviveAll', function(data)
     TriggerClientEvent('hospital:client:Revive', -1)
 end)
 
+-- Revive Radius
+RegisterNetEvent('ps-adminmenu:server:ReviveRadius', function(data)
+    if not CheckPerms(data.perms) then return end
+
+    local players = QBCore.Functions.GetPlayers()
+    local src = source
+    local ped = GetPlayerPed(src)
+    local pos = GetEntityCoords(ped)
+    for k, v in pairs(players) do
+        local target = GetPlayerPed(v)
+        local targetPos = GetEntityCoords(target)
+        local dist = #(pos - targetPos)
+        if dist < 15.0 then
+            TriggerClientEvent("hospital:client:Revive", v)
+        end
+    end
+end)
+
 -- Set RoutingBucket
 RegisterNetEvent('ps-adminmenu:server:SetBucket', function(data, selectedData)
     if not CheckPerms(data.perms) then return end

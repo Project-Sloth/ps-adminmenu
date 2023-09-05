@@ -14,12 +14,12 @@
 	let selectedDataArray = {}
 
 	function SelectData(selectedData) {
-		console.log("selced", selectedData)
+		console.log("selected", selectedData)
 		selectedDataArray[selectedData.id] = selectedData;
 	};
 
 	function sendData(event, type) {
-		if (event) { 
+		if (event) {
 			data.event = event
 			data.type = type
 		}
@@ -55,15 +55,15 @@
 			{#if data.dropdown}
 				{#each data.dropdown as i}
 					{#if i.option === 'text'}
-						<Input 
+						<Input
 							data={i}
 							selectedData={SelectData}
 						/>
 					{:else if i.option === 'dropdown'}
-						<Autofill 
-							action={i} 
-							label_title={i.label} 
-							data={i.data} 
+						<Autofill
+							action={i}
+							label_title={i.label}
+							data={i.data}
 							selectedData={SelectData}
 						/>
 					{:else if i.option === 'button'}
