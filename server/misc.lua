@@ -182,3 +182,12 @@ RegisterNetEvent('ps-adminmenu:server:ToggleBlackout', function(data)
         TriggerClientEvent('QBCore:Notify', src, locale("blackout", "disabled"), 'primary')
     end
 end)
+
+--toggle cuffs
+RegisterNetEvent('ps-adminmenu:server:CuffPlayer', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
+    local playerId = selectedData["Player"].value
+
+    TriggerClientEvent('ps-adminmenu:client:ToggleCuffs', playerId)
+    QBCore.Functions.Notify(source, locale("toggled_cuffs"), 'success')
+end)
