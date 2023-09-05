@@ -1,6 +1,6 @@
 # ps-adminmenu
-The Admin Menu crafted by [OK1ez](https://github.com/OK1ez) and our dedicated team is user-friendly and intuitive.  
-We invite you to contribute by submitting new features through PRs. We're always eager to review and consider new features. 
+The Admin Menu crafted by [OK1ez](https://github.com/OK1ez) and our dedicated team is user-friendly and intuitive.
+We invite you to contribute by submitting new features through PRs. We're always eager to review and consider new features.
 
 # Preview
 <img src="https://github.com/Project-Sloth/ps-adminmenu/assets/82112471/ebf1918d-4e6c-40ef-94bb-5aaf274ed065" width="300">
@@ -77,6 +77,9 @@ We invite you to contribute by submitting new features through PRs. We're always
 2. Add the files to your server resources.
 3. Ensure `ps-adminmenu` in your server cfg.
 4. Set the config in `shared/config.lua` to your needs.
+
+# Make a log webhook for the 'ps-adminmenu' in qb-smallresources > server > logs.lua:
+['ps-adminmenu'] = 'discord webhook'
 
 # Credits
 * [OK1ez](https://github.com/OK1ez)

@@ -43,11 +43,24 @@ RegisterNUICallback("clickButton", function(data)
 
 	if data.type == "client" then
 		TriggerEvent(data.event, data, selectedData)
+		if selectedData == nil then
+			selectedData = "None"
+		end
+		TriggerServerEvent("qb-log:server:CreateLog", "ps-adminmenu", "Menu used", "red", "**".. PlayerData.name .. "** (citizenid: *"..PlayerData.citizenid.."*) Used " .. data.event .. " with args: " .. selectedData)
+
 	elseif data.type == "server" then
 		TriggerServerEvent(data.event, data, selectedData)
+		if selectedData == nil then
+			selectedData = "None"
+		end
+		TriggerServerEvent("qb-log:server:CreateLog", "ps-adminmenu", "Menu used", "red", "**".. PlayerData.name .. "** (citizenid: *"..PlayerData.citizenid.."*) Used " .. data.event .. " with args: " .. selectedData)
+
 	elseif data.type == "command" then
 		ExecuteCommand(data.event)
+		TriggerServerEvent("qb-log:server:CreateLog", "ps-adminmenu", "Menu used", "red", "**".. PlayerData.name .. "** (citizenid: *"..PlayerData.citizenid.."*) Used " .. data.event)
+
 	end
+
 end)
 
 -- Commands
