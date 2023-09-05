@@ -221,12 +221,12 @@ Config.Actions = {
     },
 
     ["set_bucket"] = {
-        label = "Set Bucket",
+        label = "Set Routing Bucket",
         perms = "mod",
         dropdown = {
             { label = "Player",  option = "dropdown", data = "players" },
             { label = "Bucket", option = "text" },
-            { label = "Confirm", option = "button", type = "client", event = "ps-adminmenu:server:SetBucket" },
+            { label = "Confirm", option = "button", type = "server", event = "ps-adminmenu:server:SetBucket" },
         },
     },
 
@@ -282,7 +282,7 @@ Config.Actions = {
 
     ["revive_radius"] = {
         label = "Revive Radius",
-        type = "client",
+        type = "server",
         event = "ps-adminmenu:server:ReviveRadius",
         perms = "mod",
     },

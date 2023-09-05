@@ -33,6 +33,6 @@ function CheckRoutingbucket(source, target)
     local targetBucket = GetPlayerRoutingBucket(target)
     if sourceBucket ~= targetBucket then
         SetPlayerRoutingBucket(source, targetBucket)
-        QBCore.Functions.Notify(source, locale("bucket_set", { bucket = targetBucket }), 'error', 7500)
+        QBCore.Functions.Notify(source, locale("bucket_set", targetBucket), 'error', 7500)
     end
 end

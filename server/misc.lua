@@ -25,7 +25,7 @@ RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(data, selectedData)
             GetPlayerName(source)
     })
 
-    QBCore.Functions.Notify(source, locale("playerbanned", {target = player, duration = banTime, reason = reason}), 'success', 7500)
+    QBCore.Functions.Notify(source, locale("playerbanned", player, banTime, reason), 'success', 7500)
     if banTime >= 2147483647 then
         DropPlayer(player, locale("banned") .. '\n' .. locale("reason") .. reason .. locale("ban_perm"))
     else
@@ -57,6 +57,7 @@ RegisterNetEvent('ps-adminmenu:server:ReviveRadius', function(data)
     local ped = GetPlayerPed(src)
     local pos = GetEntityCoords(ped)
     for k, v in pairs(players) do
+        print(k, v)
         local target = GetPlayerPed(v)
         local targetPos = GetEntityCoords(target)
         local dist = #(pos - targetPos)
@@ -73,9 +74,9 @@ RegisterNetEvent('ps-adminmenu:server:SetBucket', function(data, selectedData)
     local bucket = selectedData["Bucket"].value
 
     local currentBucket = GetPlayerRoutingBucket(player)
-    if bucket == currentBucket then return QBCore.Functions.Notify(source, locale("target_same_bucket", {target = player}), 'error', 7500) end
+    if bucket == currentBucket then return QBCore.Functions.Notify(source, locale("target_same_bucket",  player), 'error', 7500) end
     SetPlayerRoutingBucket(player, bucket)
-    QBCore.Functions.Notify(source, locale("bucket_set_for_target", {target = player, bucket = bucket}), 'success', 7500)
+    QBCore.Functions.Notify(source, locale("bucket_set_for_target", player, bucket), 'success', 7500)
 end)
 
 -- Check Perms
@@ -92,7 +93,7 @@ RegisterNetEvent('ps-adminmenu:server:CheckPerms', function(data, selectedData)
 
     if permsStr == "" then permsStr = "NONE" end
     name = Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname
-    QBCore.Functions.Notify(src, locale("player_perms", {name = name, perms = permsStr}), "primary", 7500)
+    QBCore.Functions.Notify(src, locale("player_perms", name, permsStr), "primary", 7500)
 end)
 
 -- Give Money
@@ -106,9 +107,9 @@ RegisterNetEvent('ps-adminmenu:server:GiveMoney', function(data, selectedData)
     if Player == nil then return QBCore.Functions.Notify(src, locale("not_online"), 'error', 7500) end
     Player.Functions.AddMoney(tostring(moneyType), tonumber(amount))
     if moneyType == "crypto" then
-        QBCore.Functions.Notify(src, locale("give_money_crypto", {info = tonumber(amount), player = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname}), "success")
+        QBCore.Functions.Notify(src, locale("give_money_crypto", tonumber(amount), Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname), "success")
     else
-        QBCore.Functions.Notify(src, locale("give_money", {info = tonumber(amount) .. "$", player = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname}), "success")
+        QBCore.Functions.Notify(src, locale("give_money", tonumber(amount) .. "$", Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname), "success")
     end
 end)
 
@@ -123,9 +124,9 @@ RegisterNetEvent('ps-adminmenu:server:GiveMoneyAll', function(data, selectedData
         local Player = QBCore.Functions.GetPlayer(v)
         Player.Functions.AddMoney(tostring(moneyType), tonumber(amount))
         if moneyType == "crypto" then
-            QBCore.Functions.Notify(src, locale("give_money_all_crypto", {info = tonumber(amount)}), "success")
+            QBCore.Functions.Notify(src, locale("give_money_all_crypto", tonumber(amount)), "success")
         else
-            QBCore.Functions.Notify(src, locale("give_money_all", {info = tonumber(amount) .. "$", moneyType = moneyType}), "success")
+            QBCore.Functions.Notify(src, locale("give_money_all", tonumber(amount) .. "$", moneyType), "success")
         end
     end
 end)
@@ -142,21 +143,21 @@ RegisterNetEvent('ps-adminmenu:server:TakeMoney', function(data, selectedData)
     if moneyType == "bank" then
         if Player.PlayerData.money.bank >= tonumber(amount) then
             Player.Functions.RemoveMoney("bank", tonumber(amount), "state-fees")
-            QBCore.Functions.Notify(src, locale("take_money", {info = tonumber(amount) .. "$", player = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname}), "success")
+            QBCore.Functions.Notify(src, locale("take_money", tonumber(amount) .. "$", Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname), "success")
         else
             QBCore.Functions.Notify(src, locale("not_enough_money"), "primary")
         end
     elseif moneyType == "cash" then
         if Player.PlayerData.money.cash >= tonumber(amount) then
             Player.Functions.RemoveMoney("cash", tonumber(amount), "state-fees")
-            QBCore.Functions.Notify(src, locale("take_money", {info = tonumber(amount) .. "$", player = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname}), "success")
+            QBCore.Functions.Notify(src, locale("take_money", tonumber(amount) .. "$", Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname), "success")
         else
             QBCore.Functions.Notify(src, locale("not_enough_money"), "primary")
         end
     elseif moneyType == "crypto" then
         if Player.PlayerData.money.crypto >= tonumber(amount) then
             Player.Functions.RemoveMoney("crypto", tonumber(amount), "state-fees")
-            QBCore.Functions.Notify(src, locale("take_money_crypto", {info = tonumber(amount), player = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname}), "success")
+            QBCore.Functions.Notify(src, locale("take_money_crypto", tonumber(amount), Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname), "success")
         else
             QBCore.Functions.Notify(src, locale("not_enough_money"), "primary")
         end
@@ -172,12 +173,12 @@ RegisterNetEvent('ps-adminmenu:server:ToggleBlackout', function(data)
     Blackout = not Blackout
 
     if Blackout then
-        TriggerClientEvent('QBCore:Notify', src, locale("blackout", {value = "enabled"}), 'primary')
+        TriggerClientEvent('QBCore:Notify', src, locale("blackout", "enabled"), 'primary')
         while Blackout do
             Wait(0)
             exports["qb-weathersync"]:setBlackout(true)
         end
         exports["qb-weathersync"]:setBlackout(false)
-        TriggerClientEvent('QBCore:Notify', src, locale("blackout", {value = "disabled"}), 'primary')
+        TriggerClientEvent('QBCore:Notify', src, locale("blackout", "disabled"), 'primary')
     end
 end)
