@@ -94,6 +94,8 @@
 
 						<p>{$SELECTED_PLAYER.player.discord.replace('discord:', 'Discord: ')}</p>
 						<p>{$SELECTED_PLAYER.player.license.replace('license:', 'License: ')}</p>
+						<p>{$SELECTED_PLAYER.player.fivem ? $SELECTED_PLAYER.fivem : ""}</p>
+
 						<p>{$SELECTED_PLAYER.player.steam ? $SELECTED_PLAYER.steam : ""}</p>
 					</div>
 					<p class="font-medium text-[1.7vh]">Information</p>

@@ -6,7 +6,6 @@ local function Setup()
 	Wait(500)
 	PlayerData = QBCore.Functions.GetPlayerData()
 	local resources = lib.callback.await('ps-adminmenu:callback:GetResources', false)
-
 	GetData()
 	SendNUIMessage({
 		action = "setupUI",

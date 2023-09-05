@@ -15,6 +15,7 @@ interface PLAYER_DATA {
     license?: string;
     discord?: string;
     steam?: string;
+    fivem?: string;
 }
 
 interface PLAYER_VEHICLES {
