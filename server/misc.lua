@@ -57,7 +57,6 @@ RegisterNetEvent('ps-adminmenu:server:ReviveRadius', function(data)
     local ped = GetPlayerPed(src)
     local pos = GetEntityCoords(ped)
     for k, v in pairs(players) do
-        print(k, v)
         local target = GetPlayerPed(v)
         local targetPos = GetEntityCoords(target)
         local dist = #(pos - targetPos)
