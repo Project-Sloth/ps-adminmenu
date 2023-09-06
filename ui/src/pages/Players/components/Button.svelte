@@ -20,7 +20,7 @@
 	}}
 >
 	<div class="w-full flex items-center justify-between gap-[1vh]">
-		<p>{player.player.id} - {player.player.name}</p>
+		<p>{player.id} - {player.name}</p>
 		<i class="fas fa-angle-right" />
 	</div>
 </button>

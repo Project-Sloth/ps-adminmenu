@@ -7,7 +7,8 @@ end)
 -- Get players
 RegisterNUICallback("getPlayers", function(data, cb)
 	local players = lib.callback.await('ps-adminmenu:callback:GetPlayers', false)
-	cb(players)
+	print(json.encode(players))
+    cb(players)
 end)
 
 -- Toggles Invincibility

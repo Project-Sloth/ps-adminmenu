@@ -16,6 +16,7 @@ interface PLAYER_DATA {
     discord?: string;
     steam?: string;
     fivem?: string;
+    vehicles?: PLAYER_VEHICLES[];
 }
 
 interface PLAYER_VEHICLES {
