@@ -1,4 +1,4 @@
-local function GetVehicles(cid)
+local function getVehicles(cid)
     local result = MySQL.query.await('SELECT vehicle, plate, fuel, engine, body FROM player_vehicles WHERE citizenid = ?', { cid })
     local vehicles = {}
 
@@ -23,13 +23,13 @@ local function GetVehicles(cid)
     return vehicles
 end
 
-local function GetPlayers()
+local function getPlayers()
     local players = {}
     local GetPlayers = QBCore.Functions.GetQBPlayers()
 
     for k, v in pairs(GetPlayers) do
         local playerData = v.PlayerData
-        local vehicles = GetVehicles(playerData.citizenid)
+        local vehicles = getVehicles(playerData.citizenid)
 
         players[#players + 1] = {
             id = k,
@@ -53,7 +53,7 @@ local function GetPlayers()
 end
 
 lib.callback.register('ps-adminmenu:callback:GetPlayers', function(source)
-    local players = GetPlayers()
+    local players = getPlayers()
     return players
 end)
 

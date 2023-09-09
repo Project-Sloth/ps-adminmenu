@@ -10,13 +10,13 @@ lib.callback.register('ps-adminmenu:callback:GetResources', function(source)
         local description = GetResourceMetadata(resourceName, "description")
         local resourceState = GetResourceState(resourceName)
 
-        table.insert(resources, {
+        resources[#resources + 1] = {
             name = resourceName,
             author = author,
             version = version,
             description = description,
             resourceState = resourceState,
-        })
+        }
     end
 
     return resources

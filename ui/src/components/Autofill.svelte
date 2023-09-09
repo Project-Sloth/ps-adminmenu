@@ -72,15 +72,15 @@
             transition:slide={{ duration: 150 }}
         >
             {#if data === "players"}
-                {#each $PLAYER.filter(i => i.player.name.toLowerCase().includes(search.toLowerCase())) as i}
+                {#each $PLAYER.filter(i => i.name.toLowerCase().includes(search.toLowerCase())) as i}
                     <button 
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
                         on:click={() => 
-                            selectData(i.player.name, i.player.id)
+                            selectData(i.name, i.id)
                         }
                     >
-                        <p>{i.player.name}</p>
-                        <p>({i.player.id})</p>
+                        <p>{i.name}</p>
+                        <p>({i.id})</p>
                     </button>
                 {/each}
             {:else if data === "vehicles"}

@@ -120,7 +120,7 @@ RegisterNetEvent('ps-adminmenu:client:ToggleCoords', function(data)
             c.z = QBCore.Shared.Round(coords.z, 2)
             heading = QBCore.Shared.Round(heading, 2)
             Wait(1)
-            Draw2DText(string.format('~w~'..locale("ped_coords") .. '~b~ vector4(~w~%s~b~, ~w~%s~b~, ~w~%s~b~, ~w~%s~b~)', c.x, c.y, c.z, heading), 4, {66, 182, 245}, 0.4, x + 0.0, y + 0.0)
+            --(string.format('~w~'..locale("ped_coords") .. '~b~ vector4(~w~%s~b~, ~w~%s~b~, ~w~%s~b~, ~w~%s~b~)', c.x, c.y, c.z, heading), 4, {66, 182, 245}, 0.4, x + 0.0, y + 0.0)
         end
     end)
 end)

@@ -193,15 +193,6 @@ Config.Actions = {
         perms = "mod",
     },
 
-    ["check_perms"] = {
-        label = "Check Perms",
-        perms = "admin",
-        dropdown = {
-            { label = "Player",  option = "dropdown", data = "players" },
-            { label = "Confirm", option = "button",   type = "server", event = "ps-adminmenu:server:CheckPerms" },
-        },
-    },
-
     ["set_perms"] = {
         label = "Set Perms",
         perms = "admin",

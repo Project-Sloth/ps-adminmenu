@@ -13,7 +13,8 @@ RegisterNetEvent('ps-adminmenu:server:sendMessageServer', function(message, citi
             end
         end
     end
-    table.insert(messages, {message = message, citizenid = citizenid, fullname = fullname, time = time})
+
+    messages[#messages + 1] = {message = message, citizenid = citizenid, fullname = fullname, time = time}
 end)
 
 lib.callback.register('ps-adminmenu:callback:GetMessages', function(source)

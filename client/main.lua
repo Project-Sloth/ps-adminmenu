@@ -2,7 +2,7 @@ QBCore = exports['qb-core']:GetCoreObject()
 PlayerData = {}
 
 -- Functions
-local function Setup()
+local function setupMenu()
 	Wait(500)
 	PlayerData = QBCore.Functions.GetPlayerData()
 	local resources = lib.callback.await('ps-adminmenu:callback:GetResources', false)
@@ -15,17 +15,16 @@ local function Setup()
 			playerData = PlayerData,
 		}
 	})
-
 end
 
 -- Event Handlers
 AddEventHandler("QBCore:Client:OnPlayerLoaded", function()
-	Setup()
+	setupMenu()
 end)
 
 AddEventHandler("onResourceStart", function(resourceName)
 	if (GetCurrentResourceName() == resourceName) then
-		Setup()
+		setupMenu()
 	end
 end)
 
@@ -34,7 +33,7 @@ RegisterNUICallback("hideUI", function()
 	ToggleUI(false)
 end)
 
--- Recive data from ui and trigger the event and etc
+--- @param data table
 RegisterNUICallback("clickButton", function(data)
 	local selectedData = data.selectedData
 	local data = data.data
