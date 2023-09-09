@@ -1,4 +1,4 @@
--- Toggle the ui
+--- @param bool boolean
 function ToggleUI(bool)
 	SetNuiFocus(bool, bool)
 	SendNUIMessage({
@@ -7,22 +7,16 @@ function ToggleUI(bool)
 	})
 end
 
--- Checks Permissions, returns true or false
+
+--- @param perms table
 function CheckPerms(perms)
-    local hasPerms = lib.callback.await('ps-adminmenu:callback:CheckPerms', false, perms)
-    return hasPerms
+    return lib.callback.await('ps-adminmenu:callback:CheckPerms', false, perms)
 end
 
--- Draws 2D Text
-function Draw2DText(content, font, colour, scale, x, y)
-    SetTextFont(font)
-    SetTextScale(scale, scale)
-    SetTextColour(colour[1], colour[2], colour[3], 255)
-    SetTextEntry("STRING")
-    SetTextDropShadow(0, 0, 0, 0,255)
-    SetTextDropShadow()
-    SetTextEdge(4, 0, 0, 0, 255)
-    SetTextOutline()
-    AddTextComponentString(content)
-    DrawText(x, y)
+
+--- @param title string
+--- @param message string
+function Log(title, message)
+    print("ps-adminmenu: ", title, message)
+    TriggerServerEvent("qb-log:server:CreateLog", "ps-adminmenu", title, "red", message)
 end
