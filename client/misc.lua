@@ -1,21 +1,7 @@
--- Change resource state
-RegisterNUICallback("setResourceState", function(data, cb)
-	local resources = lib.callback.await('ps-adminmenu:callback:ChangeResourceState', false, data)
-	cb(resources)
-end)
-
--- Get players
-RegisterNUICallback("getPlayers", function(data, cb)
-	local players = lib.callback.await('ps-adminmenu:callback:GetPlayers', false)
-	print(json.encode(players))
-    cb(players)
-end)
-
 -- Toggles Invincibility
 local visible = true
 RegisterNetEvent('ps-adminmenu:client:ToggleInvisible', function(data)
 	if not CheckPerms(data.perms) then return end
-
 	visible = not visible
 
 	SetEntityVisible(cache.ped, visible, 0)
@@ -25,7 +11,6 @@ end)
 local godmode = false
 RegisterNetEvent('ps-adminmenu:client:ToggleGodmode', function(data)
 	if not CheckPerms(data.perms) then return end
-
 	godmode = not godmode
 
     if godmode then
@@ -41,16 +26,8 @@ end)
 
 -- Cuff/Uncuff
 RegisterNetEvent('ps-adminmenu:client:ToggleCuffs', function(player)
-    local playerId = GetPlayerServerId(player)
-    TriggerEvent("police:client:GetCuffed", playerId)
-end)
-
--- Revive Radius
-RegisterNetEvent('ps-adminmenu:client:ReviveRadius', function(data)
-    if not CheckPerms(data.perms) then return end
-	local coords = GetEntityCoords(cache.ped)
-	local radius = lib.getNearbyPlayers(coords, 5.0, true)
-	print(json.encode(radius))
+    local target = GetPlayerServerId(player)
+    TriggerEvent("police:client:GetCuffed", target)
 end)
 
 -- Copy Coordinates
@@ -98,14 +75,12 @@ RegisterNetEvent('ps-adminmenu:client:setInfiniteAmmo', function(data)
     end
 
     SetPedInfiniteAmmo(cache.ped, false, cache.weapon)
-
 end)
 
 -- Toggle coords
 local showCoords = false
 RegisterNetEvent('ps-adminmenu:client:ToggleCoords', function(data)
 	if not CheckPerms(data.perms) then return end
-
 
     local x = 0.4
     local y = 0.025

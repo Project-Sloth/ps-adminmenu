@@ -60,3 +60,16 @@ end, false)
 RegisterNetEvent('ps-adminmenu:client:CloseUI', function()
     ToggleUI(false)
 end)
+
+-- Change resource state
+RegisterNUICallback("setResourceState", function(data, cb)
+	local resources = lib.callback.await('ps-adminmenu:callback:ChangeResourceState', false, data)
+	cb(resources)
+end)
+
+-- Get players
+RegisterNUICallback("getPlayers", function(data, cb)
+	local players = lib.callback.await('ps-adminmenu:callback:GetPlayers', false)
+	print(json.encode(players))
+    cb(players)
+end)

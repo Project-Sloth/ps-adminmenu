@@ -4,6 +4,7 @@ local function teleport(x, y, z)
     if cache.vehicle then
         return SetPedCoordsKeepVehicle(cache.ped, x, y, z)
     end
+
     SetEntityCoords(cache.ped, x, y, z, false, false, false, false)
 end
 
@@ -29,7 +30,6 @@ end)
 -- Teleport to Locaton
 RegisterNetEvent('ps-adminmenu:client:TeleportToLocation', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
-
     local coords = selectedData["Coords"].value
 
     lastCoords = GetEntityCoords(cache.ped)

@@ -4,18 +4,18 @@ RegisterNetEvent('ps-adminmenu:server:FreezePlayer', function(data, selectedData
     if not CheckPerms(data.perms) then return end
     local src = source
 
-    local playerId = selectedData["Player"].value
+    local target = selectedData["Player"].value
 
-    local target = GetPlayerPed(playerId)
-    local Player = QBCore.Functions.GetPlayer(playerId)
+    local ped = GetPlayerPed(target)
+    local Player = QBCore.Functions.GetPlayer(target)
 
     if not frozen then
         frozen = true
-        FreezeEntityPosition(target, true)
+        FreezeEntityPosition(ped, true)
         QBCore.Functions.Notify(src, locale("Frozen", Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname .. " | " .. Player.PlayerData.citizenid), 'Success', 7500)
     else
         frozen = false
-        FreezeEntityPosition(target, false)
+        FreezeEntityPosition(ped, false)
         QBCore.Functions.Notify(src, locale("deFrozen", Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname .. " | " .. Player.PlayerData.citizenid), 'Success', 7500)
 
     end

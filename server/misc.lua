@@ -20,6 +20,38 @@ RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(data, selectedData)
     QBCore.Functions.Notify(source, locale("playerbanned", player, banTime, reason), 'success', 7500)
 end)
 
+-- Warn Player
+RegisterNetEvent('ps-adminmenu:server:warnplayer', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
+
+    local target = QBCore.Functions.GetPlayer(selectedData["Player"].value)
+    local reason = selectedData["Reason"].value
+    local sender = QBCore.Functions.GetPlayer(source)
+    local warnId = 'WARN-' .. math.random(1111, 9999)
+
+    if target ~= nil then
+        TriggerClientEvent('chat:addMessage', target.PlayerData.source, {args = {"SYSTEM", locale("warning_chat_message") .. GetPlayerName(source) .. "," .. locale("reason") .. ": " .. reason}, color = 255, 0, 0})
+        TriggerClientEvent('chat:addMessage', source, {args = {"SYSTEM", locale("warning_staff_message") .. GetPlayerName(target.PlayerData.source) .. ", for: " .. reason}, color = 255, 0, 0})
+        MySQL.insert('INSERT INTO player_warns (senderIdentifier, targetIdentifier, reason, warnId) VALUES (?, ?, ?, ?)', {
+            sender.PlayerData.license,
+            target.PlayerData.license,
+            reason,
+            warnId
+        })
+    else
+        TriggerClientEvent('QBCore:Notify', source, locale("not_online"), 'error')
+    end
+end)
+
+RegisterNetEvent('ps-adminmenu:server:KickPlayer', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
+
+    local target = QBCore.Functions.GetPlayer(selectedData["Player"].value)
+    local reason = selectedData["Reason"].value
+
+    DropPlayer(target, locale("kicked") .. '\n' .. locale("reason") .. reason)
+end)
+
 -- Revive Player
 RegisterNetEvent('ps-adminmenu:server:Revive', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
@@ -78,8 +110,8 @@ RegisterNetEvent('ps-adminmenu:server:GiveMoney', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
 
     local src = source
-    local playerId, amount, moneyType = selectedData["Player"].value, selectedData["Amount"].value, selectedData["Type"].value
-    local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
+    local target, amount, moneyType = selectedData["Player"].value, selectedData["Amount"].value, selectedData["Type"].value
+    local Player = QBCore.Functions.GetPlayer(tonumber(target))
 
     if Player == nil then
         return QBCore.Functions.Notify(src, locale("not_online"), 'error', 7500) 
@@ -109,8 +141,8 @@ RegisterNetEvent('ps-adminmenu:server:TakeMoney', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
 
     local src = source
-    local playerId, amount, moneyType = selectedData["Player"].value, selectedData["Amount"].value, selectedData["Type"].value
-    local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
+    local target, amount, moneyType = selectedData["Player"].value, selectedData["Amount"].value, selectedData["Type"].value
+    local Player = QBCore.Functions.GetPlayer(tonumber(target))
 
     if Player == nil then
         return QBCore.Functions.Notify(src, locale("not_online"), 'error', 7500) 
@@ -148,8 +180,34 @@ end)
 RegisterNetEvent('ps-adminmenu:server:CuffPlayer', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
 
-    local playerId = selectedData["Player"].value
+    local target = selectedData["Player"].value
 
-    TriggerClientEvent('ps-adminmenu:client:ToggleCuffs', playerId)
+    TriggerClientEvent('ps-adminmenu:client:ToggleCuffs', target)
     QBCore.Functions.Notify(source, locale("toggled_cuffs"), 'success')
+end)
+
+-- Toggle names and blips
+local players = {}
+
+RegisterNetEvent('ps-adminmenu:server:GetPlayersForBlips', function()
+    local src = source
+    TriggerClientEvent('ps-adminmenu:client:Show', src, players)
+end)
+
+-- Give Clothing Menu
+RegisterNetEvent('ps-adminmenu:server:ClothingMenu', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
+
+    local src = source
+    local target = tonumber(selectedData["Player"].value)
+
+    if target == nil then 
+        return QBCore.Functions.Notify(src, locale("not_online"), 'error', 7500)
+    end
+
+    if target == src then
+        TriggerClientEvent("ps-adminmenu:client:CloseUI", src)
+    end
+
+    TriggerClientEvent('qb-clothing:client:openMenu', target)
 end)

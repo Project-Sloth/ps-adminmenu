@@ -52,37 +52,6 @@ local function getPlayers()
     return players
 end
 
-lib.callback.register('ps-adminmenu:callback:GetPlayers', function(source)
-    local players = getPlayers()
-    return players
-end)
-
--- toggle namens and blips
-local players = {}
-
-RegisterNetEvent('ps-adminmenu:server:GetPlayersForBlips', function()
-    local src = source
-    TriggerClientEvent('ps-adminmenu:client:Show', src, players)
-end)
-
--- Warn Player
-RegisterNetEvent('ps-adminmenu:server:warnplayer', function(data, selectedData)
-    if not CheckPerms(data.perms) then return end
-
-    local targetPlayer = QBCore.Functions.GetPlayer(selectedData["Player"].value)
-    local msg = selectedData["Reason"].value
-    local senderPlayer = QBCore.Functions.GetPlayer(source)
-    local warnId = 'WARN-' .. math.random(1111, 9999)
-    if targetPlayer ~= nil then
-        TriggerClientEvent('chat:addMessage', targetPlayer.PlayerData.source, {args = {"SYSTEM", locale("warning_chat_message") .. GetPlayerName(source) .. "," .. locale("reason") .. ": " .. msg}, color = 255, 0, 0})
-        TriggerClientEvent('chat:addMessage', source, {args = {"SYSTEM", locale("warning_staff_message") .. GetPlayerName(targetPlayer.PlayerData.source) .. ", for: " .. msg}, color = 255, 0, 0})
-        MySQL.insert('INSERT INTO player_warns (senderIdentifier, targetIdentifier, reason, warnId) VALUES (?, ?, ?, ?)', {
-            senderPlayer.PlayerData.license,
-            targetPlayer.PlayerData.license,
-            msg,
-            warnId
-        })
-    else
-        TriggerClientEvent('QBCore:Notify', source, locale("not_online"), 'error')
-    end
+lib.callback.register('ps-adminmenu:callback:GetPlayers', function(source) 
+    return getPlayers()
 end)

@@ -508,6 +508,17 @@ Config.Actions = {
         perms = "mod",
     },
 
+    ["kick_player"] = {
+        label = "Kick Player",
+        perms = "mod",
+        dropdown = {
+            { label = "Player", option = "dropdown", data = "players" },
+            { label = "Reason", option = "text" },
+            { label = "Confirm", option = "button", type = "server", event = "ps-adminmenu:server:KickPlayer" },
+        },
+    },
+
+
     ["play_sound"] = {
         label = "Play Sound",
         perms = "mod",

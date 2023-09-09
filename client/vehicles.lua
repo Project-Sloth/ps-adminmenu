@@ -60,7 +60,6 @@ end)
 -- Change plate
 RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
-
     local plate = selectedData["Plate"].value
 
     if string.len(plate) > 8 then
@@ -68,7 +67,7 @@ RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(data, selectedData)
     end
 
     if cache.vehicle then
-        local currentPlate = GetVehicleNumberPlateText( cache.vehicle )
+        local currentPlate = GetVehicleNumberPlateText( cache.vehicle)
         TriggerServerEvent('ps-adminmenu:server:ChangePlate', plate, currentPlate)
         Wait(100)
         SetVehicleNumberPlateText(cache.vehicle, plate)
