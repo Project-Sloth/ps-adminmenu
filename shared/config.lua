@@ -3,7 +3,6 @@ Config = Config or {}
 Config.Fuel = "ps-fuel" -- "ps-fuel", "LegacyFuel"
 
 Config.Actions = {
-
     ["admin_car"] = {
         label = "Admin Car",
         type = "client",

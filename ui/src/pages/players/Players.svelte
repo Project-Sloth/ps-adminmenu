@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { MENU_WIDE } from '@store/stores'
 	import { PLAYER, PLAYER_VEHICLES, SELECTED_PLAYER } from '@store/players'
-
 	import Header from '@components/Header.svelte'
 	import Button from './components/Button.svelte'
 	import { onMount } from 'svelte'
@@ -9,9 +8,12 @@
 	import Spinner from '@components/Spinner.svelte'
 	import Autofill from '@components/Autofill.svelte'
 	import Modal from '@components/Modal.svelte'
+	import Input from '@pages/Actions/components/Input.svelte'
 
 	let search = ''
 	let loading = false;
+	let banPlayer = false;
+	let kickPlayer = false;
 
 	onMount(async () => {
 		loading = true;
@@ -19,6 +21,28 @@
 		PLAYER.set(players);
 		loading = false;
 	});
+
+	let selectedDataArray = {}
+
+	function SelectData(selectedData) {
+		console.log("selected", selectedData)
+		selectedDataArray[selectedData.id] = selectedData;
+		console.log("selectedDataArray", selectedDataArray)
+
+	};
+
+	let banData = [
+		{ label: "Permanent", value: "2147483647" },
+		{ label: "10 Minutes", value: "600" },
+		{ label: "30 Minutes", value: "1800" },
+		{ label: "1 Hour", value: "3600" },
+		{ label: "6 Hours", value: "21600" },
+		{ label: "12 Hours", value: "43200" },
+		{ label: "1 Day", value: "86400" },
+		{ label: "3 Days", value: "259200" },
+		{ label: "1 Week", value: "604800" },
+		{ label: "3 Weeks", value: "1814400" },
+	];
 </script>
 
 
@@ -59,31 +83,93 @@
 				<div class="w-full bg-tertiary flex rounded-[0.5vh]">
 					<button
 						class="h-[4.5vh] w-full rounded-l-[0.5vh] hover:bg-secondary"
+						on:click={() => kickPlayer = true}
 					>
 						<i class="fas fa-user-minus"></i>
 					</button>
 					<button
 						class="h-[4.5vh] w-full hover:bg-secondary"
+						on:click={() => banPlayer = true }
 					>
 						<i class="fas fa-ban"></i>
 					</button>
 					<button
 						class="h-[4.5vh] w-full hover:bg-secondary"
+						on:click={() => 
+							SendNUI("clickButton", {
+								data: {
+									label: "Teleport To Player",
+									event: `ps-adminmenu:server:TeleportToPlayerr`,
+									type: 'server',
+									perms: "mod"
+								},
+								selectedData: {
+									["Player"]: {
+										value: $SELECTED_PLAYER.id,
+									},
+								},
+							})
+						}
 					>
 						<i class="fas fa-person-walking-arrow-right"></i>
 					</button>
 					<button
 						class="h-[4.5vh] w-full hover:bg-secondary"
+						on:click={() => 
+							SendNUI("clickButton", {
+								data: {
+									label: "Bring Player",
+									event: `ps-adminmenu:server:BringPlayer`,
+									type: 'server',
+									perms: "mod"
+								},
+								selectedData: {
+									["Player"]: {
+										value: $SELECTED_PLAYER.id,
+									},
+								},
+							})
+						}
 					>
 						<i class="fas fa-person-walking-arrow-loop-left"></i>
 					</button>
 					<button
 						class="h-[4.5vh] w-full hover:bg-secondary"
+						on:click={() => 
+							SendNUI("clickButton", {
+								data: {
+									label: "Revive Player",
+									event: `ps-adminmenu:server:Revive`,
+									type: 'server',
+									perms: "mod"
+								},
+								selectedData: {
+									["Player"]: {
+										value: $SELECTED_PLAYER.id,
+									},
+								},
+							})
+						}
 					>
 						<i class="fas fa-heart-pulse"></i>
 					</button>
 					<button
 						class="h-[4.5vh] w-full hover:bg-secondary"
+						on:click={() => 
+							SendNUI("clickButton", {
+								data: {
+									label: "Spectate Player",
+									event: `ps-adminmenu:server:SpectateTarget`,
+									type: 'server',
+									perms: "mod"
+								},
+								selectedData: {
+									["Player"]: {
+										value: $SELECTED_PLAYER.id,
+									},
+								},
+							})
+						}
 					>
 						<i class="fas fa-eye"></i>
 					</button>
@@ -91,7 +177,6 @@
 				<div class="h-[90%] overflow-auto flex flex-col gap-[1vh]">
 					<p class="font-medium text-[1.7vh]">Licenses</p>
 					<div class="w-full bg-tertiary rounded-[0.5vh] p-[1.5vh] text-[1.5vh]">
-
 						<p>{$SELECTED_PLAYER.discord.replace('discord:', 'Discord: ')}</p>
 						<p>{$SELECTED_PLAYER.license.replace('license:', 'License: ')}</p>
 						<p>{$SELECTED_PLAYER.fivem ? $SELECTED_PLAYER.fivem : ""}</p>
@@ -125,4 +210,107 @@
 			</div>
 		{/if}
     </div>
+{/if}
+
+{#if banPlayer}
+	<Modal>
+		<div class="flex justify-between">
+			<p class="font-medium text-[1.8vh]">Ban {$SELECTED_PLAYER.name}</p>
+			<button class="hover:text-accent"
+				on:click={() => banPlayer = false}
+			>
+				<i class="fas fa-xmark"></i>
+			</button>
+		</div>
+		<Input
+			data={{
+				label: "Reason",
+				value: "reason",
+				id: "reason"
+			}}
+			selectedData={SelectData}
+		/>
+		<Autofill
+			action={{
+				label: "Duration",
+				value: "duration",
+				id: "duration"
+			}}
+			label_title="Duration"
+			data={banData}
+			selectedData={SelectData}
+		/>
+		<button
+			class="h-[3.8vh] px-[1.5vh] rounded-[0.5vh] bg-secondary hover:bg-opacity-90 border-[0.1vh] border-primary"
+			on:click={() => { 
+				console.log("Time: ", selectedDataArray["Duration"].value)
+				console.log("reason: ", selectedDataArray["Reason"].value)
+				SendNUI("clickButton", {
+					data: {
+						label: "Ban Player",
+						event: `ps-adminmenu:server:BanPlayer`,
+						type: 'server',
+						perms: "mod"
+					},
+					selectedData: {
+						["Player"]: {
+							value: $SELECTED_PLAYER.id,
+						},
+						["Duration"]: {
+							value: selectedDataArray["Duration"].value,
+						},
+						["Reason"]: {
+							value: $SELECTED_PLAYER.id,
+						},
+					},
+				})
+			}}
+		>
+			<p>Ban</p>
+		</button>
+	</Modal>
+{/if}
+
+{#if kickPlayer}
+	<Modal>
+		<div class="flex justify-between">
+			<p class="font-medium text-[1.8vh]">Kick {$SELECTED_PLAYER.name}</p>
+			<button class="hover:text-accent"
+				on:click={() => kickPlayer = false}
+			>
+				<i class="fas fa-xmark"></i>
+			</button>
+		</div>
+		<Input
+			data={{
+				label: "Reason",
+				value: "reason",
+				id: "reason"
+			}}
+			selectedData={SelectData}
+		/>
+		<button
+			class="h-[3.8vh] px-[1.5vh] rounded-[0.5vh] bg-secondary hover:bg-opacity-90 border-[0.1vh] border-primary"
+			on:click={() => { 
+				SendNUI("clickButton", {
+					data: {
+						label: "Kick Player",
+						event: `ps-adminmenu:server:KickPlayer`,
+						type: 'server',
+						perms: "mod"
+					},
+					selectedData: {
+						["Player"]: {
+							value: $SELECTED_PLAYER.id,
+						},
+						["Reason"]: {
+							value: $SELECTED_PLAYER.id,
+						},
+					},
+				})
+			}}
+		>
+			<p>Kick</p>
+		</button>
+	</Modal>
 {/if}

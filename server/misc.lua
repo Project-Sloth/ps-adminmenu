@@ -55,8 +55,9 @@ end)
 -- Revive Player
 RegisterNetEvent('ps-adminmenu:server:Revive', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
-
     local player = selectedData["Player"].value
+
+    print(player, "revingin")
 
     TriggerClientEvent('hospital:client:Revive', player)
 end)

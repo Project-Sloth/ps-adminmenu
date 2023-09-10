@@ -5,7 +5,7 @@ RegisterNetEvent('ps-adminmenu:server:TeleportToPlayer', function(data, selected
     local src = source
     local player = selectedData["Player"].value
 
-    if not player then
+    if player then
         local coords = GetEntityCoords(player)
         CheckRoutingbucket(source, player)
         TriggerClientEvent('ps-adminmenu:client:TeleportToPlayer', src, coords)

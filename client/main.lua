@@ -37,7 +37,7 @@ end)
 RegisterNUICallback("clickButton", function(data)
 	local selectedData = data.selectedData
 	local data = data.data
-
+	print(json.encode(selectedData))
 	if not CheckPerms(data.perms) then return end
 
 	if data.type == "client" then
