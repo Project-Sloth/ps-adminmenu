@@ -141,3 +141,34 @@ RegisterNetEvent('ps-adminmenu:client:maxmodVehicle', function(data)
         QBCore.Functions.Notify(locale("vehicle_not_driver"), 'error', 7500)
     end
 end)
+
+-- Spawn Personal vehicles
+
+RegisterNetEvent("ps-adminmenu:client:SpawnPersonalvehicle", function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
+
+
+    local plate = selectedData['VehiclePlate'].value
+    local ped = PlayerPedId()
+    local coords = QBCore.Functions.GetCoords(ped)
+    local cid = QBCore.Functions.GetPlayerData().citizenid
+
+    QBCore.Functions.TriggerCallback("qb-garage:server:GetVehicleProperties", function(properties, plate)
+        props = properties
+    end, plate)
+    lib.callback('ps-adminmenu:server:GetVehicleByPlate', false, function(vehModel)
+        vehicle = vehModel
+    end, plate)
+    Wait(100)
+    QBCore.Functions.TriggerCallback('QBCore:Server:SpawnVehicle', function(vehicle)
+        local veh = NetToVeh(vehicle)
+        SetEntityHeading(veh, coords.w)
+        TaskWarpPedIntoVehicle(ped, veh, -1)
+        SetVehicleModKit(veh, 0)
+        Wait(100)
+        QBCore.Functions.SetVehicleProperties(veh, props)
+        SetVehicleNumberPlateText(veh, plate)
+        exports[Config.FuelScript]:SetFuel(veh, 100.0)
+        TriggerEvent("vehiclekeys:client:SetOwner", plate)
+    end, vehicle, coords, true)
+end)

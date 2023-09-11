@@ -32,3 +32,9 @@ RegisterNetEvent('ps-adminmenu:server:ChangePlate', function(newPlate, currentPl
     MySQL.Sync.execute('UPDATE trunkitems SET plate = ? WHERE plate = ?', {newPlate, currentPlate})
     MySQL.Sync.execute('UPDATE gloveboxitems SET plate = ? WHERE plate = ?', {newPlate, currentPlate})
 end)
+
+lib.callback.register('ps-adminmenu:server:GetVehicleByPlate', function(source, plate)
+    local result = MySQL.query.await('SELECT vehicle FROM player_vehicles WHERE plate = ?', {plate})
+    local veh = result[1] and result[1].vehicle or {}
+    return veh
+end)
