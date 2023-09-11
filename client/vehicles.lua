@@ -147,7 +147,6 @@ end)
 RegisterNetEvent("ps-adminmenu:client:SpawnPersonalvehicle", function(data, selectedData)
     if not CheckPerms(data.perms) then return end
 
-
     local plate = selectedData['VehiclePlate'].value
     local ped = PlayerPedId()
     local coords = QBCore.Functions.GetCoords(ped)

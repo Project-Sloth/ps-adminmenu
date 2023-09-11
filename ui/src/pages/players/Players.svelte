@@ -71,7 +71,7 @@
 </div>
 
 {#if $MENU_WIDE}
-    <div class="h-full w-[66vh] border-l-[0.2vh] border-tertiary p-[2vh]">
+    <div class="h-full w-[66vh] border-l-[0.2vh] border-tertiary p-[2vh] ">
 		{#if !$SELECTED_PLAYER}
 			<div class="h-full w-full flex flex-col items-center justify-center">
 				<div class="text-4xl text-tertiary">No Player Selected.</div>
@@ -174,7 +174,7 @@
 						<i class="fas fa-eye"></i>
 					</button>
 				</div>
-				<div class="h-[90%] overflow-auto flex flex-col gap-[1vh]">
+				<div class="h-[90%] overflow-auto flex flex-col gap-[1vh] select-text">
 					<p class="font-medium text-[1.7vh]">Licenses</p>
 					<div class="w-full bg-tertiary rounded-[0.5vh] p-[1.5vh] text-[1.5vh]">
 						<p>{$SELECTED_PLAYER.discord.replace('discord:', 'Discord: ')}</p>
