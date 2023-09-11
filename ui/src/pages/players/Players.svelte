@@ -95,7 +95,7 @@
 					</button>
 					<button
 						class="h-[4.5vh] w-full hover:bg-secondary"
-						on:click={() => 
+						on:click={() =>
 							SendNUI("clickButton", {
 								data: {
 									label: "Teleport To Player",
@@ -115,7 +115,7 @@
 					</button>
 					<button
 						class="h-[4.5vh] w-full hover:bg-secondary"
-						on:click={() => 
+						on:click={() =>
 							SendNUI("clickButton", {
 								data: {
 									label: "Bring Player",
@@ -135,7 +135,7 @@
 					</button>
 					<button
 						class="h-[4.5vh] w-full hover:bg-secondary"
-						on:click={() => 
+						on:click={() =>
 							SendNUI("clickButton", {
 								data: {
 									label: "Revive Player",
@@ -155,7 +155,7 @@
 					</button>
 					<button
 						class="h-[4.5vh] w-full hover:bg-secondary"
-						on:click={() => 
+						on:click={() =>
 							SendNUI("clickButton", {
 								data: {
 									label: "Spectate Player",
@@ -200,7 +200,23 @@
 								<p>Plate: {vehicle.plate}</p>
 							</div>
 							<div class="ml-auto h-full flex items-center">
-								<button class="bg-secondary px-[1vh] py-[0.5vh] rounded-[0.5vh] border border-primary">
+								<button class="bg-secondary px-[1vh] py-[0.5vh] rounded-[0.5vh] border border-primary"
+								on:click={() =>
+									SendNUI("clickButton", {
+										data: {
+											label: "Spawn Personal Vehicle",
+											event: `ps-adminmenu:client:SpawnPersonalvehicle`,
+											type: 'client',
+											perms: "mod"
+										},
+										selectedData: {
+											["VehiclePlate"]: {
+												value: vehicle.plate,
+											},
+										},
+									})
+								}
+								>
 									Spawn
 								</button>
 							</div>
@@ -242,7 +258,7 @@
 		/>
 		<button
 			class="h-[3.8vh] px-[1.5vh] rounded-[0.5vh] bg-secondary hover:bg-opacity-90 border-[0.1vh] border-primary"
-			on:click={() => { 
+			on:click={() => {
 				console.log("Time: ", selectedDataArray["Duration"].value)
 				console.log("reason: ", selectedDataArray["Reason"].value)
 				SendNUI("clickButton", {
@@ -291,7 +307,7 @@
 		/>
 		<button
 			class="h-[3.8vh] px-[1.5vh] rounded-[0.5vh] bg-secondary hover:bg-opacity-90 border-[0.1vh] border-primary"
-			on:click={() => { 
+			on:click={() => {
 				SendNUI("clickButton", {
 					data: {
 						label: "Kick Player",
