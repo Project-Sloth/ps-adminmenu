@@ -7,7 +7,7 @@
 	import VehicleDev from '@components/VehicleDev.svelte'
 	import { VEHICLE_DEV } from '@store/vehicle_dev'
 
-	$RESOURCE_NAME = 'ok1ez-admin'
+	$RESOURCE_NAME = 'ps-adminmenu'
 </script>
 
 <VisibilityProvider>
