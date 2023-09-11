@@ -187,14 +187,6 @@ RegisterNetEvent('ps-adminmenu:server:CuffPlayer', function(data, selectedData)
     QBCore.Functions.Notify(source, locale("toggled_cuffs"), 'success')
 end)
 
--- Toggle names and blips
-local players = {}
-
-RegisterNetEvent('ps-adminmenu:server:GetPlayersForBlips', function()
-    local src = source
-    TriggerClientEvent('ps-adminmenu:client:Show', src, players)
-end)
-
 -- Give Clothing Menu
 RegisterNetEvent('ps-adminmenu:server:ClothingMenu', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
