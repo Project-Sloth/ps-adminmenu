@@ -548,5 +548,4 @@ AddEventHandler("onResourceStart", function()
     elseif GetResourceState('qb-inventory') == 'started' then
         Config.Inventory = 'qb-inventory'
 	end
-    print("Inventory: " .. Config.Inventory)
 end)
