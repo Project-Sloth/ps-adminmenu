@@ -79,8 +79,11 @@ We invite you to contribute by submitting new features through PRs. We're always
 3. Ensure `ps-adminmenu` in your server cfg.
 4. Set the config in `shared/config.lua` to your needs.
 
-Make a log webhook for the 'ps-adminmenu' in qb-smallresources > server > logs.lua:
-['ps-adminmenu'] = 'discord webhook'
+## Setting Up Logs
+1. Set up a Discord Webhook for the channel you want the logs to be.
+2. Add this to `qb-smallresource/server/logs.lua` - 
+`['ps-adminmenu'] = 'discord webhook'`
+3. Replace the place holder with your webhook link.
 
 # Credits
 * [OK1ez](https://github.com/OK1ez)
