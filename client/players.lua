@@ -4,6 +4,7 @@ local NetCheck1 = false
 local NetCheck2 = false
 local Blip = nil
 local Tag = nil
+local currentPlayers = {}
 
 -- Function to remove all names and Blips
 local function removeNameAndBlips()
@@ -131,14 +132,23 @@ local function UpdateBlipsAndNames(players)
     end
 end
 
+local function preparePlayers()
+    currentPlayers = {}
+    TriggerServerEvent('ps-adminmenu:server:preparePlayers')
+    Wait(100)
+    currentPlayers = lib.callback.await('ps-adminmenu:callback:GetPlayers')
+end
+
 -- Toggle Blips and Names events
 RegisterNetEvent('ps-adminmenu:client:toggleBlips', function(data)
     if not CheckPerms(data.perms) then return end
+    if not ShowBlips then preparePlayers() end
     ToggleBlipsAndNames(true)
 end)
 
 RegisterNetEvent('ps-adminmenu:client:toggleNames', function(data)
     if not CheckPerms(data.perms) then return end
+    if not ShowNames then preparePlayers() end
     ToggleBlipsAndNames(false)
 end)
 
@@ -147,7 +157,6 @@ CreateThread(function()
     while true do
         Wait(1000)
         if NetCheck1 or NetCheck2 then
-            local currentPlayers = lib.callback.await('ps-adminmenu:callback:GetPlayers')
             UpdateBlipsAndNames(currentPlayers)
         end
     end

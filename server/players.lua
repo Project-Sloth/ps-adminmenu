@@ -1,3 +1,4 @@
+local savedPlayers = {}
 local function getVehicles(cid)
     local result = MySQL.query.await('SELECT vehicle, plate, fuel, engine, body FROM player_vehicles WHERE citizenid = ?', { cid })
     local vehicles = {}
@@ -52,6 +53,11 @@ local function getPlayers()
     return players
 end
 
+RegisterServerEvent('ps-adminmenu:server:preparePlayers', function()
+    savedPlayers = {}
+    savedPlayers = getPlayers()
+end)
+
 lib.callback.register('ps-adminmenu:callback:GetPlayers', function(source) 
-    return getPlayers()
+    return savedPlayers
 end)
