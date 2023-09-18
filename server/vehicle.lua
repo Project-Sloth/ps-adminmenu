@@ -48,8 +48,7 @@ RegisterNetEvent('ps-adminmenu:server:FixVehFor', function(data, selectedData)
     if Player then
         TriggerClientEvent('iens:repaira', Player.PlayerData.source)
         TriggerClientEvent('vehiclemod:client:fixEverything', Player.PlayerData.source)
-        TriggerClientEvent('QBCore:Notify', src, locale("fixed_veh"), "error")
-        QBCore.Functions.Notify(src, locale("fixed_veh",  player), 'error', 7500)
+        QBCore.Functions.Notify(src, locale("fixed_veh", Player), 'success', 7500)
 
     else
         TriggerClientEvent('QBCore:Notify', src, locale("not_online"), "error")
