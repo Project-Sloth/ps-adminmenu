@@ -76,5 +76,6 @@
     "restarted_resource": "Restarted Resource",
     "status_title": "CFX Status",
     "new_staffchat": "New Staff Message",
-    "player_perms": "%s got [ %s ] Permissions."
+    "player_perms": "%s got [ %s ] Permissions.",
+    "veh_fixed": "Vehicle fixed for %s"
 }

@@ -396,6 +396,15 @@ Config.Actions = {
         perms = "mod",
     },
 
+    ["fix_vehicle_for"] = {
+        label = "Fix Vehicle for player",
+        perms = "mod",
+        dropdown = {
+            { label = "Player",  option = "dropdown", data = "players" },
+            { label = "Confirm", option = "button",   type = "server", event = "ps-adminmenu:server:FixVehFor" },
+        },
+    },
+
     ["spactate_player"] = {
         label = "Spectate Player",
         perms = "mod",

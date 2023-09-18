@@ -38,3 +38,20 @@ lib.callback.register('ps-adminmenu:server:GetVehicleByPlate', function(source, 
     local veh = result[1] and result[1].vehicle or {}
     return veh
 end)
+
+-- Fix Vehicle for player
+RegisterNetEvent('ps-adminmenu:server:FixVehFor', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
+    local src = source
+    local playerId = selectedData['Player'].value
+    local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
+    if Player then
+        TriggerClientEvent('iens:repaira', Player.PlayerData.source)
+        TriggerClientEvent('vehiclemod:client:fixEverything', Player.PlayerData.source)
+        TriggerClientEvent('QBCore:Notify', src, locale("fixed_veh"), "error")
+        QBCore.Functions.Notify(src, locale("fixed_veh",  player), 'error', 7500)
+
+    else
+        TriggerClientEvent('QBCore:Notify', src, locale("not_online"), "error")
+    end
+end)
