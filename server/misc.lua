@@ -57,8 +57,6 @@ RegisterNetEvent('ps-adminmenu:server:Revive', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
     local player = selectedData["Player"].value
 
-    print(player, "revingin")
-
     TriggerClientEvent('hospital:client:Revive', player)
 end)
 
@@ -99,7 +97,7 @@ RegisterNetEvent('ps-adminmenu:server:SetBucket', function(data, selectedData)
     local currentBucket = GetPlayerRoutingBucket(player)
 
     if bucket == currentBucket then
-        return QBCore.Functions.Notify(src, locale("target_same_bucket",  player), 'error', 7500) 
+        return QBCore.Functions.Notify(src, locale("target_same_bucket",  player), 'error', 7500)
     end
 
     SetPlayerRoutingBucket(player, bucket)
@@ -115,7 +113,7 @@ RegisterNetEvent('ps-adminmenu:server:GiveMoney', function(data, selectedData)
     local Player = QBCore.Functions.GetPlayer(tonumber(target))
 
     if Player == nil then
-        return QBCore.Functions.Notify(src, locale("not_online"), 'error', 7500) 
+        return QBCore.Functions.Notify(src, locale("not_online"), 'error', 7500)
     end
 
     Player.Functions.AddMoney(tostring(moneyType), tonumber(amount))
@@ -146,7 +144,7 @@ RegisterNetEvent('ps-adminmenu:server:TakeMoney', function(data, selectedData)
     local Player = QBCore.Functions.GetPlayer(tonumber(target))
 
     if Player == nil then
-        return QBCore.Functions.Notify(src, locale("not_online"), 'error', 7500) 
+        return QBCore.Functions.Notify(src, locale("not_online"), 'error', 7500)
     end
 
     if Player.PlayerData.money[moneyType] >= tonumber(amount) then
@@ -194,7 +192,7 @@ RegisterNetEvent('ps-adminmenu:server:ClothingMenu', function(data, selectedData
     local src = source
     local target = tonumber(selectedData["Player"].value)
 
-    if target == nil then 
+    if target == nil then
         return QBCore.Functions.Notify(src, locale("not_online"), 'error', 7500)
     end
 
