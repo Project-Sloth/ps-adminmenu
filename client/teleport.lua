@@ -10,6 +10,7 @@ end
 
 -- Teleport to player
 RegisterNetEvent('ps-adminmenu:client:TeleportToPlayer', function(coords)
+
     lastCoords = GetEntityCoords(cache.ped)
     SetPedCoordsKeepVehicle(cache.ped, coords.x, coords.y, coords.z)
 end)
