@@ -4,6 +4,7 @@
 	import { PLAYER, PLAYER_DATA } from '@store/players'
 	import { RESOURCE, RESOURCES } from '@store/server'
 	import { VEHICLE_DEV } from '@store/vehicle_dev'
+	import { Message, Messages } from "@store/staffchat";
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
 	import { debugData } from '@utils/debugData'
 
@@ -47,5 +48,9 @@
 	ReceiveNUI('showVehicleMenu', (data: any) => {
 		$VEHICLE_DEV = data
 	})
+	ReceiveNUI('setMessages', (data: any) => {
+		Message.set(data)
+		Messages.set($Message[0])
+	});
 
 </script>

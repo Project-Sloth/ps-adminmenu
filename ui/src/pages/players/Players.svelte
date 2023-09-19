@@ -99,7 +99,7 @@
 							SendNUI("clickButton", {
 								data: {
 									label: "Teleport To Player",
-									event: `ps-adminmenu:server:TeleportToPlayerr`,
+									event: `ps-adminmenu:server:TeleportToPlayer`,
 									type: 'server',
 									perms: "mod"
 								},

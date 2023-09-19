@@ -9,7 +9,7 @@ RegisterNetEvent('ps-adminmenu:server:sendMessageServer', function(message, citi
         local player = players[i]
         if QBCore.Functions.HasPermission(player, 'mod') or IsPlayerAceAllowed(player, 'command') then
             if QBCore.Functions.IsOptin(player) then
-                QBCore.Functions.Notify(player, locale("info.new_staffchat", 'inform', 7500))
+                QBCore.Functions.Notify(player, locale("new_staffchat", 'inform', 7500))
             end
         end
     end
