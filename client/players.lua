@@ -134,7 +134,6 @@ end
 
 local function preparePlayers()
     currentPlayers = {}
-    TriggerServerEvent('ps-adminmenu:server:preparePlayers')
     Wait(100)
     currentPlayers = lib.callback.await('ps-adminmenu:callback:GetPlayers')
 end

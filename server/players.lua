@@ -53,11 +53,8 @@ local function getPlayers()
     return players
 end
 
-RegisterServerEvent('ps-adminmenu:server:preparePlayers', function()
+lib.callback.register('ps-adminmenu:callback:GetPlayers', function(source)
     savedPlayers = {}
     savedPlayers = getPlayers()
-end)
-
-lib.callback.register('ps-adminmenu:callback:GetPlayers', function(source) 
     return savedPlayers
 end)
