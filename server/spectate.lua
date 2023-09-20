@@ -7,22 +7,24 @@ RegisterNetEvent('ps-adminmenu:server:SpectateTarget', function(data, selectedDa
     local type = "1"
     if player == source then return QBCore.Functions.Notify(source, locale("cant_spectate_yourself"), 'error', 7500) end
     if spectating[source] then type = "0" end
-    TriggerEvent('ps-adminmenu:spectate', player, type == "1", source)
+    TriggerEvent('ps-adminmenu:spectate', player, type == "1", source, data.perms)
     CheckRoutingbucket(source, player)
 end)
 
-AddEventHandler('ps-adminmenu:spectate', function(target, on, source)
+AddEventHandler('ps-adminmenu:spectate', function(target, on, source, perms)
     local tPed = GetPlayerPed(target)
+    local data = {}
+    data.perms = perms
     if DoesEntityExist(tPed) then
         if not on then
             TriggerClientEvent('ps-adminmenu:cancelSpectate', source)
             spectating[source] = false
             FreezeEntityPosition(GetPlayerPed(source), false)
-            TriggerClientEvent('ps-adminmenu:client:toggleNames', source)
+            TriggerClientEvent('ps-adminmenu:client:toggleNames', source, data)
         elseif on then
             TriggerClientEvent('ps-adminmenu:requestSpectate', source, NetworkGetNetworkIdFromEntity(tPed), target, GetPlayerName(target))
             spectating[source] = true
-            TriggerClientEvent('ps-adminmenu:client:toggleNames', source)
+            TriggerClientEvent('ps-adminmenu:client:toggleNames', source, data)
         end
     end
 end)
