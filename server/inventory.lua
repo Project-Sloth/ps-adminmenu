@@ -5,7 +5,6 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(data, selectedDa
     local src = source
     local player = selectedData["Player"].value
     local Player = QBCore.Functions.GetPlayer(player)
-    local name = GetPlayerName(src)
 
     if not Player then
         return QBCore.Functions.Notify(source, locale("not_online"), 'error', 7500)
@@ -17,7 +16,7 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(data, selectedDa
         exports[Config.Inventory]:ClearInventory(player, nil)
     end
 
-    QBCore.Functions.Notify(src, locale("invcleared", name), 'success', 7500)
+    QBCore.Functions.Notify(src, locale("invcleared", Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname), 'success', 7500)
 end)
 
 -- Open Inv [ox side]
