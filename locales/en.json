@@ -77,5 +77,7 @@
     "status_title": "CFX Status",
     "new_staffchat": "New Staff Message",
     "player_perms": "%s got [ %s ] Permissions.",
-    "veh_fixed": "Vehicle fixed for %s"
+    "veh_fixed": "Vehicle fixed for %s",
+    "jobset": "You have given %s the job: %s with grade %s",
+    "gangset": "You have given %s the gang: %s with grade %s"
 }

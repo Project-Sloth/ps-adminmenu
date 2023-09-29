@@ -300,7 +300,7 @@ Config.Actions = {
         dropdown = {
             { label = "Player",  option = "dropdown", data = "players" },
             { label = "Gang",    option = "dropdown", data = "gangs" },
-            { label = "Confirm", option = "button",   type = "server", event = "ps-adminmenu:server:SetJob" },
+            { label = "Confirm", option = "button",   type = "server", event = "ps-adminmenu:server:SetGang" },
         },
     },
 

@@ -55,3 +55,27 @@ end
 lib.callback.register('ps-adminmenu:callback:GetPlayers', function(source)
     return getPlayers()
 end)
+
+-- Set Job
+RegisterNetEvent('ps-adminmenu:server:SetJob', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
+    local src = source
+    local playerId, Job, Grade = selectedData["Player"].value, selectedData["Job"].value, selectedData["Grade"].value
+    local Player = QBCore.Functions.GetPlayer(playerId)
+    local name = Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname
+
+    QBCore.Functions.Notify(src, locale("jobset", name, Job, Grade), 'success', 5000)
+    Player.Functions.SetJob(tostring(Job), tonumber(Grade))
+end)
+
+-- Set Gang
+RegisterNetEvent('ps-adminmenu:server:SetGang', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
+    local src = source
+    local playerId, Gang, Grade = selectedData["Player"].value, selectedData["Gang"].value, selectedData["Grade"].value
+    local Player = QBCore.Functions.GetPlayer(playerId)
+    local name = Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname
+
+    QBCore.Functions.Notify(src, locale("gangset", name, Gang, Grade), 'success', 5000)
+    Player.Functions.SetGang(tostring(Gang), tonumber(Grade))
+end)
