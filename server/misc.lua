@@ -21,17 +21,16 @@ RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(data, selectedData)
 end)
 
 -- Warn Player
-RegisterNetEvent('ps-adminmenu:server:warnplayer', function(data, selectedData)
+RegisterNetEvent('ps-adminmenu:server:WarnPlayer', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
-
-    local target = QBCore.Functions.GetPlayer(selectedData["Player"].value)
+    local targetId = selectedData["Player"].value
+    local target = QBCore.Functions.GetPlayer(targetId)
     local reason = selectedData["Reason"].value
     local sender = QBCore.Functions.GetPlayer(source)
     local warnId = 'WARN-' .. math.random(1111, 9999)
-
     if target ~= nil then
-        TriggerClientEvent('chat:addMessage', target.PlayerData.source, {args = {"SYSTEM", locale("warning_chat_message") .. GetPlayerName(source) .. "," .. locale("reason") .. ": " .. reason}, color = 255, 0, 0})
-        TriggerClientEvent('chat:addMessage', source, {args = {"SYSTEM", locale("warning_staff_message") .. GetPlayerName(target.PlayerData.source) .. ", for: " .. reason}, color = 255, 0, 0})
+        QBCore.Functions.Notify(target.PlayerData.source, locale("warned") .. ", for: " .. locale("reason") .. ": " .. reason, 'inform', 10000)
+        QBCore.Functions.Notify(source, locale("warngiven") .. GetPlayerName(target.PlayerData.source) .. ", for: " .. reason)
         MySQL.insert('INSERT INTO player_warns (senderIdentifier, targetIdentifier, reason, warnId) VALUES (?, ?, ?, ?)', {
             sender.PlayerData.license,
             target.PlayerData.license,
