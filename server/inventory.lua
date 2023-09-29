@@ -16,7 +16,7 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(data, selectedDa
         exports[Config.Inventory]:ClearInventory(player, nil)
     end
 
-    QBCore.Functions.Notify(src, locale("invcleared", player), 'success', 7500)
+    QBCore.Functions.Notify(src, locale("invcleared", Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname), 'success', 7500)
 end)
 
 -- Open Inv [ox side]
