@@ -82,19 +82,94 @@
 				<p class="font-medium text-[1.7vh]">Quick Actions</p>
 				<div class="w-full bg-tertiary flex rounded-[0.5vh]">
 					<button title="Kick Player"
-						class="h-[4.5vh] w-full rounded-l-[0.5vh] hover:bg-secondary"
+						class="h-[4.5vh] w-full rounded-l-[0.5vh] hover:bg-secondary
+						relative
+						before:content-[attr(data-tip)]
+						before:absolute
+						before:px-3 before:py-2
+						before:left-1/2 before:-top-3
+						before:w-max before:max-w-xs
+						before:-translate-x-1/2 before:-translate-y-full
+						before:bg-tertiary before:text-white
+						before:rounded-md before:opacity-0
+						before:translate-all
+
+						after:absolute
+						after:left-1/2 after:-top-3
+						after:h-0 after:w-0
+						after:-translate-x-1/2 after:border-8
+						after:border-t-tertiary
+						after:border-l-transparent
+						after:border-b-transparent
+						after:border-r-transparent
+						after:opacity-0
+						after:transition-all
+
+						hover:before:opacity-100 hover:after:opacity-100
+						"
+						data-tip='Kick Player'
 						on:click={() => kickPlayer = true}
 					>
 						<i class="fas fa-user-minus"></i>
 					</button>
 					<button title="Ban Player"
-						class="h-[4.5vh] w-full hover:bg-secondary"
+						class="h-[4.5vh] w-full hover:bg-secondary
+						relative
+						before:content-[attr(data-tip)]
+						before:absolute
+						before:px-3 before:py-2
+						before:left-1/2 before:-top-3
+						before:w-max before:max-w-xs
+						before:-translate-x-1/2 before:-translate-y-full
+						before:bg-tertiary before:text-white
+						before:rounded-md before:opacity-0
+						before:translate-all
+
+						after:absolute
+						after:left-1/2 after:-top-3
+						after:h-0 after:w-0
+						after:-translate-x-1/2 after:border-8
+						after:border-t-tertiary
+						after:border-l-transparent
+						after:border-b-transparent
+						after:border-r-transparent
+						after:opacity-0
+						after:transition-all
+
+						hover:before:opacity-100 hover:after:opacity-100
+						"
+						data-tip='Ban Player'
 						on:click={() => banPlayer = true }
 					>
 						<i class="fas fa-ban"></i>
 					</button>
 					<button title="Teleport To Player"
-						class="h-[4.5vh] w-full hover:bg-secondary"
+						class="h-[4.5vh] w-full hover:bg-secondary
+						relative
+						before:content-[attr(data-tip)]
+						before:absolute
+						before:px-3 before:py-2
+						before:left-1/2 before:-top-3
+						before:w-max before:max-w-xs
+						before:-translate-x-1/2 before:-translate-y-full
+						before:bg-tertiary before:text-white
+						before:rounded-md before:opacity-0
+						before:translate-all
+
+						after:absolute
+						after:left-1/2 after:-top-3
+						after:h-0 after:w-0
+						after:-translate-x-1/2 after:border-8
+						after:border-t-tertiary
+						after:border-l-transparent
+						after:border-b-transparent
+						after:border-r-transparent
+						after:opacity-0
+						after:transition-all
+
+						hover:before:opacity-100 hover:after:opacity-100
+						"
+						data-tip='Teleport To Player'
 						on:click={() =>
 							SendNUI("clickButton", {
 								data: {
@@ -114,7 +189,32 @@
 						<i class="fas fa-person-walking-arrow-right"></i>
 					</button>
 					<button title="Bring Player"
-						class="h-[4.5vh] w-full hover:bg-secondary"
+						class="h-[4.5vh] w-full hover:bg-secondary
+						relative
+						before:content-[attr(data-tip)]
+						before:absolute
+						before:px-3 before:py-2
+						before:left-1/2 before:-top-3
+						before:w-max before:max-w-xs
+						before:-translate-x-1/2 before:-translate-y-full
+						before:bg-tertiary before:text-white
+						before:rounded-md before:opacity-0
+						before:translate-all
+
+						after:absolute
+						after:left-1/2 after:-top-3
+						after:h-0 after:w-0
+						after:-translate-x-1/2 after:border-8
+						after:border-t-tertiary
+						after:border-l-transparent
+						after:border-b-transparent
+						after:border-r-transparent
+						after:opacity-0
+						after:transition-all
+
+						hover:before:opacity-100 hover:after:opacity-100
+						"
+						data-tip='Bring Player'
 						on:click={() =>
 							SendNUI("clickButton", {
 								data: {
@@ -134,7 +234,32 @@
 						<i class="fas fa-person-walking-arrow-loop-left"></i>
 					</button>
 					<button title="Revive Player"
-						class="h-[4.5vh] w-full hover:bg-secondary"
+						class="h-[4.5vh] w-full hover:bg-secondary
+						relative
+						before:content-[attr(data-tip)]
+						before:absolute
+						before:px-3 before:py-2
+						before:left-1/2 before:-top-3
+						before:w-max before:max-w-xs
+						before:-translate-x-1/2 before:-translate-y-full
+						before:bg-tertiary before:text-white
+						before:rounded-md before:opacity-0
+						before:translate-all
+
+						after:absolute
+						after:left-1/2 after:-top-3
+						after:h-0 after:w-0
+						after:-translate-x-1/2 after:border-8
+						after:border-t-tertiary
+						after:border-l-transparent
+						after:border-b-transparent
+						after:border-r-transparent
+						after:opacity-0
+						after:transition-all
+
+						hover:before:opacity-100 hover:after:opacity-100
+						"
+						data-tip='Revive Player'
 						on:click={() =>
 							SendNUI("clickButton", {
 								data: {
@@ -154,7 +279,32 @@
 						<i class="fas fa-heart-pulse"></i>
 					</button>
 					<button title="Spectate Player"
-						class="h-[4.5vh] w-full hover:bg-secondary"
+						class="h-[4.5vh] w-full hover:bg-secondary
+						relative
+						before:content-[attr(data-tip)]
+						before:absolute
+						before:px-3 before:py-2
+						before:left-1/2 before:-top-3
+						before:w-max before:max-w-xs
+						before:-translate-x-1/2 before:-translate-y-full
+						before:bg-tertiary before:text-white
+						before:rounded-md before:opacity-0
+						before:translate-all
+
+						after:absolute
+						after:left-1/2 after:-top-3
+						after:h-0 after:w-0
+						after:-translate-x-1/2 after:border-8
+						after:border-t-tertiary
+						after:border-l-transparent
+						after:border-b-transparent
+						after:border-r-transparent
+						after:opacity-0
+						after:transition-all
+
+						hover:before:opacity-100 hover:after:opacity-100
+						"
+						data-tip='Spectate Player'
 						on:click={() =>
 							SendNUI("clickButton", {
 								data: {
