@@ -27,10 +27,10 @@
 	</div>
 
 	{#each navigation as nav}
-		<Button icon={nav.icon} value={nav.value} />
+		<Button tooltip={nav.value} icon={nav.icon} value={nav.value} />
 	{/each}
 
-	<button
+	<button title='Dev Mode'
 		class="w-[4vh] h-[4vh] rounded-[0.5vh] hover:bg-tertiary {$DEV_MODE ? "text-accent" : ""}"
 		on:click={() => DEV_MODE.update((wide) => !wide)}
 	>
