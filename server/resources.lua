@@ -25,6 +25,7 @@ end)
 
 lib.callback.register('ps-adminmenu:callback:ChangeResourceState', function(source, data, perms)
     print(json.encode(data))
+    if not CheckPerms(Config.ResourcePerms) then return end
 
     if data.state == "start" then
         StartResource(data.name)
