@@ -27,7 +27,7 @@
 	</div>
 
 	{#each navigation as nav}
-		<Button tooltip={nav.value} icon={nav.icon} value={nav.value} />
+		<Button tooltiptext={nav.value} icon={nav.icon} value={nav.value} />
 	{/each}
 
 	<button title='Dev Mode'
