@@ -167,7 +167,7 @@ RegisterNetEvent("ps-adminmenu:client:SpawnPersonalvehicle", function(data, sele
         Wait(100)
         QBCore.Functions.SetVehicleProperties(veh, props)
         SetVehicleNumberPlateText(veh, plate)
-        exports[Config.FuelScript]:SetFuel(veh, 100.0)
+        exports[Config.Fuel]:SetFuel(veh, 100.0)
         TriggerEvent("vehiclekeys:client:SetOwner", plate)
     end, vehicle, coords, true)
 end)
