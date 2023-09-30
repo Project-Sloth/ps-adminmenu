@@ -21,12 +21,6 @@ end)
 
 -- Open Inv [ox side]
 RegisterNetEvent('ps-adminmenu:server:OpenInv', function(data)
-    local Player = QBCore.Functions.GetPlayer(data)
-
-    if not Player then 
-        return QBCore.Functions.Notify(source, locale("not_online"), 'error', 7500) 
-    end
-
     exports.ox_inventory:forceOpenInventory(source, 'player', data)
 end)
 
@@ -46,7 +40,7 @@ RegisterNetEvent('ps-adminmenu:server:GiveItem', function(data, selectedData)
 
     if not item or not amount then return end
     if not Player then
-        return QBCore.Functions.Notify(source, locale("not_online"), 'error', 7500) 
+        return QBCore.Functions.Notify(source, locale("not_online"), 'error', 7500)
     end
 
     Player.Functions.AddItem(item, amount)
