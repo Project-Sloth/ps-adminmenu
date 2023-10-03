@@ -53,7 +53,9 @@ end)
 
 -- Commands
 RegisterCommand("admin", function()
-	ToggleUI(true)
+    if CheckPerms(Config.ResourcePerms) then
+        ToggleUI(true)
+    end
 end, false)
 
 -- Close UI Event
