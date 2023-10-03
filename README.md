@@ -85,6 +85,9 @@ We invite you to contribute by submitting new features through PRs. We're always
 `['ps-adminmenu'] = 'discord webhook'`
 3. Replace the place holder with your webhook link.
 
+# To Do
+* Rework the blips/names
+
 # Credits
 * [OK1ez](https://github.com/OK1ez)
 * [Lenzh](https://github.com/Lenzh)
