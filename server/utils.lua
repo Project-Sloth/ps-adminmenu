@@ -1,5 +1,5 @@
 local function noPerms(source)
-    QBCore.Functions.Notify(source, "No Perms", 'error')
+    QBCore.Functions.Notify(source, "No permissions.", 'error')
 end
 
 --- @param perms string
