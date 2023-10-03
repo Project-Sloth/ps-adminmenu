@@ -96,10 +96,10 @@ local function UpdateVehicleMenu()
                 name = name,
                 model = vehicle.model,
                 netID = netID,
-                engine_health = 85,
-                body_health = 85,
+                engine_health = vehicle.engineHealth,
+                body_health = vehicle.bodyHealth,
                 plate = vehicle.plate,
-                fuel = 85,
+                fuel = vehicle.fuelLevel,
             }
         })
     end
