@@ -152,6 +152,14 @@ RegisterNetEvent('ps-adminmenu:client:toggleNames', function(data)
     ToggleBlipsAndNames(false)
 end)
 
+-- Mute Player
+RegisterNetEvent("ps-adminmenu:client:MutePlayer", function (data, selectedData)
+    if not CheckPerms(data.perms) then return end
+    local playerId = selectedData["Player"].value
+    if not playerId then return end
+    exports["pma-voice"]:toggleMutePlayer(playerId)
+end)
+
 -- Main loop to check for updates
 CreateThread(function()
     while true do
