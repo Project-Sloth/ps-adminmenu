@@ -80,3 +80,22 @@ RegisterNetEvent('ps-adminmenu:server:SetGang', function(data, selectedData)
     QBCore.Functions.Notify(src, locale("gangset", name, Gang, Grade), 'success', 5000)
     Player.Functions.SetGang(tostring(Gang), tonumber(Grade))
 end)
+
+-- Set Perms
+RegisterNetEvent("ps-adminmenu:server:SetPerms", function (data, selectedData)
+    if not CheckPerms(data.perms) then return end
+    local src = source
+    local rank = selectedData["Permissions"].value
+    local targetId = selectedData["Player"].value
+    local tPlayer = QBCore.Functions.GetPlayer(tonumber(targetId))
+    
+    if not tPlayer then
+        QBCore.Functions.Notify(src, locale("not_online"), "error", 5000)
+        return
+    end
+    
+    local name = tPlayer.PlayerData.charinfo.firstname..' '..tPlayer.PlayerData.charinfo.lastname
+
+    QBCore.Functions.AddPermission(tPlayer.PlayerData.source, tostring(rank))
+    QBCore.Functions.Notify(tPlayer.PlayerData.source, locale("player_perms", name, rank), 'success', 5000)
+end)
