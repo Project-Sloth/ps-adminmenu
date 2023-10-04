@@ -91,6 +91,7 @@ local function UpdateBlipsAndNames(players)
             if not DoesBlipExist(Blip) then
                 Blip = AddBlipForEntity(ped)
                 ShowHeadingIndicatorOnBlip(Blip, true)
+                SetBlipCategory(Blip, 7)
             else
                 local veh = GetVehiclePedIsIn(ped, false)
                 local classveh = GetVehicleClass(veh)
