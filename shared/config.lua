@@ -1,3 +1,4 @@
+lib.locale()
 Config = Config or {}
 
 Config.Fuel = "ps-fuel" -- "ps-fuel", "LegacyFuel"
