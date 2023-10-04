@@ -71,11 +71,15 @@ The Admin Menu crafted by [OK1ez](https://github.com/OK1ez) and our dedicated te
 * Toggle Names
 * Vehicle Dev Menu
 * Warn player
+  
+# Depedency
+1. [qb-core](https://github.com/qbcore-framework/qb-core)
+2. [ox_lib](https://github.com/overextended/ox_lib) 
 
 # Installation
 1. Download the latest release.
 2. Add the files to your server resources.
-3. Ensure `ps-adminmenu` in your server cfg.
+3. Ensure `ps-adminmenu` in your server cfg. Make sure ox_lib starts before ps-adminmenu.  
 4. Set the config in `shared/config.lua` to your needs.
 
 ## Setting Up Logs
