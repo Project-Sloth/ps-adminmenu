@@ -19,7 +19,7 @@ end)
 RegisterNetEvent('ps-adminmenu:client:TeleportToCoords', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
 
-    local coords = selectedData["Coords"].value
+    local coords = selectedData["Location"].value
 
     local x, y, z = string.match(coords, "(%S+)%s+(%S+)%s+(%S+)")
 
@@ -31,7 +31,7 @@ end)
 -- Teleport to Locaton
 RegisterNetEvent('ps-adminmenu:client:TeleportToLocation', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
-    local coords = selectedData["Coords"].value
+    local coords = selectedData["Location"].value
 
     lastCoords = GetEntityCoords(cache.ped)
     SetPedCoordsKeepVehicle(cache.ped, coords.x, coords.y, coords.z)
