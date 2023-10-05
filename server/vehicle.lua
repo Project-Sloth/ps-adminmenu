@@ -46,10 +46,10 @@ RegisterNetEvent('ps-adminmenu:server:FixVehFor', function(data, selectedData)
     local playerId = selectedData['Player'].value
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
     if Player then
+        local name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname
         TriggerClientEvent('iens:repaira', Player.PlayerData.source)
         TriggerClientEvent('vehiclemod:client:fixEverything', Player.PlayerData.source)
-        QBCore.Functions.Notify(src, locale("fixed_veh", Player), 'success', 7500)
-
+        QBCore.Functions.Notify(src, locale("veh_fixed", name), 'success', 7500)
     else
         TriggerClientEvent('QBCore:Notify', src, locale("not_online"), "error")
     end
