@@ -31,7 +31,7 @@ end)
 -- Teleport to Locaton
 RegisterNetEvent('ps-adminmenu:client:TeleportToLocation', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
-    local coords = selectedData["Coords"].value
+    local coords = selectedData["Location"].value
 
     lastCoords = GetEntityCoords(cache.ped)
     SetPedCoordsKeepVehicle(cache.ped, coords.x, coords.y, coords.z)
