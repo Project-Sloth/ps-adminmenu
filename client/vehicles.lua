@@ -67,6 +67,13 @@ RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(data, selectedData)
     end
 
     if cache.vehicle then
+        local AlreadyPlate = lib.callback.await("ps-adminmenu:callback:CheckAlreadyPlate", false, plate)
+    
+        if AlreadyPlate then
+            QBCore.Functions.Notify(locale("already_plate"), "error", 5000)
+            return
+        end
+            
         local currentPlate = GetVehicleNumberPlateText( cache.vehicle)
         TriggerServerEvent('ps-adminmenu:server:ChangePlate', plate, currentPlate)
         Wait(100)
