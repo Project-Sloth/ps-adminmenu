@@ -19,7 +19,7 @@ end)
 RegisterNetEvent('ps-adminmenu:client:TeleportToCoords', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
 
-    local coords = selectedData["Location"].value
+    local coords = selectedData["Coords"].value
 
     local x, y, z = string.match(coords, "(%S+)%s+(%S+)%s+(%S+)")
 
