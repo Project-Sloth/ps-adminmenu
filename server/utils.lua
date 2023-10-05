@@ -13,8 +13,21 @@ function CheckPerms(perms)
     return hasPerms
 end
 
+---@param plate string
+---@return boolean
+function CheckAlreadyPlate ( plate )
+    local vPlate = QBCore.Shared.Trim( plate )
+    local result = MySQL.single.await("SELECT plate FROM player_vehicles WHERE plate = ?", {vPlate})
+    if result and result.plate then return true end
+    return false
+end
+
 lib.callback.register('ps-adminmenu:callback:CheckPerms', function(source, perms)
     return CheckPerms(perms)
+end)
+
+lib.callback.register('ps-adminmenu:callback:CheckAlreadyPlate', function (_, vPlate )
+    return CheckAlreadyPlate( vPlate )
 end)
 
 --- @param source number
