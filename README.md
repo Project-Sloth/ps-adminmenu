@@ -15,6 +15,7 @@ The Admin Menu crafted by [OK1ez](https://github.com/OK1ez) and our dedicated te
 * Ban Player
 * Bring Player
 * Change Plate
+* Checking number plates before ```Change Plate```
 * Change Time
 * Change Weather
 * Check Permissions
