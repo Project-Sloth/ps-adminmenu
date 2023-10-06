@@ -11,6 +11,7 @@
     "tp_error": "Error While Teleporting.",
     "empty_input": "Input was empty.",
     "plate_max": "Max Digits for a Plate is 8",
+    "already_plate": "This number plate has been used on another vehicle",
     "amount_max": "Max Input is 999.999$",
     "not_in_vehicle": "Your not in a Vehicle",
     "no_free_seats": "The vehicle has no free seats!",
