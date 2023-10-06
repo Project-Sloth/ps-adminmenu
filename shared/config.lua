@@ -1,7 +1,7 @@
 Config = Config or {}
 
 Config.Fuel = "ps-fuel" -- "ps-fuel", "LegacyFuel"
-Config.ResourcePerms = 'admin'
+Config.ResourcePerms = 'admin' -- permission to control resource(start stop restart)
 
 Config.Actions = {
     ["admin_car"] = {
