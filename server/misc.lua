@@ -44,11 +44,16 @@ end)
 
 RegisterNetEvent('ps-adminmenu:server:KickPlayer', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
-
+    local src = srouce
     local target = QBCore.Functions.GetPlayer(selectedData["Player"].value)
     local reason = selectedData["Reason"].value
-
-    DropPlayer(target, locale("kicked") .. '\n' .. locale("reason") .. reason)
+        
+    if not target then
+        QBCore.Functions.Notify(src, locale("not_online"), 'error', 7500)
+        return
+    end
+        
+    DropPlayer(target.PlayerData.source, locale("kicked") .. '\n' .. locale("reason") .. reason)
 end)
 
 -- Revive Player
