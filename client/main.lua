@@ -51,12 +51,10 @@ RegisterNUICallback("clickButton", function(data)
 	Log("Action Used", PlayerData.name .. " (" .. PlayerData.citizenid .. ") - Used: " .. data.label .. (selectedData and (" with args: " .. json.encode(selectedData)) or ""))
 end)
 
--- Commands
-RegisterCommand("admin", function()
-    if CheckPerms(Config.ResourcePerms) then
-        ToggleUI(true)
-    end
-end, false)
+-- Open UI Event
+RegisterNetEvent('ps-adminmenu:client:OpenUI', function()
+    ToggleUI(true)
+end)
 
 -- Close UI Event
 RegisterNetEvent('ps-adminmenu:client:CloseUI', function()
