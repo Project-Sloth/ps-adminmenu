@@ -77,6 +77,19 @@ RegisterNetEvent('ps-adminmenu:client:setInfiniteAmmo', function(data)
     SetPedInfiniteAmmo(cache.ped, false, cache.weapon)
 end)
 
+local function Draw2DText(content, font, colour, scale, x, y)
+    SetTextFont(font)
+    SetTextScale(scale, scale)
+    SetTextColour(colour[1],colour[2],colour[3], 255)
+    SetTextEntry("STRING")
+    SetTextDropShadow(0, 0, 0, 0,255)
+    SetTextDropShadow()
+    SetTextEdge(4, 0, 0, 0, 255)
+    SetTextOutline()
+    AddTextComponentString(content)
+    DrawText(x, y)
+end
+
 -- Toggle coords
 local showCoords = false
 RegisterNetEvent('ps-adminmenu:client:ToggleCoords', function(data)
@@ -95,7 +108,7 @@ RegisterNetEvent('ps-adminmenu:client:ToggleCoords', function(data)
             c.z = QBCore.Shared.Round(coords.z, 2)
             heading = QBCore.Shared.Round(heading, 2)
             Wait(1)
-            --(string.format('~w~'..locale("ped_coords") .. '~b~ vector4(~w~%s~b~, ~w~%s~b~, ~w~%s~b~, ~w~%s~b~)', c.x, c.y, c.z, heading), 4, {66, 182, 245}, 0.4, x + 0.0, y + 0.0)
+            Draw2DText(string.format('~w~'..locale("ped_coords") .. '~b~ vector4(~w~%s~b~, ~w~%s~b~, ~w~%s~b~, ~w~%s~b~)', c.x, c.y, c.z, heading), 4, {66, 182, 245}, 0.4, x + 0.0, y + 0.0)
         end
     end)
 end)
