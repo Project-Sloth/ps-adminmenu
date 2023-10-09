@@ -82,6 +82,8 @@ The Admin Menu crafted by [OK1ez](https://github.com/OK1ez) and our dedicated te
 2. Add the files to your server resources.
 3. Ensure `ps-adminmenu` in your server cfg. Make sure ox_lib starts before ps-adminmenu.  
 4. Set the config in `shared/config.lua` to your needs.
+
+A community video has been made for setup instructions and showcase, you can find it [here](https://www.youtube.com/watch?v=aez5RIi8db8&ab_channel=Kamaryn)
    
 ## Permissions
 Make sure you've correctly configured player permissions in your server.cfg by using ACE permissions with the appropriate identifier. Otherwise, you'll be unable to access or launch the admin menu. Here's a sample configuration where the player, MonkeyWhisper, is assigned god, admin, and mod roles, you should not have all 3 permissions for a single person. For a deeper understanding of how QBCore manages permissions, refer to [this documentation.](https://docs.qbcore.org/qbcore-documentation/guides/setting-permissions)
