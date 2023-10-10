@@ -44,7 +44,7 @@ end)
 
 RegisterNetEvent('ps-adminmenu:server:KickPlayer', function(data, selectedData)
     if not CheckPerms(data.perms) then return end
-    local src = srouce
+    local src = source
     local target = QBCore.Functions.GetPlayer(selectedData["Player"].value)
     local reason = selectedData["Reason"].value
         
