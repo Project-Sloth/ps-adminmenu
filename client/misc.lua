@@ -99,3 +99,18 @@ RegisterNetEvent('ps-adminmenu:client:ToggleCoords', function(data)
         end
     end)
 end)
+
+-- Set Ammo
+RegisterNetEvent('ps-adminmenu:client:SetAmmo', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
+
+    local ammo = selectedData["Ammo Ammount"].value
+    local weapon = GetSelectedPedWeapon(cache.ped)
+
+    if weapon ~= nil then
+        SetPedAmmo(cache.ped, weapon, ammo)
+        QBCore.Functions.Notify(locale("set_wepaon_ammo", tostring(ammo)), 'success')
+    else
+        QBCore.Functions.Notify(locale("no_weapon"), 'error')
+    end
+end)
