@@ -20,6 +20,9 @@
     "cant_spectate_yourself": "You cant spectate yourself",
     "target_same_bucket": "Tried to place %s in the same bucket",
 
+    "no_weapon": "He doesn't have a gun.",
+    "set_wepaon_ammo": "%s ammunition given!",
+
     "veh_owner": "The vehicle is now yours!",
     "teleported_waypoint": "Teleported To Waypoint.",
     "invcleared": "%s's inventory is cleared",
