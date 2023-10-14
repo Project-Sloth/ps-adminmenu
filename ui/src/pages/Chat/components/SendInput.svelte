@@ -11,6 +11,16 @@
         });
 		console.log("Message sent", message)
         message = "";
+		setTimeout(() => {
+            scrollToBottom();
+        }, 100);
+    }
+	function scrollToBottom() {
+        let chatList = document.getElementById("chatList");
+        chatList.scroll({
+            top: chatList.scrollHeight,
+            behavior: 'auto'
+        });
     }
 </script>
 
@@ -28,7 +38,7 @@
 		bind:value={message}
 		class="h-full px-[1vh] bg-transparent text-[1.7vh] {$MENU_WIDE ? 'w-[94%]' : 'w-[80%]'}"
 	/>
-	<button 
+	<button
 		class="h-full w-[5vh] rounded-r-[0.5vh] hover:bg-secondary"
 		on:click={sendMessage}
 	>

@@ -5,6 +5,7 @@ RegisterNUICallback("GetMessages", function(data, cb)
 		action = "setMessages",
 		data = data
 	})
+	if not data then return end
 end)
 
 RegisterNUICallback("SendMessage", function(data, cb)

@@ -16,22 +16,23 @@
         }, 1000)
         return () => clearInterval(RefreshMsgInterval)
     })
+
 </script>
 
 <div>
 
     <div>
         {#if $Message && $Messages}
-            {#each $Message.slice().reverse() as message}
-                <!-- <div class="w-full flex flex-col mb-[0.5vh] {$PLAYER && $PLAYER_DATA.cid === message.citizenid ? "text-right items-end -ml-[0.5vh]" : ""}"> -->
-                    <div class="w-[45%] flex justify-between items-center text-gray-400 font-medium -mb-[0.5vh]">
+            {#each $Message as message}
+                <div class="w-full flex flex-col text-[1.3vh] text-gray-400 {$PLAYER && $PLAYER_DATA.cid === message.citizenid ? "items-end" : "items-start"}">
+                    <div class="w-fit flex justify-between items-center text-gray-400 font-medium -mb-[0.5vh]">
                         <p class="text-[1.2vh]">{message.fullname}</p>
-                        <p class="text-[1vh] ml-[0.5vh]">{timeAgo(Number(message.time))}</p>
                     </div>
-                    <div class="w-[45%] max-w-[45%] mt-[0.5vh] p-[1vh] break-words text-start rounded-lg {$PLAYER && $PLAYER_DATA.cid === message.citizenid ? "bg-accent" : "bg-tertiary"}">
+                    <div class="w-fit max-w-[85%] mt-[0.5vh] p-[1vh] break-words text-start rounded-lg {$PLAYER && $PLAYER_DATA.cid === message.citizenid ? "bg-accent" : "bg-tertiary"}">
                         <p>{message.message}</p>
                     </div>
-                <!-- </div> -->
+                    <p class="text-[1vh] ml-[0.5vh]">{timeAgo(Number(message.time))}</p>
+                </div>
             {/each}
         {/if}
     </div>
