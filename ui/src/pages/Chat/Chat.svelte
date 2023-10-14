@@ -6,11 +6,10 @@
     let search = "";
 </script>
 
-<div class="h-full w-full px-[2vh] pb-[2vh] flex flex-col">
+<div class="h-full w-full px-[2vh] pb-[2vh] flex flex-col ">
     <Header title={"Staff Chat"}/>
-    <div class="w-full h-[84%]">
-
+    <div id='chatList' class="w-full h-[84%] overflow-auto">
+        <RecieveInput />
     </div>
-    <RecieveInput />
     <SendInput />
 </div>
