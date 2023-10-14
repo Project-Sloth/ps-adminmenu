@@ -121,3 +121,17 @@ RegisterNetEvent('ps-adminmenu:client:SetAmmo', function(data, selectedData)
         QBCore.Functions.Notify(locale("no_weapon"), 'error')
     end
 end)
+
+--Toggle Dev
+local ToggleDev = false
+
+RegisterNetEvent('ps-adminmenu:client:ToggleDev', function(data)
+    if not CheckPerms(data.perms) then return end
+
+    ToggleDev = not ToggleDev
+
+    TriggerEvent('ps-adminmenu:client:ToggleCoords', data)    -- toggle Coords
+    TriggerEvent('ps-adminmenu:client:ToggleGodmode', data)   -- Godmode
+
+    QBCore.Functions.Notify(locale("toggle_dev"), 'success')
+end)
