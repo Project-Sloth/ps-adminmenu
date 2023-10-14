@@ -6,6 +6,9 @@
 	import Main from './layout/Main.svelte'
 	import VehicleDev from '@components/VehicleDev.svelte'
 	import { VEHICLE_DEV } from '@store/vehicle_dev'
+	import ToggleCoords from '@components/ToggleCoords.svelte'
+	import { TOGGLE_COORDS } from '@store/togglecoords'
+
 
 	$RESOURCE_NAME = 'ps-adminmenu'
 </script>
@@ -18,6 +21,9 @@
 	<VehicleDev />
 {/if}
 
+{#if $TOGGLE_COORDS?.show}
+	<ToggleCoords />
+{/if}
 <AlwaysListener />
 {#if $BROWSER_MODE}
 	<DebugBrowser />
