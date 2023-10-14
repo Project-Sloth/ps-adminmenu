@@ -85,5 +85,6 @@
     "jobset": "You have given %s the job: %s with grade %s",
     "gangset": "You have given %s the gang: %s with grade %s",
     "warned": "You have been warned ",
-    "warngiven": "Warned: "
+    "warngiven": "Warned: ",
+    "toggle_dev": "Toggled Dev Mode"
 }

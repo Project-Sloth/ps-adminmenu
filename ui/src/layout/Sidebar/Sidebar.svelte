@@ -1,6 +1,7 @@
 <script>
 	import { DEV_MODE, MENU_WIDE } from '@store/stores'
 	import Button from './Components/Button.svelte'
+	import { SendNUI } from '@utils/SendNUI'
 
 	let navigation = [
 		{ value: 'Staffchat', icon: 'fas fa-message' },
@@ -56,7 +57,19 @@
 		hover:before:opacity-100 hover:after:opacity-100
 		"
 		data-tip='Dev Mode'
-		on:click={() => DEV_MODE.update((wide) => !wide)}
+		on:click={() => {
+			DEV_MODE.update((wide) => !wide)
+			let data = {
+				type: 'client',
+				event: 'ps-adminmenu:client:ToggleDev',
+				label: 'Toggled Devmode',
+				perms: 'admin'
+			}
+			SendNUI("clickButton", {
+				data: data,
+			})
+			}
+		}
 	>
 		<i class="fas fa-code"></i>
 	</button>
