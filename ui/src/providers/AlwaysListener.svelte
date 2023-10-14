@@ -4,6 +4,7 @@
 	import { PLAYER, PLAYER_DATA } from '@store/players'
 	import { RESOURCE, RESOURCES } from '@store/server'
 	import { VEHICLE_DEV } from '@store/vehicle_dev'
+	import { TOGGLE_COORDS } from '@store/togglecoords'
 	import { Message, Messages } from "@store/staffchat";
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
 	import { debugData } from '@utils/debugData'
@@ -47,6 +48,10 @@
 
 	ReceiveNUI('showVehicleMenu', (data: any) => {
 		$VEHICLE_DEV = data
+	})
+
+	ReceiveNUI('showCoordsMenu', (data: any) => {
+		$TOGGLE_COORDS = data
 	})
 	ReceiveNUI('setMessages', (data: any) => {
 		Message.set(data)
