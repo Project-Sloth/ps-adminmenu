@@ -82,7 +82,6 @@ local showCoords = false
 local function showCoordsMenu()
     while showCoords do
         Wait(50)
-        print('doiwork')
         local coords = GetEntityCoords(PlayerPedId())
         local heading = GetEntityHeading(PlayerPedId())
         SendNUIMessage({
