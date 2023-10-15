@@ -3,6 +3,11 @@ Config = Config or {}
 Config.Fuel = "ps-fuel" -- "ps-fuel", "LegacyFuel"
 Config.ResourcePerms = 'admin' -- permission to control resource(start stop restart)
 
+-- Key Bindings
+Config.Keybindings = true
+Config.AdminKey = "PageDown"
+Config.NoclipKey = "PageUp"
+
 Config.Actions = {
     ["admin_car"] = {
         label = "Admin Car",
