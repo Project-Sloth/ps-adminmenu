@@ -23,6 +23,9 @@
     "no_weapon": "He doesn't have a gun.",
     "set_wepaon_ammo": "%s ammunition given!",
 
+    "command_admin_desc": "Toggle Admin Menu",
+    "command_noclip_desc": "Toggle NoClip",
+
     "veh_owner": "The vehicle is now yours!",
     "teleported_waypoint": "Teleported To Waypoint.",
     "invcleared": "%s's inventory is cleared",
