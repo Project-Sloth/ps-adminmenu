@@ -135,3 +135,24 @@ RegisterNetEvent('ps-adminmenu:client:ToggleDev', function(data)
 
     QBCore.Functions.Notify(locale("toggle_dev"), 'success')
 end)
+
+-- Key Bindings
+local toogleAdmin = lib.addKeybind({ name = 'toogleAdmin', description = locale("command_admin_desc"), defaultKey = Config.AdminKey,
+    onPressed = function(self)
+	ExecuteCommand('admin')
+    end
+})
+
+local toogleNoclip = lib.addKeybind({ name = 'toogleNoclip', description = locale("command_noclip_desc"), defaultKey = Config.NoclipKey,
+    onPressed = function(self)
+	TriggerEvent(Config.Actions["noclip"].event, Config.Actions["noclip"])
+    end
+})
+
+if Config.Keybindings then
+	toogleAdmin:disable(false)
+	toogleNoclip:disable(false)
+else
+	toogleAdmin:disable(true)
+	toogleNoclip:disable(true)
+end
