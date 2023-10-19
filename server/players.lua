@@ -93,17 +93,20 @@ RegisterNetEvent('ps-adminmenu:server:SetGang', function(data, selectedData)
     local Player = QBCore.Functions.GetPlayer(playerId)
     local name = Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname
     local GangInfo = QBCore.Shared.Gangs[Gang]
-    if GangInfo then
-        if GangInfo["grades"][selectedData["Grade"].value] then
-            Player.Functions.SetGang(tostring(Gang), tonumber(Grade))
-            QBCore.Functions.Notify(src, locale("gangset", name, Gang, Grade), 'success', 5000)
-        else
-            TriggerClientEvent('QBCore:Notify', source, "Not a valid grade", 'error')
-        end
-    else
+    local grade = GangInfo["grades"][selectedData["Grade"].value]
+
+    if not GangInfo then
         TriggerClientEvent('QBCore:Notify', source, "Not a valid Gang", 'error')
+        return
     end
 
+    if not grade then
+        TriggerClientEvent('QBCore:Notify', source, "Not a valid grade", 'error')
+        return
+    end
+    
+    Player.Functions.SetGang(tostring(Gang), tonumber(Grade))
+    QBCore.Functions.Notify(src, locale("gangset", name, Gang, Grade), 'success', 5000)
 end)
 
 -- Set Perms
