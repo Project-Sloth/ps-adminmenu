@@ -65,19 +65,24 @@ RegisterNetEvent('ps-adminmenu:server:SetJob', function(data, selectedData)
     local Player = QBCore.Functions.GetPlayer(playerId)
     local name = Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname
     local jobInfo = QBCore.Shared.Jobs[Job]
-    if jobInfo then
-        if jobInfo["grades"][selectedData["Grade"].value] then
-            Player.Functions.SetJob(tostring(Job), tonumber(Grade))
+    local grade = jobInfo["grades"][selectedData["Grade"].value]
+    
+    if not jobInfo then
+        TriggerClientEvent('QBCore:Notify', source, "Not a valid job", 'error')
+        return
+    end
+    
+    if not grade then
+        TriggerClientEvent('QBCore:Notify', source, "Not a valid grade", 'error')
+        return
+     end
+    
+    Player.Functions.SetJob(tostring(Job), tonumber(Grade))
             if Config.RenewedPhone then
                 exports['qb-phone']:hireUser(tostring(Job), Player.PlayerData.citizenid, tonumber(Grade))
             end
+            
             QBCore.Functions.Notify(src, locale("jobset", name, Job, Grade), 'success', 5000)
-        else
-            TriggerClientEvent('QBCore:Notify', source, "Not a valid grade", 'error')
-        end
-    else
-        TriggerClientEvent('QBCore:Notify', source, "Not a valid job", 'error')
-    end
 end)
 
 -- Set Gang
