@@ -2,6 +2,7 @@ Config = Config or {}
 
 Config.Fuel = "ps-fuel" -- "ps-fuel", "LegacyFuel"
 Config.ResourcePerms = 'admin' -- permission to control resource(start stop restart)
+Config.RenewedPhone = true -- if you use qb-phone from renewed. (multijob)
 
 Config.Actions = {
     ["admin_car"] = {
