@@ -116,7 +116,7 @@ RegisterNetEvent('ps-adminmenu:server:GetBucket', function(data, selectedData)
     local player = selectedData["Player"].value
     local currentBucket = GetPlayerRoutingBucket(player)
 
-    QBCore.Functions.Notify(src, locale("bucket_get", currentBucket, player), 'success', 7500)
+    QBCore.Functions.Notify(src, locale("bucket_get", player, currentBucket), 'success', 7500)
 end)
 
 -- Give Money
