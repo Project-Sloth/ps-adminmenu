@@ -52,6 +52,7 @@
     "vehicle_max_modded": "Vehicle has been max modded",
     "bucket_set_for_target": "Routing bucket set for: %s to bucket: %s",
     "bucket_set": "Routing set to bucket: %s",
+    "bucket_get": "Player %s is in bucket: %s",
     "inf_ammo_toggled": "Infinite Ammo Toggled",
 
     "godmode": "Godmode is %s",

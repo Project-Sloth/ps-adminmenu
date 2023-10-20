@@ -47,12 +47,12 @@ RegisterNetEvent('ps-adminmenu:server:KickPlayer', function(data, selectedData)
     local src = source
     local target = QBCore.Functions.GetPlayer(selectedData["Player"].value)
     local reason = selectedData["Reason"].value
-        
+
     if not target then
         QBCore.Functions.Notify(src, locale("not_online"), 'error', 7500)
         return
     end
-        
+
     DropPlayer(target.PlayerData.source, locale("kicked") .. '\n' .. locale("reason") .. reason)
 end)
 
@@ -106,6 +106,17 @@ RegisterNetEvent('ps-adminmenu:server:SetBucket', function(data, selectedData)
 
     SetPlayerRoutingBucket(player, bucket)
     QBCore.Functions.Notify(src, locale("bucket_set_for_target", player, bucket), 'success', 7500)
+end)
+
+-- Get RoutingBucket
+RegisterNetEvent('ps-adminmenu:server:GetBucket', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
+
+    local src = source
+    local player = selectedData["Player"].value
+    local currentBucket = GetPlayerRoutingBucket(player)
+
+    QBCore.Functions.Notify(src, locale("bucket_get", currentBucket, player), 'success', 7500)
 end)
 
 -- Give Money
