@@ -230,6 +230,15 @@ Config.Actions = {
         },
     },
 
+    ["get_bucket"] = {
+        label = "Get Routing Bucket",
+        perms = "mod",
+        dropdown = {
+            { label = "Player",  option = "dropdown", data = "players" },
+            { label = "Confirm", option = "button", type = "server", event = "ps-adminmenu:server:GetBucket" },
+        },
+    },
+
     ["mute_player"] = {
         label = "Mute Player",
         perms = "mod",

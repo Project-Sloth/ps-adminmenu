@@ -52,6 +52,7 @@
     "vehicle_max_modded": "Araç maksimum seviyede modifiye edilmiştir",
     "bucket_set_for_target": "Dünya ayarlandı: %s dünyadan: %s geçirildi",
     "bucket_set": "Dünya ayarlandı: %s",
+    "bucket_get": "Player %s is in bucket: %s",
     "inf_ammo_toggled": "Sonsuz Cephane Değiştirildi",
 
     "godmode": "Tanrı modu: %s",
