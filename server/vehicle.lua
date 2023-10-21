@@ -20,6 +20,65 @@ RegisterNetEvent('ps-adminmenu:server:SaveCar', function(mods, vehicle, _, plate
     end
 end)
 
+-- Give Car
+RegisterNetEvent("ps-adminmenu:server:givecar", function (data, selectedData)
+    local src = source
+
+    if not CheckPerms(data.perms) then
+        QBCore.Functions.Notify(src, locale("no_perms"), "error", 5000)
+        return
+    end
+
+    local vehmodel = selectedData['Vehicle'].value
+    local vehicleData = lib.callback.await("ps-adminmenu:client:getvehData", src, vehmodel)
+    
+    if not next(vehicleData) then
+        return
+    end
+
+    local tsrc = selectedData['Player'].value
+    local plate = selectedData['Plate (Optional)'] and selectedData['Plate (Optional)'].value or vehicleData.plate
+    local garage = selectedData['Garage (Optional)'] and selectedData['Garage (Optional)'].value or Config.DefaultGarage
+    local Player = QBCore.Functions.GetPlayer(tsrc)
+
+    if plate and #plate < 1 then
+        plate = vehicleData.plate
+    end
+
+    if garage and #garage < 1 then
+        garage = Config.DefaultGarage
+    end
+
+    if plate:len() > 8 then
+        QBCore.Functions.Notify(src, locale("plate_max"), "error", 5000)
+        return
+    end
+
+    if not Player then
+        QBCore.Functions.Notify(src, locale("not_online"), "error", 5000)
+        return
+    end
+
+    if CheckAlreadyPlate( plate ) then
+        QBCore.Functions.Notify(src, locale("givecar.error.plates_alreadyused", plate:upper()), "error", 5000)
+        return
+    end
+
+    MySQL.insert('INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, garage, state) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
+        Player.PlayerData.license,
+        Player.PlayerData.citizenid,
+        vehmodel,
+        joaat(vehmodel),
+        json.encode(vehicleData),
+        plate,
+        garage,
+        1
+    })
+
+    QBCore.Functions.Notify(src, locale("givecar.success.source", QBCore.Shared.Vehicles[vehmodel].name, ("%s %s"):format(Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname)), "success", 5000)
+    QBCore.Functions.Notify(Player.PlayerData.source, locale("givecar.success.target", plate:upper(), garage), "success", 5000)
+end)
+
 -- Change Plate
 RegisterNetEvent('ps-adminmenu:server:ChangePlate', function(newPlate, currentPlate)
     local newPlate = newPlate:upper()
