@@ -90,5 +90,9 @@
     "gangset": "You have given %s the gang: %s with grade %s",
     "warned": "You have been warned ",
     "warngiven": "Warned: ",
-    "toggle_dev": "Toggled Dev Mode"
+    "toggle_dev": "Toggled Dev Mode",
+    
+    "givecar.plates_alreadyused" : "Unable to gave vehicle. Number plate %s is already in use on another vehicle",
+    "givecar.success.source" : "Successfully gave the vehicle %s to %s.",
+    "givecar.success.target" : "You have received a new vehicle with license plate %s. You can check it at %s."
 }
