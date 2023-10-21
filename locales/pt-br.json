@@ -48,8 +48,8 @@
     "toggled_cuffs": "Punhos alternados",
     "vehicle_max_modded": "O veículo foi modificado no máximo",
     "bucket_set_for_target": "Routing bucket set for: %s to bucket: %s",
-    "bucket_set": "Routing set to bucket: %s",
-    "bucket_get": "Player %s is in bucket: %s",
+    "bucket_set": "Roteamento definido para o balde: %s",
+    "bucket_get": "Jogador %s está no balde: %s",
     "inf_ammo_toggled": "Munição infinita alternada",
 
     "godmode": "Godmode esta %s",

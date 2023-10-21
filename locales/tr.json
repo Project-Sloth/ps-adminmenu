@@ -23,7 +23,7 @@
     "no_weapon": "Elinde bir silah yok.",
     "set_wepaon_ammo": "%s adet cephane verildi!",
 
-    "command_admin_desc": "Admin Menu Aç/Kapat",
+    "command_admin_desc": "Admin Menü Aç/Kapat",
     "command_noclip_desc": "NoClip Aç/Kapat",
 
     "veh_owner": "Araç artık sizin!",
@@ -55,7 +55,7 @@
     "vehicle_max_modded": "Araç maksimum seviyede modifiye edilmiştir",
     "bucket_set_for_target": "Dünya ayarlandı: %s dünyadan: %s geçirildi",
     "bucket_set": "Dünya ayarlandı: %s",
-    "bucket_get": "Player %s is in bucket: %s",
+    "bucket_get": "Oyuncu %s kovada: %s",
     "inf_ammo_toggled": "Sonsuz Cephane Değiştirildi",
 
     "godmode": "Tanrı modu: %s",
@@ -70,7 +70,7 @@
     "kicked": "Sunucudan atıldın!",
     "blackout": "Elektirik kesintisi %s",
     "not_enough_money": "Oyuncudan para çekmek için yeterli fon yok",
-    "ent_id": "Entity ID: ",
+    "ent_id": "Varlık ID: ",
     "net_id": "Net ID: ",
     "net_id_not_registered": "Kayıtlı değil",
     "vehicle_dev_data": "Araç Bilgileri",
