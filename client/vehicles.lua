@@ -178,3 +178,23 @@ RegisterNetEvent("ps-adminmenu:client:SpawnPersonalvehicle", function(data, sele
         TriggerEvent("vehiclekeys:client:SetOwner", plate)
     end, vehicle, coords, true)
 end)
+
+
+-- Get Vehicle Data
+lib.callback.register("ps-adminmenu:client:getvehData", function (vehicle)
+    lib.requestModel(vehicle)
+    
+    local coords = vec(GetOffsetFromEntityInWorldCoords(cache.ped, 0.0, 2.0, 0.5), GetEntityHeading(cache.ped)+90)
+    local veh = CreateVehicle(vehicle, coords, false, false)
+
+    local prop = {}
+    if DoesEntityExist(veh) then
+        SetEntityCollision(veh, false, false)
+        FreezeEntityPosition(veh, true)
+        prop = QBCore.Functions.GetVehicleProperties(veh)
+        Wait(500)
+        DeleteVehicle(veh)
+    end
+
+    return prop
+end)
