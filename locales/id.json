@@ -86,5 +86,9 @@
     "gangset": "Kamu telah memberikan %s geng: %s dengan pangkat %s.",
     "warned": "Kamu telah diingatkan.",
     "warngiven": "Diingatkan: ",
-    "toggle_dev": "Toggle Mode Pengembang."
+    "toggle_dev": "Toggle Mode Pengembang.",
+    
+    "givecar.error.plates_alreadyused" : "Tidak bisa memberi kendaraan. Pelat nomor %s sudah di gunakan pada kendaraan lain",
+    "givecar.success.source" : "Berhasil memberi kendaraan %s kepada %s",
+    "givecar.success.target" : "Anda menerima kendaraan baru dengan pelat nomor %s. Anda bisa mengecek nya di %s"
 }
