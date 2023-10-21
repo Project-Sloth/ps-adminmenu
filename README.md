@@ -35,6 +35,7 @@ Made by Avilchiis for the community, you can download it [here](https://github.c
 * Give Item to All
 * Give Money
 * Give Money to All
+* Give Vehicle to Player
 * Give NUI Focus
 * God Mode
 * Invisible
