@@ -75,14 +75,15 @@ RegisterNetEvent('ps-adminmenu:server:SetJob', function(data, selectedData)
     if not grade then
         TriggerClientEvent('QBCore:Notify', source, "Not a valid grade", 'error')
         return
-     end
+    end
     
     Player.Functions.SetJob(tostring(Job), tonumber(Grade))
-            if Config.RenewedPhone then
-                exports['qb-phone']:hireUser(tostring(Job), Player.PlayerData.citizenid, tonumber(Grade))
-            end
-            
-            QBCore.Functions.Notify(src, locale("jobset", name, Job, Grade), 'success', 5000)
+    
+    if GetResourceState('qb-phone') == 'started' and GetResourceMetadata('qb-phone', 'description', 0) == 'A No Pixel inspired edit of QBCore\'s Phone. Released By RenewedScripts' then
+        exports['qb-phone']:hireUser(tostring(Job), Player.PlayerData.citizenid, tonumber(Grade))
+    end
+    
+    QBCore.Functions.Notify(src, locale("jobset", name, Job, Grade), 'success', 5000)
 end)
 
 -- Set Gang
