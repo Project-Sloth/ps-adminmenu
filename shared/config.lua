@@ -9,6 +9,9 @@ Config.Keybindings = true
 Config.AdminKey = "PageDown"
 Config.NoclipKey = "PageUp"
 
+-- Give Car
+Config.DefaultGarage = "Alta Garage"
+
 Config.Actions = {
     ["admin_car"] = {
         label = "Admin Car",
@@ -178,6 +181,18 @@ Config.Actions = {
         type = "client",
         event = "ps-adminmenu:client:ToggleGodmode",
         perms = "mod",
+    },
+
+    ["give_car"] = {
+        label = "Give Car",
+        perms = "admin",
+        dropdown = {
+            { label = "Vehicle", option = "dropdown", data = "vehicles" },
+            { label = "Player", option = "dropdown", data = "players" },
+            { label = "Plate (Optional)", option = "text"},
+            { label = "Garage (Optional)", option = "text"},
+            { label = "Confirm", option = "button", type = "server",  event = "ps-adminmenu:server:givecar" },
+        }
     },
 
     ["invisible"] = {
