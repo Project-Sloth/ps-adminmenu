@@ -1,5 +1,5 @@
 <script>
-	import { GANG_DATA, ITEM_DATA, JOB_DATA, LOCATION_DATA, VEHICLE_DATA } from "@store/data"
+	import { GANG_DATA, ITEM_DATA, JOB_DATA, LOCATION_DATA, VEHICLE_DATA, PED_LIST } from "@store/data"
 	import { PLAYER } from "@store/players"
 	import { SendNUI } from "@utils/SendNUI"
 	import { onMount } from "svelte"
@@ -125,6 +125,16 @@
                 {/each}
             {:else if data === "locations"}
                 {#each $LOCATION_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
+                    <button 
+                        class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
+                        on:click={() => selectData(i.label, i.value)}
+                    >
+                        <p>{i.label}</p>
+                        <p>({i.value})</p>
+                    </button>
+                {/each}
+            {:else if data === "pedlist"}
+                {#each $PED_LIST.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
                     <button 
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
                         on:click={() => selectData(i.label, i.value)}
