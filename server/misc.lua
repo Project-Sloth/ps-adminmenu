@@ -217,3 +217,23 @@ RegisterNetEvent('ps-adminmenu:server:ClothingMenu', function(data, selectedData
 
     TriggerClientEvent('qb-clothing:client:openMenu', target)
 end)
+
+-- Set Ped
+RegisterNetEvent("ps-adminmenu:server:setPed", function (data, selectedData)
+    local src = source
+    if not CheckPerms(data.perms) then
+        QBCore.Functions.Notify(src, locale("no_perms"), "error", 5000)
+        return
+    end
+
+    local ped = selectedData["Ped Models"].label
+    local tsrc = selectedData["Player"].value
+    local Player = QBCore.Functions.GetPlayer(tsrc)
+
+    if not Player then
+        QBCore.Functions.Notify(locale("not_online"), "error", 5000)
+        return
+    end
+
+    TriggerClientEvent("ps-adminmenu:client:setPed", Player.PlayerData.source, ped)
+end)

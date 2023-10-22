@@ -157,3 +157,11 @@ else
 	toogleAdmin:disable(true)
 	toogleNoclip:disable(true)
 end
+
+-- Set Ped
+RegisterNetEvent("ps-adminmenu:client:setPed", function ( pedModels )
+    lib.requestModel(pedModels, 1500)
+    SetPlayerModel(cache.playerId, pedModels)
+    SetPedDefaultComponentVariation(cache.ped)
+    SetModelAsNoLongerNeeded(pedModels)
+end)
