@@ -24,7 +24,7 @@ RegisterNetEvent('ps-adminmenu:client:TeleportToCoords', function(data, selected
     local x, y, z = string.match(coords, "(%S+)%s+(%S+)%s+(%S+)")
 
     lastCoords = GetEntityCoords(cache.ped)
-    SetPedCoordsKeepVehicle(cache.ped, x, y, z)
+    SetPedCoordsKeepVehicle(cache.ped, tonumber(x), tonumber(y), tonumber(z))
 end)
 
 
