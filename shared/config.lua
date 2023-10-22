@@ -140,6 +140,16 @@ Config.Actions = {
         },
     },
 
+    ["set_ped"] = {
+        label = "Set Ped",
+        perms = "mod",
+        dropdown = {
+            { label = "Player", option = "dropdown", data = "players" },
+            { label = "Ped Models", option = "dropdown", data = "pedlist" },
+            { label = "Confirm", option = "button", type = "server", event = "ps-adminmenu:server:setPed" },
+        },
+    },
+
     ["copy_coords"] = {
         label = "Copy Coords",
         perms = "mod",
