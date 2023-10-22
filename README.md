@@ -61,6 +61,7 @@ Made by Avilchiis for the community, you can download it [here](https://github.c
 * Set Job
 * Set on Fire
 * Set Permissions
+* Set Player Ped
 * Sit in Vehicle
 * Spawn Vehicle
 * Spectate Player
