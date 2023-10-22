@@ -130,6 +130,7 @@ RegisterNetEvent('ps-adminmenu:client:ToggleDev', function(data)
 
     ToggleDev = not ToggleDev
 
+    TriggerEvent("qb-admin:client:ToggleDevmode") -- toggle dev mode (ps-hud/qb-hud)
     TriggerEvent('ps-adminmenu:client:ToggleCoords', data)    -- toggle Coords
     TriggerEvent('ps-adminmenu:client:ToggleGodmode', data)   -- Godmode
 
