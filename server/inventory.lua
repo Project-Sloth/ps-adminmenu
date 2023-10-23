@@ -35,7 +35,12 @@ RegisterNetEvent('ps-adminmenu:server:GiveItem', function(data, selectedData)
 
     local target = selectedData["Player"].value
     local item = selectedData["Item"].value
-    local amount = selectedData["Amount"].value
+    if selectedData["Amount"].value == nil then 
+        amountValue = 1
+    else
+        amountValue = selectedData["Amount"].value
+    end
+    local amount = amountValue
     local Player = QBCore.Functions.GetPlayer(target)
 
     if not item or not amount then return end
