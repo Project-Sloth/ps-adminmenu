@@ -122,6 +122,15 @@ Config.Actions = {
         },
     },
 
+    ["clear_inventory_offline"] = {
+        label = "Clear Inventory Offline",
+        perms = "mod",
+        dropdown = {
+            { label = "Citizen ID",  option = "text", data = "players" },
+            { label = "Confirm", option = "button",   type = "server", event = "ps-adminmenu:server:ClearInventoryOffline" },
+        },
+    },
+
     ["clothing_menu"] = {
         label = "Give Clothing Menu",
         perms = "mod",
