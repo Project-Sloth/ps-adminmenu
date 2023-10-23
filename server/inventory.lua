@@ -19,6 +19,33 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(data, selectedDa
     QBCore.Functions.Notify(src, locale("invcleared", Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname), 'success', 7500)
 end)
 
+-- Clear Inventory Offline
+RegisterNetEvent('ps-adminmenu:server:ClearInventoryOffline', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
+
+    local src = source
+    local citizenId = selectedData["Citizen ID"].value
+    local Player = QBCore.Functions.GetPlayerByCitizenId(citizenId)
+
+    if Player then
+        if Config.Inventory == 'ox_inventory' then
+            exports.ox_inventory:ClearInventory(Player.PlayerData.source)
+        else
+            exports[Config.Inventory]:ClearInventory(Player.PlayerData.source, nil)
+        end
+        QBCore.Functions.Notify(src, locale("invcleared", Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname), 'success', 7500)
+    else
+        MySQL.Async.fetchAll("SELECT * FROM players WHERE citizenid = @citizenid", {['@citizenid'] = citizenId}, function(result)
+            if result and result[1] then
+                MySQL.Async.execute("UPDATE players SET inventory = '{}' WHERE citizenid = @citizenid", {['@citizenid'] = citizenId})
+                QBCore.Functions.Notify(src, "Player's inventory cleared", 'success', 7500)
+            else
+                QBCore.Functions.Notify(src, locale("player_not_found"), 'error', 7500)
+            end
+        end)
+    end
+end)
+
 -- Open Inv [ox side]
 RegisterNetEvent('ps-adminmenu:server:OpenInv', function(data)
     exports.ox_inventory:forceOpenInventory(source, 'player', data)
