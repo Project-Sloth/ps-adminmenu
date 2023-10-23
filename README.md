@@ -23,6 +23,7 @@ Made by Avilchiis for the community, you can download it [here](https://github.c
 * Change Weather
 * Check Permissions
 * Clear Inventory
+* Clear Inventory Offline
 * Clothing Menu
 * Copy Coordinates
 * Delete Vehicle
