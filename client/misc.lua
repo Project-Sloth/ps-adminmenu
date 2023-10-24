@@ -37,8 +37,8 @@ local function CopyCoords(data)
     local formats = { vector2 = "%.2f, %.2f", vector3 = "%.2f, %.2f, %.2f", vector4 = "%.2f, %.2f, %.2f, %.2f", heading = "%.2f" }
     local format = formats[data]
 
-	local values = {coords.x, coords.y, coords.z, heading}
-	lib.setClipboard(string.format(format, table.unpack(values, 1, #format)))
+	local result = lib.math.tovector(string.format(format, table.unpack(values, 1, #format)))
+	lib.setClipboard(tostring(result))
 end
 
 RegisterCommand("vector2", function()
