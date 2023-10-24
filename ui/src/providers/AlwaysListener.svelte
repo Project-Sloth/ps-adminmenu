@@ -8,6 +8,7 @@
 	import { Message, Messages } from "@store/staffchat";
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
 	import { debugData } from '@utils/debugData'
+	import { ENTITY_INFO } from '@store/entityInfo'
 
 
 	debugData([
@@ -53,6 +54,10 @@
 
 	ReceiveNUI('showCoordsMenu', (data: any) => {
 		$TOGGLE_COORDS = data
+	})
+
+	ReceiveNUI('showEntityInfo', (data: any) => {
+		$ENTITY_INFO = data
 	})
 	ReceiveNUI('setMessages', (data: any) => {
 		Message.set(data)
