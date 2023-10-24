@@ -8,6 +8,8 @@
 	import { VEHICLE_DEV } from '@store/vehicle_dev'
 	import ToggleCoords from '@components/ToggleCoords.svelte'
 	import { TOGGLE_COORDS } from '@store/togglecoords'
+	import { ENTITY_INFO } from '@store/entityInfo'
+	import EntityInformation from '@components/EntityInformation.svelte'
 
 
 	$RESOURCE_NAME = 'ps-adminmenu'
@@ -24,6 +26,11 @@
 {#if $TOGGLE_COORDS?.show}
 	<ToggleCoords />
 {/if}
+
+{#if $ENTITY_INFO?.show}
+	<EntityInformation />
+{/if}
+
 <AlwaysListener />
 {#if $BROWSER_MODE}
 	<DebugBrowser />
