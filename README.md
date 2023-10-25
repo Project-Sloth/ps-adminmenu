@@ -57,21 +57,25 @@ Made by Avilchiis for the community, you can download it [here](https://github.c
 * Infinite Ammo
 * Kick Player
 * Kill Player
+* Make Player Drunk
 * Message Player
 * Mute Player
 * Max Vehicle Mods
 * No Clip
 * Open Inventory
 * Open Stash
+* Open Trunk
 * Play Sound
 * Refuel Vehicle
 * Remove Money
+* Remove Stress
 * Revive All
 * Revive Player
 * Revive Radius
 * Set Bucket
 * Server Announcement
 * Set Ammo
+* Set Vehicle State in Garage (In & Out)
 * Set Gang
 * Set Job
 * Set on Fire
