@@ -235,10 +235,10 @@ Config.Actions = {
         perms = "mod",
     },
 
-    ["toggle_delete_lazer"] = {
-        label = "Toggle Delete Laser",
+    ["toggle_laser"] = {
+        label = "Toggle Laser",
         type = "client",
-        event = "ps-adminmenu:client:ToggleDeleteLaser",
+        event = "ps-adminmenu:client:ToggleLaser",
         perms = "mod",
     },
 

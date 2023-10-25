@@ -29,6 +29,7 @@ shared_script {
 files {
   'html/**',
   'data/ped.lua',
+  'data/object.lua',
   'locales/*.json',
 }
 
