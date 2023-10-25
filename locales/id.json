@@ -63,6 +63,7 @@
     "not_online": "Pemain tidak online.",
     "ped_coords": "Koordinat Ped:",
     "plate_max": "Maksimum digit untuk plat adalah 8.",
+    "plate_invalid": "Pelat Tidak Valid",
     "player_not_found": "Pemain tidak ditemukan.",
     "player_not_in_veh": "Kamu tidak berada di dalam kendaraan.",
     "player_perms": "%s mendapatkan [ %s ] Izin.",

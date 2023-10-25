@@ -63,6 +63,7 @@
     "not_online": "Joueur Hors-Ligne",
     "ped_coords": "Coordonnées du ped:",
     "plate_max": "Le nombre de charactère maximum pour une plaque est de 8",
+    "plate_invalid": "Plaque invalide",
     "player_not_found": "Joueur non trouvé.",
     "player_not_in_veh": "Vous n'êtes pas dans un véhicule..",
     "player_perms": "%s à eu [ %s ] Persmissions.",
