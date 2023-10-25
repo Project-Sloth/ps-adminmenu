@@ -26,3 +26,21 @@ RegisterNetEvent('ps-adminmenu:client:PlaySound', function(data, selectedData)
 
     TriggerServerEvent("InteractSound_SV:PlayOnOne", player, sound, 0.30)
 end)
+
+-- Drunk Player
+RegisterNetEvent('ps-adminmenu:client:InitiateDrunkEffect', function()
+    local playerPed = cache.ped
+    Wait(650)
+    SetPedMotionBlur(playerPed, true)
+    SetPedMovementClipset(playerPed, "move_m@hobo@a", true)
+    SetPedIsDrunk(playerPed, true)
+    ShakeGameplayCam("DRUNK_SHAKE", 3.0)
+    Wait(60000)
+    SetPedMoveRateOverride(playerPed, 1.0)
+    SetRunSprintMultiplierForPlayer(playerPed, 1.0)
+    SetPedIsDrunk(playerPed, false)        
+    SetPedMotionBlur(playerPed, false)
+    ResetPedMovementClipset(playerPed)
+    ShakeGameplayCam("DRUNK_SHAKE", 0.0)
+    SetTimecycleModifierStrength(0.0)
+end)

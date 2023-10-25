@@ -177,6 +177,22 @@ Config.Actions = {
         },
     },
 
+    ["drunk_player"] = {
+        label = "Make Player Drunk",
+        perms = "mod",
+        dropdown = {
+            { label = "Player",  option = "dropdown", data = "players" },
+            { label = "Confirm", option = "button",   type = "server", event = "ps-adminmenu:server:DrunkPlayer" },
+        },
+    },
+
+    ["remove_stress"] = {
+        label = "Remove Stress",
+        type = "client",
+        event = "ps-adminmenu:client:removeStress",
+        perms = "mod",
+    },
+
     ["set_ammo"] = {
         label = "Set Ammo",
         perms = "admin",
@@ -310,6 +326,32 @@ Config.Actions = {
         dropdown = {
             { label = "Stash",  option = "text" },
             { label = "Confirm", option = "button",   type = "client", event = "ps-adminmenu:client:openStash" },
+        },
+    },
+
+    ["open_trunk"] = {
+        label = "Open Stash",
+        perms = "mod",
+        dropdown = {
+            { label = "Plate",  option = "text" },
+            { label = "Confirm", option = "button",   type = "client", event = "ps-adminmenu:client:openTrunk" },
+        },
+    },
+
+    ["change_vehicle_state"] = {
+        label = "Set Vehicle Garage State",
+        perms = "mod",
+        dropdown = {
+            { label = "Plate",  option = "text" },
+            {
+                label = "State",
+                option = "dropdown",
+                data = {
+                    { label = "In", value = "1" },
+                    { label = "Out", value = "0" },
+                },
+            },
+            { label = "Confirm", option = "button", type = "server", event = "ps-adminmenu:server:SetVehicleState" },
         },
     },
 

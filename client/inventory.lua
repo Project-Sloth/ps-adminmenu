@@ -22,3 +22,16 @@ RegisterNetEvent('ps-adminmenu:client:openStash', function(data, selectedData)
         TriggerEvent("inventory:client:SetCurrentStash", tostring(stash))
     end
 end)
+
+-- Open Trunk
+RegisterNetEvent('ps-adminmenu:client:openTrunk', function(data, selectedData)
+    if not CheckPerms(data.perms) then return end
+    local vehiclePlate = selectedData["Plate"].value
+
+    if Config.Inventory == 'ox_inventory' then
+        TriggerServerEvent("ps-adminmenu:server:OpenTrunk", vehiclePlate)
+    else
+        TriggerServerEvent("inventory:server:OpenInventory", "trunk", tostring(vehiclePlate))
+        TriggerEvent("inventory:client:SetCurrentStash", tostring(vehiclePlate))
+    end
+end)
