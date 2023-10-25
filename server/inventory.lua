@@ -56,6 +56,11 @@ RegisterNetEvent('ps-adminmenu:server:OpenStash', function(data)
     exports.ox_inventory:forceOpenInventory(source, 'stash', data)
 end)
 
+-- Open Trunk [ox side]
+RegisterNetEvent('ps-adminmenu:server:OpenTrunk', function(data)
+    exports.ox_inventory:forceOpenInventory(source, 'trunk', data)
+end)
+
 -- Give Item
 RegisterNetEvent('ps-adminmenu:server:GiveItem', function(data, selectedData)
     if not CheckPerms(data.perms) then return end

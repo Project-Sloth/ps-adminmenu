@@ -79,6 +79,28 @@ RegisterNetEvent("ps-adminmenu:server:givecar", function (data, selectedData)
     QBCore.Functions.Notify(Player.PlayerData.source, locale("givecar.success.target", plate:upper(), garage), "success", 5000)
 end)
 
+-- Give Car
+RegisterNetEvent("ps-adminmenu:server:SetVehicleState", function (data, selectedData)
+    local src = source
+
+    if not CheckPerms(data.perms) then
+        QBCore.Functions.Notify(src, locale("no_perms"), "error", 5000)
+        return
+    end
+
+    local plate = selectedData['Plate']:upper()
+    local state = tonumber(selectedData['State'])
+
+    if plate:len() > 8 then
+        QBCore.Functions.Notify(src, locale("plate_max"), "error", 5000)
+        return
+    end
+
+    MySQL.update('UPDATE player_vehicles SET state = ?, depotprice = ? WHERE plate = ?', {state, 0, plate})
+
+    QBCore.Functions.Notify(src, locale("state_changed"), "success", 5000)
+end)
+
 -- Change Plate
 RegisterNetEvent('ps-adminmenu:server:ChangePlate', function(newPlate, currentPlate)
     local newPlate = newPlate:upper()
