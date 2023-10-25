@@ -13,6 +13,20 @@ Made by Avilchiis for the community, you can download it [here](https://github.c
 <img src="https://github.com/Project-Sloth/ps-adminmenu/assets/82112471/0fb81425-dd45-4354-8fb7-94e62ac954ae" width="600">
 <img src="https://github.com/Project-Sloth/ps-adminmenu/assets/82112471/6f1d0ea9-ea55-4088-98de-ceb4fb1c3838"  width="600">
 
+# Change Language.
+- Place this `setr ox:locale en` inside your `server.cfg`
+- Change the `en` to your desired language!
+  
+**Supported Languages:**
+| **Alias**     | **Language Names** |
+|--------------|---------------|
+|en      |English    |
+|fr      |French    |
+|id      |Malay    |
+|pt-br      |Brazilian Portuguese    |
+|tr      |Turkish    |
+|es      |Spanish    |
+
 # Features
 * Admin Car
 * Ban Player
