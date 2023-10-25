@@ -132,7 +132,7 @@ end)
 RegisterNetEvent("ps-adminmenu:server:RemoveStress", function (data, selectedData)
     if not CheckPerms(data.perms) then return end
     local src = source
-    local targetId = selectedData['Player'] and selectedData['Player'].value or src
+    local targetId = selectedData['Player (Optional)'] and selectedData['Player (Optional)'].value or src
     local tPlayer = QBCore.Functions.GetPlayer(tonumber(targetId))
     
     if not tPlayer then

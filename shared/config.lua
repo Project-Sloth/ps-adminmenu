@@ -190,7 +190,7 @@ Config.Actions = {
         label = "Remove Stress",
         perms = "mod",
         dropdown = {
-            { label = "Player",  option = "dropdown", data = "players" },
+            { label = "Player (Optional)",  option = "dropdown", data = "players" },
             { label = "Confirm", option = "button",   type = "server", event = "ps-adminmenu:server:RemoveStress" },
         },
     },
