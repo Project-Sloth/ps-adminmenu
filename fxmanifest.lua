@@ -3,7 +3,7 @@ fx_version 'cerulean'
 game "gta5"
 
 author "Project Sloth & OK1ez"
-version '1.0.7'
+version '1.0.8'
 description 'Admin Menu'
 repository 'https://github.com/Project-Sloth/ps-adminmenu'
 
