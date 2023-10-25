@@ -72,6 +72,7 @@
     "reason": "Alasan: ",
     "refueled_vehicle": "Mengisi bahan bakar kendaraan.",
     "restarted_resource": "Resource di-restart.",
+    "removed_stress_player": "Menghilangkan stres dari Pemain",
     "set_on_fire": "Seseorang dibakar :P.",
     "set_wepaon_ammo": "Amunisi %s diberikan!",
     "started_resource": "Resource dimulai.",

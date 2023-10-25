@@ -68,6 +68,7 @@
     "reason": "Sebeb: ",
     "refueled_vehicle": "Yakıt dolduruldu",
     "restarted_resource": "Kaynak yeniden başlatıldı",
+    "removed_stress_player": "Oyuncunun stresi kaldırıldı",
     "set_on_fire": "Kişi yakıldı :P",
     "set_wepaon_ammo": "%s adet cephane verildi!",
     "status_title": "CFX Durumu",

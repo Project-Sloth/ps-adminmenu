@@ -72,6 +72,7 @@
     "reason": "Raison : ",
     "refueled_vehicle": "Véhicule remplis d'essence",
     "restarted_resource": "Ressource redémarré",
+    "removed_stress_player": "Suppression du stress du joueur",
     "set_on_fire": "Joueur mise en feu :P",
     "set_wepaon_ammo": "%s munitions donné!",
     "started_resource": "Ressource démarrée",

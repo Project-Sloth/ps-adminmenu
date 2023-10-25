@@ -188,9 +188,11 @@ Config.Actions = {
 
     ["remove_stress"] = {
         label = "Remove Stress",
-        type = "client",
-        event = "ps-adminmenu:client:removeStress",
         perms = "mod",
+        dropdown = {
+            { label = "Player",  option = "dropdown", data = "players" },
+            { label = "Confirm", option = "button",   type = "server", event = "ps-adminmenu:server:RemoveStress" },
+        },
     },
 
     ["set_ammo"] = {

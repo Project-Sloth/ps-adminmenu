@@ -71,6 +71,7 @@
     "reason": "Reason: ",
     "refueled_vehicle": "Refueled Vehicle",
     "restarted_resource": "Restarted Resource",
+    "removed_stress_player": "Removed stress from Player",
     "set_on_fire": "Person set on Fire :P",
     "set_wepaon_ammo": "%s ammunition given!",
     "started_resource": "Started Resource",
