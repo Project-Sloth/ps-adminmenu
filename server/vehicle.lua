@@ -88,8 +88,8 @@ RegisterNetEvent("ps-adminmenu:server:SetVehicleState", function (data, selected
         return
     end
 
-    local plate = selectedData['Plate']:upper()
-    local state = tonumber(selectedData['State'])
+    local plate = string.upper(selectedData['Plate'].value)
+    local state = tonumber(selectedData['State'].value)
 
     if plate:len() > 8 then
         QBCore.Functions.Notify(src, locale("plate_max"), "error", 5000)

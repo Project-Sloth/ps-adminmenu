@@ -330,7 +330,7 @@ Config.Actions = {
     },
 
     ["open_trunk"] = {
-        label = "Open Stash",
+        label = "Open Trunk",
         perms = "mod",
         dropdown = {
             { label = "Plate",  option = "text" },

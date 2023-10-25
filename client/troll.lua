@@ -30,12 +30,13 @@ end)
 -- Drunk Player
 RegisterNetEvent('ps-adminmenu:client:InitiateDrunkEffect', function()
     local playerPed = cache.ped
+    lib.requestAnimSet("MOVE_M@DRUNK@VERYDRUNK")    
     Wait(650)
     SetPedMotionBlur(playerPed, true)
-    SetPedMovementClipset(playerPed, "move_m@hobo@a", true)
+    SetPedMovementClipset(playerPed, "MOVE_M@DRUNK@VERYDRUNK", true)
     SetPedIsDrunk(playerPed, true)
-    ShakeGameplayCam("DRUNK_SHAKE", 3.0)
-    Wait(60000)
+    ShakeGameplayCam("DRUNK_SHAKE", 2.0)
+    Wait(30000) -- Time To Be Drunk
     SetPedMoveRateOverride(playerPed, 1.0)
     SetRunSprintMultiplierForPlayer(playerPed, 1.0)
     SetPedIsDrunk(playerPed, false)        
