@@ -96,6 +96,11 @@ RegisterNetEvent("ps-adminmenu:server:SetVehicleState", function (data, selected
         return
     end
 
+    if not CheckAlreadyPlate(plate) then
+        QBCore.Functions.Notify(src, locale("plate_doesnt_exist"), "error", 5000)
+        return
+    end
+
     MySQL.update('UPDATE player_vehicles SET state = ?, depotprice = ? WHERE plate = ?', {state, 0, plate})
 
     QBCore.Functions.Notify(src, locale("state_changed"), "success", 5000)

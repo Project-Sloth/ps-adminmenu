@@ -62,6 +62,7 @@
     "not_online": "Player not online",
     "ped_coords": "Ped Coordinates:",
     "plate_max": "Max Digits for a Plate is 8",
+    "plate_invalid": "Invalid Plate",
     "player_not_found": "Player not found.",
     "player_not_in_veh": "You are not in a vehicle..",
     "player_perms": "%s got [ %s ] Permissions.",

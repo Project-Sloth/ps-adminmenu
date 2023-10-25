@@ -59,6 +59,7 @@
     "not_online": "Oyuncu çevrimiçi değil",
     "ped_coords": "Ped Koordinatları:",
     "plate_max": "Bir Plaka için Maksimum Rakam 8'dir",
+    "plate_invalid": "Geçersiz Plaka",
     "player_not_found": "Oyuncu bulunamadı.",
     "player_not_in_veh": "Bir aracın içinde değilsin..",
     "player_perms": "%s - [ %s ] Yetki düzeyi ayarlandı.",

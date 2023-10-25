@@ -62,6 +62,7 @@
     "not_online": "El jugador no está en línea",
     "ped_coords": "Coordenadas del PED:",
     "plate_max": "La máxima cantidad de dígitos para una matrícula es 8",
+    "plate_invalid": "Placa no válida",
     "player_not_found": "Jugador no encontrado",
     "player_not_in_veh": "No estás en un vehículo",
     "player_perms": "%s tiene permisos [ %s ]",

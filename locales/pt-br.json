@@ -56,6 +56,7 @@
     "not_online": "Jogador não online",
     "ped_coords": "Ped coordenadas:",
     "plate_max": "Dígitos máximos para um placa é 8",
+    "plate_invalid": "Placa Inválida",
     "player_not_found": "Jogador não encontrado.",
     "player_not_in_veh": "Você não está em um veículo ..",
     "player_perms": "%s pegou [ %s ] Permissões.",
