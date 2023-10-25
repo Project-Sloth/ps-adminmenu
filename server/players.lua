@@ -127,3 +127,21 @@ RegisterNetEvent("ps-adminmenu:server:SetPerms", function (data, selectedData)
     QBCore.Functions.AddPermission(tPlayer.PlayerData.source, tostring(rank))
     QBCore.Functions.Notify(tPlayer.PlayerData.source, locale("player_perms", name, rank), 'success', 5000)
 end)
+
+-- Remove Stress
+RegisterNetEvent("ps-adminmenu:server:RemoveStress", function (data, selectedData)
+    if not CheckPerms(data.perms) then return end
+    local src = source
+    local targetId = selectedData['Player'] and selectedData['Player'].value or src
+    local tPlayer = QBCore.Functions.GetPlayer(tonumber(targetId))
+    
+    if not tPlayer then
+        QBCore.Functions.Notify(src, locale("not_online"), "error", 5000)
+        return
+    end
+
+    TriggerClientEvent('ps-adminmenu:client:removeStress', targetId)
+
+    QBCore.Functions.Notify(tPlayer.PlayerData.source, locale("removed_stress_player"), 'success', 5000)
+end)
+

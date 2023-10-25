@@ -71,6 +71,7 @@
     "reason": "Motivo: ",
     "refueled_vehicle": "Vehículo repostado",
     "restarted_resource": "Recurso reiniciado",
+    "removed_stress_player": "Se eliminó el estrés del jugador",
     "set_on_fire": "¡Persona prendida fuego! :P",
     "set_wepaon_ammo": "¡Se ha dado munición a %s!",
     "started_resource": "Recurso iniciado",

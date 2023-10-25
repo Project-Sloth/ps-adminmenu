@@ -172,7 +172,5 @@ end)
 
 -- Remove Stress
 RegisterNetEvent('ps-adminmenu:client:removeStress', function(data)
-    if not CheckPerms(data.perms) then return end
-
     TriggerServerEvent('hud:server:RelieveStress', 100)
 end)
