@@ -22,7 +22,7 @@ Made by Avilchiis for the community, you can download it [here](https://github.c
 |--------------|---------------|
 |en      |English    |
 |fr      |French    |
-|id      |Malay    |
+|id      |Indonesia    |
 |pt-br      |Brazilian Portuguese    |
 |tr      |Turkish    |
 |es      |Spanish    |
