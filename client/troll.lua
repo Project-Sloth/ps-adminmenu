@@ -2,14 +2,14 @@
 RegisterNetEvent('ps-adminmenu:client:SetOnFire', function(time)
     if not time then time = 10 end
     local timer = time * 1000
-    StartEntityFire(cache.serverId)
+    StartEntityFire(cache.ped)
     Wait(timer)
-    StopEntityFire(cache.serverId)
+    StopEntityFire(cache.ped)
 end)
 
 -- Explode player
 RegisterNetEvent('ps-adminmenu:client:ExplodePlayer', function(damage)
-    local coords = GetEntityCoords(cache.serverId)
+    local coords = GetEntityCoords(cache.ped)
     if damage == nil then damage = "nodamage" end
     if damage == "nodamage" then
         AddExplosion(coords.x, coords.y, coords.z, 'EXPLOSION_TANKER', 2.0, true, false, 2.0)
