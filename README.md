@@ -26,6 +26,7 @@ Made by Avilchiis for the community, you can download it [here](https://github.c
 |pt-br      |Brazilian Portuguese    |
 |tr      |Turkish    |
 |es      |Spanish    |
+|nl      |Dutch    |
 
 # Features
 * Admin Car
