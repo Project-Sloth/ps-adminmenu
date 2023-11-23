@@ -33,32 +33,35 @@ RegisterNUICallback("hideUI", function()
 	ToggleUI(false)
 end)
 
---- @param data table
 RegisterNUICallback("clickButton", function(data)
 	local selectedData = data.selectedData
-	local data = data.data
-	print(json.encode(selectedData))
-	if not CheckPerms(data.perms) then return end
+	local key = data.data
+	local data = CheckDataFromKey(key)
+	if not data or not CheckPerms(data.perms) then return end
 
 	if data.type == "client" then
-		TriggerEvent(data.event, data, selectedData)
+		TriggerEvent(data.event, key, selectedData)
 	elseif data.type == "server" then
-		TriggerServerEvent(data.event, data, selectedData)
+		TriggerServerEvent(data.event, key, selectedData)
 	elseif data.type == "command" then
 		ExecuteCommand(data.event)
 	end
 
-	Log("Action Used", PlayerData.name .. " (" .. PlayerData.citizenid .. ") - Used: " .. data.label .. (selectedData and (" with args: " .. json.encode(selectedData)) or ""))
+	Log("Action Used",
+		PlayerData.name ..
+		" (" ..
+		PlayerData.citizenid ..
+		") - Used: " .. data.label .. (selectedData and (" with args: " .. json.encode(selectedData)) or ""))
 end)
 
 -- Open UI Event
 RegisterNetEvent('ps-adminmenu:client:OpenUI', function()
-    ToggleUI(true)
+	ToggleUI(true)
 end)
 
 -- Close UI Event
 RegisterNetEvent('ps-adminmenu:client:CloseUI', function()
-    ToggleUI(false)
+	ToggleUI(false)
 end)
 
 -- Change resource state
@@ -71,5 +74,5 @@ end)
 RegisterNUICallback("getPlayers", function(data, cb)
 	local players = lib.callback.await('ps-adminmenu:callback:GetPlayers', false)
 	print(json.encode(players))
-    cb(players)
+	cb(players)
 end)

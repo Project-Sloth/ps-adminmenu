@@ -14,9 +14,13 @@ RegisterNetEvent('ps-adminmenu:server:sendMessageServer', function(message, citi
         end
     end
 
-    messages[#messages + 1] = {message = message, citizenid = citizenid, fullname = fullname, time = time}
+    messages[#messages + 1] = { message = message, citizenid = citizenid, fullname = fullname, time = time }
 end)
 
 lib.callback.register('ps-adminmenu:callback:GetMessages', function(source)
-    return messages
+    if QBCore.Functions.HasPermission(player, 'mod') or IsPlayerAceAllowed(player, 'command') then
+        return messages
+    end
+
+    return {}
 end)

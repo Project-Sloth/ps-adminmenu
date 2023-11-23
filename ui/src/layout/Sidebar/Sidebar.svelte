@@ -32,7 +32,9 @@
 	{/each}
 
 	<button
-		class="w-[4vh] h-[4vh] rounded-[0.5vh] hover:bg-tertiary {$DEV_MODE ? "text-accent" : ""}
+		class="w-[4vh] h-[4vh] rounded-[0.5vh] hover:bg-tertiary {$DEV_MODE
+			? 'text-accent'
+			: ''}
 		relative
 		before:content-[attr(data-tip)]
 		before:absolute
@@ -56,20 +58,13 @@
 
 		hover:before:opacity-100 hover:after:opacity-100
 		"
-		data-tip='Dev Mode'
+		data-tip="Dev Mode"
 		on:click={() => {
 			DEV_MODE.update((wide) => !wide)
-			let data = {
-				type: 'client',
-				event: 'ps-adminmenu:client:ToggleDev',
-				label: 'Toggled Devmode',
-				perms: 'admin'
-			}
-			SendNUI("clickButton", {
-				data: data,
+			SendNUI('clickButton', {
+				data: 'toggleDevmode',
 			})
-			}
-		}
+		}}
 	>
 		<i class="fas fa-code"></i>
 	</button>

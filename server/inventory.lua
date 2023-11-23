@@ -1,6 +1,7 @@
 -- Clear Inventory
 RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(data, selectedData)
-    if not CheckPerms(data.perms) then return end
+    local data = CheckDataFromKey(data)
+    if not data or not CheckPerms(data.perms) then return end
 
     local src = source
     local player = selectedData["Player"].value
@@ -16,12 +17,15 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(data, selectedDa
         exports[Config.Inventory]:ClearInventory(player, nil)
     end
 
-    QBCore.Functions.Notify(src, locale("invcleared", Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname), 'success', 7500)
+    QBCore.Functions.Notify(src,
+        locale("invcleared", Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname),
+        'success', 7500)
 end)
 
 -- Clear Inventory Offline
 RegisterNetEvent('ps-adminmenu:server:ClearInventoryOffline', function(data, selectedData)
-    if not CheckPerms(data.perms) then return end
+    local data = CheckDataFromKey(data)
+    if not data or not CheckPerms(data.perms) then return end
 
     local src = source
     local citizenId = selectedData["Citizen ID"].value
@@ -33,16 +37,20 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventoryOffline', function(data, sel
         else
             exports[Config.Inventory]:ClearInventory(Player.PlayerData.source, nil)
         end
-        QBCore.Functions.Notify(src, locale("invcleared", Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname), 'success', 7500)
+        QBCore.Functions.Notify(src,
+            locale("invcleared", Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname),
+            'success', 7500)
     else
-        MySQL.Async.fetchAll("SELECT * FROM players WHERE citizenid = @citizenid", {['@citizenid'] = citizenId}, function(result)
-            if result and result[1] then
-                MySQL.Async.execute("UPDATE players SET inventory = '{}' WHERE citizenid = @citizenid", {['@citizenid'] = citizenId})
-                QBCore.Functions.Notify(src, "Player's inventory cleared", 'success', 7500)
-            else
-                QBCore.Functions.Notify(src, locale("player_not_found"), 'error', 7500)
-            end
-        end)
+        MySQL.Async.fetchAll("SELECT * FROM players WHERE citizenid = @citizenid", { ['@citizenid'] = citizenId },
+            function(result)
+                if result and result[1] then
+                    MySQL.Async.execute("UPDATE players SET inventory = '{}' WHERE citizenid = @citizenid",
+                        { ['@citizenid'] = citizenId })
+                    QBCore.Functions.Notify(src, "Player's inventory cleared", 'success', 7500)
+                else
+                    QBCore.Functions.Notify(src, locale("player_not_found"), 'error', 7500)
+                end
+            end)
     end
 end)
 
@@ -63,7 +71,8 @@ end)
 
 -- Give Item
 RegisterNetEvent('ps-adminmenu:server:GiveItem', function(data, selectedData)
-    if not CheckPerms(data.perms) then return end
+    local data = CheckDataFromKey(data)
+    if not data or not CheckPerms(data.perms) then return end
 
     local target = selectedData["Player"].value
     local item = selectedData["Item"].value
@@ -76,12 +85,15 @@ RegisterNetEvent('ps-adminmenu:server:GiveItem', function(data, selectedData)
     end
 
     Player.Functions.AddItem(item, amount)
-    QBCore.Functions.Notify(source, locale("give_item", tonumber(amount) .. " " .. item, Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname), "success", 7500)
+    QBCore.Functions.Notify(source,
+        locale("give_item", tonumber(amount) .. " " .. item,
+            Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname), "success", 7500)
 end)
 
 -- Give Item to All
 RegisterNetEvent('ps-adminmenu:server:GiveItemAll', function(data, selectedData)
-    if not CheckPerms(data.perms) then return end
+    local data = CheckDataFromKey(data)
+    if not data or not CheckPerms(data.perms) then return end
 
     local item = selectedData["Item"].value
     local amount = selectedData["Amount"].value

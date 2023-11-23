@@ -20,7 +20,8 @@ end)
 
 -- Play Sound
 RegisterNetEvent('ps-adminmenu:client:PlaySound', function(data, selectedData)
-    if not CheckPerms(data.perms) then return end
+    local data = CheckDataFromKey(data)
+    if not data or not CheckPerms(data.perms) then return end
     local player = selectedData["Player"].value
     local sound = selectedData["Sound"].value
 
@@ -30,7 +31,7 @@ end)
 -- Drunk Player
 RegisterNetEvent('ps-adminmenu:client:InitiateDrunkEffect', function()
     local playerPed = cache.ped
-    lib.requestAnimSet("MOVE_M@DRUNK@VERYDRUNK")    
+    lib.requestAnimSet("MOVE_M@DRUNK@VERYDRUNK")
     Wait(650)
     SetPedMotionBlur(playerPed, true)
     SetPedMovementClipset(playerPed, "MOVE_M@DRUNK@VERYDRUNK", true)
@@ -39,7 +40,7 @@ RegisterNetEvent('ps-adminmenu:client:InitiateDrunkEffect', function()
     Wait(30000) -- Time To Be Drunk
     SetPedMoveRateOverride(playerPed, 1.0)
     SetRunSprintMultiplierForPlayer(playerPed, 1.0)
-    SetPedIsDrunk(playerPed, false)        
+    SetPedIsDrunk(playerPed, false)
     SetPedMotionBlur(playerPed, false)
     ResetPedMovementClipset(playerPed)
     ShakeGameplayCam("DRUNK_SHAKE", 0.0)

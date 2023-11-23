@@ -1,6 +1,7 @@
 -- Changes the time
 RegisterNetEvent('ps-adminmenu:client:ChangeTime', function(data, selectedData)
-    if not CheckPerms(data.perms) then return end
+    local data = CheckDataFromKey(data)
+    if not data or not CheckPerms(data.perms) then return end
     local time = selectedData["Time Events"].value
 
     if not time then return end
@@ -10,9 +11,9 @@ end)
 
 -- Changes the weather
 RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(data, selectedData)
-    if not CheckPerms(data.perms) then return end
+    local data = CheckDataFromKey(data)
+    if not data or not CheckPerms(data.perms) then return end
     local weather = selectedData["Weather"].value
 
     TriggerServerEvent('qb-weathersync:server:setWeather', weather)
 end)
-

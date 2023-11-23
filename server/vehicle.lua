@@ -2,18 +2,20 @@
 RegisterNetEvent('ps-adminmenu:server:SaveCar', function(mods, vehicle, _, plate)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    local result = MySQL.query.await('SELECT plate FROM player_vehicles WHERE plate = ?', {plate})
+    local result = MySQL.query.await('SELECT plate FROM player_vehicles WHERE plate = ?', { plate })
 
     if result[1] == nil then
-        MySQL.insert('INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state) VALUES (?, ?, ?, ?, ?, ?, ?)', {
-            Player.PlayerData.license,
-            Player.PlayerData.citizenid,
-            vehicle.model,
-            vehicle.hash,
-            json.encode(mods),
-            plate,
-            0
-        })
+        MySQL.insert(
+        'INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            {
+                Player.PlayerData.license,
+                Player.PlayerData.citizenid,
+                vehicle.model,
+                vehicle.hash,
+                json.encode(mods),
+                plate,
+                0
+            })
         TriggerClientEvent('QBCore:Notify', src, locale("veh_owner"), 'success', 5000)
     else
         TriggerClientEvent('QBCore:Notify', src, locale("u_veh_owner"), 'error', 3000)
@@ -21,7 +23,7 @@ RegisterNetEvent('ps-adminmenu:server:SaveCar', function(mods, vehicle, _, plate
 end)
 
 -- Give Car
-RegisterNetEvent("ps-adminmenu:server:givecar", function (data, selectedData)
+RegisterNetEvent("ps-adminmenu:server:givecar", function(data, selectedData)
     local src = source
 
     if not CheckPerms(data.perms) then
@@ -31,7 +33,7 @@ RegisterNetEvent("ps-adminmenu:server:givecar", function (data, selectedData)
 
     local vehmodel = selectedData['Vehicle'].value
     local vehicleData = lib.callback.await("ps-adminmenu:client:getvehData", src, vehmodel)
-    
+
     if not next(vehicleData) then
         return
     end
@@ -59,28 +61,33 @@ RegisterNetEvent("ps-adminmenu:server:givecar", function (data, selectedData)
         return
     end
 
-    if CheckAlreadyPlate( plate ) then
+    if CheckAlreadyPlate(plate) then
         QBCore.Functions.Notify(src, locale("givecar.error.plates_alreadyused", plate:upper()), "error", 5000)
         return
     end
 
-    MySQL.insert('INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, garage, state) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
-        Player.PlayerData.license,
-        Player.PlayerData.citizenid,
-        vehmodel,
-        joaat(vehmodel),
-        json.encode(vehicleData),
-        plate,
-        garage,
-        1
-    })
+    MySQL.insert(
+    'INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, garage, state) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        {
+            Player.PlayerData.license,
+            Player.PlayerData.citizenid,
+            vehmodel,
+            joaat(vehmodel),
+            json.encode(vehicleData),
+            plate,
+            garage,
+            1
+        })
 
-    QBCore.Functions.Notify(src, locale("givecar.success.source", QBCore.Shared.Vehicles[vehmodel].name, ("%s %s"):format(Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname)), "success", 5000)
-    QBCore.Functions.Notify(Player.PlayerData.source, locale("givecar.success.target", plate:upper(), garage), "success", 5000)
+    QBCore.Functions.Notify(src,
+        locale("givecar.success.source", QBCore.Shared.Vehicles[vehmodel].name,
+            ("%s %s"):format(Player.PlayerData.charinfo.firstname, Player.PlayerData.charinfo.lastname)), "success", 5000)
+    QBCore.Functions.Notify(Player.PlayerData.source, locale("givecar.success.target", plate:upper(), garage), "success",
+        5000)
 end)
 
 -- Give Car
-RegisterNetEvent("ps-adminmenu:server:SetVehicleState", function (data, selectedData)
+RegisterNetEvent("ps-adminmenu:server:SetVehicleState", function(data, selectedData)
     local src = source
 
     if not CheckPerms(data.perms) then
@@ -101,7 +108,7 @@ RegisterNetEvent("ps-adminmenu:server:SetVehicleState", function (data, selected
         return
     end
 
-    MySQL.update('UPDATE player_vehicles SET state = ?, depotprice = ? WHERE plate = ?', {state, 0, plate})
+    MySQL.update('UPDATE player_vehicles SET state = ?, depotprice = ? WHERE plate = ?', { state, 0, plate })
 
     QBCore.Functions.Notify(src, locale("state_changed"), "success", 5000)
 end)
@@ -114,20 +121,21 @@ RegisterNetEvent('ps-adminmenu:server:ChangePlate', function(newPlate, currentPl
         exports.ox_inventory:UpdateVehicle(currentPlate, newPlate)
     end
 
-    MySQL.Sync.execute('UPDATE player_vehicles SET plate = ? WHERE plate = ?', {newPlate, currentPlate})
-    MySQL.Sync.execute('UPDATE trunkitems SET plate = ? WHERE plate = ?', {newPlate, currentPlate})
-    MySQL.Sync.execute('UPDATE gloveboxitems SET plate = ? WHERE plate = ?', {newPlate, currentPlate})
+    MySQL.Sync.execute('UPDATE player_vehicles SET plate = ? WHERE plate = ?', { newPlate, currentPlate })
+    MySQL.Sync.execute('UPDATE trunkitems SET plate = ? WHERE plate = ?', { newPlate, currentPlate })
+    MySQL.Sync.execute('UPDATE gloveboxitems SET plate = ? WHERE plate = ?', { newPlate, currentPlate })
 end)
 
 lib.callback.register('ps-adminmenu:server:GetVehicleByPlate', function(source, plate)
-    local result = MySQL.query.await('SELECT vehicle FROM player_vehicles WHERE plate = ?', {plate})
+    local result = MySQL.query.await('SELECT vehicle FROM player_vehicles WHERE plate = ?', { plate })
     local veh = result[1] and result[1].vehicle or {}
     return veh
 end)
 
 -- Fix Vehicle for player
 RegisterNetEvent('ps-adminmenu:server:FixVehFor', function(data, selectedData)
-    if not CheckPerms(data.perms) then return end
+    local data = CheckDataFromKey(data)
+    if not data or not CheckPerms(data.perms) then return end
     local src = source
     local playerId = selectedData['Player'].value
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
