@@ -14,28 +14,31 @@
 	let selectedDataArray = {}
 
 	function SelectData(selectedData) {
-		console.log("selected", selectedData)
-		selectedDataArray[selectedData.id] = selectedData;
-	};
+		console.log('selected', selectedData)
+		selectedDataArray[selectedData.id] = selectedData
+	}
 
 	function sendData(event, type) {
 		if (event) {
 			data.event = event
 			data.type = type
 		}
-		console.log("data", data)
-		console.log("event", data.event)
-		console.log("type", data.type)
-		SendNUI("clickButton", {
-			data: data,
+		console.log('data', data)
+		console.log('event', data.event)
+		console.log('type', data.type)
+		SendNUI('clickButton', {
+			data: id,
 			selectedData: selectedDataArray,
 		})
 		console.log(selectedDataArray)
 	}
-
 </script>
 
-<div class=" bg-tertiary rounded-[0.5vh] {dropdownActive ? "" : "hover:bg-opacity-90"}">
+<div
+	class=" bg-tertiary rounded-[0.5vh] {dropdownActive
+		? ''
+		: 'hover:bg-opacity-90'}"
+>
 	<button
 		class="w-full h-[4.5vh] flex items-center justify-between px-[1.5vh]"
 		on:click={() => (dropdownActive = !dropdownActive)}
@@ -55,10 +58,7 @@
 			{#if data.dropdown}
 				{#each data.dropdown as i}
 					{#if i.option === 'text'}
-						<Input
-							data={i}
-							selectedData={SelectData}
-						/>
+						<Input data={i} selectedData={SelectData} />
 					{:else if i.option === 'dropdown'}
 						<Autofill
 							action={i}

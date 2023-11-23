@@ -15,8 +15,8 @@
 	class="min-h-[4.5vh] w-full flex items-center px-[1.5vh] rounded-[0.5vh] bg-tertiary hover:bg-opacity-90"
 	on:click={() => {
 		console.log(data.event)
-		SendNUI("clickButton", {
-			data: data,
+		SendNUI('clickButton', {
+			data: id,
 		})
 	}}
 >

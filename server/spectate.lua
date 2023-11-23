@@ -1,7 +1,8 @@
 local spectating = {}
 
 RegisterNetEvent('ps-adminmenu:server:SpectateTarget', function(data, selectedData)
-    if not CheckPerms(data.perms) then return end
+    local data = CheckDataFromKey(data)
+    if not data or not CheckPerms(data.perms) then return end
     local player = selectedData["Player"].value
 
     local type = "1"
@@ -22,7 +23,8 @@ AddEventHandler('ps-adminmenu:spectate', function(target, on, source, perms)
             FreezeEntityPosition(GetPlayerPed(source), false)
             TriggerClientEvent('ps-adminmenu:client:toggleNames', source, data)
         elseif on then
-            TriggerClientEvent('ps-adminmenu:requestSpectate', source, NetworkGetNetworkIdFromEntity(tPed), target, GetPlayerName(target))
+            TriggerClientEvent('ps-adminmenu:requestSpectate', source, NetworkGetNetworkIdFromEntity(tPed), target,
+                GetPlayerName(target))
             spectating[source] = true
             TriggerClientEvent('ps-adminmenu:client:toggleNames', source, data)
         end

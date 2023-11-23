@@ -42,7 +42,7 @@ end
 local function UpdateBlipsAndNames(players)
     local playerPed = PlayerPedId()
     local playerCoords = GetEntityCoords(playerPed, true)
-    local blipSprites = {  -- Sprite Per Vehicle Class
+    local blipSprites = { -- Sprite Per Vehicle Class
         [1] = 1,
         [8] = 226,
         [9] = 757,
@@ -62,7 +62,7 @@ local function UpdateBlipsAndNames(players)
     for _, player in pairs(players) do
         local playerId = GetPlayerFromServerId(player.id)
         local ped = GetPlayerPed(playerId)
-        local name = 'ID: '..player.id..' | ' ..player.name
+        local name = 'ID: ' .. player.id .. ' | ' .. player.name
         Blip = GetBlipFromEntity(ped)
 
         Tag = CreateFakeMpGamerTag(ped, name, false, false, "", false)
@@ -119,7 +119,10 @@ local function UpdateBlipsAndNames(players)
                     SetBlipNameToPlayerName(Blip, playerId)
                     SetBlipScale(Blip, 0.85)
 
-                    local distance = math.floor(Vdist(playerCoords.x, playerCoords.y, playerCoords.z, GetEntityCoords(ped, true).x, GetEntityCoords(ped, true).y, GetEntityCoords(ped, true).z) / -1) + 900
+                    local distance = math.floor(Vdist(playerCoords.x, playerCoords.y, playerCoords.z,
+                                GetEntityCoords(ped, true).x, GetEntityCoords(ped, true).y, GetEntityCoords(ped, true).z) /
+                            -1) +
+                        900
                     distance = math.max(0, math.min(255, distance))
                     SetBlipAlpha(Blip, distance)
                 else
@@ -141,20 +144,23 @@ end
 
 -- Toggle Blips and Names events
 RegisterNetEvent('ps-adminmenu:client:toggleBlips', function(data)
-    if not CheckPerms(data.perms) then return end
+    local data = CheckDataFromKey(data)
+    if not data or not CheckPerms(data.perms) then return end
     if not ShowBlips then preparePlayers() end
     ToggleBlipsAndNames(true)
 end)
 
 RegisterNetEvent('ps-adminmenu:client:toggleNames', function(data)
-    if not CheckPerms(data.perms) then return end
+    local data = CheckDataFromKey(data)
+    if not data or not CheckPerms(data.perms) then return end
     if not ShowNames then preparePlayers() end
     ToggleBlipsAndNames(false)
 end)
 
 -- Mute Player
-RegisterNetEvent("ps-adminmenu:client:MutePlayer", function (data, selectedData)
-    if not CheckPerms(data.perms) then return end
+RegisterNetEvent("ps-adminmenu:client:MutePlayer", function(data, selectedData)
+    local data = CheckDataFromKey(data)
+    if not data or not CheckPerms(data.perms) then return end
     local playerId = selectedData["Player"].value
     if not playerId then return end
     exports["pma-voice"]:toggleMutePlayer(playerId)
