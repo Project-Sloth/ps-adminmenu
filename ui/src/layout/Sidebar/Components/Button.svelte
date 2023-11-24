@@ -14,6 +14,8 @@
 		before:absolute
 		before:-right-3 before:top-1/2
 		before:w-max before:max-w-xs
+		before:px-[1vh]
+		before:py-[0.5vh]
 		before:-translate-x-full before:-translate-y-1/2
 		before:bg-tertiary before:text-white
 		before:rounded-md before:opacity-0

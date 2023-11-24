@@ -7,6 +7,7 @@
 	import Server from '@pages/Server/Server.svelte'
 	import StaffChat from '@pages/Chat/Chat.svelte'
 	import Players from '@pages/Players/Players.svelte'
+	import Commands from '@pages/Commands/Commands.svelte'
 </script>
 
 <div
@@ -22,6 +23,8 @@
 			<StaffChat />
 		{:else if $ACTIVE_PAGE == 'Players'}
 			<Players />
+		{:else if $ACTIVE_PAGE == 'Commands'}
+			<Commands />
 		{/if}
 	</div>
 </div>

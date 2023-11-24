@@ -2,6 +2,7 @@ import { writable } from "svelte/store";
 
 export const RESOURCE = writable<RESOURCE_DATA[]>(null);
 export const RESOURCES = writable<RESOURCE_DATA>(null);
+export const COMMANDS = writable<COMMANDS_DATA[]>(null);
 
 export const SERVER = writable<SERVER_DATA[]>(null);
 
@@ -12,7 +13,7 @@ interface RESOURCE_DATA {
     description?: string;
     resourceState?: string;
 }
-  
+
 interface SERVER_DATA {
     TotalCash?: string;
     TotalBank?: string;
@@ -22,4 +23,7 @@ interface SERVER_DATA {
     BansCount?: string;
     UniquePlayers?: string;
 }
-  
+
+interface COMMANDS_DATA {
+    name?: string;
+}
