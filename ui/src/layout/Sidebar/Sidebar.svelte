@@ -7,6 +7,7 @@
 		{ value: 'Staffchat', icon: 'fas fa-message' },
 		{ value: 'Players', icon: 'fas fa-users' },
 		{ value: 'Server', icon: 'fas fa-server' },
+		{ value: 'Commands', icon: 'fas fa-slash' },
 		{ value: 'Actions', icon: 'fas fa-wand-magic-sparkles' },
 	]
 </script>
@@ -40,6 +41,8 @@
 		before:absolute
 		before:-right-3 before:top-1/2
 		before:w-max before:max-w-xs
+		before:px-[1vh]
+		before:py-[0.5vh]
 		before:-translate-x-full before:-translate-y-1/2
 		before:bg-tertiary before:text-white
 		before:rounded-md before:opacity-0

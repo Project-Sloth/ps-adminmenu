@@ -6,6 +6,7 @@ local function setupMenu()
 	Wait(500)
 	PlayerData = QBCore.Functions.GetPlayerData()
 	local resources = lib.callback.await('ps-adminmenu:callback:GetResources', false)
+	local commands = lib.callback.await('ps-adminmenu:callback:GetCommands', false)
 	GetData()
 	SendNUIMessage({
 		action = "setupUI",
@@ -13,6 +14,7 @@ local function setupMenu()
 			actions = Config.Actions,
 			resources = resources,
 			playerData = PlayerData,
+			commands = commands
 		}
 	})
 end
