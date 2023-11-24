@@ -23,9 +23,7 @@
 				<div class="text-tertiary text-center text-[1.7vh] font-medium mt-[1vh]">No Commands Found.</div>
 			{:else}
 				{#each SortedCommands.filter((commands) => commands.name.toLowerCase().includes(search.toLowerCase())) as commands}
-					<CommandsCard
-						label={commands.name}
-					/>
+					<CommandsCard label={commands.name} />
 				{/each}
 			{/if}
 		{/if}
