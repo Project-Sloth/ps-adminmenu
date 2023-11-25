@@ -255,7 +255,8 @@ end)
 -- Set Ped
 RegisterNetEvent("ps-adminmenu:server:setPed", function(data, selectedData)
     local src = source
-    if not CheckPerms(data.perms) then
+    local data = CheckDataFromKey(data)
+    if not data or not CheckPerms(data.perms) then
         QBCore.Functions.Notify(src, locale("no_perms"), "error", 5000)
         return
     end
