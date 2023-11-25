@@ -2,6 +2,7 @@ Config = Config or {}
 
 Config.Fuel = "ps-fuel"        -- "ps-fuel", "LegacyFuel"
 Config.ResourcePerms = 'admin' -- permission to control resource(start stop restart)
+Config.ShowCommandsPerms = 'admin' -- permission to show all commands
 Config.RenewedPhone = false    -- if you use qb-phone from renewed. (multijob)
 
 -- Key Bindings
