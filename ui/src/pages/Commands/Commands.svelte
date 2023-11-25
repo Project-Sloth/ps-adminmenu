@@ -18,10 +18,10 @@
 	/>
 	<div class="w-full h-[84%] flex flex-col gap-[1vh] mt-[1vh] overflow-auto">
 		{#if $COMMANDS}
-		<small class="font-medium">Total Commands: {SortedCommands.length}</small>
 			{#if $COMMANDS && $COMMANDS.filter((commands) => commands.name.toLowerCase().includes(search.toLowerCase())).length === 0}
 				<div class="text-tertiary text-center text-[1.7vh] font-medium mt-[1vh]">No Commands Found.</div>
 			{:else}
+				<small class="font-medium">Total Commands: {SortedCommands.length}</small>
 				{#each SortedCommands.filter((commands) => commands.name.toLowerCase().includes(search.toLowerCase())) as commands}
 					<CommandsCard label={commands.name} />
 				{/each}
