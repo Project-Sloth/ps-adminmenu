@@ -14,7 +14,7 @@
 	let selectedDataArray = {}
 
 	function SelectData(selectedData) {
-		console.log('selected', selectedData)
+		// console.log('selected', selectedData)
 		selectedDataArray[selectedData.id] = selectedData
 	}
 
@@ -23,14 +23,14 @@
 			data.event = event
 			data.type = type
 		}
-		console.log('data', data)
-		console.log('event', data.event)
-		console.log('type', data.type)
+		// console.log('data', data)
+		// console.log('event', data.event)
+		// console.log('type', data.type)
 		SendNUI('clickButton', {
 			data: id,
 			selectedData: selectedDataArray,
 		})
-		console.log(selectedDataArray)
+		// console.log(selectedDataArray)
 	}
 </script>
 
