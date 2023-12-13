@@ -155,10 +155,17 @@ Config.Actions = {
         label = "Copy Coords",
         perms = "mod",
         dropdown = {
-            { label = "Copy Vector2", option = "button", type = "command", event = "vector2" },
-            { label = "Copy Vector3", option = "button", type = "command", event = "vector3" },
-            { label = "Copy Vector4", option = "button", type = "command", event = "vector4" },
-            { label = "Copy Heading", option = "button", type = "command", event = "heading" },
+            {
+                label = "Copy Coords",
+                option = "dropdown",
+                data = {
+                    { label = "Copy Vector2", value = "vector2" },
+                    { label = "Copy Vector3", value = "vector3" },
+                    { label = "Copy Vector4",    value = "vector4" },
+                    { label = "Copy Heading",  value = "heading" },
+                },
+            },
+            { label = "Copy to Clipboard", option = "button", type = "client", event = "ps-adminmenu:client:copyToClipboard"},
         },
     },
 
@@ -511,7 +518,7 @@ Config.Actions = {
         },
     },
 
-    ["spactate_player"] = {
+    ["spectate_player"] = {
         label = "Spectate Player",
         perms = "mod",
         dropdown = {
