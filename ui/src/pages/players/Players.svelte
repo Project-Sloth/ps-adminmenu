@@ -25,9 +25,9 @@
 	let selectedDataArray = {}
 
 	function SelectData(selectedData) {
-		console.log('selected', selectedData)
+		// console.log('selected', selectedData)
 		selectedDataArray[selectedData.id] = selectedData
-		console.log('selectedDataArray', selectedDataArray)
+		// console.log('selectedDataArray', selectedDataArray)
 	}
 
 	let banData = [
@@ -262,12 +262,7 @@
 						data-tip="Revive Player"
 						on:click={() =>
 							SendNUI('clickButton', {
-								data: {
-									label: 'Revive Player',
-									event: `ps-adminmenu:server:Revive`,
-									type: 'server',
-									perms: 'mod',
-								},
+								data: 'revivePlayer',
 								selectedData: {
 									['Player']: {
 										value: $SELECTED_PLAYER.id,
@@ -307,7 +302,7 @@
 						data-tip="Spectate Player"
 						on:click={() =>
 							SendNUI('clickButton', {
-								data: 'revivePlayer',
+								data: 'spectate_player',
 								selectedData: {
 									['Player']: {
 										value: $SELECTED_PLAYER.id,
@@ -427,8 +422,8 @@
 		<button
 			class="h-[3.8vh] px-[1.5vh] rounded-[0.5vh] bg-secondary hover:bg-opacity-90 border-[0.1vh] border-primary"
 			on:click={() => {
-				console.log('Time: ', selectedDataArray['Duration'].value)
-				console.log('reason: ', selectedDataArray['Reason'].value)
+				// console.log('Time: ', selectedDataArray['Duration'].value)
+				// console.log('reason: ', selectedDataArray['Reason'].value)
 				SendNUI('clickButton', {
 					data: 'banPlayer',
 					selectedData: {
@@ -439,7 +434,7 @@
 							value: selectedDataArray['Duration'].value,
 						},
 						['Reason']: {
-							value: $SELECTED_PLAYER.id,
+							value: selectedDataArray['Reason'].value,
 						},
 					},
 				})
