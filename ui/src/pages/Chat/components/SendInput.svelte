@@ -9,7 +9,7 @@
         SendNUI("SendMessage", {
             message: message,
         });
-		console.log("Message sent", message)
+		// console.log("Message sent", message)
         message = "";
 		setTimeout(() => {
             scrollToBottom();
