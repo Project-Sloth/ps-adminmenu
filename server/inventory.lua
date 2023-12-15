@@ -64,6 +64,15 @@ RegisterNetEvent('ps-adminmenu:server:OpenStash', function(data)
     exports.ox_inventory:forceOpenInventory(source, 'stash', data)
 end)
 
+-- Register Trash [ox side]
+RegisterNetEvent('ps-adminmenu:server:RegisterTrash', function()
+    exports.ox_inventory:CreateTemporaryStash({
+        label = 'admintrash',
+        slots = 100,
+        maxWeight = 1000000
+    })
+end)
+
 -- Open Trunk [ox side]
 RegisterNetEvent('ps-adminmenu:server:OpenTrunk', function(data)
     exports.ox_inventory:forceOpenInventory(source, 'trunk', data)
@@ -105,5 +114,14 @@ RegisterNetEvent('ps-adminmenu:server:GiveItemAll', function(data, selectedData)
         local Player = QBCore.Functions.GetPlayer(id)
         Player.Functions.AddItem(item, amount)
         QBCore.Functions.Notify(source, locale("give_item_all", amount .. " " .. item), "success", 7500)
+    end
+end)
+
+-- Delete Admin Trash
+AddEventHandler('onResourceStart', function(resourceName)
+    if resourceName == GetCurrentResourceName() then
+        CreateThread(function()
+            MySQL.query("DELETE FROM stashitems WHERE stash = 'admintrash'")
+        end)
     end
 end)

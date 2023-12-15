@@ -332,6 +332,13 @@ Config.Actions = {
         },
     },
 
+    ["open_trash"] = {
+        label = "Open Trash",
+        type = "client",
+        perms = "mod",
+        event = "ps-adminmenu:client:openTrash",
+    },
+
     ["open_trunk"] = {
         label = "Open Trunk",
         perms = "mod",

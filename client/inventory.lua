@@ -25,6 +25,20 @@ RegisterNetEvent('ps-adminmenu:client:openStash', function(data, selectedData)
     end
 end)
 
+RegisterNetEvent('ps-adminmenu:client:openTrash', function(data)
+    local data = CheckDataFromKey(data)
+    if not data or not CheckPerms(data.perms) then return end
+
+    if Config.Inventory == 'ox_inventory' then
+        ToggleUI(false)
+        TriggerServerEvent("ps-adminmenu:server:RegisterTrash")
+        exports.ox_inventory:openInventory('stash', 'admintrash')
+    else
+        TriggerServerEvent("inventory:server:OpenInventory", "stash", 'admintrash')
+        TriggerEvent("inventory:client:SetCurrentStash", 'admintrash')
+    end
+end)
+
 -- Open Trunk
 RegisterNetEvent('ps-adminmenu:client:openTrunk', function(data, selectedData)
     local data = CheckDataFromKey(data)
