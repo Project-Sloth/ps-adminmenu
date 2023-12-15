@@ -34,7 +34,10 @@ RegisterNetEvent('ps-adminmenu:client:openTrash', function(data)
         TriggerServerEvent("ps-adminmenu:server:RegisterTrash")
         exports.ox_inventory:openInventory('stash', 'admintrash')
     else
-        TriggerServerEvent("inventory:server:OpenInventory", "stash", 'admintrash')
+        TriggerServerEvent("inventory:server:OpenInventory", "stash", 'admintrash', {
+            maxweight = 4000000,
+            slots = 300,
+        })
         TriggerEvent("inventory:client:SetCurrentStash", 'admintrash')
     end
 end)

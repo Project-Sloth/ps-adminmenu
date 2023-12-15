@@ -17,9 +17,7 @@ RegisterNetEvent('ps-adminmenu:server:ClearInventory', function(data, selectedDa
         exports[Config.Inventory]:ClearInventory(player, nil)
     end
 
-    QBCore.Functions.Notify(src,
-        locale("invcleared", Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname),
-        'success', 7500)
+    QBCore.Functions.Notify(src, locale("invcleared", Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname), 'success', 7500)
 end)
 
 -- Clear Inventory Offline
@@ -90,9 +88,7 @@ RegisterNetEvent('ps-adminmenu:server:GiveItem', function(data, selectedData)
     end
 
     Player.Functions.AddItem(item, amount)
-    QBCore.Functions.Notify(source,
-        locale("give_item", tonumber(amount) .. " " .. item,
-            Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname), "success", 7500)
+    QBCore.Functions.Notify(source, locale("give_item", tonumber(amount) .. " " .. item, Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname), "success", 7500)
 end)
 
 -- Give Item to All
