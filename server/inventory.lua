@@ -66,11 +66,7 @@ end)
 
 -- Register Trash [ox side]
 RegisterNetEvent('ps-adminmenu:server:RegisterTrash', function()
-    exports.ox_inventory:CreateTemporaryStash({
-        label = 'admintrash',
-        slots = 100,
-        maxWeight = 1000000
-    })
+    exports.ox_inventory:RegisterStash('admintrash', 'admintrash', 100, 1000000)
 end)
 
 -- Open Trunk [ox side]
