@@ -116,8 +116,13 @@ end)
 -- Delete Admin Trash
 AddEventHandler('onResourceStart', function(resourceName)
     if resourceName == GetCurrentResourceName() then
-        CreateThread(function()
-            MySQL.query("DELETE FROM stashitems WHERE stash = 'admintrash'")
-        end)
+        Wait(5000) -- Wait for resource to set correct inventory type
+        if Config.Inventory == 'ox_inventory' then
+            exports.ox_inventory:ClearInventory('admintrash')
+        else
+            CreateThread(function()
+                MySQL.query("DELETE FROM stashitems WHERE stash = 'admintrash'")
+            end)
+        end
     end
 end)
