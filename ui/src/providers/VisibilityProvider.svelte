@@ -22,7 +22,7 @@
 
 	ReceiveNUI('setBrowserMode', (data: boolean) => {
 		BROWSER_MODE.set(data)
-		console.log('browser mode enabled')
+		// console.log('browser mode enabled')
 	})
 
 	onMount(() => {

@@ -36,17 +36,22 @@ end)
 local function CopyCoords(data)
     local coords = GetEntityCoords(cache.ped)
     local heading = GetEntityHeading(cache.ped)
-    local formats = {
-        vector2 = "%.2f, %.2f",
-        vector3 = "%.2f, %.2f, %.2f",
-        vector4 = "%.2f, %.2f, %.2f, %.2f",
-        heading =
-        "%.2f"
-    }
+    local formats = { vector2 = "%.2f, %.2f", vector3 = "%.2f, %.2f, %.2f", vector4 = "%.2f, %.2f, %.2f, %.2f", heading =
+    "%.2f" }
     local format = formats[data]
 
-    local values = { coords.x, coords.y, coords.z, heading }
-    lib.setClipboard(string.format(format, table.unpack(values, 1, #format)))
+    local clipboardText = ""
+    if data == "vector2" then
+        clipboardText = string.format(format, coords.x, coords.y)
+    elseif data == "vector3" then
+        clipboardText = string.format(format, coords.x, coords.y, coords.z)
+    elseif data == "vector4" then
+        clipboardText = string.format(format, coords.x, coords.y, coords.z, heading)
+    elseif data == "heading" then
+        clipboardText = string.format(format, heading)
+    end
+
+    lib.setClipboard(clipboardText)
 end
 
 RegisterCommand("vector2", function()

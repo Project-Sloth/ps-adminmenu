@@ -109,7 +109,7 @@
     };
   
     const createGameView = (canvas: HTMLCanvasElement) => {
-      console.log(canvas);
+      // console.log(canvas);
       const gl = canvas.getContext("webgl", {
         antialias: false,
         depth: false,
