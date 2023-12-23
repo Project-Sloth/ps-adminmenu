@@ -4,6 +4,7 @@ Config.Fuel = "ps-fuel"        -- "ps-fuel", "LegacyFuel"
 Config.ResourcePerms = 'admin' -- permission to control resource(start stop restart)
 Config.ShowCommandsPerms = 'admin' -- permission to show all commands
 Config.RenewedPhone = false    -- if you use qb-phone from renewed. (multijob)
+Config.Inventory = 'ps-inventory' -- "ox_inventory", "ps-inventory", "lj-inventory", "qb-inventory"
 
 -- Key Bindings
 Config.Keybindings = true
@@ -713,16 +714,3 @@ Config.OtherActions = {
         label = "Toggle Devmode"
     }
 }
-
-AddEventHandler("onResourceStart", function()
-    Wait(100)
-    if GetResourceState('ox_inventory') == 'started' then
-        Config.Inventory = 'ox_inventory'
-    elseif GetResourceState('ps-inventory') == 'started' then
-        Config.Inventory = 'ps-inventory'
-    elseif GetResourceState('lj-inventory') == 'started' then
-        Config.Inventory = 'lj-inventory'
-    elseif GetResourceState('qb-inventory') == 'started' then
-        Config.Inventory = 'qb-inventory'
-    end
-end)
