@@ -166,15 +166,14 @@ RegisterNetEvent("ps-adminmenu:client:SpawnPersonalvehicle", function(data, sele
     local coords = QBCore.Functions.GetCoords(ped)
     local cid = QBCore.Functions.GetPlayerData().citizenid
 
-    QBCore.Functions.TriggerCallback("qb-garage:server:GetVehicleProperties", function(properties, plate)
-        props = properties
-    end, plate)
     lib.callback('ps-adminmenu:server:GetVehicleByPlate', false, function(vehModel)
         vehicle = vehModel
     end, plate)
+
     Wait(100)
     QBCore.Functions.TriggerCallback('QBCore:Server:SpawnVehicle', function(vehicle)
         local veh = NetToVeh(vehicle)
+        local props = QBCore.Functions.GetVehicleProperties(veh)
         SetEntityHeading(veh, coords.w)
         TaskWarpPedIntoVehicle(ped, veh, -1)
         SetVehicleModKit(veh, 0)
@@ -183,6 +182,8 @@ RegisterNetEvent("ps-adminmenu:client:SpawnPersonalvehicle", function(data, sele
         SetVehicleNumberPlateText(veh, plate)
         exports[Config.Fuel]:SetFuel(veh, 100.0)
         TriggerEvent("vehiclekeys:client:SetOwner", plate)
+        TriggerEvent('iens:repaira', ped)
+        TriggerEvent('vehiclemod:client:fixEverything', ped)
     end, vehicle, coords, true)
 end)
 
