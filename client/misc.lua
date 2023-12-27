@@ -180,12 +180,17 @@ local toogleAdmin = lib.addKeybind({
     end
 })
 
+--noclip
+RegisterCommand('nc', function()
+    TriggerEvent(Config.Actions["noclip"].event)
+end, false)
+
 local toogleNoclip = lib.addKeybind({
     name = 'toogleNoclip',
     description = locale("command_noclip_desc"),
     defaultKey = Config.NoclipKey,
     onPressed = function(self)
-        TriggerEvent(Config.Actions["noclip"].event, Config.Actions["noclip"])
+        ExecuteCommand('nc')
     end
 })
 
