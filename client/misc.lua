@@ -55,18 +55,22 @@ local function CopyCoords(data)
 end
 
 RegisterCommand("vector2", function()
+    if not CheckPerms('mod') then return end
     CopyCoords("vector2")
 end, false)
 
 RegisterCommand("vector3", function()
+    if not CheckPerms('mod') then return end
     CopyCoords("vector3")
 end, false)
 
 RegisterCommand("vector4", function()
+    if not CheckPerms('mod') then return end
     CopyCoords("vector4")
 end, false)
 
 RegisterCommand("heading", function()
+    if not CheckPerms('mod') then return end
     CopyCoords("heading")
 end, false)
 
@@ -138,6 +142,18 @@ RegisterNetEvent('ps-adminmenu:client:SetAmmo', function(data, selectedData)
     end
 end)
 
+RegisterCommand("setammo", function(source)
+    if not CheckPerms('mod') then return end
+    local weapon = GetSelectedPedWeapon(cache.ped)
+    local ammo = 999
+    if weapon ~= nil then
+        SetPedAmmo(cache.ped, weapon, ammo)
+        QBCore.Functions.Notify(locale("set_wepaon_ammo", tostring(ammo)), 'success')
+    else
+        QBCore.Functions.Notify(locale("no_weapon"), 'error')
+    end
+end, false)
+
 --Toggle Dev
 local ToggleDev = false
 
@@ -164,17 +180,12 @@ local toogleAdmin = lib.addKeybind({
     end
 })
 
---noclip
-RegisterCommand('nc', function()
-    TriggerEvent(Config.Actions["noclip"].event)
-end, false)
-
 local toogleNoclip = lib.addKeybind({
     name = 'toogleNoclip',
     description = locale("command_noclip_desc"),
     defaultKey = Config.NoclipKey,
     onPressed = function(self)
-        ExecuteCommand('nc')
+        TriggerEvent(Config.Actions["noclip"].event, Config.Actions["noclip"])
     end
 })
 
