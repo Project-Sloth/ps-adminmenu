@@ -157,7 +157,7 @@ end)
 
 -- Spawn Personal vehicles
 
-RegisterNetEvent("ps-adminmenu:client:SpawnPersonalvehicle", function(data, selectedData)
+RegisterNetEvent("ps-adminmenu:client:SpawnPersonalVehicle", function(data, selectedData)
     local data = CheckDataFromKey(data)
     if not data or not CheckPerms(data.perms) then return end
 
