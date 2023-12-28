@@ -680,7 +680,7 @@ Config.PlayerActions = {
     },
     ["spawnPersonalVehicle"] = {
         label = "Spawn Personal Vehicle",
-        event = "ps-adminmenu:server:SpawnPersonalVehicle",
+        event = "ps-adminmenu:client:SpawnPersonalVehicle",
         perms = "mod",
         type = "client"
     },
