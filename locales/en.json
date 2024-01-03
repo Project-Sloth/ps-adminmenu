@@ -31,7 +31,7 @@
     "give_item": "Gave %s to %s",
     "give_item_all": "Gave %s to every Player",
     "give_money": "Gave %s %s",
-    "give_money_all": "Added %s to every Players %s",
+    "give_money_all": "Added %s to every Players",
     "give_money_all_crypto": "Gave %s Crypto/s to every Player",
     "give_money_crypto": "Gave %s Crypto/s to %s",
     "givecar.plates_alreadyused": "Unable to gave vehicle. Number plate %s is already in use on another vehicle",
