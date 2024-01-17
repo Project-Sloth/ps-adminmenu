@@ -36,7 +36,8 @@ Made by Kenta for the community, you can download it [here](https://github.com/K
 * Clothing Menu
 * Copy Coordinates
 * Delete Vehicle
-* --Explode Player
+* Explode Player
+* Set on fire player
 * Fix Vehicle
 * Freeze Player
 * Give Clothing Menu
@@ -45,14 +46,12 @@ Made by Kenta for the community, you can download it [here](https://github.com/K
 * Give Money
 * Give Money to All
 * Give Vehicle to Player
-* --Give NUI Focus
 * God Mode
 * Invisible
 * Infinite Ammo
 * Kick Player
 * Kill Player
 * Make Player Drunk
-* --Message Player
 * Mute Player
 * Max Vehicle Mods
 * No Clip
@@ -66,7 +65,6 @@ Made by Kenta for the community, you can download it [here](https://github.com/K
 * Revive Player
 * Revive Radius
 * Set Bucket
-* --Server Announcement
 * Set Ammo
 * Set Vehicle State in Garage (In & Out)
 * Set Job
@@ -90,7 +88,7 @@ Made by Kenta for the community, you can download it [here](https://github.com/K
 * Warn player
   
 # Depedency
-1. [esx-core](https://github.com/esx-framework/esx_core)
+1. [esx-core](https://github.com/KentaKK/es_extended)
 2. [ox_lib](https://github.com/overextended/ox_lib)
 3. [ox_inventory](https://github.com/overextended/ox_inventory/releases)
 4. [vSync](https://github.com/KentaKK/vSync) (optional)
