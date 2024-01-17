@@ -1,21 +1,14 @@
 -- Set on fire
-RegisterNetEvent('ps-adminmenu:client:SetOnFire', function(time)
-    if not time then time = 10 end
-    local timer = time * 1000
-    StartEntityFire(cache.serverId)
-    Wait(timer)
-    StopEntityFire(cache.serverId)
+RegisterNetEvent('ps-adminmenu:client:SetOnFire', function()
+    StartEntityFire(cache.ped)
+    Wait(10000)
+    StopEntityFire(cache.ped)
 end)
 
 -- Explode player
-RegisterNetEvent('ps-adminmenu:client:ExplodePlayer', function(damage)
-    local coords = GetEntityCoords(cache.serverId)
-    if damage == nil then damage = "nodamage" end
-    if damage == "nodamage" then
-        AddExplosion(coords.x, coords.y, coords.z, 'EXPLOSION_TANKER', 2.0, true, false, 2.0)
-    else
-        AddExplosion(coords.x, coords.y, coords.z, 2, 0.9, 1, 0, 1065353216, 0)
-    end
+RegisterNetEvent('ps-adminmenu:client:ExplodePlayer', function()
+    local coords = GetEntityCoords(cache.ped)
+    AddExplosion(coords.x, coords.y, coords.z, 7, 3.0, true, false, 10.0)
 end)
 
 -- Play Sound
@@ -42,7 +35,7 @@ RegisterNetEvent('ps-adminmenu:client:InitiateDrunkEffect', function()
     SetRunSprintMultiplierForPlayer(playerPed, 1.0)
     SetPedIsDrunk(playerPed, false)
     SetPedMotionBlur(playerPed, false)
-    ResetPedMovementClipset(playerPed)
+    ResetPedMovementClipset(playerPed, 1000)
     ShakeGameplayCam("DRUNK_SHAKE", 0.0)
     SetTimecycleModifierStrength(0.0)
 end)
