@@ -18,11 +18,11 @@ RegisterNetEvent('ps-adminmenu:cancelSpectate', function()
     if NetworkIsInSpectatorMode() then
         NetworkSetInSpectatorMode(false, spectateInfo['targetPed'])
     end
-    SetEntityVisible(cache.ped, true, 0)
+    SetEntityVisible(cache.ped, true, false)
     spectateInfo = { toggled = false, target = 0, targetPed = 0 }
-    RequestCollisionAtCoord(oldPos)
-    SetEntityCoords(cache.ped, oldPos)
-    oldPos = nil;
+    RequestCollisionAtCoord(oldPos.x, oldPos.y, oldPos.z)
+    SetEntityCoords(cache.ped, oldPos.x, oldPos.y, oldPos.z)
+    oldPos = nil
 end)
 
 CreateThread(function()
@@ -31,9 +31,10 @@ CreateThread(function()
         if spectateInfo['toggled'] then
             local targetPed = NetworkGetEntityFromNetworkId(spectateInfo.targetPed)
             if DoesEntityExist(targetPed) then
-                SetEntityVisible(cache.ped, false, 0)
+                SetEntityVisible(cache.ped, false, false)
                 if not NetworkIsInSpectatorMode() then
-                    RequestCollisionAtCoord(GetEntityCoords(targetPed))
+                    local c = GetEntityCoords(targetPed)
+                    RequestCollisionAtCoord(c.x, c.y, c.z)
                     NetworkSetInSpectatorMode(true, targetPed)
                 end
             else
