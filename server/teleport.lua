@@ -24,5 +24,5 @@ RegisterNetEvent('ps-adminmenu:server:BringPlayer', function(data, selectedData)
     local target = GetPlayerPed(targetPed)
 
     CheckRoutingbucket(targetPed, src)
-    SetEntityCoords(target, coords)
+    SetEntityCoords(target, coords.x, coords.y, coords.z)
 end)
