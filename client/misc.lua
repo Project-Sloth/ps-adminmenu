@@ -5,7 +5,7 @@ RegisterNetEvent('ps-adminmenu:client:ToggleInvisible', function(data)
     if not data or not CheckPerms(data.perms) then return end
     visible = not visible
 
-    SetEntityVisible(cache.ped, visible, 0)
+    SetEntityVisible(cache.ped, visible, false)
 end)
 
 -- God Mode
@@ -16,13 +16,13 @@ RegisterNetEvent('ps-adminmenu:client:ToggleGodmode', function(data)
     godmode = not godmode
 
     if godmode then
-        QBCore.Functions.Notify(locale("godmode", "enabled"), 'primary')
+        ESX.ShowNotification(_U("godmode", "enabled"))
         while godmode do
             Wait(0)
             SetPlayerInvincible(cache.playerId, true)
         end
         SetPlayerInvincible(cache.playerId, false)
-        QBCore.Functions.Notify(locale("godmode", "disabled"), 'primary')
+        ESX.ShowNotification(_U("godmode", "disabled"))
     end
 end)
 
@@ -85,11 +85,14 @@ RegisterNetEvent('ps-adminmenu:client:setInfiniteAmmo', function(data)
         SetAmmoInClip(cache.ped, cache.weapon, 10)
         Wait(50)
     end
-
-    while InfiniteAmmo do
-        SetPedInfiniteAmmo(cache.ped, true, cache.weapon)
-        RefillAmmoInstantly(cache.ped)
-        Wait(250)
+    if InfiniteAmmo then
+        ESX.ShowNotification("Infinite ammo enabled")
+        while InfiniteAmmo do
+            SetPedInfiniteAmmo(cache.ped, true, cache.weapon)
+            RefillAmmoInstantly(cache.ped)
+            Wait(250)
+        end
+        ESX.ShowNotification("Infinite ammo disabled")
     end
 
     SetPedInfiniteAmmo(cache.ped, false, cache.weapon)
@@ -106,10 +109,10 @@ local function showCoordsMenu()
             action = "showCoordsMenu",
             data = {
                 show = showCoords,
-                x = QBCore.Shared.Round(coords.x, 2),
-                y = QBCore.Shared.Round(coords.y, 2),
-                z = QBCore.Shared.Round(coords.z, 2),
-                heading = QBCore.Shared.Round(heading, 2)
+                x = ESX.Math.Round(coords.x, 2),
+                y = ESX.Math.Round(coords.y, 2),
+                z = ESX.Math.Round(coords.z, 2),
+                heading = ESX.Math.Round(heading, 2)
             }
         })
     end
@@ -130,27 +133,27 @@ end)
 RegisterNetEvent('ps-adminmenu:client:SetAmmo', function(data, selectedData)
     local data = CheckDataFromKey(data)
     if not data or not CheckPerms(data.perms) then return end
-
+    if not selectedData["Ammo Ammount"].value then return ESX.ShowNotification("Nem írtál be mennyiséget", 'error') end
     local ammo = selectedData["Ammo Ammount"].value
     local weapon = GetSelectedPedWeapon(cache.ped)
 
     if weapon ~= nil then
         SetPedAmmo(cache.ped, weapon, ammo)
-        QBCore.Functions.Notify(locale("set_wepaon_ammo", tostring(ammo)), 'success')
+        ESX.ShowNotification(_U("set_wepaon_ammo", tostring(ammo)), 'success')
     else
-        QBCore.Functions.Notify(locale("no_weapon"), 'error')
+        ESX.ShowNotification(_U("no_weapon"), 'error')
     end
 end)
 
-RegisterCommand("setammo", function(source)
+RegisterCommand("setammo", function()
     if not CheckPerms('mod') then return end
     local weapon = GetSelectedPedWeapon(cache.ped)
     local ammo = 999
-    if weapon ~= nil then
+    if weapon then
         SetPedAmmo(cache.ped, weapon, ammo)
-        QBCore.Functions.Notify(locale("set_wepaon_ammo", tostring(ammo)), 'success')
+        ESX.ShowNotification(_U("set_wepaon_ammo", tostring(ammo)), 'success')
     else
-        QBCore.Functions.Notify(locale("no_weapon"), 'error')
+        ESX.ShowNotification(_U("no_weapon"), 'error')
     end
 end, false)
 
@@ -163,20 +166,20 @@ RegisterNetEvent('ps-adminmenu:client:ToggleDev', function(data)
 
     ToggleDev = not ToggleDev
 
-    TriggerEvent("qb-admin:client:ToggleDevmode")           -- toggle dev mode (ps-hud/qb-hud)
+    --TriggerEvent("qb-admin:client:ToggleDevmode")           -- toggle dev mode (ps-hud/qb-hud)
     TriggerEvent('ps-adminmenu:client:ToggleCoords', data)  -- toggle Coords
     TriggerEvent('ps-adminmenu:client:ToggleGodmode', data) -- Godmode
 
-    QBCore.Functions.Notify(locale("toggle_dev"), 'success')
+    ESX.ShowNotification(_U("toggle_dev"), 'success')
 end)
 
 -- Key Bindings
 local toogleAdmin = lib.addKeybind({
     name = 'toogleAdmin',
-    description = locale("command_admin_desc"),
+    description = _U("command_admin_desc"),
     defaultKey = Config.AdminKey,
     onPressed = function(self)
-        ExecuteCommand('admin')
+        ExecuteCommand('ps-adminmenu')
     end
 })
 
@@ -187,7 +190,7 @@ end, false)
 
 local toogleNoclip = lib.addKeybind({
     name = 'toogleNoclip',
-    description = locale("command_noclip_desc"),
+    description = _U("command_noclip_desc"),
     defaultKey = Config.NoclipKey,
     onPressed = function(self)
         ExecuteCommand('nc')
