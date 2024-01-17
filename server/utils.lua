@@ -1,32 +1,47 @@
 local function noPerms(source)
-    QBCore.Functions.Notify(source, "You are not Admin or God.", 'error')
+    TriggerClientEvent('esx:showNotification', source, "You are not Admin or God.", 'error')
+end
+
+local function isAdmin(player, perms)
+    local xPlayer = ESX.GetPlayerFromId(player)
+    local myGroup = xPlayer.getGroup()
+    if myGroup == "superadmin" then return true end
+    if type(perms) == "table" then
+        for _,v in pairs(perms) do
+            if myGroup == v then
+                return true
+            end
+        end
+    else
+        return myGroup == perms
+    end
+    return false
 end
 
 --- @param perms string
 function CheckPerms(perms)
-    local hasPerms = QBCore.Functions.HasPermission(source, perms)
+    local hasPerms = isAdmin(source, perms)
 
     if not hasPerms then
         return noPerms(source)
     end
-
     return hasPerms
 end
 
 function CheckDataFromKey(key)
-    local actions = Config.Actions[key]
-    if actions then
+    local action = Config.Actions[key]
+    if action then
         local data = nil
 
-        if actions.event then
-            data = actions
+        if action.event then
+            data = action
         end
 
-        if actions.dropdown then
-            for _, v in pairs(actions.dropdown) do
+        if action.dropdown then
+            for _, v in pairs(action.dropdown) do
                 if v.event then
                     local new = v
-                    new.perms = actions.perms
+                    new.perms = action.perms
                     data = new
                     break
                 end
@@ -50,18 +65,26 @@ end
 ---@param plate string
 ---@return boolean
 function CheckAlreadyPlate(plate)
-    local vPlate = QBCore.Shared.Trim(plate)
-    local result = MySQL.single.await("SELECT plate FROM player_vehicles WHERE plate = ?", { vPlate })
+    local vPlate = Trim(plate)
+    local result = MySQL.single.await("SELECT `plate` FROM `owned_vehicles` WHERE `plate` = ?", { vPlate })
     if result and result.plate then return true end
     return false
 end
 
-lib.callback.register('ps-adminmenu:callback:CheckPerms', function(source, perms)
+lib.callback.register('ps-adminmenu:callback:CheckPerms', function(_, perms)
     return CheckPerms(perms)
 end)
 
 lib.callback.register('ps-adminmenu:callback:CheckAlreadyPlate', function(_, vPlate)
     return CheckAlreadyPlate(vPlate)
+end)
+
+lib.callback.register('ps-adminmenu:callback:GetESXJobs', function(_)
+    return ESX.GetJobs()
+end)
+
+lib.callback.register('ps-adminmenu:callback:GetESXItems', function(_)
+    return ESX.Items
 end)
 
 --- @param source number
@@ -73,5 +96,5 @@ function CheckRoutingbucket(source, target)
     if sourceBucket == targetBucket then return end
 
     SetPlayerRoutingBucket(source, targetBucket)
-    QBCore.Functions.Notify(source, locale("bucket_set", targetBucket), 'error', 7500)
+    TriggerClientEvent('esx:showNotification', source, _U("bucket_set", targetBucket), 'error', 7500)
 end
