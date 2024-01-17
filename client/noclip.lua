@@ -21,7 +21,7 @@ local function SetupCam()
     local rotation = GetEntityRotation(ped)
     local coords = GetEntityCoords(ped)
 
-    cam = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", coords, vector3(0.0, 0.0, rotation.z), 75.0)
+    cam = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", coords.x, coords.y, coords.z, 0.0, 0.0, rotation.z, 75.0, true, 2)
     SetCamActive(cam, true)
     RenderScriptCams(true, true, 1000, false, false)
     AttachCamToEntity(cam, ped, 0.0, 0.0, 1.0, true)
@@ -56,7 +56,7 @@ local function UpdateCameraRotation()
     end
 
     if newX ~= nil and newZ ~= nil then
-        SetCamRot(cam, vector3(newX, rotation.y, newZ), 2)
+        SetCamRot(cam, newX, rotation.y, newZ, 2)
     end
 
     SetEntityHeading(ped, math.max(0, (rotation.z % 360)))
@@ -65,13 +65,13 @@ end
 -- Gets the ground coords
 local function TeleportToGround()
     local coords = GetEntityCoords(ped)
-    local rayCast = StartShapeTestRay(coords.x, coords.y, coords.z, coords.x, coords.y, -10000.0, 1, 0)
+    local rayCast = StartExpensiveSynchronousShapeTestLosProbe(coords.x, coords.y, coords.z, coords.x, coords.y, -10000.0, 1, 0, 1)
     local _, hit, hitCoords = GetShapeTestResult(rayCast)
 
     if hit == 1 then
-        SetEntityCoords(ped, hitCoords.x, hitCoords.y, hitCoords.z)
+        SetEntityCoords(ped, hitCoords.x, hitCoords.y, hitCoords.z, false, false, false, false)
     else
-        SetEntityCoords(ped, coords.x, coords.y, coords.z)
+        SetEntityCoords(ped, coords.x, coords.y, coords.z, false, false, false, false)
     end
 end
 
@@ -135,42 +135,38 @@ local function UpdateMovement()
         local pitch = GetCamRot(cam, 0)
 
         if pitch.x >= 0 then
-            SetEntityCoordsNoOffset(ped,
-                GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.5 * (speed * multi),
-                    (pitch.x * ((speed / 2) * multi)) / 89))
+            local l1 = GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.5 * (speed * multi),(pitch.x * ((speed / 2) * multi)) / 89)
+            SetEntityCoordsNoOffset(ped, l1.x, l1.y, l1.z, false, false, false)
         else
-            SetEntityCoordsNoOffset(ped,
-                GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.5 * (speed * multi),
-                    -1 * ((math.abs(pitch.x) * ((speed / 2) * multi)) / 89)))
+            local l2 = GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.5 * (speed * multi), -1 * ((math.abs(pitch.x) * ((speed / 2) * multi)) / 89))
+            SetEntityCoordsNoOffset(ped, l2.x, l2.y, l2.z, false, false, false)
         end
     elseif IsControlAlwaysPressed(0, 33) then
         local pitch = GetCamRot(cam, 2)
 
         if pitch.x >= 0 then
-            SetEntityCoordsNoOffset(ped,
-                GetOffsetFromEntityInWorldCoords(ped, 0.0, -0.5 * (speed * multi),
-                    -1 * (pitch.x * ((speed / 2) * multi)) / 89))
+            local k1 = GetOffsetFromEntityInWorldCoords(ped, 0.0, -0.5 * (speed * multi),-1 * (pitch.x * ((speed / 2) * multi)) / 89)
+            SetEntityCoordsNoOffset(ped, k1.x, k1.y, k1.z, false, false, false)
         else
-            SetEntityCoordsNoOffset(ped,
-                GetOffsetFromEntityInWorldCoords(ped, 0.0, -0.5 * (speed * multi),
-                    ((math.abs(pitch.x) * ((speed / 2) * multi)) / 89)))
+            local k2 = GetOffsetFromEntityInWorldCoords(ped, 0.0, -0.5 * (speed * multi),((math.abs(pitch.x) * ((speed / 2) * multi)) / 89))
+            SetEntityCoordsNoOffset(ped, k2.x, k2.y, k2.z, false, false, false)
         end
     end
 
     if IsControlAlwaysPressed(0, 34) then
-        SetEntityCoordsNoOffset(ped,
-            GetOffsetFromEntityInWorldCoords(ped, -0.5 * (speed * multi), 0.0, 0.0))
+        local k3 = GetOffsetFromEntityInWorldCoords(ped, -0.5 * (speed * multi), 0.0, 0.0)
+        SetEntityCoordsNoOffset(ped, k3.x, k3.y, k3.z, false, false, false)
     elseif IsControlAlwaysPressed(0, 35) then
-        SetEntityCoordsNoOffset(ped,
-            GetOffsetFromEntityInWorldCoords(ped, 0.5 * (speed * multi), 0.0, 0.0))
+        local k4 = GetOffsetFromEntityInWorldCoords(ped, 0.5 * (speed * multi), 0.0, 0.0)
+        SetEntityCoordsNoOffset(ped, k4.x, k4.y, k4.z, false, false, false)
     end
 
     if IsControlAlwaysPressed(0, 44) then
-        SetEntityCoordsNoOffset(ped,
-            GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.0, 0.5 * (speed * multi)))
+        local k5 = GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.0, 0.5 * (speed * multi))
+        SetEntityCoordsNoOffset(ped, k5.x, k5.y, k5.z, false, false, false)
     elseif IsControlAlwaysPressed(0, 46) then
-        SetEntityCoordsNoOffset(ped,
-            GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.0, -0.5 * (speed * multi)))
+        local k6 = GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.0, -0.5 * (speed * multi))
+        SetEntityCoordsNoOffset(ped, k6.x, k6.y, k6.z, false, false, false)
     end
 end
 
@@ -203,4 +199,3 @@ RegisterNetEvent('ps-adminmenu:client:ToggleNoClip', function()
     if not CheckPerms(Config.Actions["noclip"].perms) then return end
     ToggleNoclip()
 end)
-
