@@ -2,9 +2,9 @@ local resources = {}
 
 lib.callback.register('ps-adminmenu:callback:GetResources', function(source)
     local totalResources = GetNumResources()
-        
+
     resources = {}
-        
+
     for i = 0, totalResources - 1 do
         local resourceName = GetResourceByFindIndex(i)
         local author = GetResourceMetadata(resourceName, "author")
