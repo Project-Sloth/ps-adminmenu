@@ -3,27 +3,27 @@ local PedList = require "data.ped"
 -- Returns a list of vehicles from QBCore.Shared.Vehicles
 local function GetVehicles()
     local vehicles = {}
-
-    for _, v in pairs(QBCore.Shared.Vehicles) do
+    local res = lib.callback.await('ps-adminmenu:callback:GetVehicles', false)
+    for _,v in pairs(res) do
         vehicles[#vehicles + 1] = { label = v.name, value = v.model }
     end
-
     return vehicles
 end
 
 -- Returns a list of items from QBCore.Shared.Items
 local function GetItems()
     local items = {}
-    local ItemsData = QBCore.Shared.Items
+    local itemsData = {}
 
     if Config.Inventory == "ox_inventory" then
-        ItemsData = exports.ox_inventory:Items()
+        itemsData = exports.ox_inventory:Items()
+    else
+        itemsData = lib.callback.await('ps-adminmenu:callback:GetESXItems', false)
     end
 
-    for name, v in pairs(ItemsData) do
-        items[#items + 1] = { label = v.label, value = name }
+    for n, v in pairs(itemsData) do
+        items[#items + 1] = {label = v.label, value = n}
     end
-
     return items
 end
 
@@ -31,45 +31,17 @@ end
 local function GetJobs()
     local jobs = {}
 
-    for name, v in pairs(QBCore.Shared.Jobs) do
-        local gradeDataList = {}
-
-        for grade, gradeData in pairs(v.grades) do
-            gradeDataList[#gradeDataList + 1] = { name = gradeData.name, grade = grade, isboss = gradeData.isboss }
+    local jobList = lib.callback.await('ps-adminmenu:callback:GetESXJobs', false)
+    local gradeDataList = {}
+    for _, v in pairs(jobList) do
+        for _, gradeData in pairs(v.grades) do
+            gradeData['skin_male'] = nil -- Removed for better debug
+            gradeData['skin_female'] = nil -- Removed for better debug
+            gradeDataList[#gradeDataList + 1] = { name = gradeData.name, grade = gradeData.grade, isboss = false }
         end
-
-        jobs[#jobs + 1] = { label = v.label, value = name, grades = gradeDataList }
+        jobs[#jobs + 1] = { label = v.label, value = v.name, grades = gradeDataList }
     end
-
     return jobs
-end
-
--- Returns a list of gangs from QBCore.Shared.Gangs
-local function GetGangs()
-    local gangs = {}
-
-    for name, v in pairs(QBCore.Shared.Gangs) do
-        local gradeDataList = {}
-
-        for grade, gradeData in pairs(v.grades) do
-            gradeDataList[#gradeDataList + 1] = { name = gradeData.name, grade = grade, isboss = gradeData.isboss }
-        end
-
-        gangs[#gangs + 1] = { label = v.label, value = name, grades = gradeDataList }
-    end
-
-    return gangs
-end
-
--- Returns a list of locations from QBCore.Shared.Loactions
-local function GetLocations()
-    local locations = {}
-
-    for name, v in pairs(QBCore.Shared.Locations) do
-        locations[#locations + 1] = { label = name, value = v }
-    end
-
-    return locations
 end
 
 -- Sends data to the UI on resource start
@@ -80,8 +52,6 @@ function GetData()
             vehicles = GetVehicles(),
             items = GetItems(),
             jobs = GetJobs(),
-            gangs = GetGangs(),
-            locations = GetLocations(),
             pedlist = PedList
         },
     })
