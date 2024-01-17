@@ -50,7 +50,7 @@ local function RotationToDirection(rotation)
 end
 
 local function RayCastGamePlayCamera(distance)
-    local cameraRotation = GetGameplayCamRot()
+    local cameraRotation = GetGameplayCamRot(2)
 	local cameraCoord = GetGameplayCamCoord()
 	local direction = RotationToDirection(cameraRotation)
 	local destination =
@@ -59,7 +59,7 @@ local function RayCastGamePlayCamera(distance)
 		y = cameraCoord.y + direction.y * distance,
 		z = cameraCoord.z + direction.z * distance
 	}
-	local a, b, c, d, e = GetShapeTestResult(StartShapeTestRay(cameraCoord.x, cameraCoord.y, cameraCoord.z, destination.x, destination.y, destination.z, -1, PlayerPedId(), 0))
+	local _, b, c, _, e = GetShapeTestResult(StartShapeTestRay(cameraCoord.x, cameraCoord.y, cameraCoord.z, destination.x, destination.y, destination.z, -1, PlayerPedId(), 0))
 	return b, c, e
 end
 
@@ -71,56 +71,61 @@ RegisterNetEvent('ps-adminmenu:client:ToggleLaser', function()
     activeLaser = not activeLaser
     CreateThread(function()
         while true do
-            local wait = 7
+            local wait = 0
             if activeLaser then
                 local color = {r = 255, g = 255, b = 255, a = 200}
                 local position = GetEntityCoords(PlayerPedId())
                 local hit, coords, entity = RayCastGamePlayCamera(1000.0)
                 local objectData = {}
 
-                DisableControlAction(0, 200)
-                DisableControlAction(0, 26)
+                DisableControlAction(0, 200, true)
+                DisableControlAction(0, 26, true)
 
                 if hit and (IsEntityAVehicle(entity) or IsEntityAPed(entity) or IsEntityAnObject(entity)) then
                     local entityCoord = GetEntityCoords(entity)
                     local heading = GetEntityHeading(entity)
                     local model = GetEntityModel(entity)
-                    local minimum, maximum = GetModelDimensions(model)
+                    --local minimum, maximum = GetModelDimensions(model)
                     DrawEntityBoundingBox(entity, color)
                     DrawLine(position.x, position.y, position.z, coords.x, coords.y, coords.z, color.r, color.g, color.b, color.a)
 
                     objectData.hash = model
                     objectData.name = ObjectList[model]
                     objectData.coords = ("vec4(%s, %s, %s, %s)"):format(entityCoord.x, entityCoord.y, entityCoord.z, heading)
-                    
+
                     if IsControlJustReleased(0, 38) then
                         SetEntityAsMissionEntity(entity, true, true)
                         DeleteEntity(entity)
+                        Wait(200)
+                        if DoesEntityExist(entity) then
+                            local netId = NetworkGetNetworkIdFromEntity(entity)
+                            TriggerServerEvent('ps-adminmenu:server:DeleteObj', netId)
+                        end
                     end
 
                     if IsDisabledControlJustReleased(0, 26) then
                         lib.setClipboard(json.encode(objectData, {indent = true}))
                     end
-                
+
                 elseif coords.x ~= 0.0 and coords.y ~= 0.0 then
                     DrawLine(position.x, position.y, position.z, coords.x, coords.y, coords.z, color.r, color.g, color.b, color.a)
-                    DrawMarker(28, coords.x, coords.y, coords.z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 0.1, 0.1, 0.1, color.r, color.g, color.b, color.a, false, true, 2, nil, nil, false)
+                    DrawMarker(28, coords.x, coords.y, coords.z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 0.1, 0.1, 0.1, color.r, color.g, color.b, color.a, false, true, 2, nil, nil, false, false)
                 end
 
                 if IsDisabledControlJustReleased(0, 200) then
                     activeLaser = not activeLaser
                 end
-                
+
                 SendNUIMessage({
                     action = "showEntityInfo",
                     data = {
                         show = true,
                         hash = objectData.hash or "",
-                        name = objectData.name or "",
+                        name = objectData.name or GetDisplayNameFromVehicleModel(objectData.hash) or "Unknown",
                     }
                 })
             else
-                local wait = 500
+                wait = 500
                 SendNUIMessage({
                     action = "showEntityInfo",
                     data = {
