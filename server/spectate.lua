@@ -6,7 +6,7 @@ RegisterNetEvent('ps-adminmenu:server:SpectateTarget', function(data, selectedDa
     local player = selectedData["Player"].value
 
     local type = "1"
-    if player == source then return QBCore.Functions.Notify(source, locale("cant_spectate_yourself"), 'error', 7500) end
+    if player == source then return TriggerClientEvent('esx:showNotification', source, _U("cant_spectate_yourself"), 'error', 7500) end
     if spectating[source] then type = "0" end
     TriggerEvent('ps-adminmenu:spectate', player, type == "1", source, data.perms)
     CheckRoutingbucket(source, player)
