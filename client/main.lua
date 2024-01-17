@@ -1,13 +1,12 @@
-QBCore = exports['qb-core']:GetCoreObject()
 PlayerData = {}
 
--- Functions
 local function setupMenu()
-	Wait(500)
-	PlayerData = QBCore.Functions.GetPlayerData()
+	Wait(1000)
+	PlayerData = ESX.PlayerData
 	local resources = lib.callback.await('ps-adminmenu:callback:GetResources', false)
 	local commands = lib.callback.await('ps-adminmenu:callback:GetCommands', false)
 	GetData()
+	Wait(1000)
 	SendNUIMessage({
 		action = "setupUI",
 		data = {
@@ -20,14 +19,17 @@ local function setupMenu()
 end
 
 -- Event Handlers
-AddEventHandler("QBCore:Client:OnPlayerLoaded", function()
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded',function(xPlayer)
+	ESX.PlayerData = xPlayer
 	setupMenu()
 end)
 
 AddEventHandler("onResourceStart", function(resourceName)
-	if (GetCurrentResourceName() == resourceName) then
-		setupMenu()
+	if (GetCurrentResourceName() ~= resourceName) then
+		return
 	end
+	setupMenu()
 end)
 
 -- NUICallbacks
@@ -43,16 +45,18 @@ RegisterNUICallback("clickButton", function(data)
 
 	if data.type == "client" then
 		TriggerEvent(data.event, key, selectedData)
+		print(data.event)
 	elseif data.type == "server" then
 		TriggerServerEvent(data.event, key, selectedData)
+		print(data.event)
 	elseif data.type == "command" then
 		ExecuteCommand(data.event)
 	end
 
 	Log("Action Used",
-		PlayerData.name ..
+	PlayerData.name ..
 		" (" ..
-		PlayerData.citizenid ..
+		PlayerData.identifier ..
 		") - Used: " .. data.label .. (selectedData and (" with args: " .. json.encode(selectedData)) or ""))
 end)
 
