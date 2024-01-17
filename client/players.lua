@@ -8,7 +8,7 @@ local currentPlayers = {}
 
 -- Function to remove all names and Blips
 local function removeNameAndBlips()
-    if DoesBlipExist(Blip) then
+    if Blip and DoesBlipExist(Blip) then
         RemoveBlip(Blip)
     end
     if Tag then
@@ -26,12 +26,12 @@ local function ToggleBlipsAndNames(isBlips)
         ShowBlips = not ShowBlips
         NetCheck1 = ShowBlips
         local message = ShowBlips and "blips_activated" or "blips_deactivated"
-        QBCore.Functions.Notify(locale(message), ShowBlips and "success" or "error")
+        ESX.ShowNotification(_U((message), ShowBlips and "success" or "error"))
     else
         ShowNames = not ShowNames
         NetCheck2 = ShowNames
         local message = ShowNames and "names_activated" or "names_deactivated"
-        QBCore.Functions.Notify(locale(message), ShowNames and "success" or "error")
+        ESX.ShowNotification(_U((message), ShowNames and "success" or "error"))
     end
     if not ShowNames or not ShowBlips then
         removeNameAndBlips()
@@ -65,7 +65,7 @@ local function UpdateBlipsAndNames(players)
         local name = 'ID: ' .. player.id .. ' | ' .. player.name
         Blip = GetBlipFromEntity(ped)
 
-        Tag = CreateFakeMpGamerTag(ped, name, false, false, "", false)
+        Tag = CreateFakeMpGamerTag(ped, name, false, false, "", 0)
         SetMpGamerTagAlpha(Tag, 0, 255)
         SetMpGamerTagAlpha(Tag, 2, 255)
         SetMpGamerTagAlpha(Tag, 4, 255)
@@ -120,9 +120,7 @@ local function UpdateBlipsAndNames(players)
                     SetBlipScale(Blip, 0.85)
 
                     local distance = math.floor(Vdist(playerCoords.x, playerCoords.y, playerCoords.z,
-                                GetEntityCoords(ped, true).x, GetEntityCoords(ped, true).y, GetEntityCoords(ped, true).z) /
-                            -1) +
-                        900
+                    GetEntityCoords(ped, true).x, GetEntityCoords(ped, true).y, GetEntityCoords(ped, true).z) /-1) + 900
                     distance = math.max(0, math.min(255, distance))
                     SetBlipAlpha(Blip, distance)
                 else
@@ -174,9 +172,4 @@ CreateThread(function()
             UpdateBlipsAndNames(currentPlayers)
         end
     end
-end)
-
--- Remove Stress
-RegisterNetEvent('ps-adminmenu:client:removeStress', function(data)
-    TriggerServerEvent('hud:server:RelieveStress', 100)
 end)
