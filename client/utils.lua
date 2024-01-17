@@ -7,9 +7,41 @@ function ToggleUI(bool)
 	})
 end
 
+local function noPerms()
+    ESX.ShowNotification("You are not Admin or God.", 'error', 3000)
+end
+
+---@param perms string|table
+---@return boolean
+local function isAdmin(perms)
+    local myGroup = ESX.PlayerData.group
+    if myGroup == "superadmin" then return true end
+    if type(perms) == "table" then
+        for _,v in pairs(perms) do
+            if myGroup == v then
+                return true
+            end
+        end
+    else
+        return myGroup == perms
+    end
+    return false
+end
+
+---@param perms string|table
+local function checkPerms(perms)
+	local hasPerms = isAdmin(perms)
+
+    if not hasPerms then
+        return noPerms()
+    end
+
+    return hasPerms
+end
+
 --- @param perms table
 function CheckPerms(perms)
-	return lib.callback.await('ps-adminmenu:callback:CheckPerms', false, perms)
+	return checkPerms(perms)
 end
 
 function CheckDataFromKey(key)
@@ -49,5 +81,5 @@ end
 --- @param title string
 --- @param message string
 function Log(title, message)
-	TriggerServerEvent("qb-log:server:CreateLog", "ps-adminmenu", title, "red", message)
+	--TriggerServerEvent("qb-log:server:CreateLog", "ps-adminmenu", title, "red", message)
 end
