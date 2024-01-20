@@ -77,7 +77,7 @@ RegisterNUICallback("setResourceState", function(data, cb)
 end)
 
 -- Get players
-RegisterNUICallback("getPlayers", function(data, cb)
+RegisterNUICallback("getPlayers", function(_, cb)
 	local players = lib.callback.await('ps-adminmenu:callback:GetPlayers', false)
 	print(json.encode(players))
 	cb(players)
