@@ -1,16 +1,16 @@
 local PedList = require "data.ped"
 
--- Returns a list of vehicles from QBCore.Shared.Vehicles
+-- Returns a list of vehicles from ESX vehicles
 local function GetVehicles()
     local vehicles = {}
     local res = lib.callback.await('ps-adminmenu:callback:GetVehicles', false)
-    for _,v in pairs(res) do
-        vehicles[#vehicles + 1] = { label = v.name, value = v.model }
+    for i = 1, #res do
+        vehicles[#vehicles + 1] = { label = res[i].name, value = res[i].model }
     end
     return vehicles
 end
 
--- Returns a list of items from QBCore.Shared.Items
+-- Returns a list of items from ESX or OX
 local function GetItems()
     local items = {}
     local itemsData = {}
@@ -20,14 +20,13 @@ local function GetItems()
     else
         itemsData = lib.callback.await('ps-adminmenu:callback:GetESXItems', false)
     end
-
-    for n, v in pairs(itemsData) do
-        items[#items + 1] = {label = v.label, value = n}
+    for k,v in pairs(itemsData) do
+        items[#items + 1] = {label = v.label, value = k}
     end
     return items
 end
 
--- Returns a list of jobs from QBCore.Shared.Jobs
+-- Returns a list of jobs from ESX jobs
 local function GetJobs()
     local jobs = {}
 
