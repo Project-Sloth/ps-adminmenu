@@ -52,7 +52,6 @@ RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(data, selectedData
     local vehicle = CreateVehicle(hash, c.x, c.y, c.z, GetEntityHeading(cache.ped), true, false)
     TaskWarpPedIntoVehicle(cache.ped, vehicle, -1)
     exports[Config.Fuel]:SetFuel(vehicle, 100.0)
-    --TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
 end)
 
 -- Refuel Vehicle
