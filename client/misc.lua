@@ -157,15 +157,15 @@ end, false)
 --Toggle Dev
 local ToggleDev = false
 
-RegisterNetEvent('ps-adminmenu:client:ToggleDev', function(data)
-    local data = CheckDataFromKey(data)
+RegisterNetEvent('ps-adminmenu:client:ToggleDev', function(dataKey)
+    local data = CheckDataFromKey(dataKey)
     if not data or not CheckPerms(data.perms) then return end
 
     ToggleDev = not ToggleDev
 
-    TriggerEvent("qb-admin:client:ToggleDevmode")           -- toggle dev mode (ps-hud/qb-hud)
-    TriggerEvent('ps-adminmenu:client:ToggleCoords', data)  -- toggle Coords
-    TriggerEvent('ps-adminmenu:client:ToggleGodmode', data) -- Godmode
+    TriggerEvent("qb-admin:client:ToggleDevmode")              -- toggle dev mode (ps-hud/qb-hud)
+    TriggerEvent('ps-adminmenu:client:ToggleCoords', dataKey)  -- toggle Coords
+    TriggerEvent('ps-adminmenu:client:ToggleGodmode', dataKey) -- Godmode
 
     QBCore.Functions.Notify(locale("toggle_dev"), 'success')
 end)
