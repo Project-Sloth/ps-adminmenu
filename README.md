@@ -1,5 +1,5 @@
 # ps-adminmenu
-The Admin Menu crafted by [OK1ez](https://github.com/OK1ez) and our dedicated team is user-friendly and intuitive. We invite you to contribute by submitting new features through PRs. We're always eager to review and consider new features. Make sure you use our template when opening Issues or they will be auto closed. 
+The Admin Menu crafted by [OK1ez](https://github.com/OK1ez) and our dedicated team is user-friendly and intuitive. We invite you to contribute by submitting new features through PRs. We're always eager to review and consider new features. Make sure you use our template when opening Issues or they will be auto closed.
 
 ## Unofficial ESX Version
 Made by Avilchiis for the community, you can download it [here](https://github.com/avilchiis/ps-adminmenu). **WE DO NOT PROVIDE SUPPORT FOR ESX VERSION, DO NOT ASK YOU'LL BE IGNORED.**
@@ -16,18 +16,19 @@ Made by Avilchiis for the community, you can download it [here](https://github.c
 # Change Language.
 - Place this `setr ox:locale en` inside your `server.cfg`
 - Change the `en` to your desired language!
-  
+
 **Supported Languages:**
-| **Alias**     | **Language Names** |
-|--------------|---------------|
-|en      |English    |
-|fr      |French    |
-|id      |Indonesia    |
-|pt-br      |Brazilian Portuguese    |
-|tr      |Turkish    |
-|es      |Spanish    |
-|nl      |Dutch    |
-|no      |Norwegian    |
+| **Alias** | **Language Names**   |
+| --------- | -------------------- |
+| en        | English              |
+| fr        | French               |
+| id        | Indonesia            |
+| pt-br     | Brazilian Portuguese |
+| tr        | Turkish              |
+| es        | Spanish              |
+| nl        | Dutch                |
+| no        | Norwegian            |
+| de        | German               |
 
 # Features
 * Admin Car
@@ -99,19 +100,19 @@ Made by Avilchiis for the community, you can download it [here](https://github.c
 * Toggle Names
 * Vehicle Dev Menu
 * Warn player
-  
+
 # Depedency
 1. [qb-core](https://github.com/qbcore-framework/qb-core)
-2. [ox_lib](https://github.com/overextended/ox_lib) 
+2. [ox_lib](https://github.com/overextended/ox_lib)
 
 # Installation
 1. Download the latest release.
 2. Add the files to your server resources.
-3. Ensure `ps-adminmenu` in your server cfg. Make sure ox_lib starts before ps-adminmenu.  
+3. Ensure `ps-adminmenu` in your server cfg. Make sure ox_lib starts before ps-adminmenu.
 4. Set the config in `shared/config.lua` to your needs.
 
 A community video has been made for setup instructions and showcase, you can find it [here](https://www.youtube.com/watch?v=aez5RIi8db8&ab_channel=Kamaryn)
-   
+
 ## Permissions
 Make sure you've correctly configured player permissions in your server.cfg by using ACE permissions with the appropriate identifier. Otherwise, you'll be unable to access or launch the admin menu. Here's a sample configuration where the player, MonkeyWhisper, is assigned god, admin, and mod roles, you should not have all 3 permissions for a single person. For a deeper understanding of how QBCore manages permissions, refer to [this documentation.](https://docs.qbcore.org/qbcore-documentation/guides/setting-permissions)
 
@@ -125,7 +126,7 @@ add_principal identifier.fivem:565139 qbcore.mod # MonkeyWhisper
 
 ## Setting Up Logs
 1. Set up a Discord Webhook for the channel you want the logs to be.
-2. Add this to `qb-smallresource/server/logs.lua` - 
+2. Add this to `qb-smallresource/server/logs.lua` -
 `['ps-adminmenu'] = 'discord webhook'`
 3. Replace the place holder with your webhook link.
 
