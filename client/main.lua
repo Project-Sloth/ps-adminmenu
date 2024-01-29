@@ -50,10 +50,10 @@ RegisterNUICallback("clickButton", function(data)
 	end
 
 	Log("Action Used: " .. key,
-        PlayerData.name ..
-        " (" ..
-        PlayerData.citizenid ..
-        ") - Used: " .. key .. (selectedData and (" with args: " .. json.encode(selectedData)) or ""))
+            PlayerData.name ..
+            " (" ..
+            PlayerData.citizenid ..
+            ") - Used: " .. key .. (selectedData and (" with args: " .. json.encode(selectedData)) or ""))
 end)
 
 -- Open UI Event
