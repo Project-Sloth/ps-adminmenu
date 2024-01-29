@@ -49,11 +49,11 @@ RegisterNUICallback("clickButton", function(data)
 		ExecuteCommand(data.event)
 	end
 
-	Log("Action Used",
-		PlayerData.name ..
-		" (" ..
-		PlayerData.citizenid ..
-		") - Used: " .. data.label .. (selectedData and (" with args: " .. json.encode(selectedData)) or ""))
+	Log("Action Used: " .. key,
+        PlayerData.name ..
+        " (" ..
+        PlayerData.citizenid ..
+        ") - Used: " .. key .. (selectedData and (" with args: " .. json.encode(selectedData)) or ""))
 end)
 
 -- Open UI Event
@@ -75,6 +75,5 @@ end)
 -- Get players
 RegisterNUICallback("getPlayers", function(data, cb)
 	local players = lib.callback.await('ps-adminmenu:callback:GetPlayers', false)
-	print(json.encode(players))
 	cb(players)
 end)
