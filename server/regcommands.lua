@@ -15,7 +15,7 @@ local function isCommandBlacklisted(commandName)
 end
 
 lib.callback.register('ps-adminmenu:callback:GetCommands', function()
-    if not CheckPerms(Config.ShowCommandsPerms) then return {} end
+    if not CheckPerms(source, Config.ShowCommandsPerms) then return {} end
 
     local allCommands = GetRegisteredCommands()
 
