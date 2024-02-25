@@ -1,7 +1,7 @@
 -- Ban Player
 RegisterNetEvent('ps-adminmenu:server:BanPlayer', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
 
     local player = selectedData["Player"].value
     local reason = selectedData["Reason"].value or ""
@@ -34,7 +34,7 @@ end)
 -- Warn Player
 RegisterNetEvent('ps-adminmenu:server:WarnPlayer', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
     local targetId = selectedData["Player"].value
     local target = QBCore.Functions.GetPlayer(targetId)
     local reason = selectedData["Reason"].value
@@ -59,7 +59,7 @@ end)
 
 RegisterNetEvent('ps-adminmenu:server:KickPlayer', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
     local src = source
     local target = QBCore.Functions.GetPlayer(selectedData["Player"].value)
     local reason = selectedData["Reason"].value
@@ -75,7 +75,7 @@ end)
 -- Revive Player
 RegisterNetEvent('ps-adminmenu:server:Revive', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
     local player = selectedData["Player"].value
 
     TriggerClientEvent('hospital:client:Revive', player)
@@ -84,7 +84,7 @@ end)
 -- Revive All
 RegisterNetEvent('ps-adminmenu:server:ReviveAll', function(data)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
 
     TriggerClientEvent('hospital:client:Revive', -1)
 end)
@@ -92,7 +92,7 @@ end)
 -- Revive Radius
 RegisterNetEvent('ps-adminmenu:server:ReviveRadius', function(data)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
 
     local src = source
     local ped = GetPlayerPed(src)
@@ -113,7 +113,7 @@ end)
 -- Set RoutingBucket
 RegisterNetEvent('ps-adminmenu:server:SetBucket', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
 
     local src = source
     local player = selectedData["Player"].value
@@ -131,7 +131,7 @@ end)
 -- Get RoutingBucket
 RegisterNetEvent('ps-adminmenu:server:GetBucket', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
 
     local src = source
     local player = selectedData["Player"].value
@@ -143,7 +143,7 @@ end)
 -- Give Money
 RegisterNetEvent('ps-adminmenu:server:GiveMoney', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
 
     local src = source
     local target, amount, moneyType = selectedData["Player"].value, selectedData["Amount"].value,
@@ -163,7 +163,7 @@ end)
 -- Give Money to all
 RegisterNetEvent('ps-adminmenu:server:GiveMoneyAll', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
 
     local src = source
     local amount, moneyType = selectedData["Amount"].value, selectedData["Type"].value
@@ -180,7 +180,7 @@ end)
 -- Take Money
 RegisterNetEvent('ps-adminmenu:server:TakeMoney', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
 
     local src = source
     local target, amount, moneyType = selectedData["Player"].value, selectedData["Amount"].value,
@@ -206,7 +206,7 @@ end)
 local Blackout = false
 RegisterNetEvent('ps-adminmenu:server:ToggleBlackout', function(data)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
     Blackout = not Blackout
 
     local src = source
@@ -225,7 +225,7 @@ end)
 -- Toggle Cuffs
 RegisterNetEvent('ps-adminmenu:server:CuffPlayer', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
 
     local target = selectedData["Player"].value
 
@@ -236,7 +236,7 @@ end)
 -- Give Clothing Menu
 RegisterNetEvent('ps-adminmenu:server:ClothingMenu', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
 
     local src = source
     local target = tonumber(selectedData["Player"].value)
@@ -256,7 +256,7 @@ end)
 RegisterNetEvent("ps-adminmenu:server:setPed", function(data, selectedData)
     local src = source
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then
+    if not data or not CheckPerms(source, data.perms) then
         QBCore.Functions.Notify(src, locale("no_perms"), "error", 5000)
         return
     end
