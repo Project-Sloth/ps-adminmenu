@@ -3,9 +3,8 @@ local function noPerms(source)
 end
 
 --- @param perms string
-function CheckPerms(perms)
+function CheckPerms(source, perms)
     local hasPerms = QBCore.Functions.HasPermission(source, perms)
-
     if not hasPerms then
         return noPerms(source)
     end
@@ -57,7 +56,7 @@ function CheckAlreadyPlate(plate)
 end
 
 lib.callback.register('ps-adminmenu:callback:CheckPerms', function(source, perms)
-    return CheckPerms(perms)
+    return CheckPerms(source, perms)
 end)
 
 lib.callback.register('ps-adminmenu:callback:CheckAlreadyPlate', function(_, vPlate)
