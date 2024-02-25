@@ -61,7 +61,7 @@ end)
 -- Set Job
 RegisterNetEvent('ps-adminmenu:server:SetJob', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
     local src = source
     local playerId, Job, Grade = selectedData["Player"].value, selectedData["Job"].value, selectedData["Grade"].value
     local Player = QBCore.Functions.GetPlayer(playerId)
@@ -90,7 +90,7 @@ end)
 -- Set Gang
 RegisterNetEvent('ps-adminmenu:server:SetGang', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
     local src = source
     local playerId, Gang, Grade = selectedData["Player"].value, selectedData["Gang"].value, selectedData["Grade"].value
     local Player = QBCore.Functions.GetPlayer(playerId)
@@ -115,7 +115,7 @@ end)
 -- Set Perms
 RegisterNetEvent("ps-adminmenu:server:SetPerms", function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
     local src = source
     local rank = selectedData["Permissions"].value
     local targetId = selectedData["Player"].value
@@ -135,7 +135,7 @@ end)
 -- Remove Stress
 RegisterNetEvent("ps-adminmenu:server:RemoveStress", function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
     local src = source
     local targetId = selectedData['Player (Optional)'] and tonumber(selectedData['Player (Optional)'].value) or src
     local tPlayer = QBCore.Functions.GetPlayer(tonumber(targetId))
