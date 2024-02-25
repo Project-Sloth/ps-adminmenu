@@ -2,7 +2,7 @@ local spectating = {}
 
 RegisterNetEvent('ps-adminmenu:server:SpectateTarget', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
     local player = selectedData["Player"].value
 
     local type = "1"

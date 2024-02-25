@@ -25,7 +25,7 @@ end)
 -- Clear Inventory Offline
 RegisterNetEvent('ps-adminmenu:server:ClearInventoryOffline', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
 
     local src = source
     local citizenId = selectedData["Citizen ID"].value
@@ -72,7 +72,7 @@ end)
 -- Give Item
 RegisterNetEvent('ps-adminmenu:server:GiveItem', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
 
     local target = selectedData["Player"].value
     local item = selectedData["Item"].value
@@ -93,7 +93,7 @@ end)
 -- Give Item to All
 RegisterNetEvent('ps-adminmenu:server:GiveItemAll', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
 
     local item = selectedData["Item"].value
     local amount = selectedData["Amount"].value

@@ -27,7 +27,7 @@ RegisterNetEvent("ps-adminmenu:server:givecar", function(data, selectedData)
     local src = source
 
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then
+    if not data or not CheckPerms(source, data.perms) then
         QBCore.Functions.Notify(src, locale("no_perms"), "error", 5000)
         return
     end
@@ -92,7 +92,7 @@ RegisterNetEvent("ps-adminmenu:server:SetVehicleState", function(data, selectedD
     local src = source
 
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then
+    if not data or not CheckPerms(source, data.perms) then
         QBCore.Functions.Notify(src, locale("no_perms"), "error", 5000)
         return
     end
@@ -137,7 +137,7 @@ end)
 -- Fix Vehicle for player
 RegisterNetEvent('ps-adminmenu:server:FixVehFor', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
     local src = source
     local playerId = selectedData['Player'].value
     local Player = QBCore.Functions.GetPlayer(tonumber(playerId))

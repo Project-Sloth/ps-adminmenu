@@ -2,7 +2,7 @@
 local frozen = false
 RegisterNetEvent('ps-adminmenu:server:FreezePlayer', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
     local src = source
 
     local target = selectedData["Player"].value
@@ -31,7 +31,7 @@ end)
 -- Drunk Player
 RegisterNetEvent('ps-adminmenu:server:DrunkPlayer', function(data, selectedData)
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(data.perms) then return end
+    if not data or not CheckPerms(source, data.perms) then return end
 
     local src = source
     local target = selectedData["Player"].value
