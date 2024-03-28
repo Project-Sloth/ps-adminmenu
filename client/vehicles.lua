@@ -43,7 +43,15 @@ RegisterNetEvent('ps-adminmenu:client:SpawnVehicle', function(data, selectedData
 
     local vehicle = CreateVehicle(hash, GetEntityCoords(cache.ped), GetEntityHeading(cache.ped), true, false)
     TaskWarpPedIntoVehicle(cache.ped, vehicle, -1)
-    exports[Config.Fuel]:SetFuel(vehicle, 100.0)
+    
+    Wait(100)
+
+    if Config.Fuel == "ox_fuel" then
+        Entity(vehicle).state.fuel = 100.0
+    else
+        exports[Config.Fuel]:SetFuel(vehicle, 100.0)
+    end
+    
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
 end)
 
@@ -53,7 +61,11 @@ RegisterNetEvent('ps-adminmenu:client:RefuelVehicle', function(data)
     if not data or not CheckPerms(data.perms) then return end
 
     if cache.vehicle then
-        exports[Config.Fuel]:SetFuel(cache.vehicle, 100.0)
+        if Config.Fuel == "ox_fuel" then
+            Entity(cache.vehicle).state.fuel = 100.0
+        else
+            exports[Config.Fuel]:SetFuel(cache.vehicle, 100.0)
+        end
         QBCore.Functions.Notify(locale("refueled_vehicle"), 'success')
     else
         QBCore.Functions.Notify(locale("not_in_vehicle"), 'error')
@@ -180,7 +192,13 @@ RegisterNetEvent("ps-adminmenu:client:SpawnPersonalVehicle", function(data, sele
         Wait(100)
         QBCore.Functions.SetVehicleProperties(veh, props)
         SetVehicleNumberPlateText(veh, plate)
-        exports[Config.Fuel]:SetFuel(veh, 100.0)
+        
+        if Config.Fuel == "ox_fuel" then
+            Entity(veh).state.fuel = 100.0
+        else
+            exports[Config.Fuel]:SetFuel(veh, 100.0)
+        end
+
         TriggerEvent("vehiclekeys:client:SetOwner", plate)
         TriggerEvent('iens:repaira', ped)
         TriggerEvent('vehiclemod:client:fixEverything', ped)
