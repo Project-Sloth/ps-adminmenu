@@ -1,15 +1,13 @@
 <script>
 	import { PLAYER_VEHICLES, SELECTED_PLAYER } from '@store/players'
 	import { MENU_WIDE } from '@store/stores'
-	import { SendNUI } from '@utils/SendNUI'
 
 	export let player
 
 	async function SelectPlayer(player) {
 		SELECTED_PLAYER.set(player)
 		MENU_WIDE.set(true)
-		const vehicles = await SendNUI('getVehicle', { cid: $SELECTED_PLAYER.cid });
-		PLAYER_VEHICLES.set(vehicles);
+		PLAYER_VEHICLES.set(player.vehicles);
 	}
 </script>
 
