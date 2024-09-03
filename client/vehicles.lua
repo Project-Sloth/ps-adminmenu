@@ -72,6 +72,33 @@ RegisterNetEvent('ps-adminmenu:client:RefuelVehicle', function(data)
     end
 end)
 
+-- Fix Vehicle
+local PERFORMANCE_MOD_INDICES = { 11, 12, 13, 15, 16 }
+local function UpgradePerformance(vehicle)
+    SetVehicleModKit(vehicle, 0)
+    ToggleVehicleMod(vehicle, 18, false)
+    SetVehicleFixed(vehicle)
+
+    for _, modType in ipairs(PERFORMANCE_MOD_INDICES) do
+        local maxMod = GetNumVehicleMods(vehicle, modType) - 1
+        SetVehicleMod(vehicle, modType, maxMod, customWheels)
+    end
+
+    QBCore.Functions.Notify(locale("vehicle_max_modded"), 'success', 7500)
+end
+
+
+RegisterNetEvent('ps-adminmenu:client:maxmodVehicle', function(data)
+    local data = CheckDataFromKey(data)
+    if not data or not CheckPerms(data.perms) then return end
+
+    if cache.vehicle then
+        UpgradePerformance(cache.vehicle)
+    else
+        QBCore.Functions.Notify(locale("vehicle_not_driver"), 'error', 7500)
+    end
+end)
+
 -- Change plate
 RegisterNetEvent('ps-adminmenu:client:ChangePlate', function(data, selectedData)
     local data = CheckDataFromKey(data)
