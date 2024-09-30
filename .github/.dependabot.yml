@@ -1,0 +1,12 @@
+version: 2
+updates:
+    - package-ecosystem: 'npm'
+      directory: '/nui/src/'
+      schedule:
+          interval: 'weekly'
+      versioning-strategy: 'increase-when-necessary'
+      open-pull-requests-limit: 3
+      ignore:
+          - dependency-name: '*'
+            update-types:
+                ['version-update:semver-major', 'version-update:semver-patch']
