@@ -4,6 +4,10 @@ updates:
       directory: '/ui/'
       schedule:
           interval: 'weekly'
+      groups:
+        all-dependencies:
+          patterns:
+            - "*"
       versioning-strategy: 'increase-if-necessary'
       open-pull-requests-limit: 3
       ignore:
