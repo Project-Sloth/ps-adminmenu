@@ -3,7 +3,7 @@ updates:
     - package-ecosystem: 'npm'
       directory: '/ui/'
       schedule:
-          interval: 'weekly'
+          interval: 'monthly'
       groups:
         all-dependencies:
           patterns:
