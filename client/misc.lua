@@ -131,7 +131,7 @@ RegisterNetEvent('ps-adminmenu:client:SetAmmo', function(data, selectedData)
     local data = CheckDataFromKey(data)
     if not data or not CheckPerms(data.perms) then return end
 
-    local ammo = selectedData["Ammo Ammount"].value
+    local ammo = selectedData["Ammo Amount"].value
     local weapon = GetSelectedPedWeapon(cache.ped)
 
     if weapon ~= nil then
