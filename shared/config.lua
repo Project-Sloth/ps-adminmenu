@@ -207,7 +207,7 @@ Config.Actions = {
         label = "Set Ammo",
         perms = "admin",
         dropdown = {
-            { label = "Ammo Ammount", option = "text" },
+            { label = "Ammo Amount", option = "text" },
             { label = "Confirm",      option = "button", type = "client", event = "ps-adminmenu:client:SetAmmo" },
         },
     },
