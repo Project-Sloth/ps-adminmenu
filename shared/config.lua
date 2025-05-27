@@ -707,15 +707,12 @@ Config.OtherActions = {
     }
 }
 
-AddEventHandler("onResourceStart", function()
-    Wait(100)
-    if GetResourceState('ox_inventory') == 'started' then
-        Config.Inventory = 'ox_inventory'
-    elseif GetResourceState('ps-inventory') == 'started' then
-        Config.Inventory = 'ps-inventory'
-    elseif GetResourceState('lj-inventory') == 'started' then
-        Config.Inventory = 'lj-inventory'
-    elseif GetResourceState('qb-inventory') == 'started' then
-        Config.Inventory = 'qb-inventory'
-    end
-end)
+if GetResourceState('ox_inventory') == 'started' then
+    Config.Inventory = 'ox_inventory'
+elseif GetResourceState('ps-inventory') == 'started' then
+    Config.Inventory = 'ps-inventory'
+elseif GetResourceState('lj-inventory') == 'started' then
+    Config.Inventory = 'lj-inventory'
+elseif GetResourceState('qb-inventory') == 'started' then
+    Config.Inventory = 'qb-inventory'
+end
