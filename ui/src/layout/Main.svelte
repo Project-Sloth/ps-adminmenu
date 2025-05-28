@@ -8,6 +8,14 @@
 	import StaffChat from '@pages/Chat/Chat.svelte'
 	import Players from '@pages/Players/Players.svelte'
 	import Commands from '@pages/Commands/Commands.svelte'
+	import { onMount } from 'svelte'
+	import { SendNUI } from '@utils/SendNUI'
+	import { PLAYER } from '@store/players'
+
+	onMount(async () => {
+		const players = await SendNUI('getPlayers')
+		PLAYER.set(players)
+	})
 </script>
 
 <div
