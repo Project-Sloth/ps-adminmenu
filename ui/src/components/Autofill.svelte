@@ -38,7 +38,7 @@
         }
         searchInputFocused = false;
     }
-    
+
     async function GetPlayers() {
         const players = await SendNUI("getPlayers");
         PLAYER.set(players);
@@ -53,19 +53,19 @@
 
 <div class="w-[22vh] flex flex-col bg-secondary rounded-[0.5vh] border-[0.1vh] border-primary">
     <div class="w-full h-[3.8vh] px-[1vh] flex justify-between items-center">
-        <input 
-            type="text" 
-            placeholder={label_title} 
+        <input
+            type="text"
+            placeholder={label_title}
             on:focus={handleInputFocus}
             on:blur={handleInputBlur}
             bind:value={search}
-            class="h-full w-[90%] bg-transparent" 
+            class="h-full w-[90%] bg-transparent"
         />
         <i class="fas fa-angle-{DataDropdownActive ? "down" : "right"} text-[1.2vh]"></i>
     </div>
 
     {#if DataDropdownActive}
-        <button 
+        <button
             class="w-full rounded-b-[0.5vh] flex flex-col max-h-[15vh] overflow-y-auto border-t border-primary scroll-visible"
             on:mouseenter={() => { searchInputFocused = true }}
             on:blur={() => { searchInputFocused = false }}
@@ -73,9 +73,9 @@
         >
             {#if data === "players"}
                 {#each $PLAYER.filter(i => i.name.toLowerCase().includes(search.toLowerCase())) as i}
-                    <button 
+                    <button
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
-                        on:click={() => 
+                        on:click={() =>
                             selectData(i.name, i.id)
                         }
                     >
@@ -85,7 +85,7 @@
                 {/each}
             {:else if data === "vehicles"}
                 {#each $VEHICLE_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
-                    <button 
+                    <button
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
                         on:click={() => selectData(i.label, i.value)}
                     >
@@ -95,7 +95,7 @@
                 {/each}
             {:else if data === "items"}
                 {#each $ITEM_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
-                    <button 
+                    <button
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
                         on:click={() => selectData(i.label, i.value)}
                     >
@@ -105,7 +105,7 @@
                 {/each}
             {:else if data === "jobs"}
                 {#each $JOB_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
-                    <button 
+                    <button
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
                         on:click={() => selectData(i.label, i.value)}
                     >
@@ -115,7 +115,7 @@
                 {/each}
             {:else if data === "gangs"}
                 {#each $GANG_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
-                    <button 
+                    <button
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
                         on:click={() => selectData(i.label, i.value)}
                     >
@@ -124,18 +124,17 @@
                     </button>
                 {/each}
             {:else if data === "locations"}
-                {#each $LOCATION_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
-                    <button 
+                {#each $LOCATION_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase())) as i}
+                    <button
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
                         on:click={() => selectData(i.label, i.value)}
                     >
                         <p>{i.label}</p>
-                        <p>({i.value})</p>
                     </button>
                 {/each}
             {:else if data === "pedlist"}
                 {#each $PED_LIST.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
-                    <button 
+                    <button
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
                         on:click={() => selectData(i.label, i.value)}
                     >
@@ -145,7 +144,7 @@
                 {/each}
             {:else}
                 {#each data.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
-                    <button 
+                    <button
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
                         on:click={() => selectData(i.label, i.value)}
                     >

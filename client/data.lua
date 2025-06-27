@@ -63,9 +63,15 @@ end
 
 -- Returns a list of locations from QBCore.Shared.Loactions
 local function GetLocations()
-    local locations = {}
+    local LocationList
+    if GetResourceState('qb-core') == 'started' then
+        LocationList = QBCore.Shared.Locations
+    else
+        LocationList = require "data.locations"
+    end
 
-    for name, v in pairs(QBCore.Shared.Locations) do
+    local locations = {}
+    for name, v in pairs(LocationList) do
         locations[#locations + 1] = { label = name, value = v }
     end
 

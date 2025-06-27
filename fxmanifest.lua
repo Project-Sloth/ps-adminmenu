@@ -3,7 +3,7 @@ fx_version 'cerulean'
 game "gta5"
 
 author "Project Sloth & OK1ez"
-version '1.1.6'
+version '1.1.7'
 description 'Admin Menu'
 repository 'https://github.com/Project-Sloth/ps-adminmenu'
 
@@ -30,6 +30,8 @@ files {
   'html/**',
   'data/ped.lua',
   'data/object.lua',
+  'data/locations.lua',
+
   'locales/*.json',
 }
 
