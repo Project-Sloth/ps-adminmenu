@@ -77,8 +77,11 @@ RegisterNetEvent('ps-adminmenu:server:Revive', function(data, selectedData)
     local data = CheckDataFromKey(data)
     if not data or not CheckPerms(source, data.perms) then return end
     local player = selectedData["Player"].value
-
-    TriggerClientEvent('hospital:client:Revive', player)
+    if GetResourceState('qbx_medical') == 'started' then
+        exports.qbx_medical:Revive(player)
+    else
+        TriggerClientEvent('hospital:client:Revive', player)
+    end
 end)
 
 -- Revive All
@@ -86,7 +89,11 @@ RegisterNetEvent('ps-adminmenu:server:ReviveAll', function(data)
     local data = CheckDataFromKey(data)
     if not data or not CheckPerms(source, data.perms) then return end
 
-    TriggerClientEvent('hospital:client:Revive', -1)
+    if GetResourceState('qbx_medical') == 'started' then
+        exports.qbx_medical:Revive(-1)
+    else
+        TriggerClientEvent('hospital:client:Revive', -1)
+    end
 end)
 
 -- Revive Radius
@@ -105,7 +112,11 @@ RegisterNetEvent('ps-adminmenu:server:ReviveRadius', function(data)
         local dist = #(pos - targetPos)
 
         if dist < 15.0 then
-            TriggerClientEvent("hospital:client:Revive", v)
+            if GetResourceState('qbx_medical') == 'started' then
+                exports.qbx_medical:Revive(v)
+            else
+                TriggerClientEvent('hospital:client:Revive', v)
+            end
         end
     end
 end)
