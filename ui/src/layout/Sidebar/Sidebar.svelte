@@ -9,6 +9,7 @@
 		{ value: 'Server', icon: 'fas fa-server' },
 		{ value: 'Commands', icon: 'fas fa-slash' },
 		{ value: 'Actions', icon: 'fas fa-wand-magic-sparkles' },
+		{ value: 'Livemap', icon: 'fas fa-map-location-dot' },
 	]
 </script>
 
