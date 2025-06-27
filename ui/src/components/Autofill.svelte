@@ -124,13 +124,12 @@
                     </button>
                 {/each}
             {:else if data === "locations"}
-                {#each $LOCATION_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase()) || i.value.toLowerCase().includes(search.toLowerCase())) as i}
-                    <button 
+                {#each $LOCATION_DATA.filter(i => i.label.toLowerCase().includes(search.toLowerCase())) as i}
+                    <button
                         class="w-full p-[0.5vh] flex justify-start text-start px-[1vh] gap-[0.5vh] hover:bg-tertiary"
                         on:click={() => selectData(i.label, i.value)}
                     >
                         <p>{i.label}</p>
-                        <p>({i.value})</p>
                     </button>
                 {/each}
             {:else if data === "pedlist"}
