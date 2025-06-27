@@ -31,7 +31,9 @@ local function getPlayers()
     for k, v in pairs(GetPlayers) do
         local playerData = v.PlayerData
         local vehicles = getVehicles(playerData.citizenid)
-
+        local coords = GetEntityCoords(GetPlayerPed(playerData.source))
+        local pos = { x = coords.x, y = coords.y, z = coords.z }
+        
         players[#players + 1] = {
             id = k,
             name = playerData.charinfo.firstname .. ' ' .. playerData.charinfo.lastname,
@@ -39,16 +41,17 @@ local function getPlayers()
             license = QBCore.Functions.GetIdentifier(k, 'license'),
             discord = QBCore.Functions.GetIdentifier(k, 'discord'),
             steam = QBCore.Functions.GetIdentifier(k, 'steam'),
+            fivem = QBCore.Functions.GetIdentifier(k, 'fivem'),
             job = playerData.job.label,
             grade = playerData.job.grade.level,
             dob = playerData.charinfo.birthdate,
             cash = playerData.money.cash,
             bank = playerData.money.bank,
             phone = playerData.charinfo.phone,
-            vehicles = vehicles
+            vehicles = vehicles,
+            pos = pos
         }
     end
-
     table.sort(players, function(a, b) return a.id < b.id end)
 
     return players
