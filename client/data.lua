@@ -1,4 +1,6 @@
 local PedList = require "data.ped"
+local LocationList = require "data.locations"
+
 
 -- Returns a list of vehicles from QBCore.Shared.Vehicles
 local function GetVehicles()
@@ -65,7 +67,7 @@ end
 local function GetLocations()
     local locations = {}
 
-    for name, v in pairs(QBCore.Shared.Locations) do
+    for name, v in pairs(LocationList) do
         locations[#locations + 1] = { label = name, value = v }
     end
 
