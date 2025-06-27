@@ -1,6 +1,4 @@
 local PedList = require "data.ped"
-local LocationList = require "data.locations"
-
 
 -- Returns a list of vehicles from QBCore.Shared.Vehicles
 local function GetVehicles()
@@ -65,8 +63,14 @@ end
 
 -- Returns a list of locations from QBCore.Shared.Loactions
 local function GetLocations()
-    local locations = {}
+    local LocationList
+    if GetResourceState('qb-core') == 'started' then
+        LocationList = QBCore.Shared.Locations
+    else
+        LocationList = require "data.locations"
+    end
 
+    local locations = {}
     for name, v in pairs(LocationList) do
         locations[#locations + 1] = { label = name, value = v }
     end
