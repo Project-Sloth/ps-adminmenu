@@ -8,6 +8,8 @@
 	import StaffChat from '@pages/Chat/Chat.svelte'
 	import Players from '@pages/Players/Players.svelte'
 	import Commands from '@pages/Commands/Commands.svelte'
+	import Livemap from '@pages/Livemap/Livemap.svelte'
+
 </script>
 
 <div
@@ -25,6 +27,8 @@
 			<Players />
 		{:else if $ACTIVE_PAGE == 'Commands'}
 			<Commands />
+		{:else if $ACTIVE_PAGE == 'Livemap'}
+			<Livemap />
 		{/if}
 	</div>
 </div>
