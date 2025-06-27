@@ -17,6 +17,7 @@ interface PLAYER_DATA {
     steam?: string;
     fivem?: string;
     vehicles?: PLAYER_VEHICLES[];
+    pos?: Position;
 }
 
 interface PLAYER_VEHICLES {
@@ -29,4 +30,10 @@ interface PLAYER_VEHICLES {
     fuel?: string;
     engine?: string;
     body?: string;
+}
+
+interface Position {
+    x: number;
+    y: number;
+    z: number;
 }
