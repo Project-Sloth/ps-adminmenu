@@ -137,7 +137,7 @@
 		const key = String(player.id);
 
 		const userIcon = L.divIcon({
-			html: '<i class="fas fa-circle-user" style="font-size:24px;color:#2e89ff;"></i>',
+			html: '<i class="fas fa-circle-user" style="font-size:24px;color:#23272f;"></i>',
 			className: 'custom-fa-icon',
 			iconSize: [32, 32],
 			iconAnchor: [16, 0],
@@ -146,15 +146,15 @@
 		const marker = L.marker([pos.y, pos.x], { icon: userIcon });
 		marker.bindPopup(`
 			<div>
-				<b style='font-size: 1.5rem; font-weight: bold;'>${player.name}</b>
-				<div style="margin-top: 10px; display: flex; gap: 8px; font-size: 1.2rem">
+				<b style='font-size: 1.5rem; font-weight: bold; text-align: center; color: #e0e0e0;'>${player.name}</b>
+				<div style="margin-top: 10px; display: flex; gap: 8px; font-size: 1.0rem; color: #e0e0e0;">
 					<button class="popup-action-btn" data-action="bring" data-id="${player.id}">Bring</button>
 					<button class="popup-action-btn" data-action="goto" data-id="${player.id}">Goto</button>
 					<button class="popup-action-btn" data-action="spectate" data-id="${player.id}">Spectate</button>
 				</div>
 			</div>
 		`, {
-			className: 'popup',
+			className: 'black-popup',
 			offset: [ 0, 5],
 		});
 
@@ -295,3 +295,11 @@
         />
     </div>
 {/if}
+<style>
+:global(.black-popup .leaflet-popup-content-wrapper) {
+	background: #181c23;
+}
+:global(.leaflet-popup-tip) {
+	background: #181c23;
+}
+</style>
