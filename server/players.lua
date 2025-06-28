@@ -33,7 +33,8 @@ local function getPlayers()
         local vehicles = getVehicles(playerData.citizenid)
         local coords = GetEntityCoords(GetPlayerPed(playerData.source))
         local pos = { x = coords.x, y = coords.y, z = coords.z }
-        
+
+
         players[#players + 1] = {
             id = k,
             name = playerData.charinfo.firstname .. ' ' .. playerData.charinfo.lastname,
@@ -52,15 +53,38 @@ local function getPlayers()
             pos = pos
         }
     end
+
+
     table.sort(players, function(a, b) return a.id < b.id end)
 
     return players
+end
+
+local function getPlayersPos()
+    local locations = {}
+    local GetPlayers = QBCore.Functions.GetQBPlayers()
+
+    for k, v in pairs(GetPlayers) do
+        local playerData = v.PlayerData
+        local coords = GetEntityCoords(GetPlayerPed(playerData.source))
+        local pos = { x = coords.x, y = coords.y, z = coords.z }
+        locations[#locations + 1] = {
+            id = k,
+            pos = pos
+        }
+    end
+
+    table.sort(locations, function(a, b) return a.id < b.id end)
+    return locations
 end
 
 lib.callback.register('ps-adminmenu:callback:GetPlayers', function(source)
     return getPlayers()
 end)
 
+lib.callback.register('ps-adminmenu:callback:GetPlayersPos', function(source)
+    return getPlayersPos()
+end)
 -- Set Job
 RegisterNetEvent('ps-adminmenu:server:SetJob', function(data, selectedData)
     local data = CheckDataFromKey(data)
