@@ -77,3 +77,9 @@ RegisterNUICallback("getPlayers", function(data, cb)
 	local players = lib.callback.await('ps-adminmenu:callback:GetPlayers', false)
 	cb(players)
 end)
+
+-- Get players pos
+RegisterNUICallback("getPlayersPos", function(data, cb)
+	local locations = lib.callback.await('ps-adminmenu:callback:GetPlayersPos', false)
+	cb(locations)
+end)
