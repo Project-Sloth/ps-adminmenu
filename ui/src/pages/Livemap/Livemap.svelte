@@ -21,6 +21,8 @@
     let map: L.Map | null = null;
     let markers: Record<string, L.Marker> = {};
     let playerPositions: Record<string, { x: number; y: number }> = {};
+	let followPlayer = false;
+
 
 	MENU_WIDE.subscribe(async (value) => {
 		if (!value) return;
@@ -147,7 +149,7 @@
 		marker.bindPopup(`
 			<div>
 				<b style='font-size: 1.5rem; font-weight: bold; text-align: center; color: #e0e0e0;'>${player.name}</b>
-				<div style="margin-top: 10px; display: flex; gap: 8px; font-size: 1.0rem; color: #e0e0e0;">
+				<div style="margin-top: 10px; display: flex; gap: 8px; font-size: 1.0rem; color: #e0e0e0; text-decoration: underline;">
 					<button class="popup-action-btn" data-action="bring" data-id="${player.id}">Bring</button>
 					<button class="popup-action-btn" data-action="goto" data-id="${player.id}">Goto</button>
 					<button class="popup-action-btn" data-action="spectate" data-id="${player.id}">Spectate</button>
@@ -155,7 +157,7 @@
 			</div>
 		`, {
 			className: 'black-popup',
-			offset: [ 0, 5],
+			offset: [ -3, 0 ],
 		});
 
 		marker.on('click', () => {
@@ -198,19 +200,21 @@
         if (map) updatePlayerMarkers();
     });
 
-    const unsubscribeSelected = SELECTED_PLAYER.subscribe((player) => {
-        if (
-            player &&
-            map &&
-            player.pos &&
-            typeof player.pos.x === 'number' &&
-            typeof player.pos.y === 'number' &&
-            markers[player.id]
-        ) {
-            map.setView([player.pos.y, player.pos.x], 5, { animate: true });
-            markers[player.id].openPopup();
-        }
-    });
+	const unsubscribeSelected = SELECTED_PLAYER.subscribe((player) => {
+		followPlayer = !!player;
+		if (
+			player &&
+			map &&
+			player.pos &&
+			typeof player.pos.x === 'number' &&
+			typeof player.pos.y === 'number' &&
+			markers[player.id]
+		) {
+			map.setView([player.pos.y, player.pos.x], 5, { animate: true });
+			markers[player.id].openPopup();
+		}
+	});
+
 
 	onMount(async () => {
 		MENU_WIDE.set(true);
@@ -236,9 +240,10 @@
 						typeof pos.pos.y === 'number'
 					) {
 						markers[key].setLatLng([pos.pos.y, pos.pos.x]);
-						// If this is the selected player, keep map centered on them
+						// Only follow if followPlayer is true and this is the selected player
 						const selected = get(SELECTED_PLAYER);
 						if (
+							followPlayer &&
 							selected &&
 							String(selected.id) === key &&
 							map
