@@ -171,6 +171,11 @@
 			handlePopupActions(popup);
 		});
 
+		marker.on('popupclose', () => {
+			followPlayer = false;
+			SELECTED_PLAYER.set(null);
+		});
+
 		marker.addTo(map);
 		markers[key] = marker;
 		return marker;
