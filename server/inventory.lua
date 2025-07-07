@@ -76,17 +76,22 @@ RegisterNetEvent('ps-adminmenu:server:GiveItem', function(data, selectedData)
 
     local target = selectedData["Player"].value
     local item = selectedData["Item"].value
-    local amount = selectedData["Amount"].value
+    local amount = tonumber(selectedData["Amount"].value)
     local Player = QBCore.Functions.GetPlayer(target)
 
-    if not item or not amount then return end
+    if not item or not amount or amount <= 0 then return end
     if not Player then
         return QBCore.Functions.Notify(source, locale("not_online"), 'error', 7500)
     end
 
-    Player.Functions.AddItem(item, amount)
+    if Config.Inventory == "ox_inventory" then
+        exports.ox_inventory:AddItem(target, item, amount)
+    elseif Config.Inventory == "qb-inventory" then
+        Player.Functions.AddItem(item, amount)
+    end
+
     QBCore.Functions.Notify(source,
-        locale("give_item", tonumber(amount) .. " " .. item,
+        locale("give_item", amount .. " " .. item,
             Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname), "success", 7500)
 end)
 
@@ -96,14 +101,21 @@ RegisterNetEvent('ps-adminmenu:server:GiveItemAll', function(data, selectedData)
     if not data or not CheckPerms(source, data.perms) then return end
 
     local item = selectedData["Item"].value
-    local amount = selectedData["Amount"].value
+    local amount = tonumber(selectedData["Amount"].value)
     local players = QBCore.Functions.GetPlayers()
 
-    if not item or not amount then return end
+    if not item or not amount or amount <= 0 then return end
 
     for _, id in pairs(players) do
-        local Player = QBCore.Functions.GetPlayer(id)
-        Player.Functions.AddItem(item, amount)
-        QBCore.Functions.Notify(source, locale("give_item_all", amount .. " " .. item), "success", 7500)
+        if Config.Inventory == "ox_inventory" then
+            exports.ox_inventory:AddItem(id, item, amount)
+        elseif Config.Inventory == "qb-inventory" then
+            local Player = QBCore.Functions.GetPlayer(id)
+            if Player then
+                Player.Functions.AddItem(item, amount)
+            end
+        end
     end
+
+    QBCore.Functions.Notify(source, locale("give_item_all", amount .. " " .. item), "success", 7500)
 end)

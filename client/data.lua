@@ -11,17 +11,30 @@ local function GetVehicles()
     return vehicles
 end
 
--- Returns a list of items from QBCore.Shared.Items
+-- Returns a list of items from ox_inventory or qb-inventory
 local function GetItems()
     local items = {}
-    local ItemsData = QBCore.Shared.Items
 
     if Config.Inventory == "ox_inventory" then
-        ItemsData = exports.ox_inventory:Items()
+        local ItemsData = exports.ox_inventory:Items()
+
+        for _, v in pairs(ItemsData) do
+            items[#items + 1] = {
+                label = v.label or v.name,
+                value = v.name
+            }
+        end
     end
 
-    for name, v in pairs(ItemsData) do
-        items[#items + 1] = { label = v.label, value = name }
+    if Config.Inventory == "qb-inventory" then
+        local ItemsData = QBCore.Shared.Items
+
+        for name, v in pairs(ItemsData) do
+            items[#items + 1] = {
+                label = v.label,
+                value = name
+            }
+        end
     end
 
     return items
