@@ -14,14 +14,25 @@ end
 -- Returns a list of items from QBCore.Shared.Items
 local function GetItems()
     local items = {}
-    local ItemsData = QBCore.Shared.Items
 
     if Config.Inventory == "ox_inventory" then
-        ItemsData = exports.ox_inventory:Items()
-    end
+        local ItemsData = exports.ox_inventory:Items()
 
-    for name, v in pairs(ItemsData) do
-        items[#items + 1] = { label = v.label, value = name }
+        for _, v in pairs(ItemsData) do
+            items[#items + 1] = {
+                label = v.label or v.name,
+                value = v.name
+            }
+        end
+    else
+        local ItemsData = QBCore.Shared.Items
+
+        for name, v in pairs(ItemsData) do
+            items[#items + 1] = {
+                label = v.label,
+                value = name
+            }
+        end
     end
 
     return items
