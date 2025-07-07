@@ -86,7 +86,7 @@ RegisterNetEvent('ps-adminmenu:server:GiveItem', function(data, selectedData)
 
     if Config.Inventory == "ox_inventory" then
         exports.ox_inventory:AddItem(target, item, amount)
-    else
+    elseif Config.Inventory == "qb-inventory" then
         Player.Functions.AddItem(item, amount)
     end
 
@@ -109,7 +109,7 @@ RegisterNetEvent('ps-adminmenu:server:GiveItemAll', function(data, selectedData)
     for _, id in pairs(players) do
         if Config.Inventory == "ox_inventory" then
             exports.ox_inventory:AddItem(id, item, amount)
-        else
+        elseif Config.Inventory == "qb-inventory" then
             local Player = QBCore.Functions.GetPlayer(id)
             if Player then
                 Player.Functions.AddItem(item, amount)
