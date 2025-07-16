@@ -20,7 +20,6 @@
     let mapInitialized = false;
     let map: L.Map | null = null;
     let markers: Record<string, L.Marker> = {};
-    let playerPositions: Record<string, { x: number; y: number }> = {};
 	let followPlayer = false;
 
 
@@ -266,6 +265,12 @@
         unsubscribeSelected();
         if (pollInterval) clearInterval(pollInterval);
     });
+
+	$: filteredPlayers = $PLAYER
+        ? $PLAYER.filter((player) =>
+            player.name.toLowerCase().includes(search.toLowerCase())
+        )
+        : [];
 </script>
 
 <div class="h-full w-[33vh] px-[2vh]">
@@ -277,23 +282,17 @@
     <div class="w-full h-[84%] flex flex-col gap-[1vh] mt-[1vh] overflow-auto">
         {#if loading}
             <Spinner />
-        {:else if $PLAYER}
-            {#if $PLAYER.filter((player) => player.name
-                    .toLowerCase()
-                    .includes(search.toLowerCase())).length === 0}
-                <div
-                    class="text-tertiary text-center text-[1.7vh] font-medium mt-[1vh]"
-                >
-                    No Player Found.
-                </div>
-            {:else}
-                {#each $PLAYER.filter((player) => player.name
-                        .toLowerCase()
-                        .includes(search.toLowerCase())) as player (player.id)}
-                    <Button {player} />
-                {/each}
-            {/if}
-        {/if}
+		{:else if $PLAYER}
+			{#if filteredPlayers.length === 0}
+				<div class="text-tertiary text-center text-[1.7vh] font-medium mt-[1vh]">
+					No Player Found.
+				</div>
+			{:else}
+				{#each filteredPlayers as player (player.id)}
+					<Button {player} />
+				{/each}
+			{/if}
+		{/if}
     </div>
 </div>
 
