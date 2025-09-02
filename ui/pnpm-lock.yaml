@@ -25,7 +25,7 @@ devDependencies:
     version: 3.8.6(postcss@8.5.6)(svelte@4.2.20)
   svelte-preprocess:
     specifier: ^5.0.4
-    version: 5.0.4(postcss@8.5.6)(svelte@4.2.20)(typescript@5.8.3)
+    version: 5.0.4(postcss@8.5.6)(svelte@4.2.20)(typescript@5.9.2)
   tailwindcss:
     specifier: ^3.3.3
     version: 3.4.17
@@ -34,7 +34,7 @@ devDependencies:
     version: 2.8.1
   typescript:
     specifier: ^5.1.6
-    version: 5.8.3
+    version: 5.9.2
   vite:
     specifier: ^4.4.9
     version: 4.5.14
@@ -1275,8 +1275,8 @@ packages:
       picocolors: 1.1.1
       sade: 1.8.1
       svelte: 4.2.20
-      svelte-preprocess: 5.1.4(postcss@8.5.6)(svelte@4.2.20)(typescript@5.8.3)
-      typescript: 5.8.3
+      svelte-preprocess: 5.1.4(postcss@8.5.6)(svelte@4.2.20)(typescript@5.9.2)
+      typescript: 5.9.2
     transitivePeerDependencies:
       - '@babel/core'
       - coffeescript
@@ -1298,7 +1298,7 @@ packages:
       svelte: 4.2.20
     dev: true
 
-  /svelte-preprocess@5.0.4(postcss@8.5.6)(svelte@4.2.20)(typescript@5.8.3):
+  /svelte-preprocess@5.0.4(postcss@8.5.6)(svelte@4.2.20)(typescript@5.9.2):
     resolution: {integrity: sha512-ABia2QegosxOGsVlsSBJvoWeXy1wUKSfF7SWJdTjLAbx/Y3SrVevvvbFNQqrSJw89+lNSsM58SipmZJ5SRi5iw==}
     engines: {node: '>= 14.10.0'}
     requiresBuild: true
@@ -1343,10 +1343,10 @@ packages:
       sorcery: 0.11.0
       strip-indent: 3.0.0
       svelte: 4.2.20
-      typescript: 5.8.3
+      typescript: 5.9.2
     dev: true
 
-  /svelte-preprocess@5.1.4(postcss@8.5.6)(svelte@4.2.20)(typescript@5.8.3):
+  /svelte-preprocess@5.1.4(postcss@8.5.6)(svelte@4.2.20)(typescript@5.9.2):
     resolution: {integrity: sha512-IvnbQ6D6Ao3Gg6ftiM5tdbR6aAETwjhHV+UKGf5bHGYR69RQvF1ho0JKPcbUON4vy4R7zom13jPjgdOWCQ5hDA==}
     engines: {node: '>= 16.0.0'}
     requiresBuild: true
@@ -1391,7 +1391,7 @@ packages:
       sorcery: 0.11.1
       strip-indent: 3.0.0
       svelte: 4.2.20
-      typescript: 5.8.3
+      typescript: 5.9.2
     dev: true
 
   /svelte@4.2.20:
@@ -1473,8 +1473,8 @@ packages:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
     dev: true
 
-  /typescript@5.8.3:
-    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
+  /typescript@5.9.2:
+    resolution: {integrity: sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true
