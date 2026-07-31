@@ -69,6 +69,7 @@ Made by Avilchiis for the community, you can download it [here](https://github.c
 * Open Stash
 * Open Trunk
 * Play Sound
+* Player Control
 * Refuel Vehicle
 * Remove Money
 * Remove Stress
