@@ -57,6 +57,15 @@ Config.Actions = {
         },
     },
 
+    ["control_player"] = {
+        label = "Control Player",
+        perms = "god",
+        dropdown = {
+            { label = "Player",  option = "dropdown", data = "players" },
+            { label = "Confirm", option = "button", type = "server", event = "ps-adminmenu:server:requestControl" },
+        },
+    },
+
     ["change_weather"] = {
         label = "Change Weather",
         perms = "mod",
@@ -672,6 +681,12 @@ Config.PlayerActions = {
         type = "server",
         event = "ps-adminmenu:server:BringPlayer",
         perms = "mod",
+    },
+    ["controlPlayer"] = {
+        label = "Control Player",
+        event = "ps-adminmenu:server:requestControl",
+        perms = "god",
+        type = "server"
     },
     ["revivePlayer"] = {
         label = "Revive Player",
